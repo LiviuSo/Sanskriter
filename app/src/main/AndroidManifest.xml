@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.android.lvicto.sanskriter">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <application
+            android:name=".MyApplication"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme">
+        <service
+                android:name="com.android.lvicto.sanskritkeyboard.CustomKeyboard"
+                android:label="CustomKeyboard"
+                android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                    android:name="android.view.im"
+                    android:resource="@xml/method"/>
+
+            <intent-filter>
+                <action android:name="android.view.InputMethod"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name=".ui.activities.BookActivity">
+        </activity>
+        <activity
+                android:name=".ui.activities.PageActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".ui.activities.AddModifyWordActivity"
+                android:screenOrientation="portrait">
+        </activity>
+        <activity
+                android:name=".ui.activities.SetupActivity"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.DictionaryActivity">
+        </activity>
+        <activity android:name=".ui.activities.MainActivity">
+        </activity>
+    </application>
+
+</manifest>
