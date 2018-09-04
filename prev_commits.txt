@@ -1,0 +1,14 @@
+- Refactoring; added MainActivity
+- Added delete functionality - with Reactive
+- Added delete functionality [but not from DB]
+- Added modify word functionality
+- Added (basic) import/export functionality
+- Implemented add word functionality (basic)
+- Added words DB
+- Added setup (need to complete)
+- Added dictionary activity; added test keyboard installed
+- Refactored TitlesAdapter to set data field
+- Refactored to architecture
+- Created submodule for sanskrit custom keyboard; some word to main app
+- Added different click listener for chapter and section titles
+- Initial commit: Added chapters RecyclerView
