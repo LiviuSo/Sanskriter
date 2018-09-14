@@ -49,6 +49,15 @@
         </activity>
         <activity android:name=".ui.activities.MainActivity">
         </activity>
+
+
+        <activity
+                android:name=".ui.activities.KeyboardSelectPopup"
+                android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".ui.activities.MainActivity1">
+        </activity>
+
     </application>
 
 </manifest>

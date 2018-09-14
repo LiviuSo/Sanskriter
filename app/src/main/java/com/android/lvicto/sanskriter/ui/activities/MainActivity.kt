@@ -19,5 +19,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnDic).setOnClickListener {
             startActivity(Intent(this@MainActivity, DictionaryActivity::class.java))
         }
+
+        findViewById<Button>(R.id.btnPopUp).setOnClickListener {
+            startActivity(Intent(this@MainActivity, MainActivity1::class.java))
+        }
+
     }
 }

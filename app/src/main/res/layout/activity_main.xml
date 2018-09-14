@@ -10,13 +10,22 @@
 
     <Button
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:text="Book"
             android:id="@+id/btnBook"/>
 
     <Button
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:text="Dictionary"
             android:id="@+id/btnDic"/>
+
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Test Pop-Up &amp; Keyboard"
+            android:id="@+id/btnPopUp"
+            android:textStyle="italic"
+            android:textAllCaps="false"/>
+
 </LinearLayout>
