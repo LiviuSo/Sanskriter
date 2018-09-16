@@ -55,7 +55,7 @@
                 android:name=".ui.activities.KeyboardSelectPopup"
                 android:theme="@style/AppTheme.CustomTheme">
         </activity>
-        <activity android:name=".ui.activities.MainActivity1">
+        <activity android:name=".ui.activities.TestKeyboardActivity">
         </activity>
 
     </application>

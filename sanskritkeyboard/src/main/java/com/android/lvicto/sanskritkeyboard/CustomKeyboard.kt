@@ -5,8 +5,11 @@ import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
+import android.support.annotation.LayoutRes
+import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
+import android.widget.PopupWindow
 import android.widget.Toast
 import java.lang.Character.isLetter
 import java.lang.Character.toUpperCase
@@ -49,12 +52,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             Keyboard.KEYCODE_DONE -> {
                 ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
             }
-            KEY_SHIFT_KEYBOARD -> { // todo change the keyboard
-                Toast.makeText(this, "Change keys", Toast.LENGTH_SHORT).show()
-            }
-            KEY_SHIFT_KEYBOARD1 -> {
-                val coords = getKeyXY(KEY_SHIFT_KEYBOARD1)
-                Toast.makeText(this, "Switch: ${coords.first} ${coords.second}", Toast.LENGTH_SHORT).show()
+            KEY_SWITCH_KEYBOARD -> {
+                showPopup(this, layout, R.layout.keyboard_switch, getKeyRect(KEY_SWITCH_KEYBOARD))
             }
             else -> {
                 var code = primaryCode.toChar()
@@ -62,43 +61,21 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                     code = toUpperCase(code)
                 }
                 ic.commitText(valueOf(code), 1)
-                val coords = getKeyXY(primaryCode)
-                Toast.makeText(this, "Switch: ${coords.first} ${coords.second}", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-    private fun getKeyXY(keyCode: Int): Pair<Int, Int> {
-        val key = kv.keyboard.keys.first {
-            it.codes.contains(keyCode)
-        }
-        val keyboardCoords = IntArray(2)
-        layout.getLocationOnScreen(keyboardCoords)
-        return Pair(keyboardCoords[0] + key.x, keyboardCoords[1] + key.y)
-    }
-
-    private fun playClick(keyCode: Int) {
-        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        when (keyCode) {
-            32 -> am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR)
-            Keyboard.KEYCODE_DONE, 10 -> am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN)
-            Keyboard.KEYCODE_DELETE -> am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE)
-            else -> am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
-        }
-    }
-
 
     override fun swipeRight() {
     }
 
     override fun onPress(primaryCode: Int) {
-        if (primaryCode == -2) {
+        if (primaryCode == KEY_SWITCH_KEYBOARD) {
             kv.isPreviewEnabled = false
         }
     }
 
     override fun onRelease(primaryCode: Int) {
-        if (primaryCode == -2) {
+        if (primaryCode == KEY_SWITCH_KEYBOARD) {
             kv.isPreviewEnabled = true
         }
     }
@@ -115,9 +92,41 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     override fun onText(text: CharSequence?) {
     }
 
+    private fun showPopup(context: Context, parent: View, @LayoutRes layout: Int, rect: IntArray) {
+        // Toast.makeText(this, "Window pop-up rect: ${rect.top} ${rect.bottom}", Toast.LENGTH_SHORT).show()
+        val popup = PopupWindow(context)
+        popup.contentView = layoutInflater.inflate(layout, null)
+        popup.isOutsideTouchable = true
+        popup.setOnDismissListener {
+            Toast.makeText(this, "Switch keys", Toast.LENGTH_SHORT).show()
+        }
+        popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2]/4, rect[3] + 3)
+    }
+
+    /**
+     * Returns [x relative to screen, y relative to screen, width, height] of a key
+     */
+    private fun getKeyRect(keyCode: Int): IntArray {
+        val key = kv.keyboard.keys.first {
+            it.codes.contains(keyCode)
+        }
+        val keyboardCoords = IntArray(2)
+        layout.getLocationOnScreen(keyboardCoords)
+        return intArrayOf(keyboardCoords[0] + key.x, keyboardCoords[1] + key.y, key.width, key.height)
+    }
+
+    private fun playClick(keyCode: Int) {
+        val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        when (keyCode) {
+            32 -> am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR)
+            Keyboard.KEYCODE_DONE, 10 -> am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN)
+            Keyboard.KEYCODE_DELETE -> am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE)
+            else -> am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
+        }
+    }
+
     companion object {
-        private const val KEY_SHIFT_KEYBOARD = 9999
-        private const val KEY_SHIFT_KEYBOARD1 = -2
+        private const val KEY_SWITCH_KEYBOARD = -2
     }
 
 }

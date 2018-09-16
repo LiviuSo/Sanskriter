@@ -12,16 +12,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.btnBook).setOnClickListener {
+        findViewById<Button>(R.id.btnTestBook).setOnClickListener {
             startActivity(Intent(this@MainActivity, BookActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnDic).setOnClickListener {
+        findViewById<Button>(R.id.btnTestDic).setOnClickListener {
             startActivity(Intent(this@MainActivity, DictionaryActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnPopUp).setOnClickListener {
-            startActivity(Intent(this@MainActivity, MainActivity1::class.java))
+        findViewById<Button>(R.id.btnTestKeyboard).setOnClickListener {
+            startActivity(Intent(this@MainActivity, TestKeyboardActivity::class.java))
         }
 
     }
