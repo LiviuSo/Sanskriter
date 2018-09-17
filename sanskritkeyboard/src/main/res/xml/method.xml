@@ -3,7 +3,7 @@
 <input-method
         xmlns:android="http://schemas.android.com/apk/res/android">
     <subtype
-            android:label="English (US)"
+            android:label="En-Sa-Sa_IAST-Ro"
             android:imeSubtypeLocale="en_US"
             android:imeSubtypeMode="keyboard"/>
 

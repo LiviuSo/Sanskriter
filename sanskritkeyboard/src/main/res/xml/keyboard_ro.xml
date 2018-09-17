@@ -65,7 +65,7 @@
     <Row android:rowEdgeFlags="bottom">
         <Key android:keyLabel="," android:keyWidth="10%p" android:keyEdgeFlags="left" android:codes="44"/>
         <Key android:keyLabel="/" android:keyWidth="10%p" android:codes="47"/>
-        <Key android:keyLabel="Kb" android:keyWidth="10%p" android:codes="9999" android:id="@+id/keyboardShift"/>
+        <Key android:keyLabel="Ro" android:keyWidth="10%p"/>
         <Key android:keyLabel="SPACE" android:keyWidth="40%p" android:isRepeatable="true" android:codes="32"/>
         <Key android:keyLabel="DEL" android:keyWidth="15%p" android:isRepeatable="true" android:codes="-5"/>
         <Key android:keyLabel="DONE" android:keyWidth="15%p" android:keyEdgeFlags="right" android:codes="-4"/>
