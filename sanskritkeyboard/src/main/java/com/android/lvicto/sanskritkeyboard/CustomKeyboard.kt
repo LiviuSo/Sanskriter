@@ -11,7 +11,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.PopupWindow
 import android.widget.RadioButton
-import android.widget.Toast
+import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
 import java.lang.Character.isLetter
 import java.lang.Character.toUpperCase
 import java.lang.String.valueOf
@@ -108,6 +108,20 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         val radioSa = popup.contentView.findViewById<RadioButton>(R.id.rdSanskrit)
         val radioSaIAST = popup.contentView.findViewById<RadioButton>(R.id.rdIAST)
 
+        val lang = when(PreferenceHelper(this).getKeyboardLang()) {
+            "en" -> KeyboardLang.EN
+            "ro" -> KeyboardLang.RO
+            "sa" -> KeyboardLang.SA
+            "iast" -> KeyboardLang.IAST
+            else -> KeyboardLang.NONE
+        }
+        when(lang) {
+            KeyboardLang.EN -> radioEn.isChecked = true
+            KeyboardLang.RO -> radioRo.isChecked = true
+            KeyboardLang.SA -> radioSa.isChecked = true
+            KeyboardLang.IAST -> radioSaIAST.isChecked = true
+            KeyboardLang.NONE -> radioEn.isChecked = true
+        }
         radioEn.setOnClickListener {
             popup.dismiss()
         }
@@ -124,16 +138,16 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         popup.setOnDismissListener {
             when {
                 radioEn.isChecked -> {
-                    setKeyboard(KeyboardType.EN)
+                    setKeyboard(KeyboardLang.EN)
                 }
                 radioRo.isChecked -> {
-                    setKeyboard(KeyboardType.RO)
+                    setKeyboard(KeyboardLang.RO)
                 }
                 radioSa.isChecked -> {
-                    setKeyboard(KeyboardType.SA)
+                    setKeyboard(KeyboardLang.SA)
                 }
                 radioSaIAST.isChecked -> {
-                    setKeyboard(KeyboardType.IAST)
+                    setKeyboard(KeyboardLang.IAST)
                 }
                 else -> {
                     // nothing
@@ -143,16 +157,25 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2]/4, rect[3] + 3)
     }
 
-    private fun setKeyboard(kb: KeyboardType) {
+    private fun setKeyboard(kb: KeyboardLang) {
         when(kb) {
-            KeyboardType.EN -> kv.keyboard = keyboardEn
-            KeyboardType.RO -> kv.keyboard = keyboardRo
-            KeyboardType.SA -> kv.keyboard = keyboardSa
-            KeyboardType.IAST -> kv.keyboard = keyboardSaIAST
+            KeyboardLang.EN -> {
+                kv.keyboard = keyboardEn
+            }
+            KeyboardLang.RO -> {
+                kv.keyboard = keyboardRo
+            }
+            KeyboardLang.SA -> {
+                kv.keyboard = keyboardSa
+            }
+            KeyboardLang.IAST -> {
+                kv.keyboard = keyboardSaIAST
+            }
             else -> {
-                // nothing
+                kv.keyboard = keyboardEn
             }
         }
+        PreferenceHelper(this).setKeyboardLang(kb.lang)
         kv.invalidateAllKeys()
     }
 
@@ -182,11 +205,11 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         private const val KEY_SWITCH_KEYBOARD = -2
     }
 
-    enum class KeyboardType {
-        EN,
-        RO,
-        SA,
-        IAST
+    enum class KeyboardLang(val lang: String) {
+        EN("en"),
+        RO("ro"),
+        SA("sa"),
+        IAST("iast"),
+        NONE("none")
     }
-
 }

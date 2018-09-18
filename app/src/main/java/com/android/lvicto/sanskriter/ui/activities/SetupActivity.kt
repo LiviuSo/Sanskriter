@@ -7,7 +7,7 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.*
 import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.KeyboardHelper
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
 
 /**
  * todo:
@@ -26,9 +26,10 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun getCurrentStep(): Constants.SetupStep {
-        val keyselcted = PreferenceHelper.getKeyboardSelected()
-        val keyboardName = PreferenceHelper.getKeyboardName()
-        val keyboardPackage = PreferenceHelper.getKeyboardPackage()
+        val preferenceHelper = PreferenceHelper(applicationContext)
+        val keyselcted = preferenceHelper.getKeyboardSelected()
+        val keyboardName = preferenceHelper.getKeyboardName()
+        val keyboardPackage = preferenceHelper.getKeyboardPackage()
         if(!keyselcted || keyboardName.isEmpty() || keyboardPackage.isEmpty()) {
             return Constants.SetupStep.SELECT
         }

@@ -1,9 +1,10 @@
 package com.android.lvicto.sanskriter.ui.fragments
 
 import android.view.View
+import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.KeyboardHelper
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
 
 class EnableSetupFragment : SetupFragment() {
 
@@ -23,7 +24,7 @@ class EnableSetupFragment : SetupFragment() {
 
     override fun canContinue(): Boolean {
         if(keyboardName.isEmpty()) {
-            keyboardName = PreferenceHelper.getKeyboardName()
+            keyboardName = PreferenceHelper(MyApplication.application.applicationContext).getKeyboardName()
         }
         return KeyboardHelper.isSoftInputEnabled(name = keyboardName)
     }

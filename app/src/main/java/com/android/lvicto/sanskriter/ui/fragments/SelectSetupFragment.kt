@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.utils.Constants
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
 import kotlinx.android.synthetic.main.fragment_setup.view.*
 
 class SelectSetupFragment : SetupFragment() {
@@ -54,10 +55,11 @@ class SelectSetupFragment : SetupFragment() {
         }
 
         view.btnNext.setOnClickListener {
-            PreferenceHelper.setKeyboardSelected(true)
-            PreferenceHelper.setKeyboardName(keyboardName)
-            PreferenceHelper.setKeyboardPackage(packageName)
-            SelectSetupFragment@ super.moveToNext()
+            val prefHelper = PreferenceHelper(MyApplication.application.applicationContext)
+            prefHelper.setKeyboardSelected(true)
+            prefHelper.setKeyboardName(keyboardName)
+            prefHelper.setKeyboardPackage(packageName)
+            super.moveToNext()
         }
         return view
     }
