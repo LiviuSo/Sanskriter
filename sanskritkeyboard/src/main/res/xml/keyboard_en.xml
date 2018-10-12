@@ -6,7 +6,7 @@
     android:keyHeight="55dp">
 
     <Row android:rowEdgeFlags="top" android:keyHeight="40dp">
-        <Key android:keyLabel="Switch" android:keyWidth="20%p" android:codes="-2" android:popupKeyboard="@layout/keyboard_switch"/>
+        <Key android:keyLabel="Switch" android:keyWidth="20%p" android:codes="-2" />
     </Row>
     <Row>
         <Key android:keyLabel="1" android:keyEdgeFlags="left" android:codes="49"/>
@@ -32,7 +32,6 @@
         <Key android:keyLabel="i" android:codes="105"/>
         <Key android:keyLabel="o" android:codes="111"/>
         <Key android:keyLabel="p" android:keyEdgeFlags="right" android:codes="112"/>
-
     </Row>
 
     <Row>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <integer name="code_key_ai">-101</integer>
+    <integer name="code_key_au">-111</integer>
+    <integer name="code_key_kh">-110</integer>
+    <integer name="code_key_gh">-103</integer>
+    <integer name="code_key_ch">-100</integer>
+    <integer name="code_key_jh">-106</integer>
+    <integer name="code_key_th_ling">-7789</integer>
+    <integer name="code_key_dh_ling">-7693</integer>
+</resources>

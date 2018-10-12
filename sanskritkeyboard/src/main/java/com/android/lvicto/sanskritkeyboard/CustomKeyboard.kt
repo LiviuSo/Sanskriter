@@ -39,7 +39,14 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         keyboardRo = Keyboard(this, R.xml.keyboard_ro)
         keyboardSa = Keyboard(this, R.xml.keyboard_sa)
         keyboardSaIAST = Keyboard(this, R.xml.keyboard_sa_iast)
-        kv.keyboard = keyboardEn
+        val keyboardLang = PreferenceHelper(this).getKeyboardLang()
+        kv.keyboard = when (keyboardLang) {
+            "en" -> keyboardEn // todo make string constants
+            "ro" -> keyboardRo
+            "sa" -> keyboardSa
+            "iast" -> keyboardSaIAST
+            else -> keyboardEn
+        }
         kv.setOnKeyboardActionListener(this)
         return layout
     }
@@ -71,9 +78,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         }
     }
 
-    override fun swipeRight() {
-    }
-
     override fun onPress(primaryCode: Int) {
         if (primaryCode == KEY_SWITCH_KEYBOARD) {
             kv.isPreviewEnabled = false
@@ -86,17 +90,29 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         }
     }
 
+    // todo use logs to figure out an answer to https://stackoverflow.com/questions/47098170/android-custom-keyboard-popup
+    override fun swipeRight() {
+        // todo Log
+    }
+
     override fun swipeLeft() {
+        // todo Log
     }
 
     override fun swipeUp() {
+        // todo Log
     }
 
     override fun swipeDown() {
+        // todo Log
     }
 
     override fun onText(text: CharSequence?) {
+        // todo Log
     }
+
+    // todo https://stackoverflow.com/questions/8378012/detect-long-press-on-virtual-back-key for long press
+    // with KeyEvent.Callback
 
     private fun showPopup(context: Context, parent: View, @LayoutRes layout: Int, rect: IntArray) {
         // Toast.makeText(this, "Window pop-up rect: ${rect.top} ${rect.bottom}", Toast.LENGTH_SHORT).show()
@@ -157,7 +173,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2]/4, rect[3] + 3)
     }
 
-    private fun setKeyboard(kb: KeyboardLang) {
+    private fun setKeyboard(kb: KeyboardLang, save: Boolean = true) {
         when(kb) {
             KeyboardLang.EN -> {
                 kv.keyboard = keyboardEn
@@ -175,8 +191,10 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 kv.keyboard = keyboardEn
             }
         }
-        PreferenceHelper(this).setKeyboardLang(kb.lang)
         kv.invalidateAllKeys()
+        if(save) {
+            PreferenceHelper(this).setKeyboardLang(kb.lang)
+        }
     }
 
     /**
