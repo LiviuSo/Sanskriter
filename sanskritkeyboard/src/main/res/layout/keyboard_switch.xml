@@ -24,11 +24,6 @@
                      android:text="Sanskrit"
                      android:id="@+id/rdSanskrit"/>
 
-        <RadioButton android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="Romana"
-                     android:id="@+id/rdRomana"/>
-
     </RadioGroup>
 
 </LinearLayout>

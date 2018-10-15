@@ -35,8 +35,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     override fun onCreateInputView(): View {
         layout = layoutInflater.inflate(R.layout.keyboard, null)
         kv = layout.findViewById(R.id.keyboard) as KeyboardView
-        keyboardEn = Keyboard(this, R.xml.keyboard_en)
-        keyboardRo = Keyboard(this, R.xml.keyboard_ro)
+        keyboardEn = Keyboard(this, R.xml.keyboard_qwerty)
         keyboardSa = Keyboard(this, R.xml.keyboard_sa)
         keyboardSaIAST = Keyboard(this, R.xml.keyboard_sa_iast)
         val keyboardLang = PreferenceHelper(this).getKeyboardLang()
@@ -120,28 +119,22 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         popup.contentView = layoutInflater.inflate(layout, null)
         popup.isOutsideTouchable = true
         val radioEn = popup.contentView.findViewById<RadioButton>(R.id.rdEnglish)
-        val radioRo = popup.contentView.findViewById<RadioButton>(R.id.rdRomana)
         val radioSa = popup.contentView.findViewById<RadioButton>(R.id.rdSanskrit)
         val radioSaIAST = popup.contentView.findViewById<RadioButton>(R.id.rdIAST)
 
         val lang = when(PreferenceHelper(this).getKeyboardLang()) {
             "en" -> KeyboardLang.EN
-            "ro" -> KeyboardLang.RO
             "sa" -> KeyboardLang.SA
             "iast" -> KeyboardLang.IAST
             else -> KeyboardLang.NONE
         }
         when(lang) {
             KeyboardLang.EN -> radioEn.isChecked = true
-            KeyboardLang.RO -> radioRo.isChecked = true
             KeyboardLang.SA -> radioSa.isChecked = true
             KeyboardLang.IAST -> radioSaIAST.isChecked = true
             KeyboardLang.NONE -> radioEn.isChecked = true
         }
         radioEn.setOnClickListener {
-            popup.dismiss()
-        }
-        radioRo.setOnClickListener {
             popup.dismiss()
         }
         radioSa.setOnClickListener {
@@ -155,9 +148,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             when {
                 radioEn.isChecked -> {
                     setKeyboard(KeyboardLang.EN)
-                }
-                radioRo.isChecked -> {
-                    setKeyboard(KeyboardLang.RO)
                 }
                 radioSa.isChecked -> {
                     setKeyboard(KeyboardLang.SA)
@@ -177,9 +167,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         when(kb) {
             KeyboardLang.EN -> {
                 kv.keyboard = keyboardEn
-            }
-            KeyboardLang.RO -> {
-                kv.keyboard = keyboardRo
             }
             KeyboardLang.SA -> {
                 kv.keyboard = keyboardSa
@@ -225,7 +212,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
 
     enum class KeyboardLang(val lang: String) {
         EN("en"),
-        RO("ro"),
         SA("sa"),
         IAST("iast"),
         NONE("none")

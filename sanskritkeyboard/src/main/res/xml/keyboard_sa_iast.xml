@@ -28,15 +28,15 @@
     <!--a(ā) i(ī) u(ū) ṛ(ṝ) ḷ(ḹ) e(ai) o(au) ' BKS(2) : 10-->
     <Row>
         <Key android:keyLabel="a" android:keyEdgeFlags="left" android:codes="97"
-             android:popupKeyboard="@xml/candidates_a"/>
-        <Key android:keyLabel="i" android:codes="105" android:popupKeyboard="@xml/candidates_i"/>
-        <Key android:keyLabel="u" android:codes="117" android:popupKeyboard="@xml/candidates_u"/>
-        <Key android:keyLabel="ṛ" android:codes="7771" android:popupKeyboard="@xml/candidates_r"/>
-        <Key android:keyLabel="ḷ" android:codes="7735" android:popupKeyboard="@xml/candidates_l"/>
+             android:popupKeyboard="@xml/candidates_iast_a"/>
+        <Key android:keyLabel="i" android:codes="105" android:popupKeyboard="@xml/candidates_iast_i"/>
+        <Key android:keyLabel="u" android:codes="117" android:popupKeyboard="@xml/candidates_iast_u"/>
+        <Key android:keyLabel="ṛ" android:codes="7771" android:popupKeyboard="@xml/candidates_iast_r"/>
+        <Key android:keyLabel="ḷ" android:codes="7735" android:popupKeyboard="@xml/candidates_iast_l"/>
         <Key android:keyLabel="e" android:codes="101"/>
         <Key android:keyLabel="o" android:codes="111"/>
-        <Key android:keyLabel="'" android:codes="39" android:popupKeyboard="@xml/candidates_punctuation"/>
-        <Key android:keyLabel="BKS" android:codes="-5" android:keyWidth="20%p"
+        <Key android:keyLabel="'" android:codes="39" android:popupKeyboard="@xml/candidates_iast_punct"/>
+        <Key android:keyLabel="BS" android:codes="-5" android:keyWidth="20%p"
              android:keyEdgeFlags="right"/>
     </Row>
 
