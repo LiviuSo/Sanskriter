@@ -50,14 +50,14 @@
 
     <Row>
         <Key android:keyLabel="SH"  android:keyWidth="15%p" android:keyEdgeFlags="left" android:codes="-1"/>
-        <Key android:keyLabel="z" android:codes="112"/>
+        <Key android:keyLabel="z" android:codes="122"/>
         <Key android:keyLabel="x" android:codes="120"/>
         <Key android:keyLabel="c" android:codes="99"/>
         <Key android:keyLabel="v" android:codes="118"/>
         <Key android:keyLabel="b" android:codes="98"/>
         <Key android:keyLabel="n" android:codes="110"/>
         <Key android:keyLabel="m" android:codes="109"/>
-        <Key android:keyLabel="AC" android:keyWidth="15%p" android:keyEdgeFlags="right" android:codes="-4"/>
+        <Key android:keyLabel="AC" android:keyWidth="15%p" android:keyEdgeFlags="right" android:codes="@integer/code_key_ac"/>
     </Row>
 
     <Row android:rowEdgeFlags="bottom">

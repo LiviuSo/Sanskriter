@@ -51,7 +51,7 @@
         <Key android:keyLabel="ṭ" android:codes="7789"/>
         <Key android:keyLabel="ḍ" android:codes="7693"/>
         <Key android:keyLabel="ṇ" android:codes="7751"/>
-        <Key android:keyLabel="AC" android:codes="-4" android:keyEdgeFlags="right"/>
+        <Key android:keyLabel="AC" android:codes="@integer/code_key_ac" android:keyEdgeFlags="right"/>
     </Row>
 
     <!-- t(th) d(dh) n p(ph) b(bh) m y r l v : 10-->
