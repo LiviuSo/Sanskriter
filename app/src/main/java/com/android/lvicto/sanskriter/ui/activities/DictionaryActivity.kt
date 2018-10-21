@@ -18,7 +18,6 @@ import android.widget.Toast
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.WordsAdapter
 import com.android.lvicto.sanskriter.data.Words
-import com.android.lvicto.sanskriter.db.WordsDatabase
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD
@@ -55,7 +54,8 @@ class DictionaryActivity : AppCompatActivity() {
                     val wordRo = data!!.getStringExtra(Constants.Keyboard.EXTRA_WORD_RO)
                     val wordEn = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_WORD_EN)
                     val wordSa = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_SA)
-                    val word = Word(word = wordSa, meaningEn = wordEn, meaningRo = wordRo)
+                    val wordIAST = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_IAST)
+                    val word = Word(word = wordSa, wordIAST = wordIAST, meaningEn = wordEn, meaningRo = wordRo)
                     if(data.hasExtra(EXTRA_WORD_ID)) {
                         word.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
                     }

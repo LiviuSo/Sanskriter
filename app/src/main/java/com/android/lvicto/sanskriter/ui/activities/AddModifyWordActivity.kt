@@ -11,6 +11,7 @@ import android.widget.EditText
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD
+import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_IAST
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_ID
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_RO
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_SA
@@ -19,6 +20,7 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_WORD_EN
 class AddModifyWordActivity : AppCompatActivity() {
 
     private lateinit var editWord: EditText
+    private lateinit var editWordIAST: EditText
     private lateinit var editWordRo: EditText
     private lateinit var editWordEn: EditText
     private lateinit var buttonSave: Button
@@ -29,6 +31,7 @@ class AddModifyWordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_word)
 
         editWord = findViewById(R.id.editSa)
+        editWordIAST = findViewById(R.id.editIAST)
         editWordRo = findViewById(R.id.editRo)
         editWordEn = findViewById(R.id.editEn)
         buttonSave = findViewById(R.id.btnSaveWord)
@@ -37,6 +40,7 @@ class AddModifyWordActivity : AppCompatActivity() {
             val word: Word = intent.getParcelableExtra("EXTRA_WORD")
             id = word.id
             editWord.setText(word.word)
+            editWordIAST.setText(word.wordIAST)
             editWordRo.setText(word.meaningRo)
             editWordEn.setText(word.meaningEn)
         }
@@ -45,6 +49,7 @@ class AddModifyWordActivity : AppCompatActivity() {
 
     private fun onClickAdd(v: View) {
         val word = editWord.text.toString()
+        val wordIAST = editWordIAST.text.toString()
         val wordEn = editWordEn.text.toString()
         val wordRo = editWordRo.text.toString()
 
@@ -56,6 +61,7 @@ class AddModifyWordActivity : AppCompatActivity() {
                 replyIntent.putExtra(EXTRA_WORD_ID, id!!)
             }
             replyIntent.putExtra(EXTRA_WORD_SA, word)
+            replyIntent.putExtra(EXTRA_WORD_IAST, wordIAST)
             replyIntent.putExtra(EXTRA_WORD_WORD_EN, wordEn)
             replyIntent.putExtra(EXTRA_WORD_RO, wordRo)
             setResult(Activity.RESULT_OK, replyIntent)

@@ -40,9 +40,9 @@ abstract class WordsDatabase : RoomDatabase() {
 
         override fun doInBackground(vararg params: Void): Void? {
             mDao.deleteAll()
-            var word = Word( word = "priya")
+            var word = Word( word = "priya", wordIAST = "")
             mDao.insert(word)
-            word = Word( word = "ananda")
+            word = Word( word = "ananda", wordIAST = "")
             mDao.insert(word)
             return null
         }
