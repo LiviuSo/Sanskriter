@@ -7,7 +7,7 @@
           android:keyHeight="55dp">
 
     <Row android:rowEdgeFlags="top" android:keyHeight="40dp">
-        <Key android:keyLabel="Switch" android:keyWidth="20%p" android:codes="-2"
+        <Key android:keyLabel="@string/switchKeyb" android:keyWidth="20%p" android:codes="@integer/keycode_switch"
              android:popupKeyboard="@layout/keyboard_switch"/>
     </Row>
 
@@ -36,7 +36,7 @@
         <Key android:keyLabel="e" android:codes="101"/>
         <Key android:keyLabel="o" android:codes="111"/>
         <Key android:keyLabel="'" android:codes="39" android:popupKeyboard="@xml/candidates_iast_punct"/>
-        <Key android:keyLabel="BS" android:codes="-5" android:keyWidth="20%p"
+        <Key android:keyLabel="BS" android:codes="@integer/keycode_backspace" android:keyWidth="20%p"
              android:keyEdgeFlags="right"/>
     </Row>
 
@@ -51,7 +51,7 @@
         <Key android:keyLabel="ṭ" android:codes="7789"/>
         <Key android:keyLabel="ḍ" android:codes="7693"/>
         <Key android:keyLabel="ṇ" android:codes="7751"/>
-        <Key android:keyLabel="AC" android:codes="@integer/code_key_ac" android:keyEdgeFlags="right"/>
+        <Key android:keyLabel="AC" android:codes="@integer/keycode_ac" android:keyEdgeFlags="right"/>
     </Row>
 
     <!-- t(th) d(dh) n p(ph) b(bh) m y r l v : 10-->
@@ -73,7 +73,7 @@
         <Key android:keyLabel="ś" android:codes="347" android:keyEdgeFlags="left"/>
         <Key android:keyLabel="ṣ" android:codes="7779"/>
         <Key android:keyLabel="s" android:codes="115"/>
-        <Key android:keyLabel="SPACE" android:keyWidth="40%p" android:codes="32"
+        <Key android:keyLabel="SPACE" android:keyWidth="40%p" android:codes="@integer/keycode_space"
              android:isRepeatable="true"/>
         <Key android:keyLabel="ṃ" android:codes="7747"/>
         <Key android:keyLabel="ḥ" android:codes="7717" android:keyEdgeFlags="right"/>

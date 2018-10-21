@@ -24,29 +24,32 @@ import java.lang.String.valueOf
 class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     private lateinit var kv: KeyboardView
-    private lateinit var keyboardEn: Keyboard
-    private lateinit var keyboardRo: Keyboard
+    private lateinit var keyboardQwerty: Keyboard
     private lateinit var keyboardSa: Keyboard
     private lateinit var keyboardSaIAST: Keyboard
     private lateinit var layout: View
-
     private var isCaps: Boolean = false
+    private var keyPopupHeight: Int = 0
+    private var keyPopupWidth: Int = 0
 
     override fun onCreateInputView(): View {
+        initRes(this) // essential !!!
+
         layout = layoutInflater.inflate(R.layout.keyboard, null)
         kv = layout.findViewById(R.id.keyboard) as KeyboardView
-        keyboardEn = Keyboard(this, R.xml.keyboard_qwerty)
+        keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
         keyboardSa = Keyboard(this, R.xml.keyboard_sa)
         keyboardSaIAST = Keyboard(this, R.xml.keyboard_sa_iast)
+
         val keyboardLang = PreferenceHelper(this).getKeyboardLang()
         kv.keyboard = when (keyboardLang) {
-            "en" -> keyboardEn // todo make string constants
-            "ro" -> keyboardRo
-            "sa" -> keyboardSa
-            "iast" -> keyboardSaIAST
-            else -> keyboardEn
+            KeyboardLang.QWERTY.lang -> keyboardQwerty
+            KeyboardLang.SA.lang -> keyboardSa
+            KeyboardLang.IAST.lang -> keyboardSaIAST
+            else -> keyboardQwerty
         }
         kv.setOnKeyboardActionListener(this)
+        kv.keyboard.keys[0].label= keyboardLang // set "Switch" key label to the language
         return layout
     }
 
@@ -54,18 +57,18 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         val ic = currentInputConnection
         playClick(keyCode = primaryCode)
         when (primaryCode) {
-            Keyboard.KEYCODE_DELETE ->
+            Keycode.DELETE.code ->
                 ic.deleteSurroundingText(1, 0)
-            Keyboard.KEYCODE_SHIFT -> {
+            Keycode.SHIFT.code -> {
                 isCaps = !isCaps
-                keyboardEn.isShifted = isCaps
+                keyboardQwerty.isShifted = isCaps
                 kv.invalidateAllKeys()
             }
-            Keyboard.KEYCODE_DONE -> {
+            Keycode.DONE.code -> {
                 ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
             }
-            KEY_SWITCH_KEYBOARD -> {
-                showPopup(this, layout, R.layout.keyboard_switch, getKeyRect(KEY_SWITCH_KEYBOARD))
+            Keycode.SWITCH_KEYBOARD.code -> {
+                showPopup(this, layout, R.layout.keyboard_switch, getKeyRect(Keycode.SWITCH_KEYBOARD.code))
             }
             else -> {
                 var code = primaryCode.toChar()
@@ -78,15 +81,14 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     }
 
     override fun onPress(primaryCode: Int) {
-        if (primaryCode == KEY_SWITCH_KEYBOARD) {
-            kv.isPreviewEnabled = false
-        }
+        kv.isPreviewEnabled = !(primaryCode == Keycode.SWITCH_KEYBOARD.code
+                || primaryCode == Keycode.DONE.code
+                || primaryCode == Keycode.QWERTY_SYM.code
+                || primaryCode == Keycode.SANSKRIT_NUM.code
+                || primaryCode == Keycode.SPACE.code)
     }
 
     override fun onRelease(primaryCode: Int) {
-        if (primaryCode == KEY_SWITCH_KEYBOARD) {
-            kv.isPreviewEnabled = true
-        }
     }
 
     // todo use logs to figure out an answer to https://stackoverflow.com/questions/47098170/android-custom-keyboard-popup
@@ -114,27 +116,21 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     // with KeyEvent.Callback
 
     private fun showPopup(context: Context, parent: View, @LayoutRes layout: Int, rect: IntArray) {
-        // Toast.makeText(this, "Window pop-up rect: ${rect.top} ${rect.bottom}", Toast.LENGTH_SHORT).show()
         val popup = PopupWindow(context)
+
         popup.contentView = layoutInflater.inflate(layout, null)
         popup.isOutsideTouchable = true
-        val radioEn = popup.contentView.findViewById<RadioButton>(R.id.rdEnglish)
+        val radioQwerty = popup.contentView.findViewById<RadioButton>(R.id.rdEnglish)
         val radioSa = popup.contentView.findViewById<RadioButton>(R.id.rdSanskrit)
         val radioSaIAST = popup.contentView.findViewById<RadioButton>(R.id.rdIAST)
 
-        val lang = when(PreferenceHelper(this).getKeyboardLang()) {
-            "en" -> KeyboardLang.EN
-            "sa" -> KeyboardLang.SA
-            "iast" -> KeyboardLang.IAST
-            else -> KeyboardLang.NONE
+        when(PreferenceHelper(this).getKeyboardLang()) {
+            KeyboardLang.QWERTY.lang -> radioQwerty.isChecked = true
+            KeyboardLang.SA.lang -> radioSa.isChecked = true
+            KeyboardLang.IAST.lang -> radioSaIAST.isChecked = true
+            else -> { /* nothing */ }
         }
-        when(lang) {
-            KeyboardLang.EN -> radioEn.isChecked = true
-            KeyboardLang.SA -> radioSa.isChecked = true
-            KeyboardLang.IAST -> radioSaIAST.isChecked = true
-            KeyboardLang.NONE -> radioEn.isChecked = true
-        }
-        radioEn.setOnClickListener {
+        radioQwerty.setOnClickListener {
             popup.dismiss()
         }
         radioSa.setOnClickListener {
@@ -143,11 +139,10 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         radioSaIAST.setOnClickListener {
             popup.dismiss()
         }
-
         popup.setOnDismissListener {
             when {
-                radioEn.isChecked -> {
-                    setKeyboard(KeyboardLang.EN)
+                radioQwerty.isChecked -> {
+                    setKeyboard(KeyboardLang.QWERTY)
                 }
                 radioSa.isChecked -> {
                     setKeyboard(KeyboardLang.SA)
@@ -155,27 +150,30 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 radioSaIAST.isChecked -> {
                     setKeyboard(KeyboardLang.IAST)
                 }
-                else -> {
-                    // nothing
-                }
+                else -> { /* nothing */ }
             }
         }
         popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2]/4, rect[3] + 3)
+        popup.update(keyPopupWidth, keyPopupHeight)
     }
 
     private fun setKeyboard(kb: KeyboardLang, save: Boolean = true) {
         when(kb) {
-            KeyboardLang.EN -> {
-                kv.keyboard = keyboardEn
+            KeyboardLang.QWERTY -> {
+                kv.keyboard = keyboardQwerty
+                kv.keyboard.keys[0].label= KeyboardLang.QWERTY.lang
             }
             KeyboardLang.SA -> {
                 kv.keyboard = keyboardSa
+                kv.keyboard.keys[0].label= KeyboardLang.SA.lang
             }
             KeyboardLang.IAST -> {
                 kv.keyboard = keyboardSaIAST
+                kv.keyboard.keys[0].label= KeyboardLang.IAST.lang
             }
             else -> {
-                kv.keyboard = keyboardEn
+                kv.keyboard = keyboardQwerty
+                kv.keyboard.keys[0].label= KeyboardLang.QWERTY.lang
             }
         }
         kv.invalidateAllKeys()
@@ -206,14 +204,47 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         }
     }
 
-    companion object {
-        private const val KEY_SWITCH_KEYBOARD = -2
+    private fun initRes(context: Context) {
+        // strings
+        KeyboardLang.QWERTY.lang = context.getString(R.string.kbQwerty)
+        KeyboardLang.IAST.lang = context.getString(R.string.kbIast)
+        KeyboardLang.SA.lang = context.getString(R.string.kbSanskrit)
+
+        // integers
+        Keycode.DELETE.code = context.resources.getInteger(R.integer.keycode_backspace)
+        Keycode.DONE.code = context.resources.getInteger(R.integer.keycode_ac)
+        Keycode.SHIFT.code = context.resources.getInteger(R.integer.keycode_shift)
+        Keycode.QWERTY_SYM.code = context.resources.getInteger(R.integer.keycode_qwerty_sym)
+        Keycode.SANSKRIT_NUM.code = context.resources.getInteger(R.integer.keycode_sa_dg)
+        Keycode.SWITCH_KEYBOARD.code = context.resources.getInteger(R.integer.keycode_switch)
+        Keycode.SPACE.code = context.resources.getInteger(R.integer.keycode_space)
+
+        keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width)
+        keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)
     }
 
-    enum class KeyboardLang(val lang: String) {
-        EN("en"),
-        SA("sa"),
-        IAST("iast"),
-        NONE("none")
+    companion object {
+        // debug
+        private const val LOG_SWITCH_POPUP = "Switch pop-up"
+    }
+
+    enum class KeyboardLang(var lang: String) {
+        QWERTY(""),
+        SA(""),
+        IAST(""),
+        NONE("")
+    }
+
+    enum class Keycode(var code: Int) {
+        DELETE(0),
+        DONE(0),
+        SHIFT(0),
+        QWERTY_SYM(0),
+        SANSKRIT_NUM(0),
+        SWITCH_KEYBOARD(0),
+        SPACE(0)
     }
 }
+
+
+

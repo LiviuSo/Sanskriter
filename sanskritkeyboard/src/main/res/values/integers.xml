@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <integer name="code_key_sa_dg">-9</integer>
-    <integer name="code_key_ac">-4</integer>
+    <integer name="keycode_switch">-2</integer>
+    <integer name="keycode_ac">-4</integer>
+    <integer name="keycode_backspace">-5</integer>
+    <integer name="keycode_qwerty_sym">-6</integer>
+    <integer name="keycode_sa_dg">-9</integer>
+    <integer name="keycode_shift">-1</integer>
+    <integer name="keycode_space">32</integer>
+
+    <integer name="size_key_popup_height">420</integer>
+    <integer name="size_key_popup_width">410</integer>
 </resources>

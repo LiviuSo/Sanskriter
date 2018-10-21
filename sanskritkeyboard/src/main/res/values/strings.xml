@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SanskritKeyboard</string>
+    <string name="kbQwerty">English</string>
+    <string name="kbIast">IAST</string>
+    <string name="kbSanskrit">Sanskrit</string>
+    <string name="switchKeyb">Switch</string>
 </resources>

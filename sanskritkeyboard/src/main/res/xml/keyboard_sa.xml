@@ -7,7 +7,7 @@
 
 
     <Row android:rowEdgeFlags="top" android:keyHeight="40dp">
-        <Key android:keyLabel="Switch" android:keyWidth="20%p" android:codes="-2"
+        <Key android:keyLabel="@string/switchKeyb" android:keyWidth="20%p" android:codes="@integer/keycode_switch"
              android:popupKeyboard="@layout/keyboard_switch"/>
     </Row>
 
@@ -27,9 +27,9 @@
              android:popupKeyboard="@xml/candidates_sa_ai"/>
         <Key android:keyLabel="\u0913" android:codes="2323"
              android:popupKeyboard="@xml/candidates_sa_au"/>
-        <Key android:keyLabel="Dg" android:codes="@integer/code_key_sa_dg"
+        <Key android:keyLabel="Dg" android:codes="@integer/keycode_sa_dg"
              android:popupKeyboard="@xml/candidates_sa_digits"/>
-        <Key android:keyLabel="BS" android:keyEdgeFlags="right" android:keyWidth="20%" android:codes="-5"/>
+        <Key android:keyLabel="BS" android:keyEdgeFlags="right" android:keyWidth="20%" android:codes="@integer/keycode_backspace"/>
     </Row>
 
     <!-- क ख ग घ च छ ज झ ट ठ -->
@@ -122,11 +122,11 @@
              android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
         <Key android:keyLabel="\u0935" android:codes="2357"
              android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="SPACE" android:keyWidth="20%p" android:isRepeatable="true" android:codes="32"/>
+        <Key android:keyLabel="SPACE" android:keyWidth="20%p" android:isRepeatable="true" android:codes="@integer/keycode_space"/>
         <Key android:keyLabel="\u0951" android:codes="2385"/>
         <Key android:keyLabel="\u0952" android:codes="2386"/>
         <Key android:keyLabel="\u093D" android:codes="2365"/>
-        <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:codes="@integer/code_key_ac"/>
+        <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:codes="@integer/keycode_ac"/>
     </Row>
 
 </Keyboard>
