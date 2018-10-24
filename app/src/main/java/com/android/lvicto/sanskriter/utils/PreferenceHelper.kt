@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskritkeyboard.utils
+package com.android.lvicto.sanskriter.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,7 +11,6 @@ class PreferenceHelper(private val context: Context) {
         private const val KEY_KEYBOARD_NAME = "keyboard_name"
         private const val KEY_KEYBOARD_PACKAGE = "keyboard_package"
         private const val KEY_KEYBOARD_SETUP: String = "keyboard_setup"
-        private const val KEY_KEYBOARD_LANG: String = "keyboard_lang"
     }
 
     fun setKeyboardSelected(value: Boolean) {
@@ -43,15 +42,4 @@ class PreferenceHelper(private val context: Context) {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(KEY_KEYBOARD_PACKAGE, "")
     }
-
-    fun setKeyboardLang(value: String) {
-        PreferenceManager.getDefaultSharedPreferences(context)
-                .edit().putString(KEY_KEYBOARD_LANG, value).commit()
-    }
-
-    fun getKeyboardLang(): String {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_KEYBOARD_LANG, "en")
-    }
-
 }

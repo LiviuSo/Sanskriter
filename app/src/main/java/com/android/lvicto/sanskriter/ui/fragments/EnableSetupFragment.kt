@@ -4,7 +4,7 @@ import android.view.View
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.KeyboardHelper
-import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
 class EnableSetupFragment : SetupFragment() {
 

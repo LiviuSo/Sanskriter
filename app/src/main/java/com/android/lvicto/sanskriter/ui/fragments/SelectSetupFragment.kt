@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.utils.Constants
-import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 import kotlinx.android.synthetic.main.fragment_setup.view.*
 
 class SelectSetupFragment : SetupFragment() {

@@ -7,7 +7,7 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.*
 import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.KeyboardHelper
-import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
 /**
  * todo:
