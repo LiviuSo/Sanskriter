@@ -23,7 +23,7 @@
              android:popupKeyboard="@xml/candidates_sa_long_ri"/>
         <Key android:keyLabel="\u090C" android:codes="2316"
              android:popupKeyboard="@xml/candidates_sa_long_lri"/>
-        <Key android:keyLabel="\u090F" android:codes="2318"
+        <Key android:keyLabel="\u090F" android:codes="2319"
              android:popupKeyboard="@xml/candidates_sa_ai"/>
         <Key android:keyLabel="\u0913" android:codes="2323"
              android:popupKeyboard="@xml/candidates_sa_au"/>

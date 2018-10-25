@@ -10,6 +10,6 @@
         <Key android:keyLabel="\?" android:codes="63"/>
         <Key android:keyLabel="\!" android:codes="33"/>
         <Key android:keyLabel=":" android:codes="58"/>
-        <Key android:keyLabel=";" android:codes="65"/>
+        <Key android:keyLabel=";" android:codes="59"/>
     </Row>
 </Keyboard>

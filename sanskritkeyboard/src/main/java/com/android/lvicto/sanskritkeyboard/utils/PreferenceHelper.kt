@@ -51,7 +51,7 @@ class PreferenceHelper(private val context: Context) {
 
     fun getKeyboardLang(): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_KEYBOARD_LANG, "en")
+                .getString(KEY_KEYBOARD_LANG, "")
     }
 
 }

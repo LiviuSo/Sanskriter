@@ -41,12 +41,15 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         keyboardSa = Keyboard(this, R.xml.keyboard_sa)
         keyboardSaIAST = Keyboard(this, R.xml.keyboard_sa_iast)
 
-        val keyboardLang = PreferenceHelper(this).getKeyboardLang()
+        var keyboardLang = PreferenceHelper(this).getKeyboardLang()
         kv.keyboard = when (keyboardLang) {
             KeyboardLang.QWERTY.lang -> keyboardQwerty
             KeyboardLang.SA.lang -> keyboardSa
             KeyboardLang.IAST.lang -> keyboardSaIAST
-            else -> keyboardQwerty
+            else -> {
+                keyboardLang = KeyboardLang.QWERTY.lang
+                keyboardQwerty
+            }
         }
         kv.setOnKeyboardActionListener(this)
         kv.keyboard.keys[0].label= keyboardLang // set "Switch" key label to the language
@@ -70,6 +73,9 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             Keycode.SWITCH_KEYBOARD.code -> {
                 showPopup(this, layout, R.layout.keyboard_switch, getKeyRect(Keycode.SWITCH_KEYBOARD.code))
             }
+            Keycode.QWERTY_SYM.code -> {
+                // ignore // todo: action on tap instead of long tap
+            }
             else -> {
                 var code = primaryCode.toChar()
                 if (isLetter(code) && isCaps) {
@@ -85,10 +91,23 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 || primaryCode == Keycode.DONE.code
                 || primaryCode == Keycode.QWERTY_SYM.code
                 || primaryCode == Keycode.SANSKRIT_NUM.code
-                || primaryCode == Keycode.SPACE.code)
+                || primaryCode == Keycode.SPACE.code
+                || primaryCode == Keycode.SHIFT.code)
     }
 
     override fun onRelease(primaryCode: Int) {
+        // release SHIFT after a char pressed
+        if(isCaps && !(primaryCode == Keycode.SWITCH_KEYBOARD.code
+                        || primaryCode == Keycode.DONE.code
+                        || primaryCode == Keycode.QWERTY_SYM.code
+                        || primaryCode == Keycode.SANSKRIT_NUM.code
+                        || primaryCode == Keycode.SPACE.code
+                        || primaryCode == Keycode.SHIFT.code
+                        || primaryCode == Keycode.DELETE.code)) {
+            isCaps = false
+            keyboardQwerty.isShifted = isCaps
+            kv.invalidateAllKeys()
+        }
     }
 
     // todo use logs to figure out an answer to https://stackoverflow.com/questions/47098170/android-custom-keyboard-popup
@@ -128,7 +147,9 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             KeyboardLang.QWERTY.lang -> radioQwerty.isChecked = true
             KeyboardLang.SA.lang -> radioSa.isChecked = true
             KeyboardLang.IAST.lang -> radioSaIAST.isChecked = true
-            else -> { /* nothing */ }
+            else -> {
+                radioQwerty.isChecked = true // default QWERTY
+            }
         }
         radioQwerty.setOnClickListener {
             popup.dismiss()

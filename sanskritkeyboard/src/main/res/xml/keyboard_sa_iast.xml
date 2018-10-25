@@ -42,10 +42,10 @@
 
     <!--k(kh) g(gh) ṅ c(ch) j(jh) ñ ṭ(ṭh) ḍ(ḍh) ṇ AC(1) : 10-->
     <Row>
-        <Key android:keyLabel="k" android:codes="110" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="k" android:codes="107" android:keyEdgeFlags="left"/>
         <Key android:keyLabel="g" android:codes="103"/>
         <Key android:keyLabel="ṅ" android:codes="7749"/>
-        <Key android:keyLabel="c" android:codes="100" />
+        <Key android:keyLabel="c" android:codes="99" />
         <Key android:keyLabel="j" android:codes="106" />
         <Key android:keyLabel="ñ" android:codes="241"/>
         <Key android:keyLabel="ṭ" android:codes="7789"/>
