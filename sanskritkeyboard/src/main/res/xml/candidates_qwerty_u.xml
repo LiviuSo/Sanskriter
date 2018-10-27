@@ -6,6 +6,7 @@
     android:verticalGap="0px"
     android:keyHeight="55dp">
 
+    <!-- ū -->
     <Row android:horizontalGap="1dp">
         <Key android:keyLabel="ū" android:codes="363"/>
     </Row>

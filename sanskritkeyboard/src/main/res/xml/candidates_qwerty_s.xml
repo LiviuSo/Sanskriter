@@ -6,9 +6,11 @@
           android:verticalGap="0px"
           android:keyHeight="55dp">
 
+    <!-- ś ṣ ș -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="\u0103" android:codes="259"/>
-        <Key android:keyLabel="\u00E2" android:codes="226"/>
+        <Key android:keyLabel="ś" android:codes="347" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="ṣ" android:codes="7779"/>
+        <Key android:keyLabel="ș" android:codes="537"  android:keyEdgeFlags="right"/>
     </Row>
 
 </Keyboard>

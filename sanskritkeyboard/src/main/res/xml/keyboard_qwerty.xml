@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Contains IAST : ś ṣ ṅ ṇ ñ a(ā) i(ī) u(ū) ṛ(ṝ) ḷ(ḹ) ṭ ḍ -->
+
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyWidth="10%p"
     android:horizontalGap="0px"
@@ -26,25 +28,25 @@
         <Key android:keyLabel="q" android:keyEdgeFlags="left" android:codes="113"/>
         <Key android:keyLabel="w" android:codes="119"/>
         <Key android:keyLabel="e" android:codes="101"/>
-        <Key android:keyLabel="r" android:codes="114"/>
-        <Key android:keyLabel="t" android:codes="116"  android:popupKeyboard="@xml/candidates_ro_t"/>
+        <Key android:keyLabel="r" android:codes="114" android:popupKeyboard="@xml/candidates_qwerty_r"/>
+        <Key android:keyLabel="t" android:codes="116"  android:popupKeyboard="@xml/candidates_qwerty_t"/>
         <Key android:keyLabel="y" android:codes="121"/>
-        <Key android:keyLabel="u" android:codes="117"/>
-        <Key android:keyLabel="i" android:codes="105" android:popupKeyboard="@xml/candidates_ro_i"/>
+        <Key android:keyLabel="u" android:codes="117" android:popupKeyboard="@xml/candidates_qwerty_u"/>
+        <Key android:keyLabel="i" android:codes="105" android:popupKeyboard="@xml/candidates_qwerty_i"/>
         <Key android:keyLabel="o" android:codes="111"/>
         <Key android:keyLabel="p" android:keyEdgeFlags="right" android:codes="112"/>
     </Row>
 
     <Row>
-        <Key android:keyLabel="a" android:keyEdgeFlags="left" android:popupKeyboard="@xml/candidates_ro_a" android:codes="97"/>
-        <Key android:keyLabel="s" android:codes="115"  android:popupKeyboard="@xml/candidates_ro_s"/>
-        <Key android:keyLabel="d" android:codes="100"/>
+        <Key android:keyLabel="a" android:keyEdgeFlags="left" android:popupKeyboard="@xml/candidates_qwerty_a" android:codes="97"/>
+        <Key android:keyLabel="s" android:codes="115" android:popupKeyboard="@xml/candidates_qwerty_s"/>
+        <Key android:keyLabel="d" android:codes="100" android:popupKeyboard="@xml/candidates_qwerty_d"/>
         <Key android:keyLabel="f" android:codes="102"/>
         <Key android:keyLabel="g" android:codes="103"/>
-        <Key android:keyLabel="h" android:codes="104"/>
+        <Key android:keyLabel="h" android:codes="104" android:popupKeyboard="@xml/candidates_qwerty_h"/>
         <Key android:keyLabel="j" android:codes="106"/>
         <Key android:keyLabel="k" android:codes="107"/>
-        <Key android:keyLabel="l" android:codes="108"/>
+        <Key android:keyLabel="l" android:codes="108" android:popupKeyboard="@xml/candidates_qwerty_l"/>
         <Key android:keyLabel="BS" android:isRepeatable="true" android:codes="@integer/keycode_backspace"/>
     </Row>
 
@@ -55,19 +57,19 @@
         <Key android:keyLabel="c" android:codes="99"/>
         <Key android:keyLabel="v" android:codes="118"/>
         <Key android:keyLabel="b" android:codes="98"/>
-        <Key android:keyLabel="n" android:codes="110"/>
-        <Key android:keyLabel="m" android:codes="109"/>
+        <Key android:keyLabel="n" android:codes="110" android:popupKeyboard="@xml/candidates_qwerty_n"/>
+        <Key android:keyLabel="m" android:codes="109" android:popupKeyboard="@xml/candidates_qwerty_m"/>
         <Key android:keyLabel="AC" android:keyWidth="15%p" android:keyEdgeFlags="right" android:codes="@integer/keycode_ac"/>
     </Row>
 
     <Row android:rowEdgeFlags="bottom">
         <Key android:keyLabel="," android:keyEdgeFlags="left" android:codes="44"/>
-        <Key android:keyLabel="." android:codes="46" android:popupKeyboard="@xml/candidates_qwerty_punct"/>
-        <Key android:keyLabel="-" android:codes="45"/>
+        <Key android:keyLabel="." android:codes="46"/>
+        <Key android:keyLabel="\?" android:codes="63"/>
         <Key android:keyLabel="SPACE" android:keyWidth="40%p" android:isRepeatable="true" android:codes="@integer/keycode_space"/>
         <Key android:keyLabel="(" android:codes="40"/>
         <Key android:keyLabel=")" android:codes="41"/>
-        <Key android:keyLabel="SM" android:codes="@integer/keycode_qwerty_sym" android:popupKeyboard="@xml/candidates_qwerty_punct2"/>
+        <Key android:keyLabel="SM" android:codes="@integer/keycode_qwerty_sym" android:popupKeyboard="@xml/candidates_qwerty_punct"/>
     </Row>
 
 </Keyboard>

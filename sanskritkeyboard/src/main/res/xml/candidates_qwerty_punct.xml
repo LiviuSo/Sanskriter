@@ -6,10 +6,29 @@
         android:horizontalGap="0px"
         android:verticalGap="0px"
         android:keyHeight="55dp">
+
     <Row>
-        <Key android:keyLabel="\?" android:codes="63"/>
-        <Key android:keyLabel="\!" android:codes="33"/>
+        <Key android:keyLabel="\!" android:codes="33" android:keyEdgeFlags="left"/>
         <Key android:keyLabel=":" android:codes="58"/>
         <Key android:keyLabel=";" android:codes="59"/>
+        <Key android:keyLabel="\@" android:codes="64"/>
+        <Key android:keyLabel="-" android:codes="45" android:keyEdgeFlags="right"/>
     </Row>
+
+    <Row>
+        <Key android:keyLabel="_" android:codes="95" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="'" android:codes="39"/>
+        <Key android:keyLabel="\u0022" android:codes="34"/>
+        <Key android:keyLabel="[" android:codes="91"/>
+        <Key android:keyLabel="]" android:codes="93" android:keyEdgeFlags="right"/>
+    </Row>
+
+    <Row>
+        <Key android:keyLabel="|" android:codes="25" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="\u003E" android:codes="62"/>
+        <Key android:keyLabel="\u003C" android:codes="60"/>
+        <Key android:keyLabel="{" android:codes="123"/>
+        <Key android:keyLabel="}" android:codes="125" android:keyEdgeFlags="right"/>
+    </Row>
+
 </Keyboard>

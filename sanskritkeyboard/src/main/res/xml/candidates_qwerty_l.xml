@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="10%p"
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+    android:keyHeight="55dp">
+
+    <!-- ḷ ḹ -->
+    <Row android:horizontalGap="1dp">
+        <Key android:keyLabel="ḷ" android:codes="7735" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="ḹ" android:codes="7737"/>
+    </Row>
+
+</Keyboard>

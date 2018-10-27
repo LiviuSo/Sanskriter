@@ -13,12 +13,6 @@
                      android:layout_height="wrap_content"
                      android:text="@string/kbQwerty"
                      android:id="@+id/rdEnglish"/>
-
-        <RadioButton android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:text="@string/kbIast"
-                     android:id="@+id/rdIAST"/>
-
         <RadioButton android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:text="@string/kbSanskrit"

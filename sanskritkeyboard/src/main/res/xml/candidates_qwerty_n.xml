@@ -6,8 +6,11 @@
     android:verticalGap="0px"
     android:keyHeight="55dp">
 
+    <!-- ṅ ñ ṇ -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ā" android:codes="257"/>
+        <Key android:keyLabel="ṅ" android:codes="7749"/>
+        <Key android:keyLabel="ñ" android:codes="241"/>
+        <Key android:keyLabel="ṇ" android:codes="7751"/>
     </Row>
 
 </Keyboard>

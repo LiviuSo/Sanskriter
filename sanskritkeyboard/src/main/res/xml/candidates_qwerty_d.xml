@@ -6,8 +6,9 @@
     android:verticalGap="0px"
     android:keyHeight="55dp">
 
+    <!-- ḍ -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ḹ" android:codes="7737"/>
+        <Key android:keyLabel="ḍ" android:codes="7693"/>
     </Row>
 
 </Keyboard>

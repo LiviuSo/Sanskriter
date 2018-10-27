@@ -6,8 +6,10 @@
     android:verticalGap="0px"
     android:keyHeight="55dp">
 
+    <!-- ṛ ṝ -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ī" android:codes="299"/>
+        <Key android:keyLabel="ṛ" android:codes="7771"/>
+        <Key android:keyLabel="ṝ" android:codes="7773"/>
     </Row>
 
 </Keyboard>

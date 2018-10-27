@@ -26,7 +26,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     private lateinit var kv: KeyboardView
     private lateinit var keyboardQwerty: Keyboard
     private lateinit var keyboardSa: Keyboard
-    private lateinit var keyboardSaIAST: Keyboard
     private lateinit var layout: View
     private var isCaps: Boolean = false
     private var keyPopupHeight: Int = 0
@@ -39,13 +38,11 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         kv = layout.findViewById(R.id.keyboard) as KeyboardView
         keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
         keyboardSa = Keyboard(this, R.xml.keyboard_sa)
-        keyboardSaIAST = Keyboard(this, R.xml.keyboard_sa_iast)
 
         var keyboardLang = PreferenceHelper(this).getKeyboardLang()
         kv.keyboard = when (keyboardLang) {
             KeyboardLang.QWERTY.lang -> keyboardQwerty
             KeyboardLang.SA.lang -> keyboardSa
-            KeyboardLang.IAST.lang -> keyboardSaIAST
             else -> {
                 keyboardLang = KeyboardLang.QWERTY.lang
                 keyboardQwerty
@@ -92,7 +89,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 || primaryCode == Keycode.QWERTY_SYM.code
                 || primaryCode == Keycode.SANSKRIT_NUM.code
                 || primaryCode == Keycode.SPACE.code
-                || primaryCode == Keycode.SHIFT.code)
+                || primaryCode == Keycode.SHIFT.code
+                || primaryCode == Keycode.DELETE.code)
     }
 
     override fun onRelease(primaryCode: Int) {
@@ -141,12 +139,10 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         popup.isOutsideTouchable = true
         val radioQwerty = popup.contentView.findViewById<RadioButton>(R.id.rdEnglish)
         val radioSa = popup.contentView.findViewById<RadioButton>(R.id.rdSanskrit)
-        val radioSaIAST = popup.contentView.findViewById<RadioButton>(R.id.rdIAST)
 
         when(PreferenceHelper(this).getKeyboardLang()) {
             KeyboardLang.QWERTY.lang -> radioQwerty.isChecked = true
             KeyboardLang.SA.lang -> radioSa.isChecked = true
-            KeyboardLang.IAST.lang -> radioSaIAST.isChecked = true
             else -> {
                 radioQwerty.isChecked = true // default QWERTY
             }
@@ -157,9 +153,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         radioSa.setOnClickListener {
             popup.dismiss()
         }
-        radioSaIAST.setOnClickListener {
-            popup.dismiss()
-        }
         popup.setOnDismissListener {
             when {
                 radioQwerty.isChecked -> {
@@ -167,9 +160,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 }
                 radioSa.isChecked -> {
                     setKeyboard(KeyboardLang.SA)
-                }
-                radioSaIAST.isChecked -> {
-                    setKeyboard(KeyboardLang.IAST)
                 }
                 else -> { /* nothing */ }
             }
@@ -187,10 +177,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             KeyboardLang.SA -> {
                 kv.keyboard = keyboardSa
                 kv.keyboard.keys[0].label= KeyboardLang.SA.lang
-            }
-            KeyboardLang.IAST -> {
-                kv.keyboard = keyboardSaIAST
-                kv.keyboard.keys[0].label= KeyboardLang.IAST.lang
             }
             else -> {
                 kv.keyboard = keyboardQwerty
@@ -228,7 +214,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     private fun initRes(context: Context) {
         // strings
         KeyboardLang.QWERTY.lang = context.getString(R.string.kbQwerty)
-        KeyboardLang.IAST.lang = context.getString(R.string.kbIast)
         KeyboardLang.SA.lang = context.getString(R.string.kbSanskrit)
 
         // integers
@@ -240,7 +225,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         Keycode.SWITCH_KEYBOARD.code = context.resources.getInteger(R.integer.keycode_switch)
         Keycode.SPACE.code = context.resources.getInteger(R.integer.keycode_space)
 
-        keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width)
+        keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width) // todo: investigate
         keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)
     }
 
@@ -252,7 +237,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     enum class KeyboardLang(var lang: String) {
         QWERTY(""),
         SA(""),
-        IAST(""),
         NONE("")
     }
 
