@@ -6,9 +6,11 @@ import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
 import android.support.annotation.LayoutRes
+import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.RadioButton
 import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
@@ -23,34 +25,74 @@ import java.lang.String.valueOf
  */
 class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
+    private var layout: View? = null
     private lateinit var kv: KeyboardView
     private lateinit var keyboardQwerty: Keyboard
     private lateinit var keyboardSa: Keyboard
-    private lateinit var layout: View
     private var isCaps: Boolean = false
     private var keyPopupHeight: Int = 0
     private var keyPopupWidth: Int = 0
 
-    override fun onCreateInputView(): View {
+    private val LOG_TAG = "CustomKeyboard"
+
+    private var switch: Boolean = false
+    private val autoSwitch = true // todo make it a setting
+
+    override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
+        super.onStartInput(attribute, restarting)
         initRes(this) // essential !!!
+        switch = false
 
-        layout = layoutInflater.inflate(R.layout.keyboard, null)
-        kv = layout.findViewById(R.id.keyboard) as KeyboardView
-        keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
-        keyboardSa = Keyboard(this, R.xml.keyboard_sa)
-
-        var keyboardLang = PreferenceHelper(this).getKeyboardLang()
-        kv.keyboard = when (keyboardLang) {
-            KeyboardLang.QWERTY.lang -> keyboardQwerty
-            KeyboardLang.SA.lang -> keyboardSa
-            else -> {
-                keyboardLang = KeyboardLang.QWERTY.lang
-                keyboardQwerty
+        if (autoSwitch) {
+            var currentLang = PreferenceHelper(this).getKeyboardLang()
+            if (attribute?.hintText == this.getString(R.string.kbSanskrit)) {
+                if (currentLang != this.getString(R.string.kbSanskrit)) {
+                    switch = true
+                    currentLang = this.getString(R.string.kbSanskrit)
+                }
+            } else if (attribute?.hintText == this.getString(R.string.kbLatin)) {
+                if (currentLang != this.getString(R.string.kbLatin)) {
+                    currentLang = this.getString(R.string.kbLatin)
+                    switch = true
+                }
+            } else {
+                switch = false // todo investigate
             }
+            if (switch && layout != null) {
+                kv.keyboard = when (currentLang) {
+                    KeyboardLang.QWERTY.lang -> keyboardQwerty
+                    KeyboardLang.SA.lang -> keyboardSa
+                    else -> {
+                        keyboardQwerty
+                    }
+                }
+                kv.keyboard!!.keys[0].label = currentLang // set "Switch" key label to the language
+                PreferenceHelper(this).setKeyboardLang(currentLang)
+            }
+
         }
-        kv.setOnKeyboardActionListener(this)
-        kv.keyboard.keys[0].label= keyboardLang // set "Switch" key label to the language
-        return layout
+    }
+
+    override fun onCreateInputView(): View {
+        if (layout == null) {
+            layout = layoutInflater.inflate(R.layout.keyboard, null)
+            kv = layout?.findViewById(R.id.keyboard) as KeyboardView
+            keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
+            keyboardSa = Keyboard(this, R.xml.keyboard_sa)
+
+            var keyboardLang = PreferenceHelper(this).getKeyboardLang()
+            kv.keyboard = when (keyboardLang) {
+                KeyboardLang.QWERTY.lang -> keyboardQwerty
+                KeyboardLang.SA.lang -> keyboardSa
+                else -> {
+                    keyboardLang = KeyboardLang.QWERTY.lang
+                    keyboardQwerty
+                }
+            }
+            kv.setOnKeyboardActionListener(this)
+            kv.keyboard!!.keys[0].label = keyboardLang // set "Switch" key label to the language
+        }
+        return layout as View
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
@@ -68,7 +110,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
             }
             Keycode.SWITCH_KEYBOARD.code -> {
-                showPopup(this, layout, R.layout.keyboard_switch, getKeyRect(Keycode.SWITCH_KEYBOARD.code))
+                showPopup(this, this.layout!!, R.layout.keyboard_switch, getKeyRect(Keycode.SWITCH_KEYBOARD.code))
             }
             Keycode.QWERTY_SYM.code -> {
                 // ignore // todo: action on tap instead of long tap
@@ -95,7 +137,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
 
     override fun onRelease(primaryCode: Int) {
         // release SHIFT after a char pressed
-        if(isCaps && !(primaryCode == Keycode.SWITCH_KEYBOARD.code
+        if (isCaps && !(primaryCode == Keycode.SWITCH_KEYBOARD.code
                         || primaryCode == Keycode.DONE.code
                         || primaryCode == Keycode.QWERTY_SYM.code
                         || primaryCode == Keycode.SANSKRIT_NUM.code
@@ -140,7 +182,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         val radioQwerty = popup.contentView.findViewById<RadioButton>(R.id.rdEnglish)
         val radioSa = popup.contentView.findViewById<RadioButton>(R.id.rdSanskrit)
 
-        when(PreferenceHelper(this).getKeyboardLang()) {
+        when (PreferenceHelper(this).getKeyboardLang()) {
             KeyboardLang.QWERTY.lang -> radioQwerty.isChecked = true
             KeyboardLang.SA.lang -> radioSa.isChecked = true
             else -> {
@@ -161,30 +203,31 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 radioSa.isChecked -> {
                     setKeyboard(KeyboardLang.SA)
                 }
-                else -> { /* nothing */ }
+                else -> { /* nothing */
+                }
             }
         }
-        popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2]/4, rect[3] + 3)
+        popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2] / 4, rect[3] + 3)
         popup.update(keyPopupWidth, keyPopupHeight)
     }
 
     private fun setKeyboard(kb: KeyboardLang, save: Boolean = true) {
-        when(kb) {
+        when (kb) {
             KeyboardLang.QWERTY -> {
                 kv.keyboard = keyboardQwerty
-                kv.keyboard.keys[0].label= KeyboardLang.QWERTY.lang
+                kv.keyboard!!.keys[0].label = KeyboardLang.QWERTY.lang
             }
             KeyboardLang.SA -> {
                 kv.keyboard = keyboardSa
-                kv.keyboard.keys[0].label= KeyboardLang.SA.lang
+                kv.keyboard!!.keys[0].label = KeyboardLang.SA.lang
             }
             else -> {
                 kv.keyboard = keyboardQwerty
-                kv.keyboard.keys[0].label= KeyboardLang.QWERTY.lang
+                kv.keyboard!!.keys[0].label = KeyboardLang.QWERTY.lang
             }
         }
         kv.invalidateAllKeys()
-        if(save) {
+        if (save) {
             PreferenceHelper(this).setKeyboardLang(kb.lang)
         }
     }
@@ -193,11 +236,11 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
      * Returns [x relative to screen, y relative to screen, width, height] of a key
      */
     private fun getKeyRect(keyCode: Int): IntArray {
-        val key = kv.keyboard.keys.first {
+        val key = kv.keyboard!!.keys.first {
             it.codes.contains(keyCode)
         }
         val keyboardCoords = IntArray(2)
-        layout.getLocationOnScreen(keyboardCoords)
+        layout!!.getLocationOnScreen(keyboardCoords)
         return intArrayOf(keyboardCoords[0] + key.x, keyboardCoords[1] + key.y, key.width, key.height)
     }
 
@@ -213,7 +256,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
 
     private fun initRes(context: Context) {
         // strings
-        KeyboardLang.QWERTY.lang = context.getString(R.string.kbQwerty)
+        KeyboardLang.QWERTY.lang = context.getString(R.string.kbLatin)
         KeyboardLang.SA.lang = context.getString(R.string.kbSanskrit)
 
         // integers
