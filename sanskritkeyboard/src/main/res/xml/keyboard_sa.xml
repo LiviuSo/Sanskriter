@@ -11,7 +11,7 @@
              android:popupKeyboard="@layout/keyboard_switch"/>
     </Row>
 
-    <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) Dg BS-->
+    <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) ह ऽ ।(॥) -->
     <Row>
         <Key android:keyLabel="\u0905" android:keyEdgeFlags="left" android:codes="2309"
             android:popupKeyboard="@xml/candidates_sa_long_a"/>
@@ -27,106 +27,68 @@
              android:popupKeyboard="@xml/candidates_sa_ai"/>
         <Key android:keyLabel="\u0913" android:codes="2323"
              android:popupKeyboard="@xml/candidates_sa_au"/>
-        <Key android:keyLabel="Dg" android:codes="@integer/keycode_sa_dg"
-             android:popupKeyboard="@xml/candidates_sa_digits"/>
-        <Key android:keyLabel="BS" android:keyEdgeFlags="right" android:keyWidth="20%" android:codes="@integer/keycode_backspace"/>
+        <Key android:keyLabel="\u0939" android:codes="2361"/>
+        <Key android:keyLabel="\u093D" android:codes="2365"/>
+        <Key android:keyLabel="\u0964" android:codes="2404" android:keyEdgeFlags="right"  android:popupKeyboard="@xml/candidates_sa_double_stop"/>
     </Row>
 
     <!-- क ख ग घ च छ ज झ ट ठ -->
-    <!-- popup for all:
-         ऀ  ँ ं ः ्  ा
-         ि ी ु ू  ृ  ॄ
-         ॢ  ॣ े ै  ो ौ -->
     <Row>
-        <Key android:keyLabel="\u0915" android:keyEdgeFlags="left" android:codes="2325"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0916" android:codes="2326"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0917" android:codes="2327"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0918" android:codes="2328"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u091A" android:codes="2330"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u091B" android:codes="2331"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u091C" android:codes="2332"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u091D" android:codes="2333"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u091F" android:codes="2335"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0920" android:keyEdgeFlags="right" android:codes="2336"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
+        <Key android:keyLabel="\u0915" android:keyEdgeFlags="left" android:codes="2325"/>
+        <Key android:keyLabel="\u0916" android:codes="2326"/>
+        <Key android:keyLabel="\u0917" android:codes="2327"/>
+        <Key android:keyLabel="\u0918" android:codes="2328"/>
+        <Key android:keyLabel="\u091A" android:codes="2330"/>
+        <Key android:keyLabel="\u091B" android:codes="2331"/>
+        <Key android:keyLabel="\u091C" android:codes="2332"/>
+        <Key android:keyLabel="\u091D" android:codes="2333"/>
+        <Key android:keyLabel="\u091F" android:codes="2335"/>
+        <Key android:keyLabel="\u0920" android:keyEdgeFlags="right" android:codes="2336"/>
     </Row>
 
     <!-- ड ढ त थ द ध प फ ब भ -->
-    <!-- popup for all:
-         ऀ  ँ ं ः ्  ा
-         ि ी ु ू  ृ  ॄ
-         ॢ  ॣ े ै  ो ौ -->
     <Row>
-        <Key android:keyLabel="\u0921" android:keyEdgeFlags="left" android:codes="2337"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs" />
-        <Key android:keyLabel="\u0922" android:codes="2338"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0924" android:codes="2340"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0925" android:codes="2341"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0926" android:codes="2342"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0927" android:codes="2343"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u092A" android:codes="2346"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u092B" android:codes="2347"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u092C" android:codes="2348"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u092D" android:keyEdgeFlags="right" android:codes="2349"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
+        <Key android:keyLabel="\u0921" android:keyEdgeFlags="left" android:codes="2337"/>
+        <Key android:keyLabel="\u0922" android:codes="2338"/>
+        <Key android:keyLabel="\u0924" android:codes="2340"/>
+        <Key android:keyLabel="\u0925" android:codes="2341"/>
+        <Key android:keyLabel="\u0926" android:codes="2342"/>
+        <Key android:keyLabel="\u0927" android:codes="2343"/>
+        <Key android:keyLabel="\u092A" android:codes="2346"/>
+        <Key android:keyLabel="\u092B" android:codes="2347"/>
+        <Key android:keyLabel="\u092C" android:codes="2348"/>
+        <Key android:keyLabel="\u092D" android:keyEdgeFlags="right" android:codes="2349"/>
     </Row>
 
-    <!--  ङ ञ ण न म श ष स ह ।(॥) -->
+    <!--  ङ ञ ण न म श ष स BS(20%) -->
     <Row>
-        <Key android:keyLabel="\u0919" android:keyEdgeFlags="left" android:codes="2329"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u091E" android:codes="2334"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0923" android:codes="2339"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0928" android:codes="2344"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u092E" android:codes="2350"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0936" android:codes="2358"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0937" android:codes="2359"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0938" android:codes="2360"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0939" android:codes="2361"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0964" android:keyEdgeFlags="right" android:codes="2404"
-             android:popupKeyboard="@xml/candidates_sa_double_stop"/>
+        <Key android:keyLabel="\u0919" android:keyEdgeFlags="left" android:codes="2329"/>
+        <Key android:keyLabel="\u091E" android:codes="2334"/>
+        <Key android:keyLabel="\u0923" android:codes="2339"/>
+        <Key android:keyLabel="\u0928" android:codes="2344"/>
+        <Key android:keyLabel="\u092E" android:codes="2350"/>
+        <Key android:keyLabel="\u0936" android:codes="2358"/>
+        <Key android:keyLabel="\u0937" android:codes="2359"/>
+        <Key android:keyLabel="\u0938" android:codes="2360"/>
+        <Key android:keyLabel="BS" android:keyEdgeFlags="right" android:isRepeatable="true" android:keyWidth="20%" android:codes="@integer/keycode_backspace"/>
+
     </Row>
 
-    <!-- य र ल व SPACE(20%) ॑ ॒ ऽ AC-->
+    <!-- य र ल व SPACE(25%) Kb Dg SM AC(15%)-->
+    <!-- popup for SM:
+     ऀ  ँ ं ः ्  ा
+     ि ी ु ू  ृ  ॄ
+     ॢ  ॣ े ै  ो ौ -->
     <Row android:rowEdgeFlags="bottom">
-        <Key android:keyLabel="\u092F"  android:keyEdgeFlags="left" android:codes="2351"
+        <Key android:keyLabel="\u092F"  android:keyEdgeFlags="left" android:codes="2351"/>
+        <Key android:keyLabel="\u0930" android:codes="2352"/>
+        <Key android:keyLabel="\u0932" android:codes="2354"/>
+        <Key android:keyLabel="\u0935" android:codes="2357"/>
+        <Key android:keyLabel="SPACE" android:keyWidth="25%p" android:isRepeatable="true" android:codes="@integer/keycode_space"/>
+        <Key android:keyLabel="Kb" android:codes="@integer/keycode_switch2"/>
+        <Key android:keyLabel="SM" android:codes="@integer/keycode_qwerty_sym"
              android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0930" android:codes="2352"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0932" android:codes="2354"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="\u0935" android:codes="2357"
-             android:popupKeyboard="@xml/candidates_sa_voc_signs"/>
-        <Key android:keyLabel="SPACE" android:keyWidth="20%p" android:isRepeatable="true" android:codes="@integer/keycode_space"/>
-        <Key android:keyLabel="\u0951" android:codes="2385"/>
-        <Key android:keyLabel="\u0952" android:codes="2386"/>
-        <Key android:keyLabel="\u093D" android:codes="2365"/>
-        <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:codes="@integer/keycode_ac"/>
+        <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:keyWidth="15%p" android:codes="@integer/keycode_ac"/>
     </Row>
 
 </Keyboard>

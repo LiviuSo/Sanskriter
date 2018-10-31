@@ -8,6 +8,6 @@
 
     <!-- ॥ -->
     <Row>
-        <Key android:keyLabel="\u0965" android:codes="2405"/>
+        <Key android:keyLabel="\u0965" android:codes="2405" />
     </Row>
 </Keyboard>

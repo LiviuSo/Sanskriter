@@ -8,11 +8,10 @@
         android:keyHeight="55dp">
 
     <Row>
-        <Key android:keyLabel="\!" android:codes="33" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="," android:keyEdgeFlags="left" android:codes="44"/>
         <Key android:keyLabel=":" android:codes="58"/>
         <Key android:keyLabel=";" android:codes="59"/>
         <Key android:keyLabel="\@" android:codes="64"/>
-        <Key android:keyLabel="-" android:codes="45" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>
@@ -29,6 +28,8 @@
         <Key android:keyLabel="\u003C" android:codes="60"/>
         <Key android:keyLabel="{" android:codes="123"/>
         <Key android:keyLabel="}" android:codes="125" android:keyEdgeFlags="right"/>
+        <Key android:keyLabel="(" android:codes="40"/>
+        <Key android:keyLabel=")" android:codes="41"/>
     </Row>
 
 </Keyboard>

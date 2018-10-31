@@ -8,8 +8,8 @@
 
     <!-- ṭ ț -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ṭ" android:codes="7789"/>
         <Key android:keyLabel="ț" android:codes="539"/>
+        <Key android:keyLabel="ṭ" android:codes="7789"/>
     </Row>
 
 </Keyboard>

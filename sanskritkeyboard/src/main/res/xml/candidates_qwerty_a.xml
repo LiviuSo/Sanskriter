@@ -8,9 +8,9 @@
 
     <!-- ā ă â -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ā" android:codes="257"/>
         <Key android:keyLabel="ă" android:codes="259"/>
         <Key android:keyLabel="â" android:codes="226"/>
+        <Key android:keyLabel="ā" android:codes="257"/>
     </Row>
 
 </Keyboard>

@@ -44,21 +44,26 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         switch = false
 
         if (autoSwitch) {
+            Log.d(LOG_TAG, "onStartInput")
             var currentLang = PreferenceHelper(this).getKeyboardLang()
+            val saveCurrentLang = currentLang
             if (attribute?.hintText == this.getString(R.string.kbSanskrit)) {
                 if (currentLang != this.getString(R.string.kbSanskrit)) {
                     switch = true
                     currentLang = this.getString(R.string.kbSanskrit)
+                    Log.d(LOG_TAG, "onStartInput: switch $currentLang")
                 }
             } else if (attribute?.hintText == this.getString(R.string.kbLatin)) {
                 if (currentLang != this.getString(R.string.kbLatin)) {
                     currentLang = this.getString(R.string.kbLatin)
                     switch = true
+                    Log.d(LOG_TAG, "onStartInput: switch $currentLang")
                 }
             } else {
                 switch = false // todo investigate
             }
             if (switch && layout != null) {
+                Log.d(LOG_TAG, "onStartInput: switch && layout != null")
                 kv.keyboard = when (currentLang) {
                     KeyboardLang.QWERTY.lang -> keyboardQwerty
                     KeyboardLang.SA.lang -> keyboardSa
@@ -67,14 +72,17 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                     }
                 }
                 kv.keyboard!!.keys[0].label = currentLang // set "Switch" key label to the language
-                PreferenceHelper(this).setKeyboardLang(currentLang)
+            } else if(!switch) {
+                currentLang = saveCurrentLang // restore prev lang
             }
-
+            PreferenceHelper(this).setKeyboardLang(currentLang)
         }
     }
 
     override fun onCreateInputView(): View {
+        Log.d(LOG_TAG, "onCreateInputView()")
         if (layout == null) {
+            Log.d(LOG_TAG, "onCreateInputView: layout == null")
             layout = layoutInflater.inflate(R.layout.keyboard, null)
             kv = layout?.findViewById(R.id.keyboard) as KeyboardView
             keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
@@ -270,11 +278,6 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
 
         keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width) // todo: investigate
         keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)
-    }
-
-    companion object {
-        // debug
-        private const val LOG_SWITCH_POPUP = "Switch pop-up"
     }
 
     enum class KeyboardLang(var lang: String) {

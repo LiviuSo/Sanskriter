@@ -8,8 +8,8 @@
 
     <!-- ī î -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ī" android:codes="299"/>
         <Key android:keyLabel="î" android:codes="238"/>
+        <Key android:keyLabel="ī" android:codes="299"/>
     </Row>
 
 </Keyboard>
