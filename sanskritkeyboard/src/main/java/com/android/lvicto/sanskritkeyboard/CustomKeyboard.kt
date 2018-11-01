@@ -47,15 +47,17 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             Log.d(LOG_TAG, "onStartInput")
             var currentLang = PreferenceHelper(this).getKeyboardLang()
             val saveCurrentLang = currentLang
-            if (attribute?.hintText == this.getString(R.string.kbSanskrit)) {
-                if (currentLang != this.getString(R.string.kbSanskrit)) {
+            if (attribute?.hintText == this.getString(R.string.kbHintSanskrit)) {
+                if (currentLang != this.getString(R.string.kbLabelSanskrit)) {
                     switch = true
-                    currentLang = this.getString(R.string.kbSanskrit)
+                    currentLang = this.getString(R.string.kbLabelSanskrit)
                     Log.d(LOG_TAG, "onStartInput: switch $currentLang")
                 }
-            } else if (attribute?.hintText == this.getString(R.string.kbLatin)) {
-                if (currentLang != this.getString(R.string.kbLatin)) {
-                    currentLang = this.getString(R.string.kbLatin)
+            } else if (attribute?.hintText == this.getString(R.string.kbHintIAST)
+                        || attribute?.hintText == this.getString(R.string.kbHintEnglish)
+                        || attribute?.hintText == this.getString(R.string.kbHintRomanian)) {
+                if (currentLang != this.getString(R.string.kbLabelLatin)) {
+                    currentLang = this.getString(R.string.kbLabelLatin)
                     switch = true
                     Log.d(LOG_TAG, "onStartInput: switch $currentLang")
                 }
@@ -276,8 +278,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
 
     private fun initRes(context: Context) {
         // strings
-        KeyboardLang.QWERTY.lang = context.getString(R.string.kbLatin)
-        KeyboardLang.SA.lang = context.getString(R.string.kbSanskrit)
+        KeyboardLang.QWERTY.lang = context.getString(R.string.kbLabelLatin)
+        KeyboardLang.SA.lang = context.getString(R.string.kbLabelSanskrit)
 
         // integers
         Keycode.DELETE.code = context.resources.getInteger(R.integer.keycode_backspace)

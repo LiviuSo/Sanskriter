@@ -1,42 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.activities.AddModifyWordActivity"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        tools:context=".ui.activities.AddModifyWordActivity">
 
-    <EditText
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editSa"
-            android:hint="Sanskrit"/>
+            android:orientation="vertical">
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editIAST"
-            android:hint="IAST"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editSa"
+                android:hint="@string/kbHintSanskrit"/>
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editEn"
-            android:hint="English"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editIAST"
+                android:hint="@string/kbHintIAST"/>
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editRo"
-            android:hint="Romana"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editEn"
+                android:hint="@string/kbHintEnglish"/>
 
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnSaveWord"
-            android:layout_marginTop="21dp"
-            android:text="Save"/>
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editRo"
+                android:hint="@string/kbHintRomanian"/>
 
-</LinearLayout>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSaveWord"
+                android:layout_marginTop="21dp"
+                android:text="@string/saveWord"/>
+    </LinearLayout>
+
+</ScrollView>

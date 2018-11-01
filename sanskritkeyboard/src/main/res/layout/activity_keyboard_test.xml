@@ -1,44 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         tools:context="com.android.lvicto.sanskritkeyboard.TestKeyboardActivity">
 
-    <EditText android:layout_width="match_parent"
-              android:layout_height="100dp"
-              android:hint="@string/kbSanskrit"
-              tools:layout_editor_absoluteX="0dp"
-              android:id="@+id/editTextSa"
-              android:layout_marginBottom="8dp"
-              android:layout_marginTop="8dp"
-              android:singleLine="false"
-              android:gravity="top|start"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <EditText android:layout_width="match_parent"
-              android:layout_height="100dp"
-              android:hint="@string/kbLatin"
-              tools:layout_editor_absoluteX="0dp"
-              android:id="@+id/editTextLa"
-              android:layout_marginBottom="8dp"
-              android:layout_marginTop="8dp"
-              android:singleLine="false"
-              android:gravity="top|start"/>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:hint="@string/kbHintSanskrit"
+                  tools:layout_editor_absoluteX="0dp"
+                  android:id="@+id/editTextSa"
+                  android:layout_marginBottom="8dp"
+                  android:layout_marginTop="8dp"
+                  android:singleLine="false"
+                  android:gravity="top|start"/>
 
-    <EditText android:layout_width="match_parent"
-              android:layout_height="100dp"
-              android:hint="Else"
-              tools:layout_editor_absoluteX="0dp"
-              android:id="@+id/editTextElse"
-              android:layout_marginBottom="8dp"
-              android:layout_marginTop="8dp"
-              android:singleLine="false"
-              android:gravity="top|start"/>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:hint="@string/kbHintIAST"
+                  tools:layout_editor_absoluteX="0dp"
+                  android:id="@+id/editTextIAST"
+                  android:layout_marginBottom="8dp"
+                  android:layout_marginTop="8dp"
+                  android:singleLine="false"
+                  android:gravity="top|start"/>
 
-    <FrameLayout android:layout_width="match_parent"
-                 android:layout_height="0dp"
-                 android:layout_weight="1"/>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:hint="@string/kbHintEnglish"
+                  tools:layout_editor_absoluteX="0dp"
+                  android:id="@+id/editTextEn"
+                  android:layout_marginBottom="8dp"
+                  android:layout_marginTop="8dp"
+                  android:singleLine="false"
+                  android:gravity="top|start"/>
 
-</LinearLayout>
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:hint="@string/kbHintRomanian"
+                  tools:layout_editor_absoluteX="0dp"
+                  android:id="@+id/editTextRo"
+                  android:layout_marginBottom="8dp"
+                  android:layout_marginTop="8dp"
+                  android:singleLine="false"
+                  android:gravity="top|start"/>
+
+        <EditText android:layout_width="match_parent"
+                  android:layout_height="100dp"
+                  android:hint="Else"
+                  tools:layout_editor_absoluteX="0dp"
+                  android:id="@+id/editTextElse"
+                  android:layout_marginBottom="8dp"
+                  android:layout_marginTop="8dp"
+                  android:singleLine="false"
+                  android:gravity="top|start"/>
+
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="0dp"
+                     android:layout_weight="1"/>
+    </LinearLayout>
+
+</ScrollView>

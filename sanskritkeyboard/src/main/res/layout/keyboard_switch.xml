@@ -11,11 +11,11 @@
                 android:padding="10dp">
         <RadioButton android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:text="@string/kbLatin"
+                     android:text="@string/kbLabelLatin"
                      android:id="@+id/rdEnglish"/>
         <RadioButton android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:text="@string/kbSanskrit"
+                     android:text="@string/kbLabelSanskrit"
                      android:id="@+id/rdSanskrit"/>
 
     </RadioGroup>
