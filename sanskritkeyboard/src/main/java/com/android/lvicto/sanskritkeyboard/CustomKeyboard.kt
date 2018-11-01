@@ -71,7 +71,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                         keyboardQwerty
                     }
                 }
-                kv.keyboard!!.keys[0].label = currentLang // set "Switch" key label to the language
+                setLangLabelToSwitchKbKey(currentLang)
             } else if(!switch) {
                 currentLang = saveCurrentLang // restore prev lang
             }
@@ -98,9 +98,13 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 }
             }
             kv.setOnKeyboardActionListener(this)
-            kv.keyboard!!.keys[0].label = keyboardLang // set "Switch" key label to the language
+            setLangLabelToSwitchKbKey(keyboardLang)
         }
         return layout as View
+    }
+
+    private fun setLangLabelToSwitchKbKey(keyboardLang: String) { // todo refactor to other class + unit test
+        getKeyWithCode(Keycode.KB.code).label = keyboardLang
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
@@ -117,8 +121,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             Keycode.DONE.code -> {
                 ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
             }
-            Keycode.SWITCH_KEYBOARD.code -> {
-                showPopup(this, this.layout!!, R.layout.keyboard_switch, getKeyRect(Keycode.SWITCH_KEYBOARD.code))
+            Keycode.KB.code -> {
+                showPopup(this, this.layout!!, R.layout.keyboard_switch, getKeyRect(primaryCode))
             }
             Keycode.QWERTY_SYM.code -> {
                 // ignore // todo: action on tap instead of long tap
@@ -134,7 +138,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     }
 
     override fun onPress(primaryCode: Int) {
-        kv.isPreviewEnabled = !(primaryCode == Keycode.SWITCH_KEYBOARD.code
+        kv.isPreviewEnabled = !(primaryCode == Keycode.KB.code
                 || primaryCode == Keycode.DONE.code
                 || primaryCode == Keycode.QWERTY_SYM.code
                 || primaryCode == Keycode.SANSKRIT_NUM.code
@@ -145,7 +149,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
 
     override fun onRelease(primaryCode: Int) {
         // release SHIFT after a char pressed
-        if (isCaps && !(primaryCode == Keycode.SWITCH_KEYBOARD.code
+        if (isCaps && !(primaryCode == Keycode.KB.code
                         || primaryCode == Keycode.DONE.code
                         || primaryCode == Keycode.QWERTY_SYM.code
                         || primaryCode == Keycode.SANSKRIT_NUM.code
@@ -182,7 +186,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     // todo https://stackoverflow.com/questions/8378012/detect-long-press-on-virtual-back-key for long press
     // with KeyEvent.Callback
 
-    private fun showPopup(context: Context, parent: View, @LayoutRes layout: Int, rect: IntArray) {
+    private fun showPopup(context: Context, parent: View, @LayoutRes layout: Int, rect: IntArray) { // todo refactor to separate class + UI test
         val popup = PopupWindow(context)
 
         popup.contentView = layoutInflater.inflate(layout, null)
@@ -215,25 +219,25 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 }
             }
         }
-        popup.showAtLocation(parent, Gravity.START and Gravity.TOP, rect[2] / 4, rect[3] + 3)
+        popup.showAtLocation(parent, Gravity.END and Gravity.BOTTOM, rect[0] + rect[2], rect[1] - keyPopupHeight) // todo generalize
         popup.update(keyPopupWidth, keyPopupHeight)
     }
 
     private fun setKeyboard(kb: KeyboardLang, save: Boolean = true) {
+        var currentLang = KeyboardLang.QWERTY.lang
         when (kb) {
-            KeyboardLang.QWERTY -> {
-                kv.keyboard = keyboardQwerty
-                kv.keyboard!!.keys[0].label = KeyboardLang.QWERTY.lang
-            }
             KeyboardLang.SA -> {
                 kv.keyboard = keyboardSa
-                kv.keyboard!!.keys[0].label = KeyboardLang.SA.lang
+                currentLang = KeyboardLang.SA.lang
+            }
+            KeyboardLang.QWERTY -> {
+                kv.keyboard = keyboardQwerty
             }
             else -> {
                 kv.keyboard = keyboardQwerty
-                kv.keyboard!!.keys[0].label = KeyboardLang.QWERTY.lang
             }
         }
+        setLangLabelToSwitchKbKey(currentLang)
         kv.invalidateAllKeys()
         if (save) {
             PreferenceHelper(this).setKeyboardLang(kb.lang)
@@ -244,18 +248,26 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
      * Returns [x relative to screen, y relative to screen, width, height] of a key
      */
     private fun getKeyRect(keyCode: Int): IntArray {
-        val key = kv.keyboard!!.keys.first {
+        val key = getKeyWithCode(keyCode)
+        val keyboardCoords = IntArray(2)
+        kv.getLocationOnScreen(keyboardCoords)
+        val rect = intArrayOf(key.x, key.y, key.width, key.height)
+        Log.d(LOG_TAG, "root view: ${kv.rootView.x}, ${kv.rootView.y}, ${kv.rootView.width}, ${kv.rootView.height}")
+        Log.d(LOG_TAG, "kv: ${kv.x}, ${kv.y}, ${kv.width}, ${kv.height}")
+        Log.d(LOG_TAG, "key: ${rect[0]}, ${rect[1]}, ${rect[2]}, ${rect[3]}")
+        return rect
+    }
+
+    private fun getKeyWithCode(keyCode: Int): Keyboard.Key {
+        return kv.keyboard.keys.first {
             it.codes.contains(keyCode)
         }
-        val keyboardCoords = IntArray(2)
-        layout!!.getLocationOnScreen(keyboardCoords)
-        return intArrayOf(keyboardCoords[0] + key.x, keyboardCoords[1] + key.y, key.width, key.height)
     }
 
     private fun playClick(keyCode: Int) {
         val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         when (keyCode) {
-            32 -> am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR)
+            Keycode.SPACE.code -> am.playSoundEffect(AudioManager.FX_KEYPRESS_SPACEBAR)
             Keyboard.KEYCODE_DONE, 10 -> am.playSoundEffect(AudioManager.FX_KEYPRESS_RETURN)
             Keyboard.KEYCODE_DELETE -> am.playSoundEffect(AudioManager.FX_KEYPRESS_DELETE)
             else -> am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD)
@@ -273,8 +285,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         Keycode.SHIFT.code = context.resources.getInteger(R.integer.keycode_shift)
         Keycode.QWERTY_SYM.code = context.resources.getInteger(R.integer.keycode_qwerty_sym)
         Keycode.SANSKRIT_NUM.code = context.resources.getInteger(R.integer.keycode_sa_dg)
-        Keycode.SWITCH_KEYBOARD.code = context.resources.getInteger(R.integer.keycode_switch)
         Keycode.SPACE.code = context.resources.getInteger(R.integer.keycode_space)
+        Keycode.KB.code = context.resources.getInteger(R.integer.keycode_switch)
 
         keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width) // todo: investigate
         keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)
@@ -292,8 +304,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         SHIFT(0),
         QWERTY_SYM(0),
         SANSKRIT_NUM(0),
-        SWITCH_KEYBOARD(0),
-        SPACE(0)
+        SPACE(0),
+        KB(0)
     }
 }
 
