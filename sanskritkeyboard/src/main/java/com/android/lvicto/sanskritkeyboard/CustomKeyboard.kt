@@ -29,6 +29,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
     private lateinit var kv: KeyboardView
     private lateinit var keyboardQwerty: Keyboard
     private lateinit var keyboardSa: Keyboard
+    private lateinit var keyboardQwertySym: Keyboard
+    private lateinit var keyboardSaSym: Keyboard
     private var isCaps: Boolean = false
     private var keyPopupHeight: Int = 0
     private var keyPopupWidth: Int = 0
@@ -88,7 +90,9 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             layout = layoutInflater.inflate(R.layout.keyboard, null)
             kv = layout?.findViewById(R.id.keyboard) as KeyboardView
             keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
+            keyboardQwertySym = Keyboard(this, R.xml.keyboard_qwerty_sym)
             keyboardSa = Keyboard(this, R.xml.keyboard_sa)
+            keyboardSaSym = Keyboard(this, R.xml.keyboard_sa_sym)
 
             var keyboardLang = PreferenceHelper(this).getKeyboardLang()
             kv.keyboard = when (keyboardLang) {
@@ -127,7 +131,13 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 showPopup(this, this.layout!!, R.layout.keyboard_switch, getKeyRect(primaryCode))
             }
             Keycode.QWERTY_SYM.code -> {
-                // ignore // todo: action on tap instead of long tap
+                if(kv.keyboard == keyboardQwerty) {
+                    kv.keyboard = keyboardQwertySym
+                } else if(kv.keyboard == keyboardSa) {
+                    kv.keyboard = keyboardSaSym
+                } else {
+                    // nothing
+                }
             }
             else -> {
                 var code = primaryCode.toChar()
@@ -135,6 +145,13 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                     code = toUpperCase(code)
                 }
                 ic.commitText(valueOf(code), 1)
+                if(kv.keyboard == keyboardQwertySym) {
+                    kv.keyboard = keyboardQwerty
+                } else if(kv.keyboard == keyboardSaSym) {
+                    kv.keyboard = keyboardSa
+                } else {
+                    // nothing
+                }
             }
         }
     }

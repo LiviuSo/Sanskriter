@@ -6,47 +6,39 @@
           android:verticalGap="0px"
           android:keyHeight="55dp">
 
-    <!-- ० १ २ ३ ४ -->
+    <!-- ० १ २ ३ ४ ५ ६ ७ ८ ९ -->
     <Row>
         <Key android:keyLabel="\u0967" android:keyEdgeFlags="left" android:codes="2407"/>
         <Key android:keyLabel="\u0968" android:codes="2408"/>
         <Key android:keyLabel="\u0969" android:codes="2409"/>
         <Key android:keyLabel="\u096A" android:codes="2410"/>
-        <Key android:keyLabel="\u096B" android:keyEdgeFlags="right" android:codes="2411"/>
-    </Row>
-
-    <!-- ५ ६ ७ ८ ९ -->
-    <Row>
-        <Key android:keyLabel="\u096C" android:keyEdgeFlags="left" android:codes="2412"/>
+        <Key android:keyLabel="\u096B" android:codes="2411"/>
+        <Key android:keyLabel="\u096C" android:codes="2412"/>
         <Key android:keyLabel="\u096D" android:codes="2413"/>
         <Key android:keyLabel="\u096E" android:codes="2414"/>
         <Key android:keyLabel="\u096F" android:codes="2415"/>
         <Key android:keyLabel="\u0966" android:keyEdgeFlags="right" android:codes="2406"/>
     </Row>
 
-    <!--  ऀ ँ ं ः ् ा -->
+    <!--  ऀ ँ ं ः ् ा ि ी ु ू -->
     <Row>
         <Key android:keyLabel="\u094D" android:keyEdgeFlags="left" android:codes="2381"/>
         <Key android:keyLabel="\u0900" android:codes="2304"/>
         <Key android:keyLabel="\u0901" android:codes="2305"/>
         <Key android:keyLabel="\u0902" android:codes="2306"/>
         <Key android:keyLabel="\u0903" android:codes="2307"/>
-        <Key android:keyLabel="\u093E" android:keyEdgeFlags="right" android:codes="2366"/>
-    </Row>
-
-    <!-- ि ी ु ू ृ ॄ -->
-    <Row>
-        <Key android:keyLabel="\u093F" android:keyEdgeFlags="left" android:codes="2367"/>
+        <Key android:keyLabel="\u093E" android:codes="2366"/>
+        <Key android:keyLabel="\u093F" android:codes="2367"/>
         <Key android:keyLabel="\u0940" android:codes="2368"/>
         <Key android:keyLabel="\u0941" android:codes="2369"/>
-        <Key android:keyLabel="\u0942" android:codes="2370"/>
-        <Key android:keyLabel="\u0943" android:codes="2371"/>
-        <Key android:keyLabel="\u0944" android:keyEdgeFlags="right" android:codes="2372"/>
+        <Key android:keyLabel="\u0942" android:codes="2370" android:keyEdgeFlags="right"/>
     </Row>
 
-    <!-- ॢ ॣ े ै ो ौ ॑ ॒ -->
+    <!-- ृ ॄ ॢ ॣ े ै ो ौ ॑ ॒ -->
     <Row>
-        <Key android:keyLabel="\u0962" android:keyEdgeFlags="left" android:codes="2402"/>
+        <Key android:keyLabel="\u0943" android:codes="2371" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="\u0944" android:codes="2372"/>
+        <Key android:keyLabel="\u0962" android:codes="2402"/>
         <Key android:keyLabel="\u0963" android:codes="2403"/>
         <Key android:keyLabel="\u0947" android:codes="2375"/>
         <Key android:keyLabel="\u0948" android:codes="2376"/>
