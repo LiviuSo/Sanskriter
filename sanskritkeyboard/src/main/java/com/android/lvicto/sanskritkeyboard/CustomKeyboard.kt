@@ -252,26 +252,12 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         val density = resources.displayMetrics.density // todo refactor to a method
         val scaledWidth = (keyPopupWidth * density).toInt()
         val scaledHeight = (keyPopupHeight * density).toInt()
-        val popUpRect = calculatePopUpCoords(rect, parent, scaledWidth, scaledHeight)
-        Log.d(LOG_TAG, "${popUpRect[0]} ${popUpRect[1]}")
-        popup.showAtLocation(parent, Gravity.START and Gravity.TOP, popUpRect[0], popUpRect[1]) // todo generalize
+        popup.showAtLocation(parent,
+                Gravity.START and Gravity.TOP,
+                rect[0],rect[1] - scaledWidth) // todo generalize
         if(Build.VERSION.SDK_INT < 23) {
             popup.update(scaledWidth, scaledHeight)
         }
-    }
-
-    private fun calculatePopUpCoords(keyRect: IntArray, parent: View, popUpWidth: Int, popUpHeight: Int): IntArray {
-        val parentX = parent.x // todo correct (see zombie module)
-        val parentWidth = parent.width
-        var x = keyRect[0]
-        var y = keyRect[0] - keyRect[3] - popUpHeight
-        if(x <= parentX) {
-            x = keyRect[0] + keyRect[2]
-        }
-        if(y + popUpWidth >= parentWidth) {
-            y = keyRect[1] - popUpWidth
-        }
-        return intArrayOf(x, y)
     }
 
     private fun setKeyboard(kb: KeyboardLang, save: Boolean = true) {
