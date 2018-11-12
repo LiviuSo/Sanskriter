@@ -15,6 +15,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.RadioButton
+import android.widget.TextView
 import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
 import java.lang.Character.isLetter
 import java.lang.Character.toUpperCase
@@ -91,6 +92,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             Log.d(LOG_TAG, "onCreateInputView: layout == null")
             layout = layoutInflater.inflate(R.layout.keyboard, null)
             kv = layout?.findViewById(R.id.keyboard) as KeyboardView
+            kv.isPreviewEnabled = false
             keyboardQwerty = Keyboard(this, R.xml.keyboard_qwerty)
             keyboardQwertySym = Keyboard(this, R.xml.keyboard_qwerty_sym)
             keyboardSa = Keyboard(this, R.xml.keyboard_sa)
@@ -206,6 +208,10 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                         // nothing
                     }
                 }
+                setPreview(this.layout!!.rootView, getKeyWithCode(primaryCode),
+                        resources.getDimension(R.dimen.preview_width).toInt(),
+                        resources.getDimension(R.dimen.preview_width).toInt(),
+                        290 )
             }
         }
     }
@@ -378,6 +384,36 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width) // todo: investigate
         keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)
     }
+
+    private fun setPreview(parent: View, key: Keyboard.Key, keyPreviewWidth: Int, keyPreviewHeight: Int, delayMs: Long) {
+        val popup = createAndShowPrevPopUp(parent, key.label.toString(),
+                key.x, key.y,10, key.height,
+                keyPreviewWidth, keyPreviewHeight) // todo create builder
+        parent.postDelayed({ // todo replace with
+            popup.dismiss()
+        }, delayMs)
+    }
+
+    private fun createAndShowPrevPopUp(parent: View,
+                                       text: String,
+                                       x: Int, y: Int,
+                                       correctionWidth: Int,
+                                       correctionHeight: Int,
+                                       width: Int, height: Int,
+                                       touchableOutside: Boolean = true): PopupWindow {
+        val popup = PopupWindow(this)
+        popup.contentView = layoutInflater.inflate(R.layout.popup_key_preview, null)
+        popup.isOutsideTouchable = touchableOutside
+        popup.contentView.findViewById<TextView>(R.id.tvPreview).text = text
+        popup.showAtLocation(parent, Gravity.NO_GRAVITY, x - correctionWidth, y - correctionHeight)
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+//            val density = resources.displayMetrics.density
+//            popup.update((width * density).toInt(), (height * density).toInt())
+            popup.update(width, height)
+        }
+        return popup
+    }
+
 
     enum class KeyboardLang(var lang: String) {
         QWERTY(""),
