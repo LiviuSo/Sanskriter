@@ -4,7 +4,11 @@
           android:keyWidth="10%p"
           android:horizontalGap="0px"
           android:verticalGap="0px"
-          android:keyHeight="55dp">
+          android:keyHeight="@dimen/keyHeight">
+
+    <Row>
+        <Key android:keyLabel="Bk" android:codes="@integer/keycode_keyboard_back"/>
+    </Row>
 
     <!-- ० १ २ ३ ४ ५ ६ ७ ८ ९ -->
     <Row>

@@ -6,8 +6,11 @@
     android:keyWidth="10%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
-    android:keyHeight="55dp">
+    android:keyHeight="@dimen/keyHeight">
     <!-- todo dimension -->
+
+    <Row>
+    </Row>
 
     <Row>
         <Key android:keyLabel="1" android:keyEdgeFlags="left" android:codes="49"/>

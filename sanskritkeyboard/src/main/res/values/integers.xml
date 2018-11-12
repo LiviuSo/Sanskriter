@@ -9,6 +9,7 @@
     <integer name="keycode_space">32</integer>
     <integer name="keycode_switch">-11</integer>
     <integer name="keycode_icon">-12</integer>
+    <integer name="keycode_keyboard_back">-12</integer>
 
     <integer name="size_key_popup_height">100</integer>
     <integer name="size_key_popup_width">80</integer>

@@ -3,8 +3,9 @@
     android:keyWidth="10%p"
     android:horizontalGap="0px"
     android:verticalGap="0px"
-    android:keyHeight="55dp">
+    android:keyHeight="@dimen/keyHeight">
 
+    <Row></Row>
 
     <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) ह ऽ ।(॥) -->
     <Row>

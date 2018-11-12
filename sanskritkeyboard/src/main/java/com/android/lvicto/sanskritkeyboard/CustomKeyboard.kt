@@ -132,12 +132,21 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 showPopup(this, this.layout!!, R.layout.keyboard_switch, getKeyRect(primaryCode))
             }
             Keycode.QWERTY_SYM.code -> {
-                if(kv.keyboard == keyboardQwerty) {
-                    kv.keyboard = keyboardQwertySym
-                } else if(kv.keyboard == keyboardSa) {
-                    kv.keyboard = keyboardSaSym
-                } else {
-                    // nothing
+                when {
+                    kv.keyboard == keyboardQwerty -> kv.keyboard = keyboardQwertySym
+                    kv.keyboard == keyboardSa -> kv.keyboard = keyboardSaSym
+                    else -> {
+                        // nothing
+                    }
+                }
+            }
+            Keycode.BACK.code -> {
+                when {
+                    kv.keyboard == keyboardQwertySym -> kv.keyboard = keyboardQwerty
+                    kv.keyboard == keyboardSaSym -> kv.keyboard = keyboardSa
+                    else -> {
+                        // nothing
+                    }
                 }
             }
             else -> {
@@ -146,12 +155,12 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                     code = toUpperCase(code)
                 }
                 ic.commitText(valueOf(code), 1)
-                if(kv.keyboard == keyboardQwertySym) {
-                    kv.keyboard = keyboardQwerty
-                } else if(kv.keyboard == keyboardSaSym) {
-                    kv.keyboard = keyboardSa
-                } else {
-                    // nothing
+                when {
+                    kv.keyboard == keyboardQwertySym -> kv.keyboard = keyboardQwerty
+                    kv.keyboard == keyboardSaSym -> kv.keyboard = keyboardSa
+                    else -> {
+                        // nothing
+                    }
                 }
             }
         }
@@ -164,7 +173,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 || primaryCode == Keycode.SANSKRIT_NUM.code
                 || primaryCode == Keycode.SPACE.code
                 || primaryCode == Keycode.SHIFT.code
-                || primaryCode == Keycode.DELETE.code)
+                || primaryCode == Keycode.DELETE.code
+                || primaryCode == Keycode.BACK.code)
     }
 
     override fun onRelease(primaryCode: Int) {
@@ -324,6 +334,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         Keycode.SANSKRIT_NUM.code = context.resources.getInteger(R.integer.keycode_sa_dg)
         Keycode.SPACE.code = context.resources.getInteger(R.integer.keycode_space)
         Keycode.KB.code = context.resources.getInteger(R.integer.keycode_switch)
+        Keycode.BACK.code = context.resources.getInteger(R.integer.keycode_keyboard_back)
 
         keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width) // todo: investigate
         keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)
@@ -342,7 +353,8 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         QWERTY_SYM(0),
         SANSKRIT_NUM(0),
         SPACE(0),
-        KB(0)
+        KB(0),
+        BACK(0)
     }
 }
 
