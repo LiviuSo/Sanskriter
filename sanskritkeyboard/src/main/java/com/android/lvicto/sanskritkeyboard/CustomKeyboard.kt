@@ -5,6 +5,7 @@ import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
+import android.os.Build
 import android.support.annotation.LayoutRes
 import android.util.Log
 import android.view.Gravity
@@ -238,8 +239,29 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 }
             }
         }
-        popup.showAtLocation(parent, Gravity.END and Gravity.BOTTOM, rect[0] + rect[2], rect[1] - keyPopupHeight) // todo generalize
-        popup.update(keyPopupWidth, keyPopupHeight)
+        val density = resources.displayMetrics.density // todo refactor to a method
+        val scaledWidth = (keyPopupWidth * density).toInt()
+        val scaledHeight = (keyPopupHeight * density).toInt()
+        val popUpRect = calculatePopUpCoords(rect, parent, scaledWidth, scaledHeight)
+        Log.d(LOG_TAG, "${popUpRect[0]} ${popUpRect[1]}")
+        popup.showAtLocation(parent, Gravity.START and Gravity.TOP, popUpRect[0], popUpRect[1]) // todo generalize
+        if(Build.VERSION.SDK_INT < 23) {
+            popup.update(scaledWidth, scaledHeight)
+        }
+    }
+
+    private fun calculatePopUpCoords(keyRect: IntArray, parent: View, popUpWidth: Int, popUpHeight: Int): IntArray {
+        val parentX = parent.x // todo correct (see zombie module)
+        val parentWidth = parent.width
+        var x = keyRect[0]
+        var y = keyRect[0] - keyRect[3] - popUpHeight
+        if(x <= parentX) {
+            x = keyRect[0] + keyRect[2]
+        }
+        if(y + popUpWidth >= parentWidth) {
+            y = keyRect[1] - popUpWidth
+        }
+        return intArrayOf(x, y)
     }
 
     private fun setKeyboard(kb: KeyboardLang, save: Boolean = true) {
@@ -268,11 +290,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
      */
     private fun getKeyRect(keyCode: Int): IntArray {
         val key = getKeyWithCode(keyCode)
-        val keyboardCoords = IntArray(2)
-        kv.getLocationOnScreen(keyboardCoords)
         val rect = intArrayOf(key.x, key.y, key.width, key.height)
-        Log.d(LOG_TAG, "root view: ${kv.rootView.x}, ${kv.rootView.y}, ${kv.rootView.width}, ${kv.rootView.height}")
-        Log.d(LOG_TAG, "kv: ${kv.x}, ${kv.y}, ${kv.width}, ${kv.height}")
         Log.d(LOG_TAG, "key: ${rect[0]}, ${rect[1]}, ${rect[2]}, ${rect[3]}")
         return rect
     }

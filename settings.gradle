@@ -1,1 +1,1 @@
-include ':app', ':sanskritkeyboard', ':commons'
+include ':app', ':sanskritkeyboard', ':commons', ':zombie'

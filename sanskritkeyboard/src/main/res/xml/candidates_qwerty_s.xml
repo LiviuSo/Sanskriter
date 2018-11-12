@@ -8,9 +8,9 @@
 
     <!-- ś ṣ ș -->
     <Row android:horizontalGap="1dp">
-        <Key android:keyLabel="ś" android:codes="347" android:keyEdgeFlags="left"/>
-        <Key android:keyLabel="ṣ" android:codes="7779"/>
-        <Key android:keyLabel="ș" android:codes="537"  android:keyEdgeFlags="right"/>
+        <Key android:keyLabel="ș" android:codes="537"  android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="ś" android:codes="347" />
+        <Key android:keyLabel="ṣ" android:codes="7779" android:keyEdgeFlags="right"/>
     </Row>
 
 </Keyboard>

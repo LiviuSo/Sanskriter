@@ -10,6 +10,6 @@
     <integer name="keycode_switch">-11</integer>
     <integer name="keycode_icon">-12</integer>
 
-    <integer name="size_key_popup_height">420</integer>
-    <integer name="size_key_popup_width">410</integer>
+    <integer name="size_key_popup_height">100</integer>
+    <integer name="size_key_popup_width">80</integer>
 </resources>
