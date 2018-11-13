@@ -20,7 +20,8 @@
                   android:layout_marginBottom="8dp"
                   android:layout_marginTop="8dp"
                   android:singleLine="false"
-                  android:gravity="top|start"/>
+                  android:gravity="top|start"
+                android:imeOptions="actionDone"/>
 
         <EditText android:layout_width="match_parent"
                   android:layout_height="100dp"
@@ -30,7 +31,8 @@
                   android:layout_marginBottom="8dp"
                   android:layout_marginTop="8dp"
                   android:singleLine="false"
-                  android:gravity="top|start"/>
+                  android:gravity="top|start"
+            android:imeOptions="actionNext"/>
 
         <EditText android:layout_width="match_parent"
                   android:layout_height="100dp"
@@ -40,7 +42,8 @@
                   android:layout_marginBottom="8dp"
                   android:layout_marginTop="8dp"
                   android:singleLine="false"
-                  android:gravity="top|start"/>
+                  android:gravity="top|start"
+            android:imeOptions="actionGo"/>
 
         <EditText android:layout_width="match_parent"
                   android:layout_height="100dp"
@@ -50,7 +53,8 @@
                   android:layout_marginBottom="8dp"
                   android:layout_marginTop="8dp"
                   android:singleLine="false"
-                  android:gravity="top|start"/>
+                  android:gravity="top|start"
+            android:imeOptions="actionSearch"/>
 
         <EditText android:layout_width="match_parent"
                   android:layout_height="100dp"
@@ -60,7 +64,8 @@
                   android:layout_marginBottom="8dp"
                   android:layout_marginTop="8dp"
                   android:singleLine="false"
-                  android:gravity="top|start"/>
+                  android:gravity="top|start"
+                    android:imeOptions="actionSend"/>
 
         <FrameLayout android:layout_width="match_parent"
                      android:layout_height="0dp"

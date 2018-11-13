@@ -126,7 +126,32 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 kv.invalidateAllKeys()
             }
             Keycode.DONE.code -> {
-                ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                val imeOptions = currentInputEditorInfo.imeOptions
+                when (imeOptions) {
+                    EditorInfo.IME_ACTION_DONE -> {
+//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, " EditorInfo.IME_ACTION_DONE")
+                    }
+                    EditorInfo.IME_ACTION_NEXT -> {
+//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NEXT")
+                    }
+                    EditorInfo.IME_ACTION_GO -> {
+//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_GO")
+                    }
+                    EditorInfo.IME_ACTION_SEND -> {
+//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_SEND")
+                    }
+                    EditorInfo.IME_ACTION_SEARCH-> {
+//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_SEARCH")
+                    }
+                    else -> {
+                        Log.d(LOG_TAG, "EditorInfo.UNKNOWN")
+                    }
+                }
             }
             Keycode.KB.code -> {
                 showPopup(this, this.layout!!, R.layout.keyboard_switch, getKeyRect(primaryCode))
