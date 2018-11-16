@@ -6,6 +6,7 @@ import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
 import android.os.Build
+import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.util.Log
 import android.view.Gravity
@@ -127,26 +128,44 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             }
             Keycode.DONE.code -> {
                 val imeOptions = currentInputEditorInfo.imeOptions
-                when (imeOptions) {
-                    EditorInfo.IME_ACTION_DONE -> {
-//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
-                        Log.d(LOG_TAG, " EditorInfo.IME_ACTION_DONE")
+                when {
+                    imeOptions == 0 -> {
+                        Log.d(LOG_TAG, " EditorInfo.IME_ACTION_UNSPECIFIED")
                     }
-                    EditorInfo.IME_ACTION_NEXT -> {
-//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
-                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NEXT")
+                    EditorInfo.IME_ACTION_PREVIOUS and imeOptions == EditorInfo.IME_ACTION_PREVIOUS -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_NAVIGATE_PREVIOUS))
+                            Log.d(LOG_TAG, "EditorInfo.IME_ACTION_PREVIOUS")
+                        } else {
+                            Log.d(LOG_TAG, "EditorInfo.IME_ACTION_PREVIOUS unavailable")
+                        }
                     }
-                    EditorInfo.IME_ACTION_GO -> {
-//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
-                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_GO")
+                    EditorInfo.IME_ACTION_DONE and imeOptions == EditorInfo.IME_ACTION_DONE -> {
+                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_DONE")
                     }
-                    EditorInfo.IME_ACTION_SEND -> {
-//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                    EditorInfo.IME_ACTION_NEXT and imeOptions == EditorInfo.IME_ACTION_NEXT -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_NAVIGATE_NEXT))
+                            Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NEXT")
+                        } else {
+                            Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NEXT unavailable")
+                        }
+                    }
+                    EditorInfo.IME_ACTION_SEND and imeOptions == EditorInfo.IME_ACTION_SEND -> {
+                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
                         Log.d(LOG_TAG, "EditorInfo.IME_ACTION_SEND")
                     }
-                    EditorInfo.IME_ACTION_SEARCH-> {
-//                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+                    EditorInfo.IME_ACTION_SEARCH and imeOptions == EditorInfo.IME_ACTION_SEARCH -> {
+                        ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, EditorInfo.IME_ACTION_SEARCH))
                         Log.d(LOG_TAG, "EditorInfo.IME_ACTION_SEARCH")
+                    }
+                    EditorInfo.IME_ACTION_GO and imeOptions == EditorInfo.IME_ACTION_GO -> {
+                        ic.sendKeyEvent(KeyEvent(KeyEvent.KEYCODE_SEARCH, KeyEvent.KEYCODE_ENTER))
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_GO")
+                    }
+                    EditorInfo.IME_ACTION_NONE and imeOptions == EditorInfo.IME_ACTION_NONE -> {
+                        Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NONE")
                     }
                     else -> {
                         Log.d(LOG_TAG, "EditorInfo.UNKNOWN")
@@ -191,7 +210,14 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         }
     }
 
+    private val longPress = Runnable {
+        Log.d(LOG_TAG, "Long press")
+    }
+
+    private val handler = Handler()
+
     override fun onPress(primaryCode: Int) {
+        handler.postDelayed(longPress, 900)
         kv.isPreviewEnabled = !(primaryCode == Keycode.KB.code
                 || primaryCode == Keycode.DONE.code
                 || primaryCode == Keycode.QWERTY_SYM.code
@@ -200,9 +226,11 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
                 || primaryCode == Keycode.SHIFT.code
                 || primaryCode == Keycode.DELETE.code
                 || primaryCode == Keycode.BACK.code)
+        // detect long press
     }
 
     override fun onRelease(primaryCode: Int) {
+        handler.removeCallbacks(longPress)
         // release SHIFT after a char pressed
         if (isCaps && !(primaryCode == Keycode.KB.code
                         || primaryCode == Keycode.DONE.code

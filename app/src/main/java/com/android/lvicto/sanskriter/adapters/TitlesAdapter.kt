@@ -16,9 +16,12 @@ import java.util.ArrayList
 
 class TitlesAdapter internal constructor(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    lateinit var helper: TitlesProvider
+
     var data: ArrayList<String>? = null
         set(value) {
             field = value
+            helper = TitlesProvider(value!!)
             notifyDataSetChanged()
         }
 
@@ -54,7 +57,6 @@ class TitlesAdapter internal constructor(private val context: Context) : Recycle
 
     private fun getClickListenerChapter(position: Int) = View.OnClickListener {
         Toast.makeText(context, "Tapped: ${data!![position]}", Toast.LENGTH_SHORT).show()
-        val helper = TitlesProvider(data!!)
         // collapse if already expanded or just expand
         if (helper.isExpanded(position)) {
             helper.collapseData(position)

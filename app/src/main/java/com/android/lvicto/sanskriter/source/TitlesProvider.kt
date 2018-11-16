@@ -9,6 +9,8 @@ import kotlin.collections.ArrayList
  */
 class TitlesProvider(private var titles: ArrayList<String>) { // todo: write unit tests
 
+    private var currentlyExpanded: Int = -1
+
     fun expandData(position: Int) {
         assert(position >= 0 && position < titles.size)
 
@@ -56,8 +58,6 @@ class TitlesProvider(private var titles: ArrayList<String>) { // todo: write uni
     }
 
     companion object {
-        private var currentlyExpanded: Int = -1
-
         fun generateChapterTitles(): ArrayList<String> {
             val titles = arrayListOf<String>() // todo find how to access layered it with(arrayListOf()) { (0..2).forEach() { ....}}
             (1..sectionTitles.keys.size).forEach {
