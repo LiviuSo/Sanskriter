@@ -75,7 +75,16 @@ class TitlesProvider(private var titles: ArrayList<String>) { // todo: write uni
                         R.string.section_01_06,
                         R.string.section_01_07,
                         R.string.section_01_08,
-                        R.string.section_01_09)
+                        R.string.section_01_09),
+                1 to arrayListOf(R.string.section_02_01,
+                        R.string.section_02_02,
+                        R.string.section_02_03,
+                        R.string.section_02_04,
+                        R.string.section_02_05,
+                        R.string.section_02_06,
+                        R.string.section_02_07,
+                        R.string.section_02_08,
+                        R.string.section_02_09)
         )
     }
 
