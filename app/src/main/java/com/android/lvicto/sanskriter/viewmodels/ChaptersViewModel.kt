@@ -1,17 +1,21 @@
 package com.android.lvicto.sanskriter.viewmodels
 
 
-import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.android.lvicto.sanskriter.repositories.ChaptersRepository
+import com.android.lvicto.sanskriter.MyApplication.Companion.application
+import com.android.lvicto.sanskriter.repositories.BookContentRepository
+import model.BookContent
 
 class ChaptersViewModel : ViewModel() {
 
-    private val repository: ChaptersRepository = ChaptersRepository()
+    private val repository: BookContentRepository = BookContentRepository()
 
-    internal val chapterTitles: LiveData<ArrayList<String>>
+    val bookContents = MutableLiveData<BookContent>()
 
     init {
-        chapterTitles = repository.chapters
+        repository.readBookContents(application).subscribe {
+            bookContents.value = it
+        }.dispose()
     }
 }

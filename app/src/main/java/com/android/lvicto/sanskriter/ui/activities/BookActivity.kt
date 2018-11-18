@@ -6,9 +6,14 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.TitlesAdapter
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
+import com.google.gson.Gson
+import model.BookContent
+import java.io.InputStreamReader
+import java.lang.StringBuilder
 
 class BookActivity : AppCompatActivity() {
 
@@ -28,12 +33,21 @@ class BookActivity : AppCompatActivity() {
         // init RecyclerView
         recyclerView = this.findViewById(R.id.chapters)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = TitlesAdapter(this)
 
         // init viewmodel
         viewModel = ViewModelProviders.of(this).get(ChaptersViewModel::class.java)
-        viewModel.chapterTitles.observe(this, Observer<ArrayList<String>> { titles ->
-            (recyclerView.adapter as TitlesAdapter).data = titles!!
+        viewModel.bookContents.observe(this, Observer<BookContent> { bk ->
+            recyclerView.adapter = TitlesAdapter(this, bk!!)
         })
+    }
+
+    private fun readBookContents(context: Context): BookContent {
+        val gson = Gson()
+        val inputStreamReader = InputStreamReader(context.assets.open("json/coulson_contents.json"))
+        val stringBuilder = StringBuilder()
+        inputStreamReader.forEachLine {
+            stringBuilder.append(it)
+        }
+        return gson.fromJson(stringBuilder.toString(), BookContent::class.java)
     }
 }

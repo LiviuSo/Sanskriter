@@ -10,51 +10,40 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.source.TitlesProvider
-import com.android.lvicto.sanskriter.ui.activities.PageActivity
+import com.android.lvicto.sanskriter.source.TitlesHelper
 import com.android.lvicto.sanskriter.ui.activities.PagesActivity
+import model.BookContent
 import java.util.ArrayList
 
-class TitlesAdapter internal constructor(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TitlesAdapter internal constructor(private val context: Context, bookContent: BookContent) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    lateinit var helper: TitlesProvider
+    private var helper: TitlesHelper = TitlesHelper(bookContent)
+    private var data: ArrayList<String>
 
-    var data: ArrayList<String>? = null
-        set(value) {
-            field = value
-            helper = TitlesProvider(value!!)
-            notifyDataSetChanged()
-        }
+    init {
+        data = helper.titles
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val item = LayoutInflater.from(parent.context).inflate(R.layout.chapter_title, parent, false)
         return ChapterTitleView(item)
     }
 
-    override fun getItemCount(): Int = if (data != null) {
-        data!!.size
-    } else {
-        0
-    }
+    override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (data != null) {
-            (holder as ChapterTitleView).bindData(data!![position],
-                    getItemViewType(position),
-                    getClickListenerChapter(position),
-                    getClickListenerTitle())
-        }
+        (holder as ChapterTitleView).bindData(data[position],
+                getItemViewType(position),
+                getClickListenerChapter(position),
+                getClickListenerTitle())
     }
 
     override fun getItemViewType(position: Int): Int =
-            if (data != null) {
-                if (data!![position].toLowerCase().contains("Chapter", true))
-                    TYPE_CHAPTER
-                else
-                    TYPE_SECTION
-            } else {
-                TYPE_NONE
-            }
+            if (data[position].toLowerCase().contains("Chapter", true))
+                TYPE_CHAPTER
+            else
+                TYPE_SECTION
 
     private fun getClickListenerChapter(position: Int) = View.OnClickListener {
         Toast.makeText(context, "Tapped: ${data!![position]}", Toast.LENGTH_SHORT).show()
@@ -71,7 +60,7 @@ class TitlesAdapter internal constructor(private val context: Context) : Recycle
     private fun getClickListenerTitle() = View.OnClickListener {
         // Toast.makeText(context, "Tapped section", Toast.LENGTH_SHORT).show() // todo remove
         with(context) {
-//            startActivity(Intent(this, PageActivity::class.java))
+            //            startActivity(Intent(this, PageActivity::class.java))
             startActivity(Intent(this, PagesActivity::class.java))
         }
     }

@@ -2,28 +2,6 @@
     <string name="app_name">Sanskriter</string>
 
     <string name="chapter">Chapter</string>
-
-    <!--todo: make an array-->
-    <string name="section_01_01">The n\u0101gar\u012b script</string>
-    <string name="section_01_02">Vowels, anusvara, visarga</string>
-    <string name="section_01_03">Consonants, stops, semivowels, sibilants, h</string>
-    <string name="section_01_04">Conjunct consonants</string>
-    <string name="section_01_05">Other signs</string>
-    <string name="section_01_06">Numerals</string>
-    <string name="section_01_07">Transliteration</string>
-    <string name="section_01_08">Prosody</string>
-    <string name="section_01_09">List of conjunct consonants</string>
-
-    <string name="section_02_01">The n\u0101gar\u012b script</string>
-    <string name="section_02_02">Vowels, anusvara, visarga</string>
-    <string name="section_02_03">Consonants, stops, semivowels, sibilants, h</string>
-    <string name="section_02_04">Conjunct consonants</string>
-    <string name="section_02_05">Other signs</string>
-    <string name="section_02_06">Numerals</string>
-    <string name="section_02_07">Transliteration</string>
-    <string name="section_02_08">Prosody</string>
-    <string name="section_02_09">List of conjunct consonants</string>
-
     <string name="saveWord">Save</string>
 
 </resources>

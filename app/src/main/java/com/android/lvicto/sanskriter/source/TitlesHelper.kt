@@ -2,14 +2,20 @@ package com.android.lvicto.sanskriter.source
 
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
-import kotlin.collections.ArrayList
+import model.BookContent
 
 /**
  * Returns the titles/headers of the chapters/sections
  */
-class TitlesProvider(private var titles: ArrayList<String>) { // todo: write unit tests
+class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
 
+    lateinit var titles: ArrayList<String>
+    private var sectionTitles: Map<Int, Array<String>> = bookContent.sections
     private var currentlyExpanded: Int = -1
+
+    init {
+        generateChapterTitles()
+    }
 
     fun expandData(position: Int) {
         assert(position >= 0 && position < titles.size)
@@ -26,9 +32,11 @@ class TitlesProvider(private var titles: ArrayList<String>) { // todo: write uni
         // remove each corresponding subsection title
         val sections = sectionTitles[positionToExpand]
         if (positionToExpand < titles.size - 1) {
-            titles.addAll(positionToExpand + 1, sections!!.map { MyApplication.application.getString(it) })
+            titles.addAll(positionToExpand + 1, sections!!.toList())
         } else {
-            titles.addAll(sections!!.map { MyApplication.application.getString(it) })
+            sections!!.forEach {
+                titles.add(it)
+            }
         }
         currentlyExpanded = positionToExpand
     }
@@ -57,35 +65,11 @@ class TitlesProvider(private var titles: ArrayList<String>) { // todo: write uni
         return buffer.toString()
     }
 
-    companion object {
-        fun generateChapterTitles(): ArrayList<String> {
-            val titles = arrayListOf<String>() // todo find how to access layered it with(arrayListOf()) { (0..2).forEach() { ....}}
+    fun generateChapterTitles(): ArrayList<String> {
+            titles = arrayListOf() // todo find how to access layered it with(arrayListOf()) { (0..2).forEach() { ....}}
             (1..sectionTitles.keys.size).forEach {
                 titles.add("${MyApplication.application.getString(R.string.chapter)} $it")
             }
             return titles
         }
-
-        private var sectionTitles = sortedMapOf(
-                0 to arrayListOf(R.string.section_01_01,
-                        R.string.section_01_02,
-                        R.string.section_01_03,
-                        R.string.section_01_04,
-                        R.string.section_01_05,
-                        R.string.section_01_06,
-                        R.string.section_01_07,
-                        R.string.section_01_08,
-                        R.string.section_01_09),
-                1 to arrayListOf(R.string.section_02_01,
-                        R.string.section_02_02,
-                        R.string.section_02_03,
-                        R.string.section_02_04,
-                        R.string.section_02_05,
-                        R.string.section_02_06,
-                        R.string.section_02_07,
-                        R.string.section_02_08,
-                        R.string.section_02_09)
-        )
-    }
-
 }
