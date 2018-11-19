@@ -2,7 +2,8 @@ package com.android.lvicto.sanskriter.source
 
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
-import model.BookContent
+import com.android.lvicto.sanskriter.data.BookContent
+import com.android.lvicto.sanskriter.data.BookSection
 
 /**
  * Returns the titles/headers of the chapters/sections
@@ -10,7 +11,7 @@ import model.BookContent
 class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
 
     lateinit var titles: ArrayList<String>
-    private var sectionTitles: Map<Int, Array<String>> = bookContent.sections
+    private var sectionTitles: Map<Int, List<BookSection>> = bookContent.sections
     private var currentlyExpanded: Int = -1
 
     init {
@@ -32,10 +33,10 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
         // remove each corresponding subsection title
         val sections = sectionTitles[positionToExpand]
         if (positionToExpand < titles.size - 1) {
-            titles.addAll(positionToExpand + 1, sections!!.toList())
+            titles.addAll(positionToExpand + 1, sections!!.map { it.name })
         } else {
             sections!!.forEach {
-                titles.add(it)
+                titles.add(it.name)
             }
         }
         currentlyExpanded = positionToExpand

@@ -1,39 +1,73 @@
 {
-  "chaptersCount": 2,
+  "chaptersCount": 1,
   "sections": {
     "0": [
-      "The nāgarī script",
-      "Vowels, anusvara, visarga",
-      "Consonants, stops, semivowels, sibilants, h",
-      "Conjunct consonants",
-      "Other signs",
-      "Numerals",
-      "Transliteration",
-      "Prosody",
-      "List of conjunct consonants"
-    ],
-    "1": [
-      "The nāgarī script",
-      "Vowels, anusvara, visarga",
-      "Consonants, stops, semivowels, sibilants, h",
-      "Conjunct consonants",
-      "Other signs",
-      "Numerals",
-      "Transliteration",
-      "Prosody",
-      "List of conjunct consonants"
-    ],
-    "2": [
-      "The nāgarī script",
-      "Vowels, anusvara, visarga",
-      "Consonants, stops, semivowels, sibilants, h",
-      "Conjunct consonants",
-      "Other signs",
-      "Numerals",
-      "Transliteration",
-      "Prosody",
-      "List of conjunct consonants"
+      {
+        "name": "The nāgarī script",
+        "pages": [
+          "sections/relativitate.png",
+          "sections/sexy-butt.png",
+          "sobi-nike.png"
+        ]
+      },
+      {
+        "name": "Vowels, anusvara, visarga",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "Consonants, stops, semivowels, sibilants, h",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "Conjunct consonants",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "Other signs",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "Numerals",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "Transliteration",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "Prosody",
+        "pages": [
+          "",
+          ""
+        ]
+      },
+      {
+        "name": "List of conjunct consonants",
+        "pages": [
+          "",
+          ""
+        ]
+      }
     ]
   },
   "title": "Coulson"
 }
+

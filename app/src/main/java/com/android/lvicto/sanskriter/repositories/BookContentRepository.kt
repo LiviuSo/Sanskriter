@@ -3,7 +3,7 @@ package com.android.lvicto.sanskriter.repositories
 import android.content.Context
 import com.google.gson.Gson
 import io.reactivex.Observable
-import model.BookContent
+import com.android.lvicto.sanskriter.data.BookContent
 import java.io.InputStreamReader
 import java.lang.StringBuilder
 

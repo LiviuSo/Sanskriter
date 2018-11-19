@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.repositories.BookContentRepository
-import model.BookContent
+import com.android.lvicto.sanskriter.data.BookContent
 
 class ChaptersViewModel : ViewModel() {
 

@@ -12,7 +12,7 @@ import android.widget.Toast
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.source.TitlesHelper
 import com.android.lvicto.sanskriter.ui.activities.PagesActivity
-import model.BookContent
+import com.android.lvicto.sanskriter.data.BookContent
 import java.util.ArrayList
 
 class TitlesAdapter internal constructor(private val context: Context, bookContent: BookContent) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
