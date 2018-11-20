@@ -11,7 +11,7 @@ import com.android.lvicto.sanskriter.data.BookSection
 class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
 
     lateinit var titles: ArrayList<String>
-    private var sectionTitles: Map<Int, List<BookSection>> = bookContent.sections
+    var sectionTitles: Map<Int, List<BookSection>> = bookContent.sections
     private var currentlyExpanded: Int = -1
 
     init {
@@ -67,10 +67,19 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
     }
 
     fun generateChapterTitles(): ArrayList<String> {
-            titles = arrayListOf() // todo find how to access layered it with(arrayListOf()) { (0..2).forEach() { ....}}
-            (1..sectionTitles.keys.size).forEach {
-                titles.add("${MyApplication.application.getString(R.string.chapter)} $it")
-            }
-            return titles
+        titles = arrayListOf() // todo find how to access layered it with(arrayListOf()) { (0..2).forEach() { ....}}
+        (1..sectionTitles.keys.size).forEach {
+            titles.add("${MyApplication.application.getString(R.string.chapter)} $it")
         }
+        return titles
+    }
+
+    fun getSectionByTitle(title: String): BookSection? {
+        if(currentlyExpanded == -1) {
+            return null
+        }
+        return sectionTitles[currentlyExpanded]!!.first {
+            it.name == title
+        }
+    }
 }

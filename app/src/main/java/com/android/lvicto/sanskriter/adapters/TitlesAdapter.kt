@@ -2,6 +2,7 @@ package com.android.lvicto.sanskriter.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.service.quicksettings.Tile
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.source.TitlesHelper
 import com.android.lvicto.sanskriter.ui.activities.PagesActivity
 import com.android.lvicto.sanskriter.data.BookContent
+import com.android.lvicto.sanskriter.data.BookSection
 import java.util.ArrayList
 
 class TitlesAdapter internal constructor(private val context: Context, bookContent: BookContent) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -36,7 +38,7 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
         (holder as ChapterTitleView).bindData(data[position],
                 getItemViewType(position),
                 getClickListenerChapter(position),
-                getClickListenerTitle())
+                getClickListenerTitle(data[position]))
     }
 
     override fun getItemViewType(position: Int): Int =
@@ -46,7 +48,7 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
                 TYPE_SECTION
 
     private fun getClickListenerChapter(position: Int) = View.OnClickListener {
-        Toast.makeText(context, "Tapped: ${data!![position]}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Tapped: ${data[position]}", Toast.LENGTH_SHORT).show()
         // collapse if already expanded or just expand
         if (helper.isExpanded(position)) {
             helper.collapseData(position)
@@ -57,11 +59,12 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
         Log.d(LOG_TAG, "new com.example.lvicto.coultersanskrit.data: $helper")
     }
 
-    private fun getClickListenerTitle() = View.OnClickListener {
+    private fun getClickListenerTitle(title: String) = View.OnClickListener {
         // Toast.makeText(context, "Tapped section", Toast.LENGTH_SHORT).show() // todo remove
         with(context) {
-            //            startActivity(Intent(this, PageActivity::class.java))
-            startActivity(Intent(this, PagesActivity::class.java))
+            val intent = Intent(context, PagesActivity::class.java)
+            intent.putExtra("section", helper.getSectionByTitle(title))
+            startActivity(intent)
         }
     }
 

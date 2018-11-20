@@ -7,10 +7,14 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import com.android.lvicto.sanskriter.R
+import com.android.lvicto.sanskriter.data.BookSection
 import com.android.lvicto.sanskriter.ui.fragments.PageFragment
 
 class PagesActivity : FragmentActivity() {
+
+    private val LOG_TAG = "PagesActivity"
 
     private lateinit var mPager: ViewPager
 
@@ -19,9 +23,13 @@ class PagesActivity : FragmentActivity() {
         setContentView(R.layout.layout_page)
 
         mPager = findViewById(R.id.vpPages)
-        mPager.adapter = PagesAdapter(intArrayOf(R.drawable.ch03_nominal_senteces,
-                R.drawable.ch03_nominal_senteces),
-                this.supportFragmentManager)
+        val section = intent.getParcelableExtra<BookSection>("section")
+        val pages = Array(section.pages.size) {
+            section.pages[it]
+        }
+        mPager.adapter = PagesAdapter(pages, this.supportFragmentManager)
+
+//        Log.d(LOG_TAG, section.name)
     }
 
     override fun onBackPressed() {
@@ -35,7 +43,7 @@ class PagesActivity : FragmentActivity() {
         }
     }
 
-    class PagesAdapter(private val drawables: IntArray, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    class PagesAdapter(private val drawables: Array<String>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         override fun getItem(index: Int): Fragment {
             return PageFragment.newInstance(drawables[index])
         }
