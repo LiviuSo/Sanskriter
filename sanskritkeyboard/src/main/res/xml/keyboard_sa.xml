@@ -82,8 +82,8 @@
         <Key android:keyLabel="\u0932" android:codes="2354"/>
         <Key android:keyLabel="\u0935" android:codes="2357"/>
         <Key android:keyLabel="SPACE" android:keyWidth="25%p" android:isRepeatable="true" android:codes="@integer/keycode_space"/>
-        <Key android:keyLabel="Kb" android:codes="@integer/keycode_switch"/>
         <Key android:keyLabel="SM" android:codes="@integer/keycode_qwerty_sym"/>
+        <Key android:keyLabel="Kb" android:codes="@integer/keycode_switch"/>
         <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:keyWidth="15%p" android:codes="@integer/keycode_ac"/>
     </Row>
 

@@ -20,17 +20,17 @@
         <Key android:keyLabel="#" android:codes="35"/>
         <Key android:keyLabel="~" android:codes="120"/>
         <Key android:keyLabel="\u0022" android:codes="34"/>
-        <Key android:keyLabel="+" android:codes="43"/>
-        <Key android:keyLabel="-" android:codes="44"  android:keyEdgeFlags="right"/>
+        <Key android:keyLabel="\u003E" android:codes="62"/>
+        <Key android:keyLabel="\u003C" android:codes="60" android:keyEdgeFlags="right"/>
     </Row>
 
     <Row>
-        <Key android:keyLabel="*" android:codes="42"  android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="\u0027" android:codes="39" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="+" android:codes="43"/>
+        <Key android:keyLabel="*" android:codes="42"/>
         <Key android:keyLabel="=" android:codes="61"/>
         <Key android:keyLabel="(" android:codes="40"/>
         <Key android:keyLabel=")" android:codes="41"/>
-        <Key android:keyLabel="\u003E" android:codes="62"/>
-        <Key android:keyLabel="\u003C" android:codes="60"/>
         <Key android:keyLabel="[" android:codes="91"/>
         <Key android:keyLabel="]" android:codes="93"/>
         <Key android:keyLabel="{" android:codes="123"/>
