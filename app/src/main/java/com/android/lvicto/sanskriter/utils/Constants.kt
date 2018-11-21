@@ -16,9 +16,10 @@ object Constants {
         const val EXTRA_WORD_ID = "word_id"
         const val EXTRA_WORD = "EXTRA_WORD"
 
-
         const val REQUEST_CODE_ADD_WORD = 111
         const val REQUEST_CODE_EDIT_WORD = 112
+
+        const val EXTRA_SECTION = "section"
     }
 
     enum class SetupStep {

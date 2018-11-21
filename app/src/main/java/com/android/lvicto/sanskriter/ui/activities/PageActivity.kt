@@ -12,7 +12,7 @@ class PageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_page)
+        setContentView(R.layout.activity_pages)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar?.title = "${getString(R.string.chapter)} xxx" // todo retrieve the chapter name from previous activity

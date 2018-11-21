@@ -6,11 +6,12 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
-import android.support.v7.widget.Toolbar
-import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookSection
 import com.android.lvicto.sanskriter.ui.fragments.PageFragment
+import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_SECTION
 
 class PagesActivity : FragmentActivity() {
 
@@ -18,16 +19,38 @@ class PagesActivity : FragmentActivity() {
 
     private lateinit var mPager: ViewPager
 
+    private lateinit var titleBar: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_page)
+        setContentView(R.layout.activity_pages)
+
+        titleBar = findViewById(R.id.pagesTitle)
 
         mPager = findViewById(R.id.vpPages)
-        val section = intent.getParcelableExtra<BookSection>("section")
+        val section = intent.getParcelableExtra<BookSection>(EXTRA_SECTION)
         val pages = Array(section.pages.size) {
             section.pages[it]
         }
         mPager.adapter = PagesAdapter(pages, this.supportFragmentManager)
+        mPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(p0: Int) {
+            }
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
+            }
+
+            override fun onPageSelected(currentPosition: Int) {
+                titleBar.text = mPager.adapter!!.getPageTitle(currentPosition)
+            }
+        })
+        val currentItem = mPager.currentItem
+        titleBar.text = (mPager.adapter as PagesAdapter).getPageTitle(currentItem)
+
+        val btnHome = findViewById<Button>(R.id.bookHome)
+        btnHome.setOnClickListener {
+            finish()
+        }
 
 //        Log.d(LOG_TAG, section.name)
     }
@@ -44,6 +67,7 @@ class PagesActivity : FragmentActivity() {
     }
 
     class PagesAdapter(private val drawables: Array<String>, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+
         override fun getItem(index: Int): Fragment {
             return PageFragment.newInstance(drawables[index])
         }
@@ -53,7 +77,7 @@ class PagesActivity : FragmentActivity() {
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return "section $position"
+            return "Page ${position+1}"
         }
     }
 }
