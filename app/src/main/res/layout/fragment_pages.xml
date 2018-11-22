@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.PageActivity">
-
-    <!--<com.jsibbold.zoomage.ZoomageView-->
-        <!--android:id="@+id/textBookCut"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--app:zoomage_animateOnReset="true"-->
-        <!--app:zoomage_autoCenter="true"-->
-        <!--app:zoomage_autoResetMode="UNDER"-->
-        <!--app:zoomage_maxScale="8"-->
-        <!--app:zoomage_minScale="0.6"-->
-        <!--app:zoomage_restrictBounds="false"-->
-        <!--app:zoomage_translatable="true"-->
-        <!--app:zoomage_zoomable="true" />-->
+    tools:context=".ui.activities.PageZoomActivity">
 
     <ImageView
         android:layout_width="match_parent"

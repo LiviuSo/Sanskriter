@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activities.BookActivity"></activity>
         <activity
-            android:name=".ui.activities.PageActivity"
+            android:name=".ui.activities.PageZoomActivity"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.activities.AddModifyWordActivity"

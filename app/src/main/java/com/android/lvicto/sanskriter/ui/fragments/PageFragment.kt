@@ -5,15 +5,13 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.view.GestureDetectorCompat
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R
-import com.jsibbold.zoomage.ZoomageView
-import java.lang.Exception
+import com.android.lvicto.sanskriter.utils.AssetsHelper.getDrawableFromAssets
 
 class PageFragment : Fragment() {
 
@@ -42,15 +40,4 @@ class PageFragment : Fragment() {
     }
 
     // todo move into viewmodel and refactor to arch
-    private fun getDrawableFromAssets(context: Context, path: String): Drawable? =
-            if (path.isEmpty()) {
-                null
-            } else {
-                try {
-                    BitmapDrawable.createFromStream(context.assets.open(path), null)
-                } catch (e: Exception) {
-                    Log.d(LOG_TAG, "PageFragment::getDrawableFromAssets() + ${e.message}")
-                    null
-                }
-            }
 }
