@@ -5,65 +5,112 @@
       {
         "name": "The nāgarī script",
         "pages": [
-          "sections/relativitate.png",
-          "sections/sexy-butt.png",
-          "sections/sobi-nike.png"
+          "sections/ch01/nagari-script-01.png",
+          "sections/ch01/nagari-script-02.png",
+          "sections/ch01/nagari-script-03.png"
         ]
       },
       {
-        "name": "Vowels, anusvara, visarga",
+        "name": "Vowels",
         "pages": [
-          "",
-          ""
+          "sections/ch01/vowels-01.png",
+          "sections/ch01/vowels-02.png",
+          "sections/ch01/vowels-03.png",
+          "sections/ch01/vowels-04.png",
+          "sections/ch01/vowels-05.png"
+        ]
+      },
+      {
+        "name": "Anusvara",
+        "pages": [
+          "sections/ch01/anusvara-01.png"
+        ]
+      },
+      {
+        "name": "Visarga",
+        "pages": [
+          "sections/ch01/visarga-01.png"
         ]
       },
       {
         "name": "Consonants, stops, semivowels, sibilants, h",
         "pages": [
-          "",
-          ""
+          "sections/ch01/consonants-01.png",
+          "sections/ch01/consonants-02.png",
+          "sections/ch01/consonants-03.png",
+          "sections/ch01/consonants-04.png",
+          "sections/ch01/consonants-05.png",
+          "sections/ch01/consonants-06.png"
         ]
       },
       {
         "name": "Conjunct consonants",
         "pages": [
-          "",
-          ""
+          "sections/ch01/conjunct-consonants-01.png",
+          "sections/ch01/conjunct-consonants-02.png",
+          "sections/ch01/conjunct-consonants-03.png"
         ]
       },
       {
         "name": "Other signs",
         "pages": [
-          "",
-          ""
+          "sections/ch01/other-signs-01.png",
+          "sections/ch01/other-signs-02.png"
         ]
       },
       {
         "name": "Numerals",
         "pages": [
-          "",
-          ""
+          "sections/ch01/numerals-01.png"
+        ]
+      },
+      {
+        "name": "Names of the letters",
+        "pages": [
+          "sections/ch01/names-of-letters-01.png"
         ]
       },
       {
         "name": "Transliteration",
         "pages": [
-          "",
-          ""
+          "sections/ch01/transliteration-01.png"
         ]
       },
       {
         "name": "Prosody",
         "pages": [
-          "",
-          ""
+          "sections/ch01/prosody-01.png",
+          "sections/ch01/prosody-02.png"
         ]
       },
       {
         "name": "List of conjunct consonants",
         "pages": [
-          "",
-          ""
+          "sections/ch01/list-of-conjunct-cons-01.png",
+          "sections/ch01/list-of-conjunct-cons-02.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch01/exercises-01.png",
+          "sections/ch01/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch01/exercises-answers-01.png",
+          "sections/ch01/exercises-answers-02.png"
+        ]
+      }
+    ],
+    "1": [
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch02/exercises-answers-01.png",
+          "sections/ch02/exercises-answers-02.png"
         ]
       }
     ]
