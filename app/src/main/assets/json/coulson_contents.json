@@ -107,6 +107,93 @@
     ],
     "1": [
       {
+        "name": "Roots and verb classes",
+        "pages": [
+          "sections/ch02/roots-verb-classes-01.png"
+        ]
+      },
+      {
+        "name": "Vowel gradation",
+        "pages": [
+          "sections/ch02/vowel-gradation-01.png",
+          "sections/ch02/vowel-gradation-02.png"
+        ]
+      },
+      {
+        "name": "Verb classes I, IV and VI",
+        "pages": [
+          "sections/ch02/verb-classes-1-4-6-01.png"
+        ]
+      },
+      {
+        "name": "Conjugation of the present indicative",
+        "pages": [
+          "sections/ch02/present-indicative-01.png"
+        ]
+      },
+      {
+        "name": "Prefixes",
+        "pages": [
+          "sections/ch02/prefixes-01.png"
+        ]
+      },
+      {
+        "name": "Sandhi",
+        "pages": [
+          "sections/ch02/sandhi-01.png",
+          "sections/ch02/sandhi-02.png"
+        ]
+      },
+      {
+        "name": "Use of the sandhi grids",
+        "pages": [
+          "sections/ch02/use-of-sandhi-grids-01.png",
+          "sections/ch02/use-of-sandhi-grids-02.png",
+          "sections/ch02/use-of-sandhi-grids-03.png",
+          "sections/ch02/use-of-sandhi-grids-04.png"
+        ]
+      },
+      {
+        "name": "Sandhi of final h or r",
+        "pages": [
+          "sections/ch02/sandhi-of-final-h-r-01.png",
+          "sections/ch02/sandhi-of-final-h-r-02.png",
+          "sections/ch02/sandhi-of-final-h-r-03.png"
+        ]
+      },
+      {
+        "name" : "ca",
+        "pages": [
+          "sections/ch02/ca-01.png"
+        ]
+      },
+      {
+        "name" : "iva",
+        "pages": [
+          "sections/ch02/iva-01.png"
+        ]
+      },
+      {
+        "name" : "kim",
+        "pages": [
+          "sections/ch02/kim-01.png"
+        ]
+      },
+      {
+        "name" : "iti",
+        "pages": [
+          "sections/ch02/iti-01.png"
+        ]
+      },
+      {
+        "name" : "Exercises",
+        "pages": [
+          "sections/ch02/exercises-01.png",
+          "sections/ch02/exercises-02.png",
+          "sections/ch02/exercises-03.png"
+        ]
+      },
+      {
         "name": "Answers to exercises",
         "pages": [
           "sections/ch02/exercises-answers-01.png",
