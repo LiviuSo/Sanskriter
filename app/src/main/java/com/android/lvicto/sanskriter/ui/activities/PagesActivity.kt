@@ -24,15 +24,18 @@ class PagesActivity : FragmentActivity() {
     private lateinit var mPager: ViewPager
     private lateinit var titleBar: TextView
     private lateinit var pages: Array<String>
+    private lateinit var pageIndex: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pages)
 
-        titleBar = findViewById(R.id.pagesTitle) // todo add truncation for long titles
-
-        mPager = findViewById(R.id.vpPages)
         val section = intent.getParcelableExtra<BookSection>(EXTRA_SECTION)
+
+        titleBar = findViewById(R.id.tvPagesTitle) // todo add truncation for long titles
+        pageIndex = findViewById(R.id.tvPageIndex)
+        mPager = findViewById(R.id.vpPages)
+
         pages = Array(section.pages.size) {
             section.pages[it]
         }
@@ -46,11 +49,13 @@ class PagesActivity : FragmentActivity() {
 
             override fun onPageSelected(currentPosition: Int) {
                 titleBar.text = mPager.adapter!!.getPageTitle(currentPosition)
+                pageIndex.text = getPageIndex()
             }
         })
         titleBar.text = getPageTitle()
+        pageIndex.text = getPageIndex()
 
-        val btnHome = findViewById<Button>(R.id.bookHome)
+        val btnHome = findViewById<Button>(R.id.btnBookHome)
         btnHome.setOnClickListener {
             finish()
         }
@@ -65,6 +70,8 @@ class PagesActivity : FragmentActivity() {
             startActivity(intent)
         }
     }
+
+    private fun getPageIndex() = (mPager.currentItem + 1).toString()
 
     private fun getPageAsset(): String = pages[mPager.currentItem]
 
@@ -94,7 +101,7 @@ class PagesActivity : FragmentActivity() {
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            return "$sectionTitle: ${position+1}"
+            return sectionTitle
         }
     }
 }
