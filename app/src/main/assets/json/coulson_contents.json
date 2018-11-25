@@ -1,5 +1,5 @@
 {
-  "chaptersCount": 1,
+  "chaptersCount": 3,
   "sections": {
     "0": [
       {
@@ -198,6 +198,68 @@
         "pages": [
           "sections/ch02/exercises-answers-01.png",
           "sections/ch02/exercises-answers-02.png"
+        ]
+      }
+    ],
+    "2": [
+      {
+        "name" : "Nouns and pronouns...",
+        "pages": [
+          "sections/ch03/nouns-pronouns-01.png",
+          "sections/ch03/nouns-pronouns-02.png",
+          "sections/ch03/nouns-pronouns-03.png"
+        ]
+      },
+      {
+        "name" : "Irregularities of external sandhi",
+        "pages": [
+          "sections/ch03/irregularities-external-sandhi-01.png"
+        ]
+      },
+      {
+        "name" : "Nominal sentences",
+        "pages": [
+          "sections/ch03/nominal-sentences-01.png"
+        ]
+      },
+      {
+        "name" : "Word order",
+        "pages": [
+          "sections/ch03/word-order-01.png",
+          "sections/ch03/word-order-02.png"
+        ]
+      },
+      {
+        "name" : "iva",
+        "pages": [
+          "sections/ch03/iva-01.png"
+        ]
+      },
+      {
+        "name" : "Dvandva compounds",
+        "pages": [
+          "sections/ch03/dvandva-compounds-01.png",
+          "sections/ch03/dvandva-compounds-02.png"
+        ]
+      },
+      {
+        "name" : "Vocabulary",
+        "pages": [
+          "sections/ch03/vocabulary-01.png"
+        ]
+      },
+      {
+        "name" : "Exercises",
+        "pages": [
+          "sections/ch03/exercises-01.png",
+          "sections/ch03/exercises-02.png",
+        ]
+      },
+      {
+        "name" : "Answers to exercises",
+        "pages": [
+          "sections/ch03/exercises-answers-01.png",
+          "sections/ch03/exercises-answers-02.png"
         ]
       }
     ]
