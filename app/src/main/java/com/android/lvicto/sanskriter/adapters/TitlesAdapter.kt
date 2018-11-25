@@ -2,7 +2,6 @@ package com.android.lvicto.sanskriter.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.service.quicksettings.Tile
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.source.TitlesHelper
 import com.android.lvicto.sanskriter.ui.activities.PagesActivity
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.data.BookSection
 import java.util.ArrayList
 
 class TitlesAdapter internal constructor(private val context: Context, bookContent: BookContent) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -28,7 +26,10 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val item = LayoutInflater.from(parent.context).inflate(R.layout.chapter_title, parent, false)
+        val item = if(viewType == TYPE_CHAPTER)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_chapter_title, parent, false)
+        else
+            LayoutInflater.from(parent.context).inflate(R.layout.item_section_title, parent, false)
         return ChapterTitleView(item)
     }
 
@@ -41,6 +42,7 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
                 getClickListenerTitle(data[position]))
     }
 
+    // todo make string res
     override fun getItemViewType(position: Int): Int =
             if (data[position].toLowerCase().contains("Chapter", true))
                 TYPE_CHAPTER
@@ -78,7 +80,7 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
     class ChapterTitleView internal constructor(private val item: View) : RecyclerView.ViewHolder(item) {
         fun bindData(data: String, type: Int, listenerChapter: View.OnClickListener, listenerSection: View.OnClickListener) {
             item.apply {
-                findViewById<TextView>(R.id.name).apply {
+                findViewById<TextView>(R.id.tvItemName).apply {
                     text = data
                     if (type == TYPE_CHAPTER) {
                         setOnClickListener(listenerChapter)
