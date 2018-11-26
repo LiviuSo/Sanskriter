@@ -1,24 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="50dp">
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dim_item_word"
+    android:layout_marginBottom="@dimen/item_margin_bottom"
+    android:orientation="horizontal"
+    android:background="@color/colorWordRemovable"
+    android:paddingStart="3dp"
+    android:paddingLeft="3dp"
+    android:paddingEnd="3dp">
 
-    <CheckBox android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/ckbItem"
-              android:layout_gravity="center_vertical"/>
+    <CheckBox
+        android:id="@+id/ckbItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
 
-    <TextView android:layout_width="0dp"
-              android:layout_height="wrap_content"
-              android:id="@+id/tvItemWord"
-              android:text="[word]"
-              android:layout_weight="1"
-              android:layout_gravity="center_vertical"
-              android:layout_marginLeft="5dp"
-              android:layout_marginStart="5dp"
-              android:layout_marginRight="5dp"
-              android:layout_marginEnd="5dp"/>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvItemWordIAST"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="2dp"
+            android:text="[word IAST]"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvItemWordSa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:text="[word Sa]"
+            android:textSize="17sp"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp" />
+    </LinearLayout>
 
 </LinearLayout>

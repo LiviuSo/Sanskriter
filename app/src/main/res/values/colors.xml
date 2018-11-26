@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="sectionTitleColor">#eae1e1</color>
     <color name="chapterTitleColor">#a4a6a6</color>
+    <color name="colorWordRemovable">#eaa2ac</color>
+    <color name="colorWord">#c4efda</color>
 </resources>

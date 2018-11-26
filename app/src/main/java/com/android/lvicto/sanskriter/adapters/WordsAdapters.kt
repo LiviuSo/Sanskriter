@@ -79,7 +79,8 @@ class WordsAdapter(private val context: Context, private val clickListener: View
 
         fun bindData(word: Word, type: Int, position: Int) { // todo complete
             view.tag = word
-            view.findViewById<TextView>(R.id.tvItemWord).text = word.word
+            view.findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
+            view.findViewById<TextView>(R.id.tvItemWordSa).text = word.word
             view.setOnClickListener(clickListener)
             view.setOnLongClickListener(longClickListener)
             when (type) {

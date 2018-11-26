@@ -12,7 +12,7 @@
     android:layout_marginLeft="1dp"
     android:layout_marginEnd="1dp"
     android:layout_marginRight="1dp"
-    android:layout_marginTop="2dp"
+    android:layout_marginBottom="@dimen/item_margin_bottom"
     android:paddingStart="25dp"
     android:paddingLeft="25dp"
     android:background="@color/sectionTitleColor"/>
