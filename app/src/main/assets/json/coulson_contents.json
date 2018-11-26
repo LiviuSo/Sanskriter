@@ -252,7 +252,7 @@
         "name" : "Exercises",
         "pages": [
           "sections/ch03/exercises-01.png",
-          "sections/ch03/exercises-02.png",
+          "sections/ch03/exercises-02.png"
         ]
       },
       {
@@ -260,6 +260,102 @@
         "pages": [
           "sections/ch03/exercises-answers-01.png",
           "sections/ch03/exercises-answers-02.png"
+        ]
+      }
+    ],
+    "3": [
+      {
+        "name": "Past participle",
+      "pages":[
+        "sections/ch04/past-participle-01.png",
+        "sections/ch04/past-participle-02.png",
+        "sections/ch04/past-participle-03.png"
+      ]},
+      {
+        "name": "Instrumental case",
+        "pages":[
+          "sections/ch04/instrumental-case-01.png"
+        ]},
+      {
+        "name": "Past passive sentences",
+        "pages":[
+          "sections/ch04/past-passive-sentences-01.png",
+          "sections/ch04/past-passive-sentences-02.png"
+        ]
+      },
+      {
+        "name": "Omission of pronouns",
+        "pages":[
+          "sections/ch04/omission-of-pronouns-01.png"
+        ]
+      },
+      {
+        "name": "eva",
+        "pages":[
+          "sections/ch04/eva-01.png"
+        ]
+      },
+      {
+        "name": "esah",
+        "pages":[
+          "sections/ch04/esah-01.png"
+        ]
+      },
+      {
+        "name": "va",
+        "pages":[
+          "sections/ch04/va-01.png"
+        ]
+      },
+      {
+        "name": "krtam.alam.kim",
+        "pages":[
+          "sections/ch04/krtam-alam-kim-01.png"
+        ]
+      },
+      {
+        "name": "Adverbs of manner",
+        "pages":[
+          "sections/ch04/adverbs-of-manner-01.png"
+        ]
+      },
+      {
+        "name": "Internal sandhi",
+        "pages":[
+          "sections/ch04/internal-sandhi-01.png"
+        ]
+      },
+      {
+        "name": "Retroflexion of s and n",
+        "pages":[
+          "sections/ch04/retroflexion-s-n-01.png",
+          "sections/ch04/retroflexion-s-n-02.png"
+        ]
+      },
+      {
+        "name": "Absence of external sandhi",
+        "pages":[
+          "sections/ch04/absence-of-external-sandhi-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages":[
+          "sections/ch04/vocabulary-01.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages":[
+          "sections/ch04/exercises-01.png",
+          "sections/ch04/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages":[
+          "sections/ch04/exercises-answers-01.png",
+          "sections/ch04/exercises-answers-02.png"
         ]
       }
     ]
