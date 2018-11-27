@@ -3,4 +3,5 @@
     <dimen name="book_content_item_height">35dp</dimen>
     <dimen name="dim_item_word">60dp</dimen>
     <dimen name="item_margin_bottom">2dp</dimen>
+    <dimen name="item_margin_left_right">4dp</dimen>
 </resources>

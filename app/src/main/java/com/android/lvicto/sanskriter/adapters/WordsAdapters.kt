@@ -6,13 +6,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.db.entity.Word
 
 
-class WordsAdapter(private val context: Context, private val clickListener: View.OnClickListener, private val longClickListener: View.OnLongClickListener) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
+class WordsAdapter(private val context: Context,
+                   private val clickListenerDefinition: View.OnClickListener,
+                   private val clickListenerEdit: View.OnClickListener,
+                   private val longClickListener: View.OnLongClickListener) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
 
     var type: Int = TYPE_NON_REMOVABLE
     var words: List<Word>? = null
@@ -30,7 +35,7 @@ class WordsAdapter(private val context: Context, private val clickListener: View
         } else {
             LayoutInflater.from(context).inflate(R.layout.item_word_removable, parent, false)
         }
-        return WordViewHolder(view, clickListener, longClickListener)
+        return WordViewHolder(view, clickListenerDefinition, clickListenerEdit, longClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -74,29 +79,36 @@ class WordsAdapter(private val context: Context, private val clickListener: View
     }
 
     inner class WordViewHolder(val view: View,
-                               private val clickListener: View.OnClickListener,
+                               private val clickListenerDefinition: View.OnClickListener,
+                               private val clickListenerEdit: View.OnClickListener,
                                private val longClickListener: View.OnLongClickListener) : RecyclerView.ViewHolder(view) {
 
         fun bindData(word: Word, type: Int, position: Int) { // todo complete
-            view.tag = word
             view.findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
             view.findViewById<TextView>(R.id.tvItemWordSa).text = word.word
-            view.setOnClickListener(clickListener)
-            view.setOnLongClickListener(longClickListener)
             when (type) {
                 TYPE_NON_REMOVABLE -> {
-                    // do specifics
+                    view.apply {
+                        tag = word
+                        setOnClickListener(clickListenerDefinition)
+                    }
+                    view.setOnLongClickListener(longClickListener)
                 }
                 TYPE_REMOVABLE -> {
-                    val checkBox = view.findViewById<CheckBox>(R.id.ckbItem)
-                    checkBox.setOnCheckedChangeListener { cb, checked ->
-                        if (!checked) {
-                            selectedToRemove.remove(position)
-                            Log.d(LOG_TAG, "De-selected $position")
-                        } else {
-                            selectedToRemove.add(position)
-                            Log.d(LOG_TAG, "Selected $position")
+                    view.findViewById<CheckBox>(R.id.ckbItem).apply {
+                        setOnCheckedChangeListener { _, checked ->
+                            if (!checked) {
+                                selectedToRemove.remove(position)
+                                Log.d(LOG_TAG, "De-selected $position")
+                            } else {
+                                selectedToRemove.add(position)
+                                Log.d(LOG_TAG, "Selected $position")
+                            }
                         }
+                    }
+                    view.findViewById<Button>(R.id.btnEditWord).apply {
+                        setOnClickListener(clickListenerEdit)
+                        tag = word
                     }
                 }
                 else -> {

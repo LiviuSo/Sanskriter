@@ -98,7 +98,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
 
         recyclerView = findViewById(R.id.rv_words)
-        val wordsAdapter = WordsAdapter(this, itemClickListener, longClickListener)
+        val wordsAdapter = WordsAdapter(this, itemDefinitionClickListener, itemEditClickListener, longClickListener)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = wordsAdapter
         viewModel.allWords.observe(this, Observer<List<Word>> {
@@ -191,14 +191,18 @@ class DictionaryActivity : AppCompatActivity() {
         // todo
     }
 
-    private val itemClickListener = View.OnClickListener {
+    private val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
+        Toast.makeText(this, "${it.tag}", Toast.LENGTH_SHORT).show()
+    }
+
+    private val itemEditClickListener = View.OnClickListener {
         val intentEdit = Intent(AllWordsActivity@this, AddModifyWordActivity::class.java)
         intentEdit.putExtra(EXTRA_WORD, it!!.tag as Word)
         AllWordsActivity@this.startActivityForResult(intentEdit, REQUEST_CODE_EDIT_WORD)
     }
 
     private val longClickListener: View.OnLongClickListener = View.OnLongClickListener {
-        Toast.makeText(this, "Long tap", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Long tap", Toast.LENGTH_LONG).show()
         updateRevViewItems(WordsAdapter.TYPE_REMOVABLE)
         llRemoveCancel.visibility = View.VISIBLE
         true
@@ -206,9 +210,7 @@ class DictionaryActivity : AppCompatActivity() {
 
     private fun updateRevViewItems(type: Int) {
         val adapter: WordsAdapter = recyclerView.adapter as WordsAdapter
-//        val count = adapter.itemCount
         adapter.type = type
-//        recyclerView.adapter.notifyItemRangeChanged(0, count)
         adapter.notifyDataSetChanged()
 
     }

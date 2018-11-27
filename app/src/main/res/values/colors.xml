@@ -7,4 +7,5 @@
     <color name="chapterTitleColor">#a4a6a6</color>
     <color name="colorWordRemovable">#eaa2ac</color>
     <color name="colorWord">#c4efda</color>
+    <color name="colorShowDefinition">#1baf2f</color>
 </resources>
