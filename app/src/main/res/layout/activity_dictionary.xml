@@ -2,27 +2,36 @@
 
 
 <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.activities.DictionaryActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.DictionaryActivity">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <FrameLayout
+        <include layout="@layout/toolbar" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-        <include layout="@layout/layout_all_words"/>
+            <include layout="@layout/layout_all_words" />
 
-        <android.support.design.widget.FloatingActionButton
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabDictionary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fabDictionary"
                 android:layout_gravity="bottom|end"
-                android:layout_marginBottom="21dp"
-                android:layout_marginRight="21dp"
-                android:layout_marginEnd="21dp"
-                android:src="@drawable/ic_add_24dp"/>
-    </FrameLayout>
+                android:layout_marginEnd="@dimen/dim_fab_end"
+                android:layout_marginBottom="@dimen/dim_fab_bottom"
+                android:src="@drawable/ic_add_24dp"
+                android:layout_marginRight="@dimen/dim_fab_end" />
+
+        </FrameLayout>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

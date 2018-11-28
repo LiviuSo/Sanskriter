@@ -9,7 +9,11 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.ContextMenu
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -26,6 +30,7 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_ADD_W
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_EDIT_WORD
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.toolbar.*
 
 class DictionaryActivity : AppCompatActivity() {
 
@@ -46,9 +51,36 @@ class DictionaryActivity : AppCompatActivity() {
         initUI()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_dictionary, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when(item!!.itemId) {
+            R.id.menuItemImport -> {
+                Log.d(LOG_TAG, "R.id.menuItemImport")
+                llImport.visibility = View.VISIBLE
+                viewModel.loadFromPrivateFile().observe(this@DictionaryActivity, importObserver)
+                true
+            }
+            R.id.menuItemExport -> {
+                Log.d(LOG_TAG, "R.id.menuItemExport")
+                viewModel.allWords.observe(this, exportObserver)
+                true
+            }
+            R.id.menuItemFind -> {
+                Log.d(LOG_TAG, "R.id.menuItemFind")
+                // todo
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_ADD_WORD, REQUEST_CODE_EDIT_WORD -> {
                     val wordRo = data!!.getStringExtra(Constants.Keyboard.EXTRA_WORD_RO)
@@ -56,7 +88,7 @@ class DictionaryActivity : AppCompatActivity() {
                     val wordSa = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_SA)
                     val wordIAST = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_IAST)
                     val word = Word(word = wordSa, wordIAST = wordIAST, meaningEn = wordEn, meaningRo = wordRo)
-                    if(data.hasExtra(EXTRA_WORD_ID)) {
+                    if (data.hasExtra(EXTRA_WORD_ID)) {
                         word.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
                     }
                     viewModel.insert(word)
@@ -69,31 +101,19 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+
+        // toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.title = resources.getString(R.string.dictionary)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         viewModel = ViewModelProviders.of(this).get(WordsViewModel::class.java)
-
-        val btnLoad = findViewById<Button>(R.id.btnLoad)
-        btnLoad.setOnClickListener { _ ->
-            viewModel.loadFromPrivateFile().observe(AllWordsActivity@this, loadFromJsonObserver)
-        }
-
-        val btnSave = findViewById<Button>(R.id.btnSave)
-        btnSave.setOnClickListener { _ ->
-//            viewModel.allWords.observe(this, saveToFileObserver)
-            // todo add Rx subcribe()
-        }
-
         llImport = findViewById(R.id.llJsonImport)
-        findViewById<Button>(R.id.btnImport).setOnClickListener { _ ->
-            llImport.visibility = View.VISIBLE
-            viewModel.loadFromPrivateFile().observe(AllWordsActivity@this, importObserver)
-        }
-        findViewById<Button>(R.id.btnExport).setOnClickListener { _ ->
-            viewModel.allWords.observe(this, exportObserver)
-//            viewModel.allWords.subscribe(this::export)
-        }
+
         val edit = findViewById<EditText>(R.id.editJson)
         findViewById<Button>(R.id.btnLoadJson).setOnClickListener {
-            viewModel.loadFromString(edit.text.toString()).observe(AllWordsActivity@this, loadFromJsonObserver)
+            viewModel.loadFromString(edit.text.toString()).observe(this@DictionaryActivity, loadFromJsonObserver)
             llImport.visibility = View.GONE
         }
 
@@ -104,7 +124,6 @@ class DictionaryActivity : AppCompatActivity() {
         viewModel.allWords.observe(this, Observer<List<Word>> {
             wordsAdapter.words = it
         })
-//        viewModel.allWords.subscribe(this::setAdapterData)
 
         llRemoveCancel = findViewById(R.id.llRemoveCancel)
         val btnRemove = findViewById<Button>(R.id.btnRemove)
@@ -117,13 +136,9 @@ class DictionaryActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
         fab.setOnClickListener {
-            val intent = Intent(MainActivity@this, AddModifyWordActivity::class.java)
+            val intent = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_ADD_WORD)
         }
-    }
-
-    private fun setAdapterData(words: List<Word>) {
-        (recyclerView.adapter as WordsAdapter).words = words
     }
 
     private fun removeSelected(v: View) {
@@ -135,6 +150,7 @@ class DictionaryActivity : AppCompatActivity() {
         Log.d(LOG_TAG, "Deleted $c rows")
     }
 
+    // todo remove?
 //    private fun refreshWords(dummy: Int) {
 //        viewModel.allWords.observe(this, Observer<List<Word>> {
 //            val adapter = recyclerView.adapter as WordsAdapter
@@ -155,7 +171,7 @@ class DictionaryActivity : AppCompatActivity() {
 
     private val loadFromJsonObserver = Observer<String> { it ->
         Log.d(LOG_TAG, it)
-        if(!it!!.isEmpty()) {
+        if (!it!!.isEmpty()) {
             val list = Gson().fromJson(it, Words::class.java)
             list.list.forEach {
                 Log.d(LOG_TAG, it.toString())
@@ -166,10 +182,10 @@ class DictionaryActivity : AppCompatActivity() {
 
 //    private val saveToFileObserver = Observer<List<Word>> { it ->
 //        if (it != null) {
-             // save on private file
+    // save on private file
 //            viewModel.saveToPrivateFile(Words(it)).observe(this@DictionaryActivity, Observer<()->Unit> {
 //                it?.invoke() // todo make it return json string
-                 // todo launch share intent
+    // todo launch share intent
 //            })
 //        }
 //    }
@@ -196,9 +212,9 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private val itemEditClickListener = View.OnClickListener {
-        val intentEdit = Intent(AllWordsActivity@this, AddModifyWordActivity::class.java)
+        val intentEdit = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
         intentEdit.putExtra(EXTRA_WORD, it!!.tag as Word)
-        AllWordsActivity@this.startActivityForResult(intentEdit, REQUEST_CODE_EDIT_WORD)
+        this@DictionaryActivity.startActivityForResult(intentEdit, REQUEST_CODE_EDIT_WORD)
     }
 
     private val longClickListener: View.OnLongClickListener = View.OnLongClickListener {

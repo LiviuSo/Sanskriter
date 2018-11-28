@@ -12,13 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.BookActivity"></activity>
+
+        <activity android:name=".ui.activities.BookActivity" />
+
         <activity
             android:name=".ui.activities.PageZoomActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.activities.AddModifyWordActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activities.SetupActivity"
             android:screenOrientation="portrait">
@@ -28,12 +32,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.DictionaryActivity"></activity>
-        <activity android:name=".ui.activities.MainActivity"></activity>
+
+        <activity android:name=".ui.activities.DictionaryActivity" />
+
+        <activity android:name=".ui.activities.MainActivity" />
+
         <activity
             android:name=".ui.activities.KeyboardSelectPopup"
-            android:theme="@style/AppTheme.CustomTheme"></activity>
-        <activity android:name=".ui.activities.TestKeyboardActivity"></activity>
+            android:theme="@style/AppTheme.CustomTheme" />
+        <activity android:name=".ui.activities.TestKeyboardActivity" />
+
         <activity
             android:name=".ui.activities.PagesActivity"
             android:screenOrientation="portrait" />
