@@ -4,5 +4,6 @@
     <string name="chapter">Chapter</string>
     <string name="saveWord">Save</string>
     <string name="dictionary">Dictionary</string>
+    <string name="dic_search_hint">Start typing</string>
 
 </resources>

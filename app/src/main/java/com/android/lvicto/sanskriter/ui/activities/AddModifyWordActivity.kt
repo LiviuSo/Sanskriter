@@ -16,9 +16,7 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_ID
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_RO
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_SA
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_WORD_EN
-import android.support.v4.content.ContextCompat.getSystemService
-import android.util.Log
-import android.view.inputmethod.InputMethodManager
+import com.android.lvicto.sanskriter.utils.KeyboardHelper
 
 
 class AddModifyWordActivity : AppCompatActivity() {
