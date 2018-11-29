@@ -186,6 +186,13 @@
         ]
       },
       {
+        "name" : "Vocabulary",
+        "pages": [
+          "sections/ch02/vocabulary-01.png",
+          "sections/ch02/vocabulary-02.png"
+        ]
+      },
+      {
         "name" : "Exercises",
         "pages": [
           "sections/ch02/exercises-01.png",
