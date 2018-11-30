@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -26,15 +27,16 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_ID
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_ADD_WORD
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_EDIT_WORD
+import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
 import com.google.gson.Gson
-import android.view.inputmethod.InputMethodManager
-import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 
 
 class DictionaryActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WordsViewModel
+    private lateinit var wordsAdapter: WordsAdapter
+
     private lateinit var llRemoveCancel: LinearLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var llImport: LinearLayout
@@ -61,7 +63,7 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item!!.itemId) {
+        return when (item!!.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
                 llImport.visibility = View.VISIBLE
@@ -75,7 +77,7 @@ class DictionaryActivity : AppCompatActivity() {
             }
             R.id.menuItemFind -> {
                 Log.d(LOG_TAG, "R.id.menuItemFind")
-                if(llSearch.visibility != View.VISIBLE) {
+                if (llSearch.visibility != View.VISIBLE) {
                     // show edit with close button
                     llSearch.visibility = View.VISIBLE
                     // pop-up IAST keyboard for now
@@ -123,6 +125,23 @@ class DictionaryActivity : AppCompatActivity() {
         editSearchDic = findViewById(R.id.editSearchDic)
         ibSearchClose = findViewById(R.id.btnCloseSearchBar)
 
+        editSearchDic.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                Log.d(LOG_TAG, "afterTextChanged: ${s.toString()}")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d(LOG_TAG, "beforeTextChanged: ${s.toString()}")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(LOG_TAG, "onTextChanged: ${s.toString()} start=$start before=$before count=$count")
+                viewModel.filterWords(s.toString()).observe(this@DictionaryActivity, Observer<List<Word>> {
+                    wordsAdapter.words = it
+                })
+            }
+        })
+
         ibSearchClose.setOnClickListener {
             // todo clear search
             editSearchDic.text.clear()
@@ -142,7 +161,7 @@ class DictionaryActivity : AppCompatActivity() {
 
         // words recycleview
         recyclerView = findViewById(R.id.rv_words)
-        val wordsAdapter = WordsAdapter(this, itemDefinitionClickListener, itemEditClickListener, longClickListener)
+        wordsAdapter = WordsAdapter(this, itemDefinitionClickListener, itemEditClickListener, longClickListener)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = wordsAdapter
         viewModel.allWords.observe(this, Observer<List<Word>> {
