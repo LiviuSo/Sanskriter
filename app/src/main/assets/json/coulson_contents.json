@@ -162,38 +162,38 @@
         ]
       },
       {
-        "name" : "ca",
+        "name": "ca",
         "pages": [
           "sections/ch02/ca-01.png"
         ]
       },
       {
-        "name" : "iva",
+        "name": "iva",
         "pages": [
           "sections/ch02/iva-01.png"
         ]
       },
       {
-        "name" : "kim",
+        "name": "kim",
         "pages": [
           "sections/ch02/kim-01.png"
         ]
       },
       {
-        "name" : "iti",
+        "name": "iti",
         "pages": [
           "sections/ch02/iti-01.png"
         ]
       },
       {
-        "name" : "Vocabulary",
+        "name": "Vocabulary",
         "pages": [
           "sections/ch02/vocabulary-01.png",
           "sections/ch02/vocabulary-02.png"
         ]
       },
       {
-        "name" : "Exercises",
+        "name": "Exercises",
         "pages": [
           "sections/ch02/exercises-01.png",
           "sections/ch02/exercises-02.png",
@@ -210,7 +210,7 @@
     ],
     "2": [
       {
-        "name" : "Nouns and pronouns...",
+        "name": "Nouns and pronouns...",
         "pages": [
           "sections/ch03/nouns-pronouns-01.png",
           "sections/ch03/nouns-pronouns-02.png",
@@ -218,52 +218,52 @@
         ]
       },
       {
-        "name" : "Irregularities of external sandhi",
+        "name": "Irregularities of external sandhi",
         "pages": [
           "sections/ch03/irregularities-external-sandhi-01.png"
         ]
       },
       {
-        "name" : "Nominal sentences",
+        "name": "Nominal sentences",
         "pages": [
           "sections/ch03/nominal-sentences-01.png"
         ]
       },
       {
-        "name" : "Word order",
+        "name": "Word order",
         "pages": [
           "sections/ch03/word-order-01.png",
           "sections/ch03/word-order-02.png"
         ]
       },
       {
-        "name" : "iva",
+        "name": "iva",
         "pages": [
           "sections/ch03/iva-01.png"
         ]
       },
       {
-        "name" : "Dvandva compounds",
+        "name": "Dvandva compounds",
         "pages": [
           "sections/ch03/dvandva-compounds-01.png",
           "sections/ch03/dvandva-compounds-02.png"
         ]
       },
       {
-        "name" : "Vocabulary",
+        "name": "Vocabulary",
         "pages": [
           "sections/ch03/vocabulary-01.png"
         ]
       },
       {
-        "name" : "Exercises",
+        "name": "Exercises",
         "pages": [
           "sections/ch03/exercises-01.png",
           "sections/ch03/exercises-02.png"
         ]
       },
       {
-        "name" : "Answers to exercises",
+        "name": "Answers to exercises",
         "pages": [
           "sections/ch03/exercises-answers-01.png",
           "sections/ch03/exercises-answers-02.png"
@@ -273,96 +273,220 @@
     "3": [
       {
         "name": "Past participle",
-      "pages":[
-        "sections/ch04/past-participle-01.png",
-        "sections/ch04/past-participle-02.png",
-        "sections/ch04/past-participle-03.png"
-      ]},
+        "pages": [
+          "sections/ch04/past-participle-01.png",
+          "sections/ch04/past-participle-02.png",
+          "sections/ch04/past-participle-03.png"
+        ]
+      },
       {
         "name": "Instrumental case",
-        "pages":[
+        "pages": [
           "sections/ch04/instrumental-case-01.png"
-        ]},
+        ]
+      },
       {
         "name": "Past passive sentences",
-        "pages":[
+        "pages": [
           "sections/ch04/past-passive-sentences-01.png",
           "sections/ch04/past-passive-sentences-02.png"
         ]
       },
       {
         "name": "Omission of pronouns",
-        "pages":[
+        "pages": [
           "sections/ch04/omission-of-pronouns-01.png"
         ]
       },
       {
         "name": "eva",
-        "pages":[
+        "pages": [
           "sections/ch04/eva-01.png"
         ]
       },
       {
         "name": "esah",
-        "pages":[
+        "pages": [
           "sections/ch04/esah-01.png"
         ]
       },
       {
         "name": "va",
-        "pages":[
+        "pages": [
           "sections/ch04/va-01.png"
         ]
       },
       {
         "name": "krtam.alam.kim",
-        "pages":[
+        "pages": [
           "sections/ch04/krtam-alam-kim-01.png"
         ]
       },
       {
         "name": "Adverbs of manner",
-        "pages":[
+        "pages": [
           "sections/ch04/adverbs-of-manner-01.png"
         ]
       },
       {
         "name": "Internal sandhi",
-        "pages":[
+        "pages": [
           "sections/ch04/internal-sandhi-01.png"
         ]
       },
       {
         "name": "Retroflexion of s and n",
-        "pages":[
+        "pages": [
           "sections/ch04/retroflexion-s-n-01.png",
           "sections/ch04/retroflexion-s-n-02.png"
         ]
       },
       {
         "name": "Absence of external sandhi",
-        "pages":[
+        "pages": [
           "sections/ch04/absence-of-external-sandhi-01.png"
         ]
       },
       {
         "name": "Vocabulary",
-        "pages":[
+        "pages": [
           "sections/ch04/vocabulary-01.png"
         ]
       },
       {
         "name": "Exercises",
-        "pages":[
+        "pages": [
           "sections/ch04/exercises-01.png",
           "sections/ch04/exercises-02.png"
         ]
       },
       {
         "name": "Answers to exercises",
-        "pages":[
+        "pages": [
           "sections/ch04/exercises-answers-01.png",
           "sections/ch04/exercises-answers-02.png"
+        ]
+      }
+    ],
+    "4": [
+      {
+        "name": "The cases",
+        "pages": [
+          "sections/ch05/cases-01.png"
+        ]
+      },
+      {
+        "name": "Dative",
+        "pages": [
+          "sections/ch05/dative-01.png"
+        ]
+      },
+      {
+        "name": "Ablative",
+        "pages": [
+          "sections/ch05/ablative-01.png",
+          "sections/ch05/ablative-02.png"
+        ]
+      },
+      {
+        "name": "Genitive",
+        "pages": [
+          "sections/ch05/genitive-01.png",
+          "sections/ch05/genitive-02.png"
+        ]
+      },
+      {
+        "name": "Locative",
+        "pages": [
+          "sections/ch05/locative-01.png"
+        ]
+      },
+      {
+        "name": "Expressions of time",
+        "pages": [
+          "sections/ch05/expressions-of-time-01.png"
+        ]
+      },
+      {
+        "name": "ayam",
+        "pages": [
+          "sections/ch05/ayam-01.png"
+        ]
+      },
+      {
+        "name": "Pronomial adjectives",
+        "pages": [
+          "sections/ch05/pronomial-adjectives-01.png"
+        ]
+      },
+      {
+        "name": "kaś ci and ko >pi",
+        "pages": [
+          "sections/ch05/kas-cit-and-ko-pi-01.png"
+        ]
+      },
+      {
+        "name": "as 'be'",
+        "pages": [
+          "sections/ch05/as-be-01.png"
+        ]
+      },
+      {
+        "name": "bhu 'be'",
+        "pages": [
+          "sections/ch05/bhu-be-01.png"
+        ]
+      },
+      {
+        "name": "To have",
+        "pages": [
+          "sections/ch05/to-have-01.png"
+        ]
+      },
+      {
+        "name": "To feel",
+        "pages": [
+          "sections/ch05/to-feel-01.png"
+        ]
+      },
+      {
+        "name": "Absolutive",
+        "pages": [
+          "sections/ch05/absolutive-01.png",
+          "sections/ch05/absolutive-02.png"
+        ]
+      },
+      {
+        "name": "khalu",
+        "pages": [
+          "sections/ch05/khalu-01.png"
+        ]
+      },
+      {
+        "name": "Sandhi of final n and t + s",
+        "pages": [
+          "sections/ch05/external-sandhi-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch05/vocabulary-01.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch05/exercises-01.png",
+          "sections/ch05/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch05/exercises-answers-01.png",
+          "sections/ch05/exercises-answers-02.png",
+          "sections/ch05/exercises-answers-03.png"
         ]
       }
     ]
