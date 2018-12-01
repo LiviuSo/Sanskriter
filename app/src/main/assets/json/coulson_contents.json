@@ -489,6 +489,79 @@
           "sections/ch05/exercises-answers-03.png"
         ]
       }
+    ],
+    "5": [
+      {
+        "name": "Feminine gender",
+        "pages": [
+          "sections/ch06/feminine-gender-01.png"
+        ]
+      },
+      {
+        "name": "Determinative compounds",
+        "pages": [
+          "sections/ch06/determinative-compounds-01.png",
+          "sections/ch06/determinative-compounds-02.png"
+        ]
+      },
+      {
+        "name": "Dependent determinatives",
+        "pages": [
+          "sections/ch06/dependent-determinatives-01.png",
+          "sections/ch06/dependent-determinatives-02.png",
+          "sections/ch06/dependent-determinatives-03.png",
+          "sections/ch06/dependent-determinatives-04.png"
+        ]
+      },
+      {
+        "name": "Descriptive determinatives",
+        "pages": [
+          "sections/ch06/descriptive-determinatives-01.png",
+          "sections/ch06/descriptive-determinatives-02.png",
+          "sections/ch06/descriptive-determinatives-03.png",
+          "sections/ch06/descriptive-determinatives-04.png"
+        ]
+      },
+      {
+        "name": "Prepositions",
+        "pages": [
+          "sections/ch06/prepositions-01.png"
+        ]
+      },
+      {
+        "name": "Verbal actions in a",
+        "pages": [
+          "sections/ch06/verbal-actions-01.png"
+        ]
+      },
+      {
+        "name": "Ambiguities of external sandhi",
+        "pages": [
+          "sections/ch06/ambiguities-of-external-sandhi-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch06/vocabulary-01.png",
+          "sections/ch06/vocabulary-02.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch06/exercises-01.png",
+          "sections/ch06/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch06/exercises-answers-01.png",
+          "sections/ch06/exercises-answers-02.png",
+          "sections/ch06/exercises-answers-03.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
