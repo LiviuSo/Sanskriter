@@ -50,7 +50,6 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
                 TYPE_SECTION
 
     private fun getClickListenerChapter(position: Int) = View.OnClickListener {
-        Toast.makeText(context, "Tapped: ${data[position]}", Toast.LENGTH_SHORT).show()
         // collapse if already expanded or just expand
         if (helper.isExpanded(position)) {
             helper.collapseData(position)
@@ -58,7 +57,6 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
             helper.expandData(position)
         }
         notifyDataSetChanged()
-        Log.d(LOG_TAG, "new com.example.lvicto.coultersanskrit.data: $helper")
     }
 
     private fun getClickListenerTitle(title: String) = View.OnClickListener {

@@ -521,8 +521,7 @@
         "pages": [
           "sections/ch06/descriptive-determinatives-01.png",
           "sections/ch06/descriptive-determinatives-02.png",
-          "sections/ch06/descriptive-determinatives-03.png",
-          "sections/ch06/descriptive-determinatives-04.png"
+          "sections/ch06/descriptive-determinatives-03.png"
         ]
       },
       {
@@ -563,6 +562,83 @@
           "sections/ch06/exercises-answers-01.png",
           "sections/ch06/exercises-answers-02.png",
           "sections/ch06/exercises-answers-03.png"
+        ]
+      }
+    ],
+    "6": [
+      {
+        "name": "Nominal stems ending in consonants",
+        "pages": [
+          "sections/ch07/consonant-stems-01.png",
+          "sections/ch07/consonant-stems-02.png"
+        ]
+      },
+      {
+        "name": "Feminines in ī",
+        "pages": [
+          "sections/ch07/feminines-in-i-01.png"
+        ]
+      },
+      {
+        "name": "Class X verbs",
+        "pages": [
+          "sections/ch07/verbs-class-X-01.png"
+        ]
+      },
+      {
+        "name": "Karmadhārayas prefixes",
+        "pages": [
+          "sections/ch07/karmadharayas-prefixes-01.png",
+          "sections/ch07/karmadharayas-prefixes-02.png"
+        ]
+      },
+      {
+        "name": "purva",
+        "pages": [
+          "sections/ch07/purva-01.png"
+        ]
+      },
+      {
+        "name": "Compounds of more than two members",
+        "pages": [
+          "sections/ch07/compounds-more-members-01.png",
+          "sections/ch07/compounds-more-members-02.png",
+          "sections/ch07/compounds-more-members-03.png",
+          "sections/ch07/compounds-more-members-04.png"
+        ]
+      },
+      {
+        "name": "The use of long compounds",
+        "pages": [
+          "sections/ch07/use-long-compounds-01.png"
+        ]
+      },
+      {
+        "name": "Gata",
+        "pages": [
+          "sections/ch07/gata-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch07/vocabulary-01.png",
+          "sections/ch07/vocabulary-02.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch07/exercises-01.png",
+          "sections/ch07/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Exercises answers",
+        "pages": [
+          "sections/ch07/exercises-answers-01.png",
+          "sections/ch07/exercises-answers-02.png",
+          "sections/ch07/exercises-answers-03.png"
         ]
       }
     ]
