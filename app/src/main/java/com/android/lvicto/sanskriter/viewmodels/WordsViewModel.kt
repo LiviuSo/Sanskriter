@@ -20,18 +20,19 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     val allWords: MutableLiveData<List<Word>> = MutableLiveData()
 
     init {
-        initAllWords()
+        refreshAllWords(0)
     }
 
     @SuppressLint("CheckResult")
-    private fun initAllWords() {
+    fun refreshAllWords(dummy: Int) {
         repo.allWords.subscribe {
             allWords.postValue(it)
         }
     }
 
+    @SuppressLint("CheckResult")
     fun insert(word: Word) {
-        repo.insertWord(word)
+        repo.insertWordRx(word).subscribe(this::refreshAllWords)
     }
 
     // todo use when implement FileProvider

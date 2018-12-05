@@ -60,16 +60,6 @@ class WordsAdapter(private val context: Context,
         return position.toLong()
     }
 
-    fun removeSelected(v: View) {
-        selectedToRemove.forEach {
-            val pos = getItemId(it).toInt()
-            (words as ArrayList).removeAt(pos)
-            notifyItemRemoved(pos)
-            notifyItemRangeChanged(pos, (words as java.util.ArrayList<Word>).size)
-        }
-        selectedToRemove.clear()
-    }
-
     fun unselectRemoveSelected() {
         // todo
     }

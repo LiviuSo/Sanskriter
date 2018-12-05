@@ -20,6 +20,8 @@ import android.view.View
 import android.widget.*
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.WordsAdapter
+import com.android.lvicto.sanskriter.adapters.WordsAdapter.Companion.TYPE_NON_REMOVABLE
+import com.android.lvicto.sanskriter.adapters.WordsAdapter.Companion.TYPE_REMOVABLE
 import com.android.lvicto.sanskriter.data.Words
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.utils.Constants
@@ -30,6 +32,8 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_EDIT_
 import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
 import com.google.gson.Gson
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -189,22 +193,18 @@ class DictionaryActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
-        viewModel.deleteWords(adapter.getWordsToRemove()).subscribe(this::log)
+        viewModel.deleteWords(adapter.getWordsToRemove()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::refreshWords)
     }
 
-    private fun log(c: Int) {
-        Log.d(LOG_TAG, "Deleted $c rows")
+    private fun refreshWords(dummy: Int) {
+        viewModel.refreshAllWords(0) // todo refactor
+        viewModel.allWords.observe(this, Observer<List<Word>> {
+            val adapter = recyclerView.adapter as WordsAdapter
+            adapter.type = WordsAdapter.TYPE_NON_REMOVABLE
+            adapter.words = it
+            llRemoveCancel.visibility = View.GONE
+        })
     }
-
-    // todo remove?
-//    private fun refreshWords(dummy: Int) {
-//        viewModel.allWords.observe(this, Observer<List<Word>> {
-//            val adapter = recyclerView.adapter as WordsAdapter
-//            adapter.words = it
-//            updateRevViewItems(WordsAdapter.TYPE_NON_REMOVABLE)
-//            llRemoveCancel.visibility = View.GONE
-//        })
-//    }
 
     private fun cancelRemoveSelected() {
         updateRevViewItems(WordsAdapter.TYPE_NON_REMOVABLE)
