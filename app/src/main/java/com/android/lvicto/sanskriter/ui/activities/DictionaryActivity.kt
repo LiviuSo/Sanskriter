@@ -177,10 +177,7 @@ class DictionaryActivity : AppCompatActivity() {
         val btnRemove = findViewById<Button>(R.id.btnRemove)
         btnRemove.setOnClickListener(this::removeSelected)
         val btnCancel = findViewById<Button>(R.id.btnCancel)
-        btnCancel.setOnClickListener {
-            (recyclerView.adapter as WordsAdapter).unselectRemoveSelected()
-            cancelRemoveSelected()
-        }
+        btnCancel.setOnClickListener(this::cancelRemove)
 
         // add fab
         val fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
@@ -190,10 +187,17 @@ class DictionaryActivity : AppCompatActivity() {
         }
     }
 
+    private fun cancelRemove(v: View) {
+        (recyclerView.adapter as WordsAdapter).unselectRemoveSelected()
+        cancelRemoveSelected()
+    }
+
+
     @SuppressLint("CheckResult")
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::refreshWords)
+        adapter.unselectRemoveSelected()
     }
 
     private fun refreshWords(dummy: Int) {

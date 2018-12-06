@@ -61,7 +61,7 @@ class WordsAdapter(private val context: Context,
     }
 
     fun unselectRemoveSelected() {
-        // todo
+        selectedToRemove.clear()
     }
 
     fun getWordsToRemove(): List<Word> = selectedToRemove.map {
@@ -85,17 +85,20 @@ class WordsAdapter(private val context: Context,
                     view.setOnLongClickListener(longClickListener)
                 }
                 TYPE_REMOVABLE -> {
-                    view.findViewById<CheckBox>(R.id.ckbItem).apply {
-                        setOnCheckedChangeListener { _, checked ->
+                    val checkBox = view.findViewById<CheckBox>(R.id.ckbItem)
+                    checkBox.apply {
+                        setOnCheckedChangeListener { v, checked ->
                             if (!checked) {
-                                selectedToRemove.remove(position)
                                 Log.d(LOG_TAG, "De-selected $position")
+                                selectedToRemove.remove(position)
                             } else {
-                                selectedToRemove.add(position)
                                 Log.d(LOG_TAG, "Selected $position")
+                                selectedToRemove.add(position)
                             }
                         }
                     }
+                    checkBox.isChecked = selectedToRemove.contains(position)
+
                     view.findViewById<Button>(R.id.btnEditWord).apply {
                         setOnClickListener(clickListenerEdit)
                         tag = word
