@@ -641,6 +641,91 @@
           "sections/ch07/exercises-answers-03.png"
         ]
       }
+    ],
+    "7": [
+      {
+        "name": "Changeable consonant stems",
+        "pages": [
+          "sections/ch08/changeable-consonant-stems-01.png",
+          "sections/ch08/changeable-consonant-stems-02.png",
+          "sections/ch08/changeable-consonant-stems-03.png"
+        ]
+      },
+      {
+        "name": "Exocentric compounds: bahuvrīhi",
+        "pages": [
+          "sections/ch08/bahuvrihi-01.png",
+          "sections/ch08/bahuvrihi-02.png",
+          "sections/ch08/bahuvrihi-03.png",
+          "sections/ch08/bahuvrihi-04.png",
+          "sections/ch08/bahuvrihi-05.png",
+          "sections/ch08/bahuvrihi-06.png"
+        ]
+      },
+      {
+        "name": "'Called'",
+        "pages": [
+          "sections/ch08/called-01.png"
+        ]
+      },
+      {
+        "name": "ātman",
+        "pages": [
+          "sections/ch08/atman-01.png"
+        ]
+      },
+      {
+        "name": "svayam",
+        "pages": [
+          "sections/ch08/svayam-01.png"
+        ]
+      },
+      {
+        "name": "Predicatives accusatives",
+        "pages": [
+          "sections/ch08/predicative-accusative-01.png"
+        ]
+      },
+      {
+        "name": "Action nouns in ana",
+        "pages": [
+          "sections/ch08/action-nouns-in-ana-01.png"
+        ]
+      },
+      {
+        "name": "saṃvṛtta",
+        "pages": [
+          "sections/ch08/samvrtta-01.png"
+        ]
+      },
+      {
+        "name": "'Palace', 'Temple'",
+        "pages": [
+          "sections/ch08/palace-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch08/vocabulary-01.png",
+          "sections/ch08/vocabulary-02.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch08/exercises-01.png",
+          "sections/ch08/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch08/exercises-answers-01.png",
+          "sections/ch08/exercises-answers-02.png",
+          "sections/ch08/exercises-answers-03.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
