@@ -726,6 +726,100 @@
           "sections/ch08/exercises-answers-03.png"
         ]
       }
+    ],
+    "8": [
+      {
+        "name": "Stems in i and u",
+        "pages": [
+          "sections/ch09/stems-short-i-short-u-01.png"
+        ]
+      },
+      {
+        "name": "Stems in vant and mant",
+        "pages": [
+          "sections/ch09/stems-in-vant-and-mant-01.png"
+        ]
+      },
+      {
+        "name": "Ātmanepada",
+        "pages": [
+          "sections/ch09/atmanepada-01.png"
+        ]
+      },
+      {
+        "name": "vartate",
+        "pages": [
+          "sections/ch09/vartate-01.png"
+        ]
+      },
+      {
+        "name": "Past active participle",
+        "pages": [
+          "sections/ch09/past-active-participle-01.png"
+        ]
+      },
+      {
+        "name": "Exocentric compounds: prepositional...",
+        "pages": [
+          "sections/ch09/prepositional-compounds-01.png",
+          "sections/ch09/prepositional-compounds-02.png",
+          "sections/ch09/prepositional-compounds-03.png",
+          "sections/ch09/prepositional-compounds-04.png"
+        ]
+      },
+      {
+        "name": "Polite forms of address",
+        "pages": [
+          "sections/ch09/polite-forms-of-address-01.png"
+        ]
+      },
+      {
+        "name": "janaḥ in compounds",
+        "pages": [
+          "sections/ch09/janah-01.png"
+        ]
+      },
+      {
+        "name": "diṣṭyā",
+        "pages": [
+          "sections/ch09/distya-01.png"
+        ]
+      },
+      {
+        "name": "Denominative verbs",
+        "pages": [
+          "sections/ch09/-01.png"
+        ]
+      },
+      {
+        "name": "Vṛddhi derivatives",
+        "pages": [
+          "sections/ch09/vriddhi-derivatives-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch09/vocabulary-01.png",
+          "sections/ch09/vocabulary-02.png",
+          "sections/ch09/vocabulary-03.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch09/exercises-01.png",
+          "sections/ch09/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch09/exercises-answers-01.png",
+          "sections/ch09/exercises-answers-02.png",
+          "sections/ch09/exercises-answers-03.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
