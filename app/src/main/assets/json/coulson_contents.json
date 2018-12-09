@@ -820,6 +820,108 @@
           "sections/ch09/exercises-answers-03.png"
         ]
       }
+    ],
+    "9": [
+      {
+        "name":"Stems in ī and ū",
+        "pages": [
+          "sections/ch10/stems-in-i-and-u-01.png"
+        ]
+      },
+      {
+        "name":"Stems in in",
+        "pages": [
+          "sections/ch10/stems-in-in-01.png"
+        ]
+      },
+      {
+        "name":"in as a verbal suffix",
+        "pages": [
+          "sections/ch10/in-as-verbal-suffix-01.png"
+        ]
+      },
+      {
+        "name":"Present participle",
+        "pages": [
+          "sections/ch10/present-participle-01.png",
+          "sections/ch10/present-participle-02.png"
+        ]
+      },
+      {
+        "name":"mahānt",
+        "pages": [
+          "sections/ch10/mahant-01.png"
+        ]
+      },
+      {
+        "name":"evam",
+        "pages": [
+          "sections/ch10/evam-01.png"
+        ]
+      },
+      {
+        "name":"Stem forms in composition",
+        "pages": [
+          "sections/ch10/stem-forms-in-composition-01.png"
+        ]
+      },
+      {
+        "name":"The imperative",
+        "pages": [
+          "sections/ch10/imperative-01.png",
+          "sections/ch10/imperative-02.png"
+        ]
+      },
+      {
+        "name":"Abstract noun",
+        "pages": [
+          "sections/ch10/abstract-nouns-01.png",
+          "sections/ch10/abstract-nouns-02.png",
+          "sections/ch10/abstract-nouns-03.png",
+          "sections/ch10/abstract-nouns-04.png"
+        ]
+      },
+      {
+        "name":"Exclamations",
+        "pages": [
+          "sections/ch10/exclamations-01.png"
+        ]
+      },
+      {
+        "name":"'Containing'",
+        "pages": [
+          "sections/ch10/containing-01.png"
+        ]
+      },
+      {
+        "name":"Verbal nouns in ti",
+        "pages": [
+          "sections/ch10/verbal-nouns-in-ti-01.png"
+        ]
+      },
+      {
+        "name":"Vocabulary",
+        "pages": [
+          "sections/ch10/vocabulary-01.png",
+          "sections/ch10/vocabulary-02.png",
+          "sections/ch10/vocabulary-03.png"
+        ]
+      },
+      {
+        "name":"Exercises",
+        "pages": [
+          "sections/ch10/exercises-01.png",
+          "sections/ch10/exercises-02.png"
+        ]
+      },
+      {
+        "name":"Answers to exercises",
+        "pages": [
+          "sections/ch10/exercises-answers-01.png",
+          "sections/ch10/exercises-answers-02.png",
+          "sections/ch10/exercises-answers-03.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
