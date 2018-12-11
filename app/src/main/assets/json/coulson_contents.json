@@ -1029,7 +1029,75 @@
           "sections/ch11/exercises-answers-03.png"
         ]
       }
-
+    ],
+    "11": [
+      {
+          "name": "Atematic presents (II, V and VII)",
+        "pages": [
+          "sections/ch12/athematic-presents-01.png",
+          "sections/ch12/athematic-presents-02.png"
+        ]
+      },
+      {
+        "name": "Gerundives",
+        "pages": [
+          "sections/ch12/gerundives-01.png",
+          "sections/ch12/gerundives-02.png",
+          "sections/ch12/gerundives-03.png",
+          "sections/ch12/gerundives-04.png"
+        ]
+      },
+      {
+        "name": "kṛ and compounds of kṛ/bhū",
+        "pages": [
+          "sections/ch12/kr-and-compounds-01.png",
+          "sections/ch12/kr-and-compounds-02.png"
+        ]
+      },
+      {
+        "name": "Relatives adverbs: clauses of place, manner and time",
+        "pages": [
+          "sections/ch12/relative-adverbs-01.png",
+          "sections/ch12/relative-adverbs-02.png",
+          "sections/ch12/relative-adverbs-03.png",
+          "sections/ch12/relative-adverbs-04.png"
+        ]
+      },
+      {
+        "name": "The suffix vat",
+        "pages": [
+          "sections/ch12/adverbial-suffix-vat-01.png"
+        ]
+      },
+      {
+        "name": "viśeṣaḥ",
+        "pages": [
+          "sections/ch12/visesah-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch12/vocabulary-01.png",
+          "sections/ch12/vocabulary-02.png",
+          "sections/ch12/vocabulary-03.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch12/exercises-01.png",
+          "sections/ch12/exercises-02.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch12/exercises-answers-01.png",
+          "sections/ch12/exercises-answers-02.png",
+          "sections/ch12/exercises-answers-03.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
