@@ -1032,7 +1032,7 @@
     ],
     "11": [
       {
-          "name": "Atematic presents (II, V and VII)",
+        "name": "Atematic presents (II, V and VII)",
         "pages": [
           "sections/ch12/athematic-presents-01.png",
           "sections/ch12/athematic-presents-02.png"
@@ -1096,6 +1096,92 @@
           "sections/ch12/exercises-answers-01.png",
           "sections/ch12/exercises-answers-02.png",
           "sections/ch12/exercises-answers-03.png"
+        ]
+      }
+    ],
+    "12": [
+      {
+        "name": "Reduplication",
+        "pages": [
+          "sections/ch13/reduplication-01.png",
+          "sections/ch13/reduplication-02.png"
+        ]
+      },
+      {
+        "name": "Present of classes III, VII and IX",
+        "pages": [
+          "sections/ch13/present-of-classes-III-VII-IX-01.png"
+        ]
+      },
+      {
+        "name": "The infinitive",
+        "pages": [
+          "sections/ch13/infinitive-01.png",
+          "sections/ch13/infinitive-02.png",
+          "sections/ch13/infinitive-03.png"
+        ]
+      },
+      {
+        "name": "The future",
+        "pages": [
+          "sections/ch13/future-tense-01.png",
+          "sections/ch13/future-tense-02.png"
+        ]
+      },
+      {
+        "name": "Relative adverbs: noun-clauses and clauses of reason, result, condition, concession etc. ",
+        "pages": [
+          "sections/ch13/relative-adverbs-01.png",
+          "sections/ch13/relative-adverbs-02.png",
+          "sections/ch13/relative-adverbs-03.png",
+          "sections/ch13/relative-adverbs-04.png",
+          "sections/ch13/relative-adverbs-05.png",
+          "sections/ch13/relative-adverbs-06.png",
+          "sections/ch13/relative-adverbs-07.png"
+        ]
+      },
+      {
+        "name": "asau",
+        "pages": [
+          "sections/ch13/asau-01.png"
+        ]
+      },
+      {
+        "name": "ādi",
+        "pages": [
+          "sections/ch13/adi-01.png"
+        ]
+      },
+      {
+        "name": "ājñāpayati/vijñāpayati",
+        "pages": [
+          "sections/ch13/ajnapayati-vijnapayati-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch13/vocabulary-01.png",
+          "sections/ch13/vocabulary-02.png",
+          "sections/ch13/vocabulary-03.png",
+          "sections/ch13/vocabulary-04.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch13/exercises-01.png",
+          "sections/ch13/exercises-02a.png",
+          "sections/ch13/exercises-02b.png"
+        ]
+      },
+      {
+        "name": "Answers of exercises",
+        "pages": [
+          "sections/ch13/exercises-answers-01a.png",
+          "sections/ch13/exercises-answers-01b.png",
+          "sections/ch13/exercises-answers-02.png",
+          "sections/ch13/exercises-answers-03.png"
         ]
       }
     ]
