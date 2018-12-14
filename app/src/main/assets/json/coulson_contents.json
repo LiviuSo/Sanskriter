@@ -1184,6 +1184,90 @@
           "sections/ch13/exercises-answers-03.png"
         ]
       }
+    ],
+    "13": [
+      {
+        "name": "The imperfect",
+        "pages": [
+          "sections/ch14/imperfect-tense-01.png",
+          "sections/ch14/imperfect-tense-02.png",
+          "sections/ch14/imperfect-tense-03.png"
+        ]
+      },
+      {
+        "name": "The optative",
+        "pages": [
+          "sections/ch14/optative-01.png"
+        ]
+      },
+      {
+        "name": "Remote conditions",
+        "pages": [
+          "sections/ch14/remote-conditions-01.png",
+          "sections/ch14/remote-conditions-02.png"
+        ]
+      },
+      {
+        "name": "Comparatives and superlatives",
+        "pages": [
+          "sections/ch14/comparatives-and-superlatives-01.png",
+          "sections/ch14/comparatives-and-superlatives-02.png",
+          "sections/ch14/comparatives-and-superlatives-03.png"
+        ]
+      },
+      {
+        "name": "Constructions with iti",
+        "pages": [
+          "sections/ch14/constructions-with-iti-01.png",
+          "sections/ch14/constructions-with-iti-02.png",
+          "sections/ch14/constructions-with-iti-03.png",
+          "sections/ch14/constructions-with-iti-04.png"
+        ]
+      },
+      {
+        "name": "Clauses of command",
+        "pages": [
+          "sections/ch14/command-clauses-01.png"
+        ]
+      },
+      {
+        "name": "Interrogative clauses",
+        "pages": [
+          "sections/ch14/interrogative-clauses-01.png",
+          "sections/ch14/interrogative-clauses-02.png"
+        ]
+      },
+      {
+        "name": "Word repetition",
+        "pages": [
+          "sections/ch14/word-repetition-01.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch14/vocabulary-01.png",
+          "sections/ch14/vocabulary-02.png",
+          "sections/ch14/vocabulary-03.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch14/exercises-01.png",
+          "sections/ch14/exercises-02a.png",
+          "sections/ch14/exercises-02b.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch14/exercises-answers-01a.png",
+          "sections/ch14/exercises-answers-01b.png",
+          "sections/ch14/exercises-answers-02.png",
+          "sections/ch14/exercises-answers-03.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
