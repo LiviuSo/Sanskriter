@@ -1268,6 +1268,130 @@
           "sections/ch14/exercises-answers-03.png"
         ]
       }
+    ],
+    "14": [
+      {
+        "name": "The perfect",
+        "pages": [
+          "sections/ch15/perfect-tense-01.png",
+          "sections/ch15/perfect-tense-02.png",
+          "sections/ch15/perfect-tense-03.png"
+        ]
+      },
+      {
+        "name": "The aorist",
+        "pages": [
+          "sections/ch15/aorist-tense-01.png",
+          "sections/ch15/aorist-tense-02.png",
+          "sections/ch15/aorist-tense-03.png"
+        ]
+      },
+      {
+        "name": "The injunctive",
+        "pages": [
+          "sections/ch15/injunctive-01.png"
+        ]
+      },
+      {
+        "name": "The predicative",
+        "pages": [
+          "sections/ch15/predicative-01.png"
+        ]
+      },
+      {
+        "name": "ahan.antaram.śastrapāṇī etc",
+        "pages": [
+          "sections/ch15/ahan-antaram-sastrapani-01.png"
+        ]
+      },
+      {
+        "name": "Metre",
+        "pages": [
+          "sections/ch15/sanskrit-metre-01.png"
+        ]
+      },
+      {
+        "name": "The anuṣṭubh metre",
+        "pages": [
+          "sections/ch15/anustub-metre-01.png",
+          "sections/ch15/anustub-metre-02.png"
+        ]
+      },
+      {
+        "name": "Even metres",
+        "pages": [
+          "sections/ch15/even-metres-01.png",
+          "sections/ch15/even-metres-02.png",
+          "sections/ch15/even-metres-03.png",
+          "sections/ch15/even-metres-04.png"
+        ]
+      },
+      {
+        "name": "Semi-even metres",
+        "pages": [
+          "sections/ch15/semi-even-metres-01.png"
+        ]
+      },
+      {
+        "name": "The Āryā metre",
+        "pages": [
+          "sections/ch15/arya-metre-01.png"
+        ]
+      },
+      {
+        "name": "The Kumāra-saṃbhava",
+        "pages": [
+          "sections/ch15/kumara-sambhava-01.png",
+          "sections/ch15/kumara-sambhava-02.png",
+          "sections/ch15/kumara-sambhava-03.png"
+        ]
+      },
+      {
+        "name": "Mallinātha's commentary",
+        "pages": [
+          "sections/ch15/mallinatha-commentary-01.png",
+          "sections/ch15/mallinatha-commentary-02.png",
+          "sections/ch15/mallinatha-commentary-03.png",
+          "sections/ch15/mallinatha-commentary-04.png"
+        ]
+      },
+      {
+        "name": "Pāṇinian grammar",
+        "pages": [
+          "sections/ch15/paninian-grammar-01.png",
+          "sections/ch15/paninian-grammar-02.png",
+          "sections/ch15/paninian-grammar-03.png",
+          "sections/ch15/paninian-grammar-04.png"
+        ]
+      },
+      {
+        "name": "Vocabulary",
+        "pages": [
+          "sections/ch15/vocabulary-01.png",
+          "sections/ch15/vocabulary-02.png",
+          "sections/ch15/vocabulary-03.png",
+          "sections/ch15/vocabulary-04.png",
+          "sections/ch15/vocabulary-05.png"
+        ]
+      },
+      {
+        "name": "Exercises",
+        "pages": [
+          "sections/ch15/exercises-01a.png",
+          "sections/ch15/exercises-01b.png",
+          "sections/ch15/exercises-01c.png"
+        ]
+      },
+      {
+        "name": "Answers to exercises",
+        "pages": [
+          "sections/ch15/exercises-answers-01.png",
+          "sections/ch15/exercises-answers-02.png",
+          "sections/ch15/exercises-answers-03.png",
+          "sections/ch15/exercises-answers-04.png",
+          "sections/ch15/exercises-answers-05.png"
+        ]
+      }
     ]
   },
   "title": "Coulson"
