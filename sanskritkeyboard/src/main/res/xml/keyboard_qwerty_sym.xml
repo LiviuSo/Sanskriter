@@ -12,6 +12,19 @@
     </Row>
 
     <Row>
+        <Key android:keyLabel="\u002F" android:codes="47" android:keyEdgeFlags="left" />
+        <Key android:keyLabel="\u005C" android:codes="92" />
+        <Key android:keyLabel="\u0024" android:codes="36" />
+        <Key android:keyLabel="\u0025" android:codes="37" />
+        <Key android:keyLabel="\u0026" android:codes="38" />
+        <Key android:keyLabel="\u005E" android:codes="94" />
+        <Key android:keyLabel="\u0060" android:codes="96" />
+        <Key android:keyLabel="\u0027" android:codes="39"/>
+        <Key android:keyLabel="\u00A3" android:codes="163" />
+        <Key android:keyLabel="\u0A2" android:codes="162"  android:keyEdgeFlags="right" />
+    </Row>
+
+    <Row>
         <Key android:keyLabel=":" android:codes="58"  android:keyEdgeFlags="left" />
         <Key android:keyLabel=";" android:codes="59"/>
         <Key android:keyLabel="\@" android:codes="64"/>
@@ -25,10 +38,10 @@
     </Row>
 
     <Row>
-        <Key android:keyLabel="\u0027" android:codes="39" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="=" android:codes="61"  android:keyEdgeFlags="left"/>
         <Key android:keyLabel="+" android:codes="43"/>
         <Key android:keyLabel="*" android:codes="42"/>
-        <Key android:keyLabel="=" android:codes="61"/>
+        <Key android:keyLabel="\u00F7" android:codes="247" />
         <Key android:keyLabel="(" android:codes="40"/>
         <Key android:keyLabel=")" android:codes="41"/>
         <Key android:keyLabel="[" android:codes="91"/>

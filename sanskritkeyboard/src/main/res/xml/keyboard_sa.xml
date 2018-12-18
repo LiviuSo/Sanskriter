@@ -24,7 +24,7 @@
         <Key android:keyLabel="\u0913" android:codes="2323"
              android:popupKeyboard="@xml/candidates_sa_au"/>
         <Key android:keyLabel="\u0939" android:codes="2361"/>
-        <Key android:keyLabel="\u093D" android:codes="2365"/>
+        <Key android:keyLabel="\u094D"  android:codes="2381"/>
         <Key android:keyLabel="\u0964" android:codes="2404" android:keyEdgeFlags="right"  android:popupKeyboard="@xml/candidates_sa_double_stop"/>
     </Row>
 
