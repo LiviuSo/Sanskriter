@@ -20,8 +20,6 @@ import android.view.View
 import android.widget.*
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.WordsAdapter
-import com.android.lvicto.sanskriter.adapters.WordsAdapter.Companion.TYPE_NON_REMOVABLE
-import com.android.lvicto.sanskriter.adapters.WordsAdapter.Companion.TYPE_REMOVABLE
 import com.android.lvicto.sanskriter.data.Words
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.utils.Constants
@@ -33,7 +31,7 @@ import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_dictionary.*
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -47,6 +45,8 @@ class DictionaryActivity : AppCompatActivity() {
     private lateinit var llSearch: LinearLayout
     private lateinit var editSearchDic: EditText
     private lateinit var ibSearchClose: ImageButton
+    private lateinit var fab: FloatingActionButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -174,13 +174,11 @@ class DictionaryActivity : AppCompatActivity() {
 
         // remove words
         llRemoveCancel = findViewById(R.id.llRemoveCancel)
-        val btnRemove = findViewById<Button>(R.id.btnRemove)
-        btnRemove.setOnClickListener(this::removeSelected)
-        val btnCancel = findViewById<Button>(R.id.btnCancel)
-        btnCancel.setOnClickListener(this::cancelRemove)
+        findViewById<Button>(R.id.btnRemove).setOnClickListener(this::removeSelected)
+        findViewById<Button>(R.id.btnCancel).setOnClickListener(this::cancelRemove)
 
         // add fab
-        val fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
+        fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
         fab.setOnClickListener {
             val intent = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_ADD_WORD)
@@ -193,11 +191,12 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
 
-    @SuppressLint("CheckResult")
+    @SuppressLint("CheckResult", "RestrictedApi")
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::refreshWords)
         adapter.unselectRemoveSelected()
+        fab.visibility = View.VISIBLE
     }
 
     private fun refreshWords(dummy: Int) {
@@ -210,9 +209,11 @@ class DictionaryActivity : AppCompatActivity() {
         })
     }
 
+    @SuppressLint("RestrictedApi")
     private fun cancelRemoveSelected() {
         updateRevViewItems(WordsAdapter.TYPE_NON_REMOVABLE)
         llRemoveCancel.visibility = View.GONE
+        fab.visibility = View.VISIBLE
     }
 
     companion object {
@@ -267,10 +268,11 @@ class DictionaryActivity : AppCompatActivity() {
         this@DictionaryActivity.startActivityForResult(intentEdit, REQUEST_CODE_EDIT_WORD)
     }
 
+    @SuppressLint("RestrictedApi")
     private val longClickListener: View.OnLongClickListener = View.OnLongClickListener {
-        Toast.makeText(this, "Long tap", Toast.LENGTH_LONG).show()
         updateRevViewItems(WordsAdapter.TYPE_REMOVABLE)
         llRemoveCancel.visibility = View.VISIBLE
+        fab.visibility = View.GONE
         true
     }
 
