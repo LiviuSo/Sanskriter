@@ -62,6 +62,7 @@ class WordsAdapter(private val context: Context,
 
     fun unselectRemoveSelected() {
         selectedToRemove.clear()
+        notifyDataSetChanged()
     }
 
     fun getWordsToRemove(): List<Word> = selectedToRemove.map {

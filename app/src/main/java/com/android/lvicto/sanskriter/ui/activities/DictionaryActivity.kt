@@ -185,7 +185,7 @@ class DictionaryActivity : AppCompatActivity() {
         // remove words
         llRemoveCancel = findViewById(R.id.llRemoveCancel)
         findViewById<Button>(R.id.btnRemove).setOnClickListener(this::removeSelected)
-        findViewById<Button>(R.id.btnClearSelections).setOnClickListener(this::cancelRemove)
+        findViewById<Button>(R.id.btnClearSelections).setOnClickListener(this::unselectAll)
 
         // add fab
         fab = findViewById(R.id.fabDictionary)
