@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.db.entity.Word
@@ -17,7 +16,8 @@ import com.android.lvicto.sanskriter.db.entity.Word
 class WordsAdapter(private val context: Context,
                    private val clickListenerDefinition: View.OnClickListener,
                    private val clickListenerEdit: View.OnClickListener,
-                   private val longClickListener: View.OnLongClickListener) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
+                   private val longClickListener: View.OnLongClickListener,
+                   private val checkItemCallback: (Boolean) -> Unit) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
 
     var type: Int = TYPE_NON_REMOVABLE
     var words: List<Word>? = null
@@ -32,10 +32,10 @@ class WordsAdapter(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordsAdapter.WordViewHolder {
         val view = if (type == TYPE_NON_REMOVABLE) {
             LayoutInflater.from(context).inflate(R.layout.item_word, parent, false)
-        } else {
+        } else { // TYPE_REMOVABLE
             LayoutInflater.from(context).inflate(R.layout.item_word_removable, parent, false)
         }
-        return WordViewHolder(view, clickListenerDefinition, clickListenerEdit, longClickListener)
+        return WordViewHolder(view, clickListenerDefinition, clickListenerEdit, longClickListener, checkItemCallback)
     }
 
     override fun getItemCount(): Int {
@@ -71,7 +71,8 @@ class WordsAdapter(private val context: Context,
     inner class WordViewHolder(val view: View,
                                private val clickListenerDefinition: View.OnClickListener,
                                private val clickListenerEdit: View.OnClickListener,
-                               private val longClickListener: View.OnLongClickListener) : RecyclerView.ViewHolder(view) {
+                               private val longClickListener: View.OnLongClickListener,
+                               private val hideCtaOnNoSelection: (Boolean) -> Unit) : RecyclerView.ViewHolder(view) {
 
         fun bindData(word: Word, type: Int, position: Int) { // todo complete
             view.findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
@@ -95,6 +96,7 @@ class WordsAdapter(private val context: Context,
                                 Log.d(LOG_TAG, "Selected $position")
                                 selectedToRemove.add(position)
                             }
+                            hideCtaOnNoSelection(selectedToRemove.size == 0)
                         }
                     }
                     checkBox.isChecked = selectedToRemove.contains(position)

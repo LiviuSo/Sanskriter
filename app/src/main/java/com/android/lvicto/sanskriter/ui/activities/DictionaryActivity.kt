@@ -123,6 +123,7 @@ class DictionaryActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar?.title = resources.getString(R.string.dictionary)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         // search bar
         llSearch = findViewById(R.id.llSearchBar)
@@ -165,7 +166,16 @@ class DictionaryActivity : AppCompatActivity() {
 
         // words recycleview
         recyclerView = findViewById(R.id.rv_words)
-        wordsAdapter = WordsAdapter(this, itemDefinitionClickListener, itemEditClickListener, longClickListener)
+        wordsAdapter = WordsAdapter(this, itemDefinitionClickListener,
+                itemEditClickListener,
+                longClickListener
+        ) {
+            llRemoveCancel.visibility = if (it) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = wordsAdapter
         viewModel.allWords.observe(this, Observer<List<Word>> {
@@ -175,21 +185,25 @@ class DictionaryActivity : AppCompatActivity() {
         // remove words
         llRemoveCancel = findViewById(R.id.llRemoveCancel)
         findViewById<Button>(R.id.btnRemove).setOnClickListener(this::removeSelected)
-        findViewById<Button>(R.id.btnCancel).setOnClickListener(this::cancelRemove)
+        findViewById<Button>(R.id.btnClearSelections).setOnClickListener(this::cancelRemove)
 
         // add fab
-        fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
+        fab = findViewById(R.id.fabDictionary)
         fab.setOnClickListener {
             val intent = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_ADD_WORD)
         }
     }
 
-    private fun cancelRemove(v: View) {
-        (recyclerView.adapter as WordsAdapter).unselectRemoveSelected()
-        cancelRemoveSelected()
+    private fun unselectAll(v: View) {
+        (recyclerView.adapter as WordsAdapter).unselectRemoveSelected()  // todo fix
+        llRemoveCancel.visibility = View.GONE
     }
 
+    private fun cancelRemove(v: View) {
+        unselectAll(v)
+        cancelRemoveSelected()
+    }
 
     @SuppressLint("CheckResult", "RestrictedApi")
     private fun removeSelected(v: View) {
@@ -271,7 +285,7 @@ class DictionaryActivity : AppCompatActivity() {
     @SuppressLint("RestrictedApi")
     private val longClickListener: View.OnLongClickListener = View.OnLongClickListener {
         updateRevViewItems(WordsAdapter.TYPE_REMOVABLE)
-        llRemoveCancel.visibility = View.VISIBLE
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         fab.visibility = View.GONE
         true
     }
@@ -283,11 +297,24 @@ class DictionaryActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        cancelRemoveSelected()
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        return true
+    }
+
     override fun onBackPressed() {
         when {
-            llImport.visibility == View.VISIBLE -> llImport.visibility = View.GONE
-            llRemoveCancel.visibility == View.VISIBLE -> cancelRemoveSelected()
-            else -> super.onBackPressed()
+            llImport.visibility == View.VISIBLE -> {
+                llImport.visibility = View.GONE
+            }
+            llRemoveCancel.visibility == View.VISIBLE -> {
+                cancelRemoveSelected()
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+            else -> {
+                super.onBackPressed()
+            }
         }
     }
 }

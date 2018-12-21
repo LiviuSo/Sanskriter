@@ -1,13 +1,10 @@
 package com.android.lvicto.sanskriter.ui.fragments
 
-import android.content.Context
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.GestureDetectorCompat
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R

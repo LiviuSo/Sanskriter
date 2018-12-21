@@ -49,11 +49,11 @@
             android:text="Remove selected" />
 
         <Button
-            android:id="@+id/btnCancel"
+            android:id="@+id/btnClearSelections"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="Clear Selection"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
