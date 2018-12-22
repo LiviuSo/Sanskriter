@@ -5,5 +5,8 @@
     <string name="saveWord">Save</string>
     <string name="dictionary">Dictionary</string>
     <string name="dic_search_hint">Start typing</string>
+    <string name="string_menu">Import</string>
+    <string name="string_export">Export</string>
+    <string name="string_find">Find</string>
 
 </resources>

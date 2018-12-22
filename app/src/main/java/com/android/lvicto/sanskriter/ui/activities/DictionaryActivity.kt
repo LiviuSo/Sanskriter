@@ -200,27 +200,15 @@ class DictionaryActivity : AppCompatActivity() {
         llRemoveCancel.visibility = View.GONE
     }
 
-    private fun cancelRemove(v: View) {
-        unselectAll(v)
-        cancelRemoveSelected()
-    }
-
     @SuppressLint("CheckResult", "RestrictedApi")
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::refreshWords)
         adapter.unselectRemoveSelected()
-        fab.visibility = View.VISIBLE
     }
 
     private fun refreshWords(dummy: Int) {
         viewModel.refreshAllWords(0) // todo refactor
-        viewModel.allWords.observe(this, Observer<List<Word>> {
-            val adapter = recyclerView.adapter as WordsAdapter
-            adapter.type = WordsAdapter.TYPE_NON_REMOVABLE
-            adapter.words = it
-            llRemoveCancel.visibility = View.GONE
-        })
     }
 
     @SuppressLint("RestrictedApi")

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/menuItemImport"
-        android:title="Import" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menuItemExport"
-        android:title="Export" />
+        android:title="@string/string_export"
+        android:icon="@drawable/ic_export_24dp" />
+    <item
+        android:id="@+id/menuItemImport"
+        android:title="@string/string_menu"
+        android:icon="@drawable/ic_import_24dp"/>
     <item
         android:id="@+id/menuItemFind"
-        android:title="Find" />
+        android:title="@string/string_find"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_search_24dp"/>
 </menu>
