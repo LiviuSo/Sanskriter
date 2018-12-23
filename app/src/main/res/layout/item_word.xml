@@ -24,7 +24,9 @@
             android:layout_marginBottom="2dp"
             android:text="[word IAST]"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/tvItemWordSa"
@@ -33,7 +35,9 @@
             android:paddingStart="10dp"
             android:paddingLeft="10dp"
             android:text="[word Sa]"
-            android:textSize="17dp" />
+            android:textSize="17dp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
     </LinearLayout>
 
     <TextView
@@ -43,6 +47,8 @@
         android:textStyle="italic"
         android:gravity="center_vertical|start"
         android:layout_marginStart="@dimen/item_margin_left_right"
-        android:layout_marginLeft="@dimen/item_margin_left_right" />
+        android:layout_marginLeft="@dimen/item_margin_left_right"
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
 </LinearLayout>

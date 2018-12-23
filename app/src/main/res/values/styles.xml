@@ -13,4 +13,16 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
+    <style name="AppTheme.BookTheme">
+        <item name="colorPrimary">@color/colorPrimaryBook</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBook</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.DictionaryTheme">
+        <item name="colorPrimary">@color/colorPrimaryDictionary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDictionary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
 </resources>

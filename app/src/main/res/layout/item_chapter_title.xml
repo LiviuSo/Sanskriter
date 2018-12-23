@@ -3,7 +3,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/book_content_item_height"
+    android:layout_height="wrap_content"
     android:id="@+id/tvItemName"
     android:gravity="start|center_vertical"
     android:text="[Chapter]"
@@ -14,6 +14,8 @@
     android:layout_marginEnd="1dp"
     android:layout_marginRight="1dp"
     android:layout_marginBottom="@dimen/item_margin_bottom"
-    android:paddingStart="5dp"
-    android:paddingLeft="5dp"
+    android:paddingStart="@dimen/chapter_padding_start_end"
+    android:paddingRight="@dimen/chapter_padding_start_end"
+    android:paddingEnd="@dimen/chapter_padding_start_end"
+    android:paddingLeft="@dimen/chapter_padding_start_end"
     android:background="@color/chapterTitleColor" />

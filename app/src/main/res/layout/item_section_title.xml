@@ -3,7 +3,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/book_content_item_height"
+    android:layout_height="wrap_content"
     android:id="@+id/tvItemName"
     android:text="[Section]"
     android:gravity="start|center_vertical"
@@ -13,6 +13,10 @@
     android:layout_marginEnd="1dp"
     android:layout_marginRight="1dp"
     android:layout_marginBottom="@dimen/item_margin_bottom"
-    android:paddingStart="25dp"
-    android:paddingLeft="25dp"
-    android:background="@color/sectionTitleColor"/>
+    android:paddingStart="@dimen/section_title_padding_left_right"
+    android:paddingRight="@dimen/section_title_padding_left_right"
+    android:paddingLeft="@dimen/section_title_padding_left_right"
+    android:paddingEnd="@dimen/section_title_padding_left_right"
+    android:background="@color/sectionTitleColor"
+    android:ellipsize="end"
+    android:maxLines="1"/>

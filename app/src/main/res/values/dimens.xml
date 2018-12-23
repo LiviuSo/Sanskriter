@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="book_content_item_height">55dp</dimen>
     <dimen name="dim_item_word">60dp</dimen>
     <dimen name="item_margin_bottom">2dp</dimen>
     <dimen name="item_margin_left_right">4dp</dimen>
@@ -8,4 +7,7 @@
     <dimen name="dim_fab_bottom">10dp</dimen>
     <dimen name="dim_fab_elevation">11dp</dimen>
     <dimen name="dim_toolbar_height">65dp</dimen>
+    <dimen name="section_title_padding_left_right">25dp</dimen>
+    <dimen name="chapter_padding_start_end">5dp</dimen>
+    <dimen name="padding_start_iast">10dp</dimen>
 </resources>
