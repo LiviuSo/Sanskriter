@@ -13,6 +13,7 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
     lateinit var titles: ArrayList<String>
     var sectionTitles: Map<Int, List<BookSection>> = bookContent.sections
     private var currentlyExpanded: Int = -1
+    var lastOpenedSectionTitle: String = ""
 
     init {
         generateChapterTitles()
@@ -80,6 +81,12 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
         }
         return sectionTitles[currentlyExpanded]!!.first {
             it.name == title
+        }
+    }
+
+    fun getIndexOfTitle(title: String): Int {
+        return (0..titles.size).first {
+            titles[it] == title
         }
     }
 }

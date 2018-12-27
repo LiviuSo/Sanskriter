@@ -32,7 +32,7 @@ class PagesActivity : FragmentActivity() {
 
         val section = intent.getParcelableExtra<BookSection>(EXTRA_SECTION)
 
-        titleBar = findViewById(R.id.tvPagesTitle) // todo add truncation for long titles
+        titleBar = findViewById(R.id.tvPagesTitle)
         pageIndex = findViewById(R.id.tvPageIndex)
         mPager = findViewById(R.id.vpPages)
 
