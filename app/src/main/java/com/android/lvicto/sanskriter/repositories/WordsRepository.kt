@@ -19,14 +19,14 @@ class WordsRepository  internal constructor(val application: Application) {
         allWords = Observable.fromCallable {  wordsDao.getAllWords() }.subscribeOn(Schedulers.io())
     }
 
-    fun insertWordRx(word: Word): Single<Int> {
-        return Single.fromCallable {
+    fun insertWordRx(word: Word): Observable<Int> {
+        return Observable.fromCallable {
             wordsDao.insert(word)
             0
         }.subscribeOn(Schedulers.io())
     }
 
-    fun deleteWords(words: List<Word>): Single<Int> {
-        return Single.fromCallable { wordsDao.deleteWords(words) }
+    fun deleteWords(words: List<Word>): Observable<Int> {
+        return Observable.fromCallable { wordsDao.deleteWords(words) }
     }
 }

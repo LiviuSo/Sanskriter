@@ -11,28 +11,31 @@ import com.android.lvicto.sanskriter.repositories.FileRepository
 import com.android.lvicto.sanskriter.repositories.WordsRepository
 import com.google.gson.Gson
 import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class WordsViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val repo: WordsRepository = WordsRepository(application = app)
-    val allWords: MutableLiveData<List<Word>> = MutableLiveData()
-
-    init {
-        refreshAllWords(0)
-    }
 
     @SuppressLint("CheckResult")
-    fun refreshAllWords(dummy: Int) {
+    fun getAllWords() : LiveData<List<Word>> {
+        val allWords: MutableLiveData<List<Word>> = MutableLiveData()
         repo.allWords.subscribe {
             allWords.postValue(it)
         }
+        return allWords
     }
 
     @SuppressLint("CheckResult")
-    fun insert(word: Word) {
-        repo.insertWordRx(word).subscribe(this::refreshAllWords)
+    fun insert(word: Word): LiveData<List<Word>> {
+        val allWords: MutableLiveData<List<Word>> = MutableLiveData()
+        repo.insertWordRx(word).subscribe {
+            repo.allWords.subscribe {lw ->
+                allWords.postValue(lw)
+            }
+        }
+        return allWords
     }
 
     // todo use when implement FileProvider
@@ -43,14 +46,38 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     fun saveToPrivateFile(words: Words): LiveData<() -> Unit> =
             FileRepository.saveToPrivateFile(context = app.applicationContext, json = Gson().toJson(words))
 
-    fun loadFromString(json: String): LiveData<String> {
-        val mutableLiveData: MutableLiveData<String> = MutableLiveData()
-        mutableLiveData.value = json
-        return mutableLiveData
+    @SuppressLint("CheckResult")
+    fun loadFromString(json: String): LiveData<List<Word>> {
+        val allWords: MutableLiveData<List<Word>> = MutableLiveData()
+        val words = Gson().fromJson(json, Words::class.java)
+        Observable.fromIterable(words.list)
+                .flatMap { w ->
+                    repo.insertWordRx(w)
+                            .concatMap { Observable.just(w) }
+                }
+                .toList()
+                .toObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    allWords.value = it
+                }
+        return allWords
     }
 
-    fun deleteWords(words: List<Word>): Single<Int> {
-        return repo.deleteWords(words = words).subscribeOn(Schedulers.io())
+    @SuppressLint("CheckResult")
+    fun deleteWords(words: List<Word>): LiveData<List<Word>> {
+        val allWords: MutableLiveData<List<Word>> = MutableLiveData()
+        repo.deleteWords(words = words)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if (it > 0) {
+                        repo.allWords.subscribe { lw ->
+                            allWords.postValue(lw)
+                        }
+                    }
+                }
+        return allWords
     }
 
     @SuppressLint("CheckResult")

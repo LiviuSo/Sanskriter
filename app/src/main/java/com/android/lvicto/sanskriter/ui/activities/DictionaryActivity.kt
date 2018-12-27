@@ -31,7 +31,6 @@ import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_dictionary.*
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -76,7 +75,7 @@ class DictionaryActivity : AppCompatActivity() {
             }
             R.id.menuItemExport -> {
                 Log.d(LOG_TAG, "R.id.menuItemExport")
-                viewModel.allWords.observe(this, exportObserver)
+                viewModel.getAllWords().observe(this, exportObserver)
                 true
             }
             R.id.menuItemFind -> {
@@ -108,7 +107,12 @@ class DictionaryActivity : AppCompatActivity() {
                     if (data.hasExtra(EXTRA_WORD_ID)) {
                         word.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
                     }
-                    viewModel.insert(word)
+
+                    if(requestCode == REQUEST_CODE_ADD_WORD) {
+                        viewModel.insert(word).observe(this@DictionaryActivity, Observer<List<Word>> {
+                            wordsAdapter.words = it
+                        })
+                    }
                 }
                 else -> {
                     Log.e(LOG_TAG, "Unknown code on DictionaryActivity.onActivityResult()")
@@ -160,8 +164,11 @@ class DictionaryActivity : AppCompatActivity() {
         llImport = findViewById(R.id.llJsonImport)
         val edit = findViewById<EditText>(R.id.editJson)
         findViewById<Button>(R.id.btnLoadJson).setOnClickListener {
-            viewModel.loadFromString(edit.text.toString()).observe(this@DictionaryActivity, loadFromJsonObserver)
-            llImport.visibility = View.GONE
+            viewModel.loadFromString(edit.text.toString())
+                    .observe(this@DictionaryActivity, Observer<List<Word>> { lw ->
+                        llImport.visibility = View.GONE
+                        wordsAdapter.words = lw
+                    })
         }
 
         // words recycleview
@@ -178,7 +185,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = wordsAdapter
-        viewModel.allWords.observe(this, Observer<List<Word>> {
+        viewModel.getAllWords().observe(this, Observer<List<Word>> {
             wordsAdapter.words = it
         })
 
@@ -203,12 +210,11 @@ class DictionaryActivity : AppCompatActivity() {
     @SuppressLint("CheckResult", "RestrictedApi")
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
-        viewModel.deleteWords(adapter.getWordsToRemove()).observeOn(AndroidSchedulers.mainThread()).subscribe(this::refreshWords)
-        adapter.unselectRemoveSelected()
-    }
-
-    private fun refreshWords(dummy: Int) {
-        viewModel.refreshAllWords(0) // todo refactor
+        viewModel.deleteWords(adapter.getWordsToRemove())
+                .observe(this@DictionaryActivity, Observer<List<Word>>{
+                    adapter.unselectRemoveSelected()
+                    adapter.words = it
+                })
     }
 
     @SuppressLint("RestrictedApi")
@@ -220,17 +226,6 @@ class DictionaryActivity : AppCompatActivity() {
 
     companion object {
         private val LOG_TAG = DictionaryActivity::class.java.simpleName
-    }
-
-    private val loadFromJsonObserver = Observer<String> { it ->
-        Log.d(LOG_TAG, it)
-        if (!it!!.isEmpty()) {
-            val list = Gson().fromJson(it, Words::class.java)
-            list.list.forEach {
-                Log.d(LOG_TAG, it.toString())
-                viewModel.insert(it)
-            }
-        }
     }
 
 //    private val saveToFileObserver = Observer<List<Word>> { it ->
