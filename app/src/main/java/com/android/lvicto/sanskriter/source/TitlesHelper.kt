@@ -67,7 +67,7 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
         return buffer.toString()
     }
 
-    fun generateChapterTitles(): ArrayList<String> {
+    private fun generateChapterTitles(): ArrayList<String> {
         titles = arrayListOf() // todo find how to access layered it with(arrayListOf()) { (0..2).forEach() { ....}}
         (1..sectionTitles.keys.size).forEach {
             titles.add("${MyApplication.application.getString(R.string.chapter)} $it")
@@ -81,12 +81,6 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
         }
         return sectionTitles[currentlyExpanded]!!.first {
             it.name == title
-        }
-    }
-
-    fun getIndexOfTitle(title: String): Int {
-        return (0..titles.size).first {
-            titles[it] == title
         }
     }
 }

@@ -77,6 +77,12 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
         }
     }
 
+    fun openLatestVisitedChapter() {
+        val latestChapterIndex = 0
+        helper.expandData(latestChapterIndex)
+        notifyDataSetChanged()
+    }
+
     companion object {
         private val LOG_TAG = TitlesAdapter::class.java.simpleName
         private const val TYPE_CHAPTER = 0
