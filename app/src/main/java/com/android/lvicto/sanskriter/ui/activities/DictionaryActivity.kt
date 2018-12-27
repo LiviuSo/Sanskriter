@@ -30,7 +30,6 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_EDIT_
 import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
 import com.google.gson.Gson
-import io.reactivex.android.schedulers.AndroidSchedulers
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -110,7 +109,14 @@ class DictionaryActivity : AppCompatActivity() {
 
                     if(requestCode == REQUEST_CODE_ADD_WORD) {
                         viewModel.insert(word).observe(this@DictionaryActivity, Observer<List<Word>> {
-                            wordsAdapter.words = it
+                            if(llSearch.visibility != View.VISIBLE) { // show all words
+                                wordsAdapter.words = it
+                            } else { // filter
+                                viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
+                                        Observer<List<Word>> { fw ->
+                                            wordsAdapter.words = fw
+                                        })
+                            }
                         })
                     }
                 }
@@ -213,7 +219,14 @@ class DictionaryActivity : AppCompatActivity() {
         viewModel.deleteWords(adapter.getWordsToRemove())
                 .observe(this@DictionaryActivity, Observer<List<Word>>{
                     adapter.unselectRemoveSelected()
-                    adapter.words = it
+                    if(llSearch.visibility != View.VISIBLE) { // show all words
+                        wordsAdapter.words = it
+                    } else { // filter
+                        viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
+                                Observer<List<Word>> { fw ->
+                                    wordsAdapter.words = fw
+                                })
+                    }
                 })
     }
 
