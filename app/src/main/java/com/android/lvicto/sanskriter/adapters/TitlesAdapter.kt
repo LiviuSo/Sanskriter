@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,11 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.source.TitlesHelper
 import com.android.lvicto.sanskriter.ui.activities.PagesActivity
 import com.android.lvicto.sanskriter.data.BookContent
+import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_CONTENT
+import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_SECTION
 import java.util.ArrayList
 
-class TitlesAdapter internal constructor(private val context: Context, bookContent: BookContent)
+class TitlesAdapter internal constructor(private val context: Context, private val bookContent: BookContent)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var helper: TitlesHelper = TitlesHelper(bookContent)
@@ -26,11 +29,11 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val item = if(viewType == TYPE_CHAPTER)
+        val item = if (viewType == TYPE_CHAPTER)
             LayoutInflater.from(parent.context).inflate(R.layout.item_chapter_title, parent, false)
         else {
-            val  view = LayoutInflater.from(parent.context).inflate(R.layout.item_section_title, parent, false)
-            if(viewType == TYPE_SECTION_SELECTED) {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_section_title, parent, false)
+            if (viewType == TYPE_SECTION_SELECTED) {
                 val selBackgroundColor = ContextCompat.getColor(context, R.color.sectionSelectedTitleColor)
                 view.findViewById<TextView>(R.id.tvItemName).setBackgroundColor(selBackgroundColor)
             }
@@ -52,7 +55,8 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
     override fun getItemViewType(position: Int): Int =
             when {
                 data[position].toLowerCase().contains("Chapter", true) -> TYPE_CHAPTER
-                data[position] == helper.lastOpenedSectionTitle -> TYPE_SECTION_SELECTED
+//                data[position] == helper.getLastAccessedSection(context) -> TYPE_SECTION_SELECTED // todo use when fixed
+                data[position] == TitlesHelper.lastOpenedSectionTitle -> TYPE_SECTION_SELECTED
                 else -> TYPE_SECTION
             }
 
@@ -67,20 +71,36 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
     }
 
     private fun getClickListenerSection(title: String) = View.OnClickListener {
-        // Toast.makeText(context, "Tapped section", Toast.LENGTH_SHORT).show() // todo remove
         with(context) {
-            helper.lastOpenedSectionTitle = title
+            //            helper.setLastAccessedSection(context, title) // todo use when fixed
+            TitlesHelper.currentChapter = helper.getChapterIndexOfSection(title)
             notifyDataSetChanged()
             val intent = Intent(context, PagesActivity::class.java)
-            intent.putExtra("section", helper.getSectionByTitle(title)) // todo add getAllPages() method in TitlesHelper
-            startActivity(intent) // todo startActivityForResult()
+            intent.putExtra(EXTRA_SECTION, title)
+            intent.putExtra(EXTRA_CONTENT, bookContent)
+            startActivity(intent)
         }
     }
 
     fun openLatestVisitedChapter() {
-        val latestChapterIndex = 0
-        helper.expandData(latestChapterIndex)
-        notifyDataSetChanged()
+        val newChapterIndex = getIndexOfFutureChapter()
+        if(newChapterIndex != -1) {
+            helper.expandData(newChapterIndex)
+            notifyDataSetChanged()
+        }
+    }
+
+    private fun getIndexOfFutureChapter(): Int {
+        val future = TitlesHelper.futureChapter
+        val current = TitlesHelper.currentChapter
+        Log.d(LOG_TAG, "$current $future")
+        return if(future <= current) {
+            future
+        } else {
+            val noOfSectionsCurrent = helper.getSectionsCountOfChapter(current)
+            noOfSectionsCurrent + future
+        }
+
     }
 
     companion object {
@@ -97,7 +117,7 @@ class TitlesAdapter internal constructor(private val context: Context, bookConte
                     text = data
                     if (type == TYPE_CHAPTER) {
                         setOnClickListener(listenerChapter)
-                    } else if (type == TYPE_SECTION) {
+                    } else {
                         setOnClickListener(listenerSection)
                     }
                 }

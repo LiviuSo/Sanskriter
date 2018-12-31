@@ -20,6 +20,7 @@ object Constants {
         const val REQUEST_CODE_EDIT_WORD = 112
 
         const val EXTRA_SECTION = "section"
+        const val EXTRA_CONTENT = "book_content"
         const val EXTRA_PAGE_TITLE = "page_title"
         const val EXTRA_PAGE_ASSET = "page_asset"
         const val EXTRA_ZOOM_BUNDLE = "extra_zoom_bundle"

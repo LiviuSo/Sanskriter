@@ -1,19 +1,36 @@
 package com.android.lvicto.sanskriter.source
 
+import android.content.Context
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
+import com.android.lvicto.sanskriter.data.BookPage
 import com.android.lvicto.sanskriter.data.BookSection
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
 /**
  * Returns the titles/headers of the chapters/sections
  */
-class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
+class TitlesHelper(private val bookContent: BookContent) { // todo: write unit tests
 
     lateinit var titles: ArrayList<String>
-    var sectionTitles: Map<Int, List<BookSection>> = bookContent.sections
-    private var currentlyExpanded: Int = -1
-    var lastOpenedSectionTitle: String = ""
+    private var sectionTitles: Map<Int, List<BookSection>> = bookContent.sections
+
+    companion object {
+        var lastOpenedSectionTitle: String = ""
+        var currentlyExpanded: Int = -1
+        var futureChapter: Int = -1
+        var currentChapter: Int = -1
+    }
+
+    // todo fix
+    fun getLastAccessedSection(context: Context): String =
+            PreferenceHelper(context).getLastSection()
+
+    // todo fix
+    fun setLastAccessedSection(context: Context, title: String) {
+        PreferenceHelper(context).setLastSection(title)
+    }
 
     init {
         generateChapterTitles()
@@ -50,7 +67,7 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
         // remove each corresponding subsection title
         val sections = sectionTitles[position]
 
-        (1..sections!!.size).forEach {
+        (1..sections!!.size).forEach { _ ->
             titles.removeAt(position + 1)
         }
         currentlyExpanded = -1
@@ -75,12 +92,25 @@ class TitlesHelper(bookContent: BookContent) { // todo: write unit tests
         return titles
     }
 
-    fun getSectionByTitle(title: String): BookSection? {
-        if(currentlyExpanded == -1) {
-            return null
+    fun createPages(): List<BookPage> {
+        val pages = ArrayList<BookPage>()
+        (0 until bookContent.sections.keys.size).forEach { chapterIndex ->
+            bookContent.sections[chapterIndex]?.forEach { section ->
+                (0 until section.pages.size).forEach { pageIndex ->
+                    pages.add(BookPage(chapterIndex, section.name, pageIndex, section.pages[pageIndex]))
+                }
+            }
         }
-        return sectionTitles[currentlyExpanded]!!.first {
-            it.name == title
+        return pages
+    }
+
+    fun getChapterIndexOfSection(lastOpenedSectionTitle: String): Int {
+        return (0 until bookContent.sections.keys.size).first {
+            bookContent.sections[it]?.firstOrNull { bs ->
+                bs.name == lastOpenedSectionTitle
+            } != null
         }
     }
+
+    fun getSectionsCountOfChapter(chapterIndex: Int): Int = sectionTitles[chapterIndex]!!.size
 }

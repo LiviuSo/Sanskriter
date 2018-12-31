@@ -10,7 +10,8 @@ class PreferenceHelper(private val context: Context) {
     companion object {
         private const val KEY_KEYBOARD_NAME = "keyboard_name"
         private const val KEY_KEYBOARD_PACKAGE = "keyboard_package"
-        private const val KEY_KEYBOARD_SETUP: String = "keyboard_setup"
+        private const val KEY_KEYBOARD_SETUP = "keyboard_setup"
+        private const val KEY_LAST_ACCESSED_SECTION_TITLE = "keyboard_setup"
     }
 
     fun setKeyboardSelected(value: Boolean) {
@@ -41,5 +42,15 @@ class PreferenceHelper(private val context: Context) {
     fun getKeyboardPackage(): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getString(KEY_KEYBOARD_PACKAGE, "")
+    }
+
+    fun setLastSection(section: String) {
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit().putString(KEY_LAST_ACCESSED_SECTION_TITLE, section).apply()
+    }
+
+    fun getLastSection(): String { // todo investigate exception
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getString(KEY_LAST_ACCESSED_SECTION_TITLE, "")!!
     }
 }

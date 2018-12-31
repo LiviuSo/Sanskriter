@@ -1,5 +1,5 @@
 {
-  "chaptersCount": 3,
+  "chaptersCount": 15,
   "sections": {
     "0": [
       {
@@ -91,14 +91,14 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (1)",
         "pages": [
           "sections/ch01/exercises-01.png",
           "sections/ch01/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (1)",
         "pages": [
           "sections/ch01/exercises-answers-01.png",
           "sections/ch01/exercises-answers-02.png"
@@ -186,14 +186,14 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (2)",
         "pages": [
           "sections/ch02/vocabulary-01.png",
           "sections/ch02/vocabulary-02.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (2)",
         "pages": [
           "sections/ch02/exercises-01.png",
           "sections/ch02/exercises-02.png",
@@ -201,7 +201,7 @@
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (2)",
         "pages": [
           "sections/ch02/exercises-answers-01.png",
           "sections/ch02/exercises-answers-02.png",
@@ -251,20 +251,20 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (3)",
         "pages": [
           "sections/ch03/vocabulary-01.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (3)",
         "pages": [
           "sections/ch03/exercises-01.png",
           "sections/ch03/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (3)",
         "pages": [
           "sections/ch03/exercises-answers-01.png",
           "sections/ch03/exercises-answers-02.png",
@@ -350,20 +350,20 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (4)",
         "pages": [
           "sections/ch04/vocabulary-01.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (4)",
         "pages": [
           "sections/ch04/exercises-01.png",
           "sections/ch04/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (4)",
         "pages": [
           "sections/ch04/exercises-answers-01.png",
           "sections/ch04/exercises-answers-02.png",
@@ -472,20 +472,20 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (5)",
         "pages": [
           "sections/ch05/vocabulary-01.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (5)",
         "pages": [
           "sections/ch05/exercises-01.png",
           "sections/ch05/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (5)",
         "pages": [
           "sections/ch05/exercises-answers-01.png",
           "sections/ch05/exercises-answers-02.png",
@@ -543,21 +543,21 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (6)",
         "pages": [
           "sections/ch06/vocabulary-01.png",
           "sections/ch06/vocabulary-02.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (6)",
         "pages": [
           "sections/ch06/exercises-01.png",
           "sections/ch06/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (6)",
         "pages": [
           "sections/ch06/exercises-answers-01.png",
           "sections/ch06/exercises-answers-02.png",
@@ -620,21 +620,21 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (7)",
         "pages": [
           "sections/ch07/vocabulary-01.png",
           "sections/ch07/vocabulary-02.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (7)",
         "pages": [
           "sections/ch07/exercises-01.png",
           "sections/ch07/exercises-02.png"
         ]
       },
       {
-        "name": "Exercises answers",
+        "name": "Exercises answers (7)",
         "pages": [
           "sections/ch07/exercises-answers-01.png",
           "sections/ch07/exercises-answers-02.png",
@@ -705,21 +705,21 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (8)",
         "pages": [
           "sections/ch08/vocabulary-01.png",
           "sections/ch08/vocabulary-02.png"
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (8)",
         "pages": [
           "sections/ch08/exercises-01.png",
           "sections/ch08/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (8)",
         "pages": [
           "sections/ch08/exercises-answers-01.png",
           "sections/ch08/exercises-answers-02.png",
@@ -798,7 +798,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (9)",
         "pages": [
           "sections/ch09/vocabulary-01.png",
           "sections/ch09/vocabulary-02.png",
@@ -806,14 +806,14 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (9)",
         "pages": [
           "sections/ch09/exercises-01.png",
           "sections/ch09/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (9)",
         "pages": [
           "sections/ch09/exercises-answers-01.png",
           "sections/ch09/exercises-answers-02.png",
@@ -900,7 +900,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (10)",
         "pages": [
           "sections/ch10/vocabulary-01.png",
           "sections/ch10/vocabulary-02.png",
@@ -908,14 +908,14 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (10)",
         "pages": [
           "sections/ch10/exercises-01.png",
           "sections/ch10/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (10)",
         "pages": [
           "sections/ch10/exercises-answers-01.png",
           "sections/ch10/exercises-answers-02.png",
@@ -1007,7 +1007,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (11)",
         "pages": [
           "sections/ch11/vocabulary-01.png",
           "sections/ch11/vocabulary-02.png",
@@ -1015,14 +1015,14 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (11)",
         "pages": [
           "sections/ch11/exercises-01.png",
           "sections/ch11/exercises-02.png"
         ]
       },
       {
-        "name": "Answers with exercises",
+        "name": "Answers with exercises (11)",
         "pages": [
           "sections/ch11/exercises-answers-01.png",
           "sections/ch11/exercises-answers-02.png",
@@ -1076,7 +1076,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (12)",
         "pages": [
           "sections/ch12/vocabulary-01.png",
           "sections/ch12/vocabulary-02.png",
@@ -1084,14 +1084,14 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (12)",
         "pages": [
           "sections/ch12/exercises-01.png",
           "sections/ch12/exercises-02.png"
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (12)",
         "pages": [
           "sections/ch12/exercises-answers-01.png",
           "sections/ch12/exercises-answers-02.png",
@@ -1159,7 +1159,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (13)",
         "pages": [
           "sections/ch13/vocabulary-01.png",
           "sections/ch13/vocabulary-02.png",
@@ -1168,7 +1168,7 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (13)",
         "pages": [
           "sections/ch13/exercises-01.png",
           "sections/ch13/exercises-02a.png",
@@ -1176,7 +1176,7 @@
         ]
       },
       {
-        "name": "Answers of exercises",
+        "name": "Answers of exercises (13)",
         "pages": [
           "sections/ch13/exercises-answers-01a.png",
           "sections/ch13/exercises-answers-01b.png",
@@ -1244,7 +1244,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (14)",
         "pages": [
           "sections/ch14/vocabulary-01.png",
           "sections/ch14/vocabulary-02.png",
@@ -1252,7 +1252,7 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (14)",
         "pages": [
           "sections/ch14/exercises-01.png",
           "sections/ch14/exercises-02a.png",
@@ -1260,7 +1260,7 @@
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (14)",
         "pages": [
           "sections/ch14/exercises-answers-01a.png",
           "sections/ch14/exercises-answers-01b.png",
@@ -1365,7 +1365,7 @@
         ]
       },
       {
-        "name": "Vocabulary",
+        "name": "Vocabulary (15)",
         "pages": [
           "sections/ch15/vocabulary-01.png",
           "sections/ch15/vocabulary-02.png",
@@ -1375,7 +1375,7 @@
         ]
       },
       {
-        "name": "Exercises",
+        "name": "Exercises (15)",
         "pages": [
           "sections/ch15/exercises-01a.png",
           "sections/ch15/exercises-01b.png",
@@ -1383,7 +1383,7 @@
         ]
       },
       {
-        "name": "Answers to exercises",
+        "name": "Answers to exercises (15)",
         "pages": [
           "sections/ch15/exercises-answers-01.png",
           "sections/ch15/exercises-answers-02.png",

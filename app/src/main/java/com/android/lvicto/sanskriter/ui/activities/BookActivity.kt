@@ -45,6 +45,6 @@ class BookActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        (recyclerView.adapter as TitlesAdapter).openLatestVisitedChapter()
+        (recyclerView.adapter as TitlesAdapter).openLatestVisitedChapter()
     }
 }

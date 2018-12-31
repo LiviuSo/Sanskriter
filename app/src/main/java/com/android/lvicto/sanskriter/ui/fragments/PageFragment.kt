@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R
+import com.android.lvicto.sanskriter.data.BookPage
 import com.android.lvicto.sanskriter.utils.AssetsHelper.getDrawableFromAssets
 
 class PageFragment : Fragment() {
@@ -18,18 +19,16 @@ class PageFragment : Fragment() {
 
         private const val LOG_TAG = "PageFragment"
 
-        fun newInstance(page: String): PageFragment {
+        fun newInstance(page: BookPage): PageFragment {
             val fragment = PageFragment()
-            fragment.drawablePath = page
+            fragment.drawablePath = page.asset
             return fragment
         }
-
     }
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_pages, container, false)
         val imageTextBook = view.findViewById<ImageView>(R.id.textBookCut)
         imageTextBook.setImageDrawable(getDrawableFromAssets(application, drawablePath))

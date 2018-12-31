@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.ViewPager
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.data.BookSection
+import com.android.lvicto.sanskriter.data.BookContent
+import com.android.lvicto.sanskriter.source.TitlesHelper
 import com.android.lvicto.sanskriter.ui.fragments.PageFragment
+import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_CONTENT
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_PAGE_ASSET
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_PAGE_TITLE
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_SECTION
@@ -23,23 +26,20 @@ class PagesActivity : FragmentActivity() {
 
     private lateinit var mPager: ViewPager
     private lateinit var titleBar: TextView
-    private lateinit var pages: Array<String>
     private lateinit var pageIndex: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pages)
 
-        val section = intent.getParcelableExtra<BookSection>(EXTRA_SECTION)
+        val crtSection = intent.getStringExtra(EXTRA_SECTION)
+        val bookContent = intent.getParcelableExtra<BookContent>(EXTRA_CONTENT)
 
         titleBar = findViewById(R.id.tvPagesTitle)
         pageIndex = findViewById(R.id.tvPageIndex)
         mPager = findViewById(R.id.vpPages)
 
-        pages = Array(section.pages.size) {
-            section.pages[it]
-        }
-        mPager.adapter = PagesAdapter(section.name, pages, this.supportFragmentManager)
+        mPager.adapter = PagesAdapter(bookContent, this.supportFragmentManager)
         mPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
             }
@@ -48,10 +48,19 @@ class PagesActivity : FragmentActivity() {
             }
 
             override fun onPageSelected(currentPosition: Int) {
-                titleBar.text = mPager.adapter!!.getPageTitle(currentPosition)
+                val pagesAdapter = mPager.adapter as PagesAdapter
+                val page = pagesAdapter.pages[currentPosition]
+
+                titleBar.text = page.sectionName
                 pageIndex.text = getPageIndex()
+
+                TitlesHelper.lastOpenedSectionTitle = page.sectionName
+                TitlesHelper.futureChapter = pagesAdapter.titlesHelper.getChapterIndexOfSection(page.sectionName)
+                Log.d(LOG_TAG, "${page.sectionName} chapter: ${page.chapterIndex}")
             }
         })
+        mPager.currentItem = (mPager.adapter as PagesAdapter).getItemPositionFromTitle(crtSection)
+
         titleBar.text = getPageTitle()
         pageIndex.text = getPageIndex()
 
@@ -71,9 +80,9 @@ class PagesActivity : FragmentActivity() {
         }
     }
 
-    private fun getPageIndex() = (mPager.currentItem + 1).toString()
+    private fun getPageIndex() = (mPager.adapter as PagesAdapter).getPageIndexInSection(mPager.currentItem).toString()
 
-    private fun getPageAsset(): String = pages[mPager.currentItem]
+    private fun getPageAsset(): String = (mPager.adapter as PagesAdapter).getCurrentPageAsset(mPager.currentItem)
 
     private fun getPageTitle() = (mPager.adapter as PagesAdapter).getPageTitle(mPager.currentItem).toString()
 
@@ -88,20 +97,24 @@ class PagesActivity : FragmentActivity() {
         }
     }
 
-    class PagesAdapter(private val sectionTitle: String,
-                       private val drawables: Array<String>,
-                       fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    class PagesAdapter(bookContent: BookContent, fm: FragmentManager)
+        : FragmentStatePagerAdapter(fm) {
 
-        override fun getItem(index: Int): Fragment {
-            return PageFragment.newInstance(drawables[index])
+        val titlesHelper = TitlesHelper(bookContent)
+        val pages = titlesHelper.createPages()
+
+        override fun getItem(index: Int): Fragment = PageFragment.newInstance(pages[index])
+
+        override fun getCount(): Int = pages.size
+
+        override fun getPageTitle(position: Int): CharSequence? = pages[position].sectionName
+
+        fun getCurrentPageAsset(index: Int): String = pages[index].asset
+
+        fun getItemPositionFromTitle(crtSection: String): Int = pages.indexOfFirst {
+            it.sectionName == crtSection
         }
 
-        override fun getCount(): Int {
-            return drawables.size
-        }
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return sectionTitle
-        }
+        fun getPageIndexInSection(index: Int): Int = pages[index].indexInSection
     }
 }
