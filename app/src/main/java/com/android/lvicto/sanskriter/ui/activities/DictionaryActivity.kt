@@ -131,13 +131,17 @@ class DictionaryActivity : AppCompatActivity() {
 
         // toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.title = resources.getString(R.string.dictionary)
+        if(toolbar == null) {
+            Log.d(LOG_TAG, "toolbar null")
+        } else {
+            toolbar.title = resources.getString(R.string.dictionary)
+        }
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
         // search bar
         llSearch = findViewById(R.id.llSearchBar)
-        editSearchDic = findViewById(R.id.editSearchDic)
+        editSearchDic = findViewById(R.id.editSearch)
         ibSearchClose = findViewById(R.id.btnCloseSearchBar)
 
         editSearchDic.addTextChangedListener(object : TextWatcher {

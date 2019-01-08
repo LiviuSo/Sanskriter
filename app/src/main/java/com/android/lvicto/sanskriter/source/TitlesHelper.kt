@@ -22,8 +22,6 @@ class TitlesHelper(private val bookContent: BookContent) { // todo: write unit t
         var futureChapter: Int = -1
         var currentChapter: Int = -1
     }
-
-    // todo fix
     fun getLastAccessedSection(context: Context): String =
             PreferenceHelper(context).getLastSection()
 

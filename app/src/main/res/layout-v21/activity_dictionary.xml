@@ -15,36 +15,9 @@
 
         <include layout="@layout/toolbar" />
 
-        <LinearLayout
-            android:id="@+id/llSearchBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorSearchWord"
-            android:orientation="horizontal"
-            android:paddingStart="5dp"
-            android:paddingLeft="5dp"
-            android:paddingEnd="5dp"
-            android:paddingRight="5dp"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/editSearchDic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/item_margin_left_right"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorSearchWord"
-                android:hint="@string/dic_search_hint"
-                android:inputType="text" />
-
-            <ImageButton
-                android:id="@+id/btnCloseSearchBar"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="TODO"
-                android:src="@drawable/ic_close_24dp" />
-        </LinearLayout>
+        <include
+            layout="@layout/search_bar"
+            android:visibility="gone"/>
 
         <include layout="@layout/layout_all_words" />
 

@@ -17,6 +17,7 @@
         <item name="colorPrimary">@color/colorPrimaryBook</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBook</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="AppTheme.DictionaryTheme">

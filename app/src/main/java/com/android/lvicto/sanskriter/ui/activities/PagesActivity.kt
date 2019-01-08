@@ -64,7 +64,7 @@ class PagesActivity : FragmentActivity() {
         titleBar.text = getPageTitle()
         pageIndex.text = getPageIndex()
 
-        val btnHome = findViewById<Button>(R.id.btnBookHome)
+        val btnHome = findViewById<Button>(R.id.btnHome)
         btnHome.setOnClickListener {
             finish()
         }
