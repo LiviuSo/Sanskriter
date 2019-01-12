@@ -33,6 +33,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, TestKeyboardActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btnTestBook2).setOnClickListener {
+            startActivity(Intent(this@MainActivity, BookActivity2::class.java))
+        }
 
         // debug
         Log.d(LOG_TAG, writeBookContents(this))

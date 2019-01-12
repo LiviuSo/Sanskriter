@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.data.BookPage
+import com.android.lvicto.sanskriter.data.book.BookPage
 import com.android.lvicto.sanskriter.utils.AssetsHelper.getDrawableFromAssets
 
 class PageFragment : Fragment() {

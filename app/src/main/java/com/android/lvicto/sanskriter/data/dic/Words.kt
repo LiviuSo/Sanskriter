@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskriter.data
+package com.android.lvicto.sanskriter.data.dic
 
 import com.android.lvicto.sanskriter.db.entity.Word
 

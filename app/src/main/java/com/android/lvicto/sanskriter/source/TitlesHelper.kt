@@ -4,7 +4,7 @@ import android.content.Context
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.data.BookPage
+import com.android.lvicto.sanskriter.data.book.BookPage
 import com.android.lvicto.sanskriter.data.BookSection
 import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
@@ -18,10 +18,11 @@ class TitlesHelper(private val bookContent: BookContent) { // todo: write unit t
 
     companion object {
         var lastOpenedSectionTitle: String = ""
-        var currentlyExpanded: Int = -1
+        private var currentlyExpanded: Int = -1
         var futureChapter: Int = -1
         var currentChapter: Int = -1
     }
+
     fun getLastAccessedSection(context: Context): String =
             PreferenceHelper(context).getLastSection()
 

@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskriter.data
+package com.android.lvicto.sanskriter.data.book
 
 data class BookPage(val chapterIndex: Int,
                     val sectionName: String,

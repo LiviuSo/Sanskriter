@@ -5,7 +5,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.android.lvicto.sanskriter.data.Words
+import com.android.lvicto.sanskriter.data.dic.Words
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.repositories.FileRepository
 import com.android.lvicto.sanskriter.repositories.WordsRepository

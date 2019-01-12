@@ -20,7 +20,7 @@ import android.view.View
 import android.widget.*
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.WordsAdapter
-import com.android.lvicto.sanskriter.data.Words
+import com.android.lvicto.sanskriter.data.dic.Words
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD
