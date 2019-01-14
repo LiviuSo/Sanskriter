@@ -35,7 +35,7 @@ class PagesActivity : FragmentActivity() {
         val crtSection = intent.getStringExtra(EXTRA_SECTION)
         val bookContent = intent.getParcelableExtra<BookContent>(EXTRA_CONTENT)
 
-        titleBar = findViewById(R.id.tvPagesTitle)
+        titleBar = findViewById(R.id.tvTitle)
         pageIndex = findViewById(R.id.tvPageIndex)
         mPager = findViewById(R.id.vpPages)
 

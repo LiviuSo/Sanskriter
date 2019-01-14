@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.android.lvicto.sanskriter.R
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 import java.util.*
 
 class TitlesAdapter2 internal constructor(private val context: Context,
@@ -20,6 +21,8 @@ class TitlesAdapter2 internal constructor(private val context: Context,
             field.addAll(value)
             notifyDataSetChanged()
         }
+
+    private val lastOpenedSection: String = PreferenceHelper(context).getLastSection()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val item = if (viewType == TYPE_CHAPTER)
@@ -45,7 +48,7 @@ class TitlesAdapter2 internal constructor(private val context: Context,
     override fun getItemViewType(position: Int): Int =
             when {
                 data[position].toLowerCase().contains("Chapter", true) -> TYPE_CHAPTER
-//                data[position] == TitlesHelper.lastOpenedSectionTitle -> TYPE_SECTION_SELECTED
+                data[position] == lastOpenedSection -> TYPE_SECTION_SELECTED
                 else -> TYPE_SECTION
             }
 

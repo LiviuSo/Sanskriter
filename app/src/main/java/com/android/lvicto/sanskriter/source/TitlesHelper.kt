@@ -1,12 +1,10 @@
 package com.android.lvicto.sanskriter.source
 
-import android.content.Context
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.data.book.BookPage
 import com.android.lvicto.sanskriter.data.BookSection
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.data.book.BookPage
 
 /**
  * Returns the titles/headers of the chapters/sections
@@ -21,14 +19,6 @@ class TitlesHelper(private val bookContent: BookContent) { // todo: write unit t
         private var currentlyExpanded: Int = -1
         var futureChapter: Int = -1
         var currentChapter: Int = -1
-    }
-
-    fun getLastAccessedSection(context: Context): String =
-            PreferenceHelper(context).getLastSection()
-
-    // todo fix
-    fun setLastAccessedSection(context: Context, title: String) {
-        PreferenceHelper(context).setLastSection(title)
     }
 
     init {

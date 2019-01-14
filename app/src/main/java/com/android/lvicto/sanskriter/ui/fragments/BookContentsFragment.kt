@@ -3,7 +3,6 @@ package com.android.lvicto.sanskriter.ui.fragments
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -18,6 +17,7 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.TitlesAdapter2
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
 
 /**
@@ -30,6 +30,22 @@ class BookContentsFragment : Fragment() {
     private lateinit var viewModel: ChaptersViewModel // todo: expose it with setter to testing
     private lateinit var titlesHelper: TitlesHelper
 
+    private val clickListener: View.OnClickListener
+        get() {
+            return View.OnClickListener { view ->
+                val title = view.tag as String
+                PreferenceHelper(this.activity!!).setLastSection(title)
+                if (titlesHelper.isChapter(title)) {
+                    Log.d(LOG_TAG, "Clicked on chapter: $title")
+                    titlesHelper.openChapterAt(titlesHelper.getChapterIndexFromTitle(title) - 1) // zero-based indexing !!
+                    setBookContents(titlesHelper.titles)
+                } else {
+                    Log.d(LOG_TAG, "Clicked on section: $title")
+                    onSectionClicked(title)
+                }
+            }
+        }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_book_contents, container, false)
@@ -38,15 +54,24 @@ class BookContentsFragment : Fragment() {
         viewModel.bookContents.observe(this, Observer<BookContent> {
             // create a sections list
             titlesHelper = TitlesHelper(it!!)
-            adapter = TitlesAdapter2(this.activity!!, View.OnClickListener {view ->
-                val title = view.tag as String
-                titlesHelper.onClickSection(title)
-                setBookContents(titlesHelper.titles)
-            })
+            adapter = TitlesAdapter2(this.activity!!, clickListener)
             rv.adapter = adapter
+            val lastSection = PreferenceHelper(this.activity!!).getLastSection()
+            Log.d(LOG_TAG, "chapter: $lastSection")
+            val chapter = titlesHelper.getChapterIndexOfSection(lastSection)
+            Log.d(LOG_TAG, "chapter: $chapter")
+            titlesHelper.openChapterAt(chapter)
             setBookContents(titlesHelper.titles)
         })
         return view
+    }
+
+    fun onSearchClicked() {
+        Log.d(LOG_TAG, "onSearchClicked()")
+    }
+
+    private fun onSectionClicked(title: String) {
+        listener?.onClickBookSection(title)
     }
 
     override fun onAttach(context: Context) {
@@ -66,13 +91,13 @@ class BookContentsFragment : Fragment() {
         listener = null
     }
 
-    fun setBookContents(data: ArrayList<String>) {
+    private fun setBookContents(data: ArrayList<String>) {
         adapter.data = data
     }
 
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onBookContentsInteraction(uri: Uri)
+        fun onClickBookSection(string: String)
     }
 
     companion object {
@@ -96,6 +121,9 @@ class BookContentsFragment : Fragment() {
         }
 
         fun openChapterAt(position: Int) {
+            if(position == -1) {
+                return
+            }
             if (isExpanded(position)) {
                 collapseData(position)
             } else {
@@ -145,27 +173,22 @@ class BookContentsFragment : Fragment() {
         }
 
         fun getChapterIndexOfSection(section: String): Int {
-            return (0 until sectionTitles.keys.size).first {
-                sectionTitles[it]?.firstOrNull { bs ->
-                    bs.name == section
-                } != null
+            var index = -1
+            mainLoop@ for(i in 0 until sectionTitles.size) {
+                for(bs in sectionTitles[i]!!) {
+                    if(bs.name == section) {
+                        index = i
+                        break@mainLoop
+                    }
+                }
             }
+            return index
         }
 
-        fun onClickSection(title: String) {
-            if(isChapter(title)) {
-                Log.d(LOG_TAG, "Clicked on chapter: $title")
-                expandData(getChapterIndexFromTitle(title) - 1) // zero-based indexing !!
-            } else {
-                Log.d(LOG_TAG, "Clicked on section: $title")
-                // todo launch PagesActivity
-            }
-        }
-
-        private fun getChapterIndexFromTitle(title: String): Int {
+        fun getChapterIndexFromTitle(title: String): Int {
             return title.removePrefix("Chapter ").toInt()
         }
 
-        private fun isChapter(title: String): Boolean = title.contains("Chapter")
+        fun isChapter(title: String): Boolean = title.contains("Chapter")
     }
 }

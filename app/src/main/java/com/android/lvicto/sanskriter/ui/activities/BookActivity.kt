@@ -16,6 +16,7 @@ import com.android.lvicto.sanskriter.adapters.TitlesAdapter
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.db.entity.Word
+import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
 class BookActivity : AppCompatActivity() {
 
@@ -32,7 +33,7 @@ class BookActivity : AppCompatActivity() {
         setContentView(R.layout.activity_book)
 
         // init toolbar
-        val titleBar = findViewById<TextView>(R.id.tvPagesTitle)
+        val titleBar = findViewById<TextView>(R.id.tvTitle)
         findViewById<TextView>(R.id.tvPageIndex).visibility = View.GONE
         findViewById<Button>(R.id.btnHome).visibility = View.GONE
 
