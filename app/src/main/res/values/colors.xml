@@ -10,6 +10,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="sectionTitleColor">#f2dada</color>
     <color name="sectionSelectedTitleColor">#edbbbb</color>
+    <color name="sectionSearchTitleColor">#9f8888</color>
     <color name="chapterTitleColor">#eca0ac</color>
     <color name="colorWordRemovable">#eaa2ac</color>
     <color name="colorWord">#c4efda</color>

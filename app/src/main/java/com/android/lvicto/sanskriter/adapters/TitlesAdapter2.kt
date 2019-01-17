@@ -12,7 +12,8 @@ import com.android.lvicto.sanskriter.utils.PreferenceHelper
 import java.util.*
 
 class TitlesAdapter2 internal constructor(private val context: Context,
-                                          private val titleClickListener: View.OnClickListener)
+                                          private val titleClickListener: View.OnClickListener,
+                                          var isSearchOn: Boolean = false)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var data: ArrayList<String> = arrayListOf()
@@ -27,10 +28,13 @@ class TitlesAdapter2 internal constructor(private val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val item = if (viewType == TYPE_CHAPTER)
             LayoutInflater.from(parent.context).inflate(R.layout.item_chapter_title, parent, false)
-        else {
+        else { // section
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_section_title, parent, false)
             if (viewType == TYPE_SECTION_SELECTED) {
                 val selBackgroundColor = ContextCompat.getColor(context, R.color.sectionSelectedTitleColor)
+                view.findViewById<TextView>(R.id.tvItemName).setBackgroundColor(selBackgroundColor)
+            } else if (viewType == TYPE_SECTION_SEARCH) {
+                val selBackgroundColor = ContextCompat.getColor(context, R.color.sectionSearchTitleColor)
                 view.findViewById<TextView>(R.id.tvItemName).setBackgroundColor(selBackgroundColor)
             }
             view
@@ -48,7 +52,8 @@ class TitlesAdapter2 internal constructor(private val context: Context,
     override fun getItemViewType(position: Int): Int =
             when {
                 data[position].toLowerCase().contains("Chapter", true) -> TYPE_CHAPTER
-                data[position] == lastOpenedSection -> TYPE_SECTION_SELECTED
+                data[position] == lastOpenedSection && !isSearchOn -> TYPE_SECTION_SELECTED
+                isSearchOn -> TYPE_SECTION_SEARCH
                 else -> TYPE_SECTION
             }
 
@@ -56,7 +61,8 @@ class TitlesAdapter2 internal constructor(private val context: Context,
         private val LOG_TAG = TitlesAdapter2::class.java.simpleName
         private const val TYPE_CHAPTER = 0
         private const val TYPE_SECTION = 1
-        private const val TYPE_SECTION_SELECTED = 2
+        private const val TYPE_SECTION_SEARCH = 2
+        private const val TYPE_SECTION_SELECTED = 3
     }
 
     class ChapterTitleView internal constructor(private val item: View) : RecyclerView.ViewHolder(item) {

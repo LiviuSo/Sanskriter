@@ -28,7 +28,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/close_search_bar_descr"
         android:src="@drawable/ic_close_24dp" />
 
 </LinearLayout>
