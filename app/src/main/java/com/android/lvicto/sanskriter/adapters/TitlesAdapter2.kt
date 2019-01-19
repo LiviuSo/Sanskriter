@@ -34,8 +34,11 @@ class TitlesAdapter2 internal constructor(private val context: Context,
                 val selBackgroundColor = ContextCompat.getColor(context, R.color.sectionSelectedTitleColor)
                 view.findViewById<TextView>(R.id.tvItemName).setBackgroundColor(selBackgroundColor)
             } else if (viewType == TYPE_SECTION_SEARCH) {
-                val selBackgroundColor = ContextCompat.getColor(context, R.color.sectionSearchTitleColor)
-                view.findViewById<TextView>(R.id.tvItemName).setBackgroundColor(selBackgroundColor)
+                val selBackgroundColor = ContextCompat.getColor(context, R.color.material_grey_100)
+                val selTextColor = ContextCompat.getColor(context, R.color.colorPrimaryBook)
+                val tv = view.findViewById<TextView>(R.id.tvItemName)
+                tv.setBackgroundColor(selBackgroundColor)
+                tv.setTextColor(selTextColor)
             }
             view
         }
