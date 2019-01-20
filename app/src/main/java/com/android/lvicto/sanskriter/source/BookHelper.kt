@@ -4,33 +4,34 @@ import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
+import com.android.lvicto.sanskriter.data.book.BookPage
 
 /**
  * In charge of the logic of the titles
  */
-class BookContentHelper {
+class BookHelper {
 
     var title: String = ""
     var titles: ArrayList<String> = arrayListOf()
-    var allSections: ArrayList<String> = arrayListOf()
+    var allSectionsTitles: ArrayList<String> = arrayListOf()
 
     private var currentlyExpanded: Int = -1
-    private lateinit var sectionTitles: Map<Int, List<BookSection>>
+    private lateinit var sections: Map<Int, List<BookSection>>
 
     companion object {
         private val defBookContent = BookContent("No book", 0, mapOf())
-        private var instance: BookContentHelper? = null
+        private var instance: BookHelper? = null
 
-        fun getInstance(): BookContentHelper {
+        fun getInstance(): BookHelper {
             if (instance != null) {
-                return instance as BookContentHelper
+                return instance as BookHelper
             }
             return synchronized(this) { // in case invoked on some different thread
                 val i2 = instance
                 if(i2 != null) {
                     i2
                 } else {
-                    instance = BookContentHelper()
+                    instance = BookHelper()
                     instance!!.setData(defBookContent)
                     instance!!
                 }
@@ -38,13 +39,13 @@ class BookContentHelper {
         }
     }
 
-    fun setData(bookContents: BookContent) : BookContentHelper {
+    fun setData(bookContents: BookContent) : BookHelper {
         synchronized(this) {
             instance!!.title = bookContents.title
-            instance!!.sectionTitles = bookContents.sections
+            instance!!.sections = bookContents.sections
             instance!!.generateChapterTitles()
-            instance!!.initAllSections()
-            return instance as BookContentHelper
+            instance!!.initAllSectionsTitles()
+            return instance as BookHelper
         }
     }
 
@@ -64,7 +65,7 @@ class BookContentHelper {
             collapseData(currentlyExpanded)
         }
         // remove each corresponding subsection title
-        val sections = sectionTitles[position]
+        val sections = sections[position]
         if (position < titles.size - 1) {
             titles.addAll(position + 1, sections!!.map { it.name })
         } else {
@@ -80,7 +81,7 @@ class BookContentHelper {
         assert(position >= 0 && position < titles.size)
 
         // remove each corresponding subsection title
-        val sections = sectionTitles[position]
+        val sections = sections[position]
 
         (1..sections!!.size).forEach { _ ->
             titles.removeAt(position + 1)
@@ -91,7 +92,7 @@ class BookContentHelper {
     private fun isExpanded(position: Int): Boolean = position == currentlyExpanded
 
     private fun generateChapterTitles(): ArrayList<String> {
-        (1..sectionTitles.keys.size).forEach {
+        (1..sections.keys.size).forEach {
             titles.add("${MyApplication.application.getString(R.string.chapter)} $it")
         }
         return titles
@@ -99,8 +100,8 @@ class BookContentHelper {
 
     fun getChapterIndexOfSection(section: String): Int {
         var index = -1
-        mainLoop@ for (i in 0 until sectionTitles.size) {
-            for (bs in sectionTitles[i]!!) {
+        mainLoop@ for (i in 0 until sections.size) {
+            for (bs in sections[i]!!) {
                 if (bs.name == section) {
                     index = i
                     break@mainLoop
@@ -116,20 +117,36 @@ class BookContentHelper {
 
     fun isChapter(title: String): Boolean = title.contains("Chapter")
 
-    private fun initAllSections() {
-        allSections.clear()
-        sectionTitles.forEach {
+    private fun initAllSectionsTitles() {
+        allSectionsTitles.clear()
+        sections.forEach {
             it.value.forEach { bs ->
-                allSections.add(bs.name)
+                allSectionsTitles.add(bs.name)
             }
         }
     }
 
     fun filter(key: String):  ArrayList<String> {
         return arrayListOf<String>().apply {
-            addAll(allSections.filter {
+            addAll(allSectionsTitles.filter {
                 it.contains(key)
             })
         }
     }
+
+    fun getSectionsCountOfChapter(chapterIndex: Int): Int = sections[chapterIndex]!!.size
+
+
+    fun createPages(): List<BookPage> {
+        val pages = ArrayList<BookPage>()
+        (0 until sections.keys.size).forEach { chapterIndex ->
+            sections[chapterIndex]?.forEach { section ->
+                (0 until section.pages.size).forEach { pageIndex ->
+                    pages.add(BookPage(chapterIndex, section.name, pageIndex, section.pages[pageIndex]))
+                }
+            }
+        }
+        return pages
+    }
+
 }

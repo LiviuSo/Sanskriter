@@ -8,11 +8,12 @@
     android:orientation="vertical"
     tools:context=".ui.fragments.BookPagesFragment">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vpPages"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:id="@+id/ivPage"
+        android:contentDescription="TODO" />
 
     <Button
         android:id="@+id/btnZoomPage"

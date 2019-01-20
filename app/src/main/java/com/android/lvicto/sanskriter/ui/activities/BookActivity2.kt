@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.*
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.source.BookContentHelper
+import com.android.lvicto.sanskriter.source.BookHelper
 import com.android.lvicto.sanskriter.ui.fragments.BookContentsFragment
 import com.android.lvicto.sanskriter.ui.fragments.BookPagesFragment
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
@@ -25,11 +25,9 @@ class BookActivity2 : AppCompatActivity(),
     private lateinit var searchBar: LinearLayout
     private lateinit var editSearch: EditText
     private lateinit var tvTitle: TextView
-//    private lateinit var bookTitle: String
 
     override fun onClickBookSection(string: String) {
         // hide search bar
-
         showBookPages(string)
     }
 
@@ -49,7 +47,7 @@ class BookActivity2 : AppCompatActivity(),
 
     private fun showBookContents() {
         viewModel.bookContents.observe(this, Observer<BookContent> {
-            BookContentHelper.getInstance().setData(it!!)
+            BookHelper.getInstance().setData(it!!)
             tvTitle.text = it.title
             supportFragmentManager.beginTransaction().replace(R.id.fragmentHolder,
                     BookContentsFragment.newInstance(), FRAG_BOOK_CONTENTS)
@@ -104,7 +102,7 @@ class BookActivity2 : AppCompatActivity(),
         if(supportFragmentManager.findFragmentByTag(FRAG_BOOK_PAGES) is BookPagesFragment) {
             Log.d(LOG_TAG, "back from FRAG_BOOK_PAGES")
             btnSearch.visibility = View.VISIBLE
-            tvTitle.text = BookContentHelper.getInstance().title
+            tvTitle.text = BookHelper.getInstance().title
         } else if(supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) is BookContentsFragment) {
             Log.d(LOG_TAG, "back from FRAG_BOOK_CONTENTS")
         }

@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.TitlesAdapter2
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.source.BookContentHelper
+import com.android.lvicto.sanskriter.source.BookHelper
 import com.android.lvicto.sanskriter.utils.PreferenceHelper
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
 
@@ -26,7 +26,7 @@ class BookContentsFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var adapter: TitlesAdapter2
     private lateinit var viewModel: ChaptersViewModel // todo: expose it with setter to testing
-    private lateinit var bookContentHelper: BookContentHelper
+    private lateinit var bookHelper: BookHelper
 
     private val clickListener: View.OnClickListener
         get() {
@@ -34,10 +34,10 @@ class BookContentsFragment : Fragment() {
 
                 val title = view.tag as String
                 PreferenceHelper(this.activity!!).setLastSection(title)
-                if (bookContentHelper.isChapter(title)) {
+                if (bookHelper.isChapter(title)) {
                     Log.d(LOG_TAG, "Clicked on chapter: $title")
-                    bookContentHelper.openChapterAt(bookContentHelper.getChapterIndexFromTitle(title) - 1) // zero-based indexing !!
-                    adapter.data = bookContentHelper.titles
+                    bookHelper.openChapterAt(bookHelper.getChapterIndexFromTitle(title) - 1) // zero-based indexing !!
+                    adapter.data = bookHelper.titles
                 } else {
                     Log.d(LOG_TAG, "Clicked on section: $title")
                     onSectionClicked(title)
@@ -52,7 +52,7 @@ class BookContentsFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(this.activity)
         viewModel.bookContents.observe(this, Observer<BookContent> {
             // create a sections list
-            bookContentHelper = BookContentHelper.getInstance()
+            bookHelper = BookHelper.getInstance()
             adapter = TitlesAdapter2(this.activity!!, clickListener)
             rv.adapter = adapter
             setContents()
@@ -64,18 +64,18 @@ class BookContentsFragment : Fragment() {
         val lastSection = PreferenceHelper(this.activity!!).getLastSection()
         if (!isRestoring) {
             Log.d(LOG_TAG, "Creating contents... Last section: $lastSection")
-            val chapter = bookContentHelper.getChapterIndexOfSection(lastSection)
-            bookContentHelper.openChapterAt(chapter)
+            val chapter = bookHelper.getChapterIndexOfSection(lastSection)
+            bookHelper.openChapterAt(chapter)
         }
         adapter.isSearchOn = false
-        adapter.data = bookContentHelper.titles
+        adapter.data = bookHelper.titles
     }
 
 
     fun onSearchClicked() {
         Log.d(LOG_TAG, "BookContentsFragment(): search titles")
         adapter.isSearchOn = true
-        adapter.data = bookContentHelper.allSections
+        adapter.data = bookHelper.allSectionsTitles
     }
 
     private fun onSectionClicked(title: String) {
@@ -101,7 +101,7 @@ class BookContentsFragment : Fragment() {
 
     fun filterSectionTitles(s: String) {
         Log.d(LOG_TAG, "Filtering title... $s")
-        adapter.data = bookContentHelper.filter(s)
+        adapter.data = bookHelper.filter(s)
     }
 
     interface OnFragmentInteractionListener {
