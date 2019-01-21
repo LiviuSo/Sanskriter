@@ -13,7 +13,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/ivPage"
-        android:contentDescription="TODO" />
+        android:contentDescription="TODO"
+        android:clickable="true"
+        android:focusable="true" />
 
     <Button
         android:id="@+id/btnZoomPage"

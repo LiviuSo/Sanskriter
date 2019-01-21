@@ -15,6 +15,10 @@ class BookHelper {
     var titles: ArrayList<String> = arrayListOf()
     var allSectionsTitles: ArrayList<String> = arrayListOf()
 
+    private lateinit var pages: ArrayList<BookPage>
+    private var currentPageIndex: Int = -1
+    lateinit var currentPage: BookPage
+
     private var currentlyExpanded: Int = -1
     private lateinit var sections: Map<Int, List<BookSection>>
 
@@ -26,9 +30,10 @@ class BookHelper {
             if (instance != null) {
                 return instance as BookHelper
             }
-            return synchronized(this) { // in case invoked on some different thread
+            return synchronized(this) {
+                // in case invoked on some different thread
                 val i2 = instance
-                if(i2 != null) {
+                if (i2 != null) {
                     i2
                 } else {
                     instance = BookHelper()
@@ -39,12 +44,13 @@ class BookHelper {
         }
     }
 
-    fun setData(bookContents: BookContent) : BookHelper {
+    fun setData(bookContents: BookContent): BookHelper {
         synchronized(this) {
             instance!!.title = bookContents.title
             instance!!.sections = bookContents.sections
             instance!!.generateChapterTitles()
             instance!!.initAllSectionsTitles()
+            createPages()
             return instance as BookHelper
         }
     }
@@ -126,7 +132,7 @@ class BookHelper {
         }
     }
 
-    fun filter(key: String):  ArrayList<String> {
+    fun filter(key: String): ArrayList<String> {
         return arrayListOf<String>().apply {
             addAll(allSectionsTitles.filter {
                 it.contains(key)
@@ -134,11 +140,8 @@ class BookHelper {
         }
     }
 
-    fun getSectionsCountOfChapter(chapterIndex: Int): Int = sections[chapterIndex]!!.size
-
-
-    fun createPages(): List<BookPage> {
-        val pages = ArrayList<BookPage>()
+    fun createPages() {
+        pages = ArrayList()
         (0 until sections.keys.size).forEach { chapterIndex ->
             sections[chapterIndex]?.forEach { section ->
                 (0 until section.pages.size).forEach { pageIndex ->
@@ -146,7 +149,31 @@ class BookHelper {
                 }
             }
         }
-        return pages
     }
 
+    fun setCurrentPage(section: String, pageIndexInSection: Int) {
+        currentPageIndex = getIndex(section, pageIndexInSection)
+        currentPage = pages[currentPageIndex]
+    }
+
+    fun setNextPage() {
+        if(currentPageIndex < pages.size - 1) {
+            currentPageIndex = currentPageIndex.inc()
+        }
+        currentPage = pages[currentPageIndex]
+    }
+
+    fun setPrevPage() {
+        if(currentPageIndex > 0) {
+            currentPageIndex = currentPageIndex.dec()
+        }
+        currentPage = pages[currentPageIndex]
+    }
+
+    private fun getIndex(section: String, pageIndexInSection: Int): Int {
+        return (0 until pages.size).first {
+            val page = pages[it]
+            page.sectionName == section && page.indexInSection == pageIndexInSection
+        }
+    }
 }
