@@ -20,10 +20,11 @@ class TitlesAdapter2 internal constructor(private val context: Context,
         set(value) {
             field.clear()
             field.addAll(value)
+            lastOpenedSection = PreferenceHelper(context).getLastSection()
             notifyDataSetChanged()
         }
 
-    private val lastOpenedSection: String = PreferenceHelper(context).getLastSection()
+    private var lastOpenedSection: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val item = if (viewType == TYPE_CHAPTER)

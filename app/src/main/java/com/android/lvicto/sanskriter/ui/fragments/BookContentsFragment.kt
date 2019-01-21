@@ -1,6 +1,5 @@
 package com.android.lvicto.sanskriter.ui.fragments
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.TitlesAdapter2
-import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.source.BookHelper
 import com.android.lvicto.sanskriter.utils.PreferenceHelper
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
@@ -25,7 +23,6 @@ class BookContentsFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var adapter: TitlesAdapter2
-    private lateinit var viewModel: ChaptersViewModel // todo: expose it with setter to testing
     private lateinit var bookHelper: BookHelper
 
     private val clickListener: View.OnClickListener
@@ -50,22 +47,26 @@ class BookContentsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_book_contents, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.recViewTitles)
         rv.layoutManager = LinearLayoutManager(this.activity)
-        viewModel.bookContents.observe(this, Observer<BookContent> {
-            // create a sections list
-            bookHelper = BookHelper.getInstance()
-            adapter = TitlesAdapter2(this.activity!!, clickListener)
-            rv.adapter = adapter
-            setContents()
-        })
+        // create a sections list
+        bookHelper = BookHelper.getInstance()
+        adapter = TitlesAdapter2(this.activity!!, clickListener)
+        rv.adapter = adapter
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        setContents()
+    }
+
     fun setContents(isRestoring: Boolean = false) {
+
         val lastSection = PreferenceHelper(this.activity!!).getLastSection()
         if (!isRestoring) {
             Log.d(LOG_TAG, "Creating contents... Last section: $lastSection")
             val chapter = bookHelper.getChapterIndexOfSection(lastSection)
             bookHelper.openChapterAt(chapter)
+            Log.d(LOG_TAG, "setContents(): isRestoring == false $lastSection")
         }
         adapter.isSearchOn = false
         adapter.data = bookHelper.titles
@@ -84,8 +85,6 @@ class BookContentsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-
-        viewModel = ViewModelProviders.of(this).get(ChaptersViewModel::class.java)
 
         if (context is OnFragmentInteractionListener) {
             listener = context

@@ -2,17 +2,21 @@ package com.android.lvicto.sanskriter.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
+import android.widget.Button
 import android.widget.ImageView
 import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.source.BookHelper
+import com.android.lvicto.sanskriter.ui.activities.PageZoomActivity
 import com.android.lvicto.sanskriter.utils.AssetsHelper
+import com.android.lvicto.sanskriter.utils.Constants
 import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
 
@@ -46,13 +50,21 @@ class BookPagesFragment : Fragment() {
 
         val asset = BookHelper.getInstance().currentPage.asset
         loadAsset(pageImageView, asset)
+        val btnZoom = view.findViewById<Button>(R.id.btnZoomPage)
+        btnZoom.setOnClickListener {
+            val intent = Intent(this.activity, PageZoomActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString(Constants.Keyboard.EXTRA_PAGE_TITLE, BookHelper.getInstance().currentPage.sectionName)
+            bundle.putString(Constants.Keyboard.EXTRA_PAGE_ASSET, BookHelper.getInstance().currentPage.asset)
+            intent.putExtra(Constants.Keyboard.EXTRA_ZOOM_BUNDLE, bundle)
+            startActivity(intent)
+        }
 
         return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onBookPagesInteraction(uri)
+    fun onSWipe(title: String) {
+        listener?.onBookPagesInteraction(title)
     }
 
     override fun onAttach(context: Context) {
@@ -74,7 +86,7 @@ class BookPagesFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onBookPagesInteraction(uri: Uri)
+        fun onBookPagesInteraction(string: String)
     }
 
     companion object {
@@ -120,7 +132,7 @@ class BookPagesFragment : Fragment() {
             BookHelper.getInstance().setPrevPage()
             loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
             PreferenceHelper(this@BookPagesFragment.activity!!).setLastSection(BookHelper.getInstance().currentPage.sectionName)
-
+            onSWipe(BookHelper.getInstance().currentPage.sectionName)
         }
 
         private fun onSwipeLeft() {
@@ -128,6 +140,7 @@ class BookPagesFragment : Fragment() {
             BookHelper.getInstance().setNextPage()
             loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
             PreferenceHelper(this@BookPagesFragment.activity!!).setLastSection(BookHelper.getInstance().currentPage.sectionName)
+            onSWipe(BookHelper.getInstance().currentPage.sectionName)
         }
     }
 }

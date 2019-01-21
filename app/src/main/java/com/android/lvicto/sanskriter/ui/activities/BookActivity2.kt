@@ -1,6 +1,7 @@
 package com.android.lvicto.sanskriter.ui.activities
 
 import android.arch.lifecycle.Observer
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -17,8 +18,7 @@ import com.android.lvicto.sanskriter.ui.fragments.BookPagesFragment
 import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
 
 class BookActivity2 : AppCompatActivity(),
-        BookContentsFragment.OnFragmentInteractionListener,
-        BookPagesFragment.OnFragmentInteractionListener {
+        BookContentsFragment.OnFragmentInteractionListener {
 
     lateinit var viewModel: ChaptersViewModel
     lateinit var btnSearch: Button
@@ -27,12 +27,10 @@ class BookActivity2 : AppCompatActivity(),
     private lateinit var tvTitle: TextView
 
     override fun onClickBookSection(string: String) {
-        // hide search bar
-        showBookPages(string)
-    }
-
-    override fun onBookPagesInteraction(uri: Uri) {
-
+        editSearch.text.clear()
+        searchBar.visibility = View.GONE
+        val intent = Intent(this, PagesActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,23 +45,12 @@ class BookActivity2 : AppCompatActivity(),
 
     private fun showBookContents() {
         viewModel.bookContents.observe(this, Observer<BookContent> {
-            BookHelper.getInstance().setData(it!!)
+            BookHelper.getInstance().setData(it!!) // todo refactor to init()
             tvTitle.text = it.title
             supportFragmentManager.beginTransaction().replace(R.id.fragmentHolder,
                     BookContentsFragment.newInstance(), FRAG_BOOK_CONTENTS)
                     .commit()
         })
-    }
-
-    private fun showBookPages(title: String) {
-        editSearch.text.clear()
-        searchBar.visibility = View.GONE
-        btnSearch.visibility = View.GONE
-        tvTitle.text = title
-        supportFragmentManager.beginTransaction().replace(R.id.fragmentHolder,
-                BookPagesFragment.newInstance(), FRAG_BOOK_PAGES)
-                .addToBackStack("BookPagesFragment")
-                .commit()
     }
 
     private fun setToolbar() {
@@ -96,17 +83,6 @@ class BookActivity2 : AppCompatActivity(),
             searchBar.visibility = View.GONE
             (supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) as BookContentsFragment).setContents(true)
         }
-    }
-
-    override fun onBackPressed() {
-        if(supportFragmentManager.findFragmentByTag(FRAG_BOOK_PAGES) is BookPagesFragment) {
-            Log.d(LOG_TAG, "back from FRAG_BOOK_PAGES")
-            btnSearch.visibility = View.VISIBLE
-            tvTitle.text = BookHelper.getInstance().title
-        } else if(supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) is BookContentsFragment) {
-            Log.d(LOG_TAG, "back from FRAG_BOOK_CONTENTS")
-        }
-        super.onBackPressed()
     }
 
     companion object {

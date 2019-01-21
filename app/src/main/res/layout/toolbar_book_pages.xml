@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dim_toolbar_height"
+    android:background="@color/colorPrimaryBook"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical">
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/btnHome"
+        android:layout_gravity="center_vertical"
+        android:textStyle="bold"
+        android:background="@drawable/ic_home_24dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSectionTitle"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorSearchWord"/>
+
+    <TextView
+        android:layout_width="20dp"
+        android:layout_height="match_parent"
+        android:id="@+id/tvPageIndex"
+        android:gravity="center_vertical"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/colorSearchWord"/>
+
+</LinearLayout>
