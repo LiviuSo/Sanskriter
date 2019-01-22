@@ -59,8 +59,8 @@ class BookPagesFragment : Fragment() {
         listener?.onBookPagesZoom(sectionTitle, asset)
     }
 
-    fun onSWipe(title: String) {
-        listener?.onBookPagesSwipe(title)
+    fun onSWipe(title: String, index: Int) {
+        listener?.onBookPagesSwipe(title, index)
     }
 
     override fun onAttach(context: Context) {
@@ -82,7 +82,7 @@ class BookPagesFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onBookPagesSwipe(string: String)
+        fun onBookPagesSwipe(string: String, index: Int)
         fun onBookPagesZoom(title: String, asset: String)
     }
 
@@ -126,18 +126,21 @@ class BookPagesFragment : Fragment() {
 
         private fun onSwipeRight() {
             Log.d(LOG_TAG, "onSwipeRight: next page")
-            BookHelper.getInstance().setPrevPage()
-            AssetsHelper.loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
-            prefHelper.setLastSection(BookHelper.getInstance().currentPage.sectionName)
-            onSWipe(BookHelper.getInstance().currentPage.sectionName)
+            bookHelper.setPrevPage()
+            setPage()
         }
 
         private fun onSwipeLeft() {
             Log.d(LOG_TAG, "onSwipeLeft: prev page")
-            BookHelper.getInstance().setNextPage()
-            AssetsHelper.loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
-            PreferenceHelper(this@BookPagesFragment.activity!!).setLastSection(BookHelper.getInstance().currentPage.sectionName)
-            onSWipe(BookHelper.getInstance().currentPage.sectionName)
+            bookHelper.setNextPage()
+            setPage()
+        }
+
+        private fun setPage() {
+            val crtPage = bookHelper.currentPage
+            AssetsHelper.loadAsset(pageImageView, crtPage.asset)
+            prefHelper.setLastSection(crtPage.sectionName)
+            onSWipe(crtPage.sectionName, crtPage.indexInSection)
         }
     }
 }

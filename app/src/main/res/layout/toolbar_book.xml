@@ -23,16 +23,6 @@
         android:layout_gravity="center_vertical"
         android:textColor="@color/colorSearchWord"/>
 
-    <TextView
-        android:layout_width="20dp"
-        android:layout_height="match_parent"
-        android:id="@+id/tvPageIndex"
-        android:gravity="center_vertical"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@color/colorSearchWord"
-        android:visibility="gone"/>
-
     <Button
         android:layout_width="30dp"
         android:layout_height="30dp"

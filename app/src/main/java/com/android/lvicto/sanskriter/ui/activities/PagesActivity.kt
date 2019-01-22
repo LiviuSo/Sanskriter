@@ -12,11 +12,13 @@ import com.android.lvicto.sanskriter.utils.PreferenceHelper
 class PagesActivity : FragmentActivity(),
         BookPagesFragment.OnFragmentInteractionListener {
 
-    private lateinit var titleBar: TextView
+    private lateinit var tvTitleBar: TextView
+    private lateinit var tvIndex: TextView
     private lateinit var asset: String
 
-    override fun onBookPagesSwipe(string: String) {
-        titleBar.text = string
+    override fun onBookPagesSwipe(string: String, index: Int) {
+        tvTitleBar.text = string
+        tvIndex.text = (index + 1).toString()
     }
 
     override fun onBookPagesZoom(title: String, asset: String) {
@@ -30,10 +32,12 @@ class PagesActivity : FragmentActivity(),
 
         val crtSection = PreferenceHelper(this).getLastSection()
 
-        titleBar = findViewById(R.id.tvSectionTitle)
-        titleBar.text = crtSection
+        tvTitleBar = findViewById(R.id.tvSectionTitle)
+        tvTitleBar.text = crtSection
 
-        // todo load fragment
+        tvIndex = findViewById(R.id.tvPageIndex)
+        tvIndex.text = "1" // todo fix (hardcoded)
+
         setFragment(FRAGMENT_PAGES)
 
         val btnHome = findViewById<Button>(R.id.btnHome)
