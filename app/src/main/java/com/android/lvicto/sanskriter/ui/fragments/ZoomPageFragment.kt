@@ -15,7 +15,7 @@ class ZoomPageFragment : Fragment() {
     lateinit var asset: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.activity_zoom_page, container, false)
+        val view = inflater.inflate(R.layout.fragment_zoom_page, container, false)
         view.findViewById<ImageView>(R.id.zoomablePage).setImageDrawable(AssetsHelper.getDrawableFromAssets(MyApplication.application, asset))
         return view
     }

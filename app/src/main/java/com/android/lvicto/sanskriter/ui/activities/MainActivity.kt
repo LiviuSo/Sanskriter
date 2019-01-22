@@ -21,10 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.btnTestBook).setOnClickListener {
-            startActivity(Intent(this@MainActivity, BookActivity::class.java))
-        }
-
         findViewById<Button>(R.id.btnTestDic).setOnClickListener {
             startActivity(Intent(this@MainActivity, DictionaryActivity::class.java))
         }
@@ -34,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnTestBook2).setOnClickListener {
-            startActivity(Intent(this@MainActivity, BookActivity2::class.java))
+            startActivity(Intent(this@MainActivity, BookActivity::class.java))
         }
 
         // debug

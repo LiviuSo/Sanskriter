@@ -11,13 +11,6 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="Book"
-            android:id="@+id/btnTestBook"
-            android:textAllCaps="false"/>
-
-    <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
             android:text="Dictionary"
             android:id="@+id/btnTestDic"
             android:textAllCaps="false"/>

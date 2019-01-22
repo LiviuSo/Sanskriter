@@ -1,6 +1,5 @@
 package com.android.lvicto.sanskriter.ui.fragments
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,10 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.adapters.TitlesAdapter2
+import com.android.lvicto.sanskriter.adapters.TitlesAdapter
 import com.android.lvicto.sanskriter.source.BookHelper
 import com.android.lvicto.sanskriter.utils.PreferenceHelper
-import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
 
 /**
  * Fragment holding the contents of the book
@@ -22,7 +20,7 @@ import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
 class BookContentsFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
-    private lateinit var adapter: TitlesAdapter2
+    private lateinit var adapter: TitlesAdapter
     private lateinit var bookHelper: BookHelper
 
     private val clickListener: View.OnClickListener
@@ -49,7 +47,7 @@ class BookContentsFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(this.activity)
         // create a sections list
         bookHelper = BookHelper.getInstance()
-        adapter = TitlesAdapter2(this.activity!!, clickListener)
+        adapter = TitlesAdapter(this.activity!!, clickListener)
         rv.adapter = adapter
         return view
     }
