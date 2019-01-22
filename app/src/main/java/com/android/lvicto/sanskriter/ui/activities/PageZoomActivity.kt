@@ -25,7 +25,8 @@ class PageZoomActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val imageTextBook = findViewById<ImageView>(R.id.zoomablePage)
-        imageTextBook.setImageDrawable(getDrawableFromAssets(MyApplication.application, bundle.getString(EXTRA_PAGE_ASSET)))
+        imageTextBook.setImageDrawable(getDrawableFromAssets(MyApplication.application,
+                bundle.getString(EXTRA_PAGE_ASSET)))
     }
 
     override fun onSupportNavigateUp(): Boolean {

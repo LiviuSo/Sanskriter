@@ -6,18 +6,23 @@ import android.widget.Button
 import android.widget.TextView
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.BookPagesFragment
+import com.android.lvicto.sanskriter.ui.fragments.ZoomPageFragment
 import com.android.lvicto.sanskriter.utils.PreferenceHelper
 
 class PagesActivity : FragmentActivity(),
         BookPagesFragment.OnFragmentInteractionListener {
 
-    override fun onBookPagesInteraction(string: String) {
+    private lateinit var titleBar: TextView
+    private lateinit var asset: String
+
+    override fun onBookPagesSwipe(string: String) {
         titleBar.text = string
     }
 
-    private val LOG_TAG = "PagesActivity"
-
-    private lateinit var titleBar: TextView
+    override fun onBookPagesZoom(title: String, asset: String) {
+        this.asset = asset
+        setFragment(FRAGMENT_ZOOM)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +34,7 @@ class PagesActivity : FragmentActivity(),
         titleBar.text = crtSection
 
         // todo load fragment
-        setFragment()
+        setFragment(FRAGMENT_PAGES)
 
         val btnHome = findViewById<Button>(R.id.btnHome)
         btnHome.setOnClickListener {
@@ -37,9 +42,22 @@ class PagesActivity : FragmentActivity(),
         }
     }
 
-    private fun setFragment() {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.pageFragmentHolder, BookPagesFragment.newInstance())
-                .commit()
+    private fun setFragment(tag: String) {
+        if(tag == FRAGMENT_PAGES) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.pageFragmentHolder, BookPagesFragment.newInstance())
+                    .commit()
+        } else if(tag == FRAGMENT_ZOOM){
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.pageFragmentHolder, ZoomPageFragment.newInstance(asset))
+                    .addToBackStack(FRAGMENT_ZOOM)
+                    .commit()
+        }
+    }
+
+    companion object {
+        const val FRAGMENT_PAGES = "BookPagesFragment"
+        const val FRAGMENT_ZOOM = "ZoomPageFragment"
+        private const val LOG_TAG = "PagesActivity"
     }
 }
