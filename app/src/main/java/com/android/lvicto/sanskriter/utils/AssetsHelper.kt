@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.widget.ImageView
+import com.android.lvicto.sanskriter.MyApplication
 
 object AssetsHelper {
 
@@ -20,4 +22,8 @@ object AssetsHelper {
                     null
                 }
             }
+
+    fun loadAsset(view: ImageView, asset: String) {
+        view.setImageDrawable(AssetsHelper.getDrawableFromAssets(MyApplication.application, asset))
+    }
 }

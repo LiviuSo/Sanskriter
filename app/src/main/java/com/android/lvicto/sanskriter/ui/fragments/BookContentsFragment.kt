@@ -22,13 +22,14 @@ class BookContentsFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var adapter: TitlesAdapter
     private lateinit var bookHelper: BookHelper
+    private lateinit var prefHelper: PreferenceHelper
 
     private val clickListener: View.OnClickListener
         get() {
             return View.OnClickListener { view ->
 
                 val title = view.tag as String
-                PreferenceHelper(this.activity!!).setLastSection(title)
+                prefHelper.setLastSection(title)
                 if (bookHelper.isChapter(title)) {
                     Log.d(LOG_TAG, "Clicked on chapter: $title")
                     bookHelper.openChapterAt(bookHelper.getChapterIndexFromTitle(title) - 1) // zero-based indexing !!
@@ -45,8 +46,6 @@ class BookContentsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_book_contents, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.recViewTitles)
         rv.layoutManager = LinearLayoutManager(this.activity)
-        // create a sections list
-        bookHelper = BookHelper.getInstance()
         adapter = TitlesAdapter(this.activity!!, clickListener)
         rv.adapter = adapter
         return view
@@ -58,8 +57,7 @@ class BookContentsFragment : Fragment() {
     }
 
     fun setContents(isRestoring: Boolean = false) {
-
-        val lastSection = PreferenceHelper(this.activity!!).getLastSection()
+        val lastSection = prefHelper.getLastSection()
         if (!isRestoring) {
             Log.d(LOG_TAG, "Creating contents... Last section: $lastSection")
             val chapter = bookHelper.getChapterIndexOfSection(lastSection)
@@ -83,6 +81,9 @@ class BookContentsFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        bookHelper = BookHelper.getInstance()
+        prefHelper = PreferenceHelper(context)
 
         if (context is OnFragmentInteractionListener) {
             listener = context
@@ -111,5 +112,4 @@ class BookContentsFragment : Fragment() {
 
         private const val LOG_TAG = "BookContentsFragment"
     }
-
 }

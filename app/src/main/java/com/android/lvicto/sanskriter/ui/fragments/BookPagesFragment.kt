@@ -9,7 +9,6 @@ import android.view.*
 import android.view.GestureDetector.SimpleOnGestureListener
 import android.widget.Button
 import android.widget.ImageView
-import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.source.BookHelper
 import com.android.lvicto.sanskriter.utils.AssetsHelper
@@ -23,12 +22,14 @@ class BookPagesFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var gd: GestureDetector
+    private lateinit var bookHelper: BookHelper
+    private lateinit var prefHelper: PreferenceHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val sectionTitle = PreferenceHelper(this.activity!!).getLastSection()
         val pageIndexInSection = 0 // todo save last page index
-        BookHelper.getInstance().setCurrentPage(sectionTitle, pageIndexInSection)
+        bookHelper.setCurrentPage(sectionTitle, pageIndexInSection)
         gd = GestureDetector(this.activity!!.applicationContext, GestureListener())
     }
 
@@ -44,8 +45,8 @@ class BookPagesFragment : Fragment() {
             gd.onTouchEvent(event)
         }
 
-        val asset = BookHelper.getInstance().currentPage.asset
-        loadAsset(pageImageView, asset)
+        val asset = bookHelper.currentPage.asset
+        AssetsHelper.loadAsset(pageImageView, asset)
         val btnZoom = view.findViewById<Button>(R.id.btnZoomPage)
         btnZoom.setOnClickListener(this::onZoom)
 
@@ -53,8 +54,8 @@ class BookPagesFragment : Fragment() {
     }
 
     private fun onZoom(view: View) {
-        val sectionTitle = BookHelper.getInstance().currentPage.sectionName
-        val asset = BookHelper.getInstance().currentPage.asset
+        val sectionTitle = bookHelper.currentPage.sectionName
+        val asset = bookHelper.currentPage.asset
         listener?.onBookPagesZoom(sectionTitle, asset)
     }
 
@@ -64,6 +65,10 @@ class BookPagesFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        bookHelper = BookHelper.getInstance()
+        prefHelper = PreferenceHelper(context)
+
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
@@ -74,10 +79,6 @@ class BookPagesFragment : Fragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
-    }
-
-    private fun loadAsset(view: ImageView, asset: String) {
-        view.setImageDrawable(AssetsHelper.getDrawableFromAssets(MyApplication.application, asset))
     }
 
     interface OnFragmentInteractionListener {
@@ -126,15 +127,15 @@ class BookPagesFragment : Fragment() {
         private fun onSwipeRight() {
             Log.d(LOG_TAG, "onSwipeRight: next page")
             BookHelper.getInstance().setPrevPage()
-            loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
-            PreferenceHelper(this@BookPagesFragment.activity!!).setLastSection(BookHelper.getInstance().currentPage.sectionName)
+            AssetsHelper.loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
+            prefHelper.setLastSection(BookHelper.getInstance().currentPage.sectionName)
             onSWipe(BookHelper.getInstance().currentPage.sectionName)
         }
 
         private fun onSwipeLeft() {
             Log.d(LOG_TAG, "onSwipeLeft: prev page")
             BookHelper.getInstance().setNextPage()
-            loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
+            AssetsHelper.loadAsset(pageImageView, BookHelper.getInstance().currentPage.asset)
             PreferenceHelper(this@BookPagesFragment.activity!!).setLastSection(BookHelper.getInstance().currentPage.sectionName)
             onSWipe(BookHelper.getInstance().currentPage.sectionName)
         }

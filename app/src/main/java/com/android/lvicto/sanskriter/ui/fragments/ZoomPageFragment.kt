@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import com.android.lvicto.sanskriter.MyApplication
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.utils.AssetsHelper
 
@@ -16,7 +14,7 @@ class ZoomPageFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_zoom_page, container, false)
-        view.findViewById<ImageView>(R.id.zoomablePage).setImageDrawable(AssetsHelper.getDrawableFromAssets(MyApplication.application, asset))
+        AssetsHelper.loadAsset(view.findViewById(R.id.zoomablePage), asset)
         return view
     }
 
