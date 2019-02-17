@@ -13,4 +13,16 @@
 
     <integer name="size_key_popup_height">100</integer>
     <integer name="size_key_popup_width">80</integer>
+
+    <integer name="key_code_digit_0">48</integer>
+    <integer name="key_code_digit_1">49</integer>
+    <integer name="key_code_digit_2">50</integer>
+    <integer name="key_code_digit_3">51</integer>
+    <integer name="key_code_digit_4">52</integer>
+    <integer name="key_code_digit_5">53</integer>
+    <integer name="key_code_digit_6">54</integer>
+    <integer name="key_code_digit_7">55</integer>
+    <integer name="key_code_digit_8">56</integer>
+    <integer name="key_code_digit_9">57</integer>
+
 </resources>

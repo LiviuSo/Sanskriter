@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/keyDigit1"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit2"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit3"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit3"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit4"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit4"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit5"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit5"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit6"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit6"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit7"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit7"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit8"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit6"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit8"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit9"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit7"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit9"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_9"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/keyDigit0"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit8"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/keyDigit0"
+        style="@style/CustomKeyDigit"
+        android:text="@string/key_label_digit_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/keyDigit9"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Group
+        android:id="@+id/groupDigits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="keyDigit2,keyDigit4,keyDigit6,keyDigit7,keyDigit8,keyDigit9,keyDigit3,keyDigit0,keyDigit1,keyDigit5" />
+
+</android.support.constraint.ConstraintLayout>

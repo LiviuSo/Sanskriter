@@ -3,4 +3,16 @@
     <string name="kbLabelLatin">La</string>
     <string name="kbLabelSanskrit">Sa</string>
     <string name="switchKeyb">Kb</string>
+
+    <string name="key_label_digit_0">0</string>
+    <string name="key_label_digit_1">1</string>
+    <string name="key_label_digit_2">2</string>
+    <string name="key_label_digit_3">3</string>
+    <string name="key_label_digit_4">4</string>
+    <string name="key_label_digit_5">5</string>
+    <string name="key_label_digit_6">6</string>
+    <string name="key_label_digit_7">7</string>
+    <string name="key_label_digit_8">8</string>
+    <string name="key_label_digit_9">9</string>
+
 </resources>
