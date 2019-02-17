@@ -3,6 +3,8 @@ package com.android.lvicto.zombie
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
+import android.view.Window
 import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
@@ -17,5 +19,11 @@ class MainActivity : AppCompatActivity() {
             Log.d(LOG_TAG, "$actionId $event")
             true
         }
+
+        val view = View(this)
+//        view.onCreateInputConnection()
+        val w = window
+//        w.addFlags()
+//        this.getSystemService()
     }
 }

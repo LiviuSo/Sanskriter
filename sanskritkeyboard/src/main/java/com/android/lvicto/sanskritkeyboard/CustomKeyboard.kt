@@ -47,6 +47,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         super.onStartInput(attribute, restarting)
         initRes(this) // essential !!!
         switch = false
+        setCandidatesViewShown(false)
 
         if (autoSwitch) {
             Log.d(LOG_TAG, "onStartInput")
@@ -85,6 +86,7 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
             PreferenceHelper(this).setKeyboardLang(currentLang)
         }
     }
+
 
     override fun onCreateInputView(): View {
         Log.d(LOG_TAG, "onCreateInputView()")
@@ -414,6 +416,11 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         return popup
     }
 
+    override fun onCreateCandidatesView(): View {
+        val view = layoutInflater.inflate(R.layout.popup_key_preview, null)
+        Log.d(LOG_TAG, "onCreateCandidatesView()")
+        return view
+    }
 
     enum class KeyboardLang(var lang: String) {
         QWERTY(""),

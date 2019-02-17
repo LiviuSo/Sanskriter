@@ -23,9 +23,22 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name="com.android.lvicto.sanskritkeyboard.CustomKeyboard2"
+            android:label="CustomKeyboard2"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method"/>
+
+            <intent-filter>
+                <action android:name="android.view.InputMethod"/>
+            </intent-filter>
+        </service>
+
+
         <activity
-                android:name="com.android.lvicto.sanskritkeyboard.TestKeyboardActivity"
-                android:screenOrientation="portrait">
+                android:name="com.android.lvicto.sanskritkeyboard.TestKeyboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

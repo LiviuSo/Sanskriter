@@ -3,4 +3,51 @@
     <string name="kbLabelLatin">La</string>
     <string name="kbLabelSanskrit">Sa</string>
     <string name="switchKeyb">Kb</string>
+
+    <string name="key_label_digit_0">0</string>
+    <string name="key_label_digit_1">1</string>
+    <string name="key_label_digit_2">2</string>
+    <string name="key_label_digit_3">3</string>
+    <string name="key_label_digit_4">4</string>
+    <string name="key_label_digit_5">5</string>
+    <string name="key_label_digit_6">6</string>
+    <string name="key_label_digit_7">7</string>
+    <string name="key_label_digit_8">8</string>
+    <string name="key_label_digit_9">9</string>
+
+    <string name="key_label_letter_q">q</string>
+    <string name="key_label_letter_w">w</string>
+    <string name="key_label_letter_e">e</string>
+    <string name="key_label_letter_r">r</string>
+    <string name="key_label_letter_t">t</string>
+    <string name="key_label_letter_y">y</string>
+    <string name="key_label_letter_u">u</string>
+    <string name="key_label_letter_i">i</string>
+    <string name="key_label_letter_o">o</string>
+    <string name="key_label_letter_p">p</string>
+
+    <string name="key_label_letter_a">a</string>
+    <string name="key_label_letter_s">s</string>
+    <string name="key_label_letter_d">d</string>
+    <string name="key_label_letter_f">f</string>
+    <string name="key_label_letter_g">g</string>
+    <string name="key_label_letter_h">h</string>
+    <string name="key_label_letter_j">j</string>
+    <string name="key_label_letter_k">k</string>
+    <string name="key_label_letter_l">l</string>
+
+    <string name="key_label_letter_z">z</string>
+    <string name="key_label_letter_x">x</string>
+    <string name="key_label_letter_c">c</string>
+    <string name="key_label_letter_v">v</string>
+    <string name="key_label_letter_b">b</string>
+    <string name="key_label_letter_n">n</string>
+    <string name="key_label_letter_m">m</string>
+
+    <string name="key_question_mark">\?</string>
+    <string name="period">.</string>
+    <string name="comma">,</string>
+    <string name="hyphen">-</string>
+    <string name="space">\Space</string>
+
 </resources>
