@@ -43,6 +43,32 @@ class CustomKeyboard2 : InputMethodService() {
     private lateinit var keyN: Button
     private lateinit var keyM: Button
 
+    private lateinit var key0: Button
+    private lateinit var key1: Button
+    private lateinit var key2: Button
+    private lateinit var key3: Button
+    private lateinit var key4: Button
+    private lateinit var key5: Button
+    private lateinit var key6: Button
+    private lateinit var key7: Button
+    private lateinit var key8: Button
+    private lateinit var key9: Button
+
+    private lateinit var keyDel: Button
+    private lateinit var keyAc: Button
+    private lateinit var keyShift: Button
+
+    private lateinit var keyQuestion: Button
+    private lateinit var keyPeriod: Button
+    private lateinit var keyComma: Button
+    private lateinit var keyHyphen: Button
+    private lateinit var keySpace: Button
+    private lateinit var keySm: Button
+    private lateinit var keyLa: Button
+    private lateinit var keyIc: Button
+
+
+
 
     override fun onConfigureWindow(win: Window?, isFullscreen: Boolean, isCandidatesOnly: Boolean) {
         Log.d(LOG_TAG, "onConfigureWindow()")
@@ -63,8 +89,8 @@ class CustomKeyboard2 : InputMethodService() {
             when (config) {
                 Configuration.ORIENTATION_PORTRAIT -> {
                     view = layoutInflater.inflate(R.layout.keyboard_custom_layout_portrait, null)
-                    initDigits(view)
-                    initLetters(view)
+                    initKeys(view)
+                    setKeyOnClickListeners()
                 }
                 Configuration.ORIENTATION_LANDSCAPE -> {
                     view = layoutInflater.inflate(R.layout.keyboard_custom_layout_landscape, null)
@@ -84,7 +110,6 @@ class CustomKeyboard2 : InputMethodService() {
                 }
             }
         }
-
         return view!!
     }
 
@@ -133,118 +158,139 @@ class CustomKeyboard2 : InputMethodService() {
         return xlarge || large
     }
 
-    private val keyClickListener = View.OnClickListener {
-        ic.commitText((it as Button).text, 1)
+    private fun getKeyClickListener(text: String = "") = View.OnClickListener {
+        val output = if(text.isEmpty()) {
+            (it as Button).text
+        } else {
+            text
+        }
+        ic.commitText(output, output.length)
     }
 
-    private fun initDigits(view: View) {
-        view.findViewById<Button>(R.id.keyDigit1).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit2).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit3).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit4).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit5).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit6).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit7).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit8).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit9).apply {
-            setOnClickListener(keyClickListener)
-        }
-        view.findViewById<Button>(R.id.keyDigit0).apply {
-            setOnClickListener(keyClickListener)
-        }
-    }
+    // todo : make a helper
+    // todo : use ButterKnife
+    private fun initKeys(view: View) {
+        key1 = view.findViewById(R.id.keyDigit1)
+        key2 = view.findViewById(R.id.keyDigit2)
+        key3 = view.findViewById(R.id.keyDigit3)
+        key4 = view.findViewById(R.id.keyDigit4)
+        key5 = view.findViewById(R.id.keyDigit5)
+        key6 = view.findViewById(R.id.keyDigit6)
+        key7 = view.findViewById(R.id.keyDigit7)
+        key8 = view.findViewById(R.id.keyDigit8)
+        key9 = view.findViewById(R.id.keyDigit9)
+        key0 = view.findViewById(R.id.keyDigit0)
 
-    private fun initLetters(view: View) {
         keyQ = view.findViewById(R.id.keyQ)
-        keyQ.apply { setOnClickListener(keyClickListener) }
         keyW = view.findViewById(R.id.keyW)
-        keyW.apply { setOnClickListener(keyClickListener) }
         keyE = view.findViewById(R.id.keyE)
-        keyE.apply { setOnClickListener(keyClickListener) }
         keyR = view.findViewById(R.id.keyR)
-        keyR.apply { setOnClickListener(keyClickListener) }
         keyT = view.findViewById(R.id.keyT)
-        keyT.apply { setOnClickListener(keyClickListener) }
         keyY = view.findViewById(R.id.keyY)
-        keyY.apply { setOnClickListener(keyClickListener) }
         keyU = view.findViewById(R.id.keyU)
-        keyU.apply { setOnClickListener(keyClickListener) }
         keyI = view.findViewById(R.id.keyI)
-        keyI.apply { setOnClickListener(keyClickListener) }
         keyO = view.findViewById(R.id.keyO)
-        keyO.apply { setOnClickListener(keyClickListener) }
         keyP = view.findViewById(R.id.keyP)
-        keyP.apply { setOnClickListener(keyClickListener) }
         keyA = view.findViewById(R.id.keyA)
-        keyA.apply { setOnClickListener(keyClickListener) }
         keyS = view.findViewById(R.id.keyS)
-        keyS.apply { setOnClickListener(keyClickListener) }
         keyD = view.findViewById(R.id.keyD)
-        keyD.apply { setOnClickListener(keyClickListener) }
         keyF = view.findViewById(R.id.keyF)
-        keyF.apply { setOnClickListener(keyClickListener) }
         keyG = view.findViewById(R.id.keyG)
-        keyG.apply { setOnClickListener(keyClickListener) }
         keyH = view.findViewById(R.id.keyH)
-        keyH.apply { setOnClickListener(keyClickListener) }
         keyJ = view.findViewById(R.id.keyJ)
-        keyJ.apply { setOnClickListener(keyClickListener) }
         keyK = view.findViewById(R.id.keyK)
-        keyK.apply { setOnClickListener(keyClickListener) }
         keyL = view.findViewById(R.id.keyL)
-        keyL.apply { setOnClickListener(keyClickListener) }
-        view.findViewById<Button>(R.id.keyDel).apply {
+        keyZ = view.findViewById(R.id.keyZ)
+        keyX = view.findViewById(R.id.keyX)
+        keyC = view.findViewById(R.id.keyC)
+        keyV = view.findViewById(R.id.keyV)
+        keyB = view.findViewById(R.id.keyB)
+        keyN = view.findViewById(R.id.keyN)
+        keyM = view.findViewById(R.id.keyM)
+
+        keyDel = view.findViewById(R.id.keyDel)
+        keyAc = view.findViewById(R.id.keyAction)
+        keyShift = view.findViewById(R.id.keyShift)
+
+        keyQuestion = view.findViewById(R.id.keyQuestion)
+        keyPeriod = view.findViewById(R.id.keyQuestion)
+        keyComma = view.findViewById(R.id.keyComma)
+        keyHyphen = view.findViewById(R.id.keyHyphen)
+        keySpace = view.findViewById(R.id.keySpace)
+        keySm = view.findViewById(R.id.keySym)
+        keyLa = view.findViewById(R.id.keyLang)
+        keyIc = view.findViewById(R.id.keyIcon)
+    }
+
+    private fun setKeyOnClickListeners() {
+        key0.setOnClickListener(getKeyClickListener())
+        key1.setOnClickListener(getKeyClickListener())
+        key2.setOnClickListener(getKeyClickListener())
+        key3.setOnClickListener(getKeyClickListener())
+        key4.setOnClickListener(getKeyClickListener())
+        key5.setOnClickListener(getKeyClickListener())
+        key6.setOnClickListener(getKeyClickListener())
+        key7.setOnClickListener(getKeyClickListener())
+        key8.setOnClickListener(getKeyClickListener())
+        key9.setOnClickListener(getKeyClickListener())
+
+        keyQ.setOnClickListener(getKeyClickListener())
+        keyW.setOnClickListener(getKeyClickListener())
+        keyE.setOnClickListener(getKeyClickListener())
+        keyR.setOnClickListener(getKeyClickListener())
+        keyT.setOnClickListener(getKeyClickListener())
+        keyY.setOnClickListener(getKeyClickListener())
+        keyU.setOnClickListener(getKeyClickListener())
+        keyI.setOnClickListener(getKeyClickListener())
+        keyO.setOnClickListener(getKeyClickListener())
+        keyP.setOnClickListener(getKeyClickListener())
+        keyA.setOnClickListener(getKeyClickListener())
+        keyS.setOnClickListener(getKeyClickListener())
+        keyD.setOnClickListener(getKeyClickListener())
+        keyF.setOnClickListener(getKeyClickListener())
+        keyG.setOnClickListener(getKeyClickListener())
+        keyH.setOnClickListener(getKeyClickListener())
+        keyJ.setOnClickListener(getKeyClickListener())
+        keyK.setOnClickListener(getKeyClickListener())
+        keyL.setOnClickListener(getKeyClickListener())
+        keyDel.apply {
             setOnClickListener {
                 ic.deleteSurroundingText(1, 0)
             }
         }
-        keyZ = view.findViewById(R.id.keyZ)
-        keyZ.apply { setOnClickListener(keyClickListener) }
-        keyX = view.findViewById(R.id.keyX)
-        keyX.apply { setOnClickListener(keyClickListener) }
-        keyC = view.findViewById(R.id.keyC)
-        keyC.apply { setOnClickListener(keyClickListener) }
-        keyV = view.findViewById(R.id.keyV)
-        keyV.apply { setOnClickListener(keyClickListener) }
-        keyB = view.findViewById(R.id.keyB)
-        keyB.apply { setOnClickListener(keyClickListener) }
-        keyN = view.findViewById(R.id.keyN)
-        keyN.apply { setOnClickListener(keyClickListener) }
-        keyM = view.findViewById(R.id.keyM)
-        keyM.apply { setOnClickListener(keyClickListener) }
+        keyZ.setOnClickListener(getKeyClickListener())
+        keyX.setOnClickListener(getKeyClickListener())
+        keyC.setOnClickListener(getKeyClickListener())
+        keyV.setOnClickListener(getKeyClickListener())
+        keyB.setOnClickListener(getKeyClickListener())
+        keyN.setOnClickListener(getKeyClickListener())
+        keyM.setOnClickListener(getKeyClickListener())
 
         // handles only ACTION_DONE for now
-        view.findViewById<Button>(R.id.keyAction).apply {
+        keyAc.apply {
             setOnClickListener {
                 ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
             }
         }
 
-        view.findViewById<Button>(R.id.keyShift).apply {
+        keyShift.apply {
             setOnClickListener {
                 allCaps = !allCaps
-                shiftKeys(allCaps)
+                this@CustomKeyboard2.setAllCaps(allCaps)
             }
         }
+
+        keyQuestion.setOnClickListener(getKeyClickListener())
+        keyPeriod.setOnClickListener(getKeyClickListener())
+        keyComma.setOnClickListener(getKeyClickListener())
+        keyHyphen.setOnClickListener(getKeyClickListener())
+        keySpace.setOnClickListener(getKeyClickListener(" "))
+        keySm.setOnClickListener(getKeyClickListener())
+        keyLa.setOnClickListener(getKeyClickListener())
+        keyIc.setOnClickListener(getKeyClickListener())
     }
 
-    private fun shiftKeys(allCaps: Boolean) {
+    private fun setAllCaps(allCaps: Boolean) {
         keyQ.text = setCase(keyQ, allCaps)
         keyW.text = setCase(keyW, allCaps)
         keyE.text = setCase(keyE, allCaps)

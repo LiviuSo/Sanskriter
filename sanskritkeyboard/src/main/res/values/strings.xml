@@ -44,4 +44,10 @@
     <string name="key_label_letter_n">n</string>
     <string name="key_label_letter_m">m</string>
 
+    <string name="key_question_mark">\?</string>
+    <string name="period">.</string>
+    <string name="comma">,</string>
+    <string name="hyphen">-</string>
+    <string name="space">\Space</string>
+
 </resources>
