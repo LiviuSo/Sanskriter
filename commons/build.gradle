@@ -22,23 +22,13 @@ android {
 
 }
 
-ext {
-    versions = [
-            appCompat   : '28.0.0',
-            jUnit       : '4.12',
-            testRunner  : '1.0.2',
-            espressoCore: '3.0.2'
-    ]
-}
-
 dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation "com.android.support:appcompat-v7:${versions.appCompat}"
+    implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
-    testImplementation "junit:junit:${versions.jUnit}"
-
-    androidTestImplementation "com.android.support.test:runner:${versions.testRunner}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espressoCore}"
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoCoreVersion"
 }
