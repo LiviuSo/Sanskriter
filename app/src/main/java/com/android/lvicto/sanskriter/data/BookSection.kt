@@ -2,12 +2,13 @@ package com.android.lvicto.sanskriter.data
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.util.ArrayList
 
 
 data class BookSection(val name: String,
-                       val pages: List<String>) : Parcelable {
+                       val pages: ArrayList<String>?) : Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
+            parcel.readString().toString(),
             parcel.createStringArrayList())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

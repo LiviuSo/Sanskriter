@@ -2,14 +2,14 @@ package com.android.lvicto.sanskriter.ui.activities
 
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStreamReader
 import java.lang.StringBuilder
 
@@ -21,15 +21,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.btnTestDic).setOnClickListener {
+        btnTestDic.setOnClickListener {
             startActivity(Intent(this@MainActivity, DictionaryActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnTestKeyboard).setOnClickListener {
+        btnTestKeyboard.setOnClickListener {
             startActivity(Intent(this@MainActivity, TestKeyboardActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnTestBook2).setOnClickListener {
+        btnTestBook2.setOnClickListener {
             startActivity(Intent(this@MainActivity, BookActivity::class.java))
         }
 

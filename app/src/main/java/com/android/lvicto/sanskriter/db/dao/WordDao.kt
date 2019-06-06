@@ -1,6 +1,6 @@
 package com.android.lvicto.sanskriter.db.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.android.lvicto.sanskriter.db.entity.Word
 
 @Dao

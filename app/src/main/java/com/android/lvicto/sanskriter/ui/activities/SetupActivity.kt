@@ -1,8 +1,8 @@
 package com.android.lvicto.sanskriter.ui.activities
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.*
 import com.android.lvicto.sanskriter.utils.Constants

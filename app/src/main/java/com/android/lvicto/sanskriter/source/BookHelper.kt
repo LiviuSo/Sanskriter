@@ -144,8 +144,8 @@ class BookHelper {
         pages = ArrayList()
         (0 until sections.keys.size).forEach { chapterIndex ->
             sections[chapterIndex]?.forEach { section ->
-                (0 until section.pages.size).forEach { pageIndex ->
-                    pages.add(BookPage(chapterIndex, section.name, pageIndex, section.pages[pageIndex]))
+                (0 until (section.pages?.size ?: 0)).forEach { pageIndex ->
+                    section.pages?.get(pageIndex)?.let { BookPage(chapterIndex, section.name, pageIndex, it) }?.let { pages.add(it) }
                 }
             }
         }

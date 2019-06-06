@@ -1,17 +1,15 @@
 package com.android.lvicto.zombie
 
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
-import android.widget.TabWidget
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class PopUpAutoDismissActivity : AppCompatActivity() {
 

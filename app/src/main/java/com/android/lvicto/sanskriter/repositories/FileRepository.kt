@@ -1,9 +1,9 @@
 package com.android.lvicto.sanskriter.repositories
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
 
 object FileRepository {
