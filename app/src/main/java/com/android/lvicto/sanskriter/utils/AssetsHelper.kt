@@ -24,6 +24,6 @@ object AssetsHelper {
             }
 
     fun loadAsset(view: ImageView, asset: String) {
-        view.setImageDrawable(AssetsHelper.getDrawableFromAssets(MyApplication.application, asset))
+        view.setImageDrawable(getDrawableFromAssets(MyApplication.application, asset))
     }
 }

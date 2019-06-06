@@ -31,7 +31,7 @@ class PreferenceHelper(private val context: Context) {
 
     fun getKeyboardName(): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_KEYBOARD_NAME, "")
+                .getString(KEY_KEYBOARD_NAME, "").toString()
     }
 
     fun setKeyboardPackage(value: String) {
@@ -41,7 +41,7 @@ class PreferenceHelper(private val context: Context) {
 
     fun getKeyboardPackage(): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_KEYBOARD_PACKAGE, "")
+                .getString(KEY_KEYBOARD_PACKAGE, "").toString()
     }
 
     fun setKeyboardLang(value: String) {
@@ -51,7 +51,7 @@ class PreferenceHelper(private val context: Context) {
 
     fun getKeyboardLang(): String {
         return PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_KEYBOARD_LANG, "")
+                .getString(KEY_KEYBOARD_LANG, "").toString()
     }
 
 }

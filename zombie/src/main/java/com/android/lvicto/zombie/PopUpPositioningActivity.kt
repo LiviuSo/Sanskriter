@@ -1,11 +1,7 @@
 package com.android.lvicto.zombie
 
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
@@ -14,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
-import kotlinx.android.synthetic.main.test_popup.view.*
+import androidx.appcompat.app.AppCompatActivity
 
 class PopUpPositioningActivity : AppCompatActivity() {
 

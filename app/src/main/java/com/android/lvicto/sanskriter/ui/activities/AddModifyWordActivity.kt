@@ -2,12 +2,12 @@ package com.android.lvicto.sanskriter.ui.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.db.entity.Word
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD
@@ -16,7 +16,6 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_ID
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_RO
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_SA
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_WORD_EN
-import com.android.lvicto.sanskriter.utils.KeyboardHelper
 
 
 class AddModifyWordActivity : AppCompatActivity() {
@@ -34,9 +33,9 @@ class AddModifyWordActivity : AppCompatActivity() {
 
         editWord = findViewById(R.id.editSa)
         editWordIAST = findViewById(R.id.editIAST)
-        editWordRo = findViewById(R.id.editRo)
-        editWordEn = findViewById(R.id.editEn)
-        buttonSave = findViewById(R.id.btnSaveWord)
+        editWordRo = findViewById(R.id.editRo) as EditText
+        editWordEn = findViewById(R.id.editEn) as EditText
+        buttonSave = findViewById(R.id.btnSaveWord) as Button
 
         if (intent.hasExtra(EXTRA_WORD)) {
             val word: Word = intent.getParcelableExtra("EXTRA_WORD")

@@ -7,7 +7,6 @@ import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
 import android.os.Build
 import android.os.Handler
-import android.support.annotation.LayoutRes
 import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
@@ -16,6 +15,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.PopupWindow
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import com.android.lvicto.sanskritkeyboard.utils.PreferenceHelper
 import java.lang.Character.isLetter
 import java.lang.Character.toUpperCase

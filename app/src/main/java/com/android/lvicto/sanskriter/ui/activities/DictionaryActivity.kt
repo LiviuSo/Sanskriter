@@ -2,22 +2,24 @@ package com.android.lvicto.sanskriter.ui.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapters.WordsAdapter
 import com.android.lvicto.sanskriter.data.dic.Words
@@ -29,7 +31,9 @@ import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_ADD_W
 import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_EDIT_WORD
 import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
 import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.layout_all_words.*
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -107,9 +111,9 @@ class DictionaryActivity : AppCompatActivity() {
                         word.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
                     }
 
-                    if(requestCode == REQUEST_CODE_ADD_WORD) {
-                        viewModel.insert(word).observe(this@DictionaryActivity, Observer<List<Word>> {
-                            if(llSearch.visibility != View.VISIBLE) { // show all words
+                    if (requestCode == REQUEST_CODE_ADD_WORD) {
+                        viewModel.insert(word).observe(this, Observer<List<Word>> {
+                            if (llSearch.visibility != View.VISIBLE) { // show all words
                                 wordsAdapter.words = it
                             } else { // filter
                                 viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
@@ -131,11 +135,7 @@ class DictionaryActivity : AppCompatActivity() {
 
         // toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        if(toolbar == null) {
-            Log.d(LOG_TAG, "toolbar null")
-        } else {
-            toolbar.title = resources.getString(R.string.dictionary)
-        }
+        toolbar.title = resources.getString(R.string.dictionary)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
@@ -170,10 +170,10 @@ class DictionaryActivity : AppCompatActivity() {
         }
 
         // import/export
-        viewModel = ViewModelProviders.of(this).get(WordsViewModel::class.java)
+        viewModel = ViewModelProviders.of(this@DictionaryActivity).get(WordsViewModel::class.java)
         llImport = findViewById(R.id.llJsonImport)
         val edit = findViewById<EditText>(R.id.editJson)
-        findViewById<Button>(R.id.btnLoadJson).setOnClickListener {
+        btnLoadJson.setOnClickListener {
             viewModel.loadFromString(edit.text.toString())
                     .observe(this@DictionaryActivity, Observer<List<Word>> { lw ->
                         llImport.visibility = View.GONE
@@ -182,7 +182,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
 
         // words recycleview
-        recyclerView = findViewById(R.id.rv_words)
+        recyclerView = findViewById<RecyclerView>(R.id.rv_words)
         wordsAdapter = WordsAdapter(this, itemDefinitionClickListener,
                 itemEditClickListener,
                 longClickListener
@@ -201,11 +201,11 @@ class DictionaryActivity : AppCompatActivity() {
 
         // remove words
         llRemoveCancel = findViewById(R.id.llRemoveCancel)
-        findViewById<Button>(R.id.btnRemove).setOnClickListener(this::removeSelected)
-        findViewById<Button>(R.id.btnClearSelections).setOnClickListener(this::unselectAll)
+        btnRemove.setOnClickListener(this::removeSelected)
+        btnClearSelections.setOnClickListener(this::unselectAll)
 
         // add fab
-        fab = findViewById(R.id.fabDictionary)
+        fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
         fab.setOnClickListener {
             val intent = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE_ADD_WORD)
@@ -221,9 +221,9 @@ class DictionaryActivity : AppCompatActivity() {
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove())
-                .observe(this@DictionaryActivity, Observer<List<Word>>{
+                .observe(this@DictionaryActivity, Observer<List<Word>> {
                     adapter.unselectRemoveSelected()
-                    if(llSearch.visibility != View.VISIBLE) { // show all words
+                    if (llSearch.visibility != View.VISIBLE) { // show all words
                         wordsAdapter.words = it
                     } else { // filter
                         viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,

@@ -7,7 +7,7 @@ data class BookContent(val title: String,
                        val chaptersCount: Int,
                        val sections: Map<Int, List<BookSection>>): Parcelable {
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
+            parcel.readString().toString(),
             parcel.readInt(),
             parcel.readSections())
 
@@ -38,7 +38,7 @@ private fun Parcel.readSections(): Map<Int, List<BookSection>> {
     (0 until mapSize).forEach {
         val key = readInt()
         val sections = arrayListOf<BookSection>()
-        readList(sections, BookSection::class.java.classLoader)
+        readList(sections as List<*>, BookSection::class.java.classLoader)
         map[key] = sections
     }
     return map
