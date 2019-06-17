@@ -15,15 +15,33 @@
         <item name="android:layout_height">@dimen/key_height</item>
     </style>
 
-
     <style name="CustomKeyDigit" parent="CustomKey">
         <item name="android:background">@color/keyboard_divider</item>
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="CustomKeyLetter" parent="CustomKey">
-        <item name="android:background">@color/keyboard_pressed</item>
+        <item name="android:background">@color/keyboard_key</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="CustomKeyExtra" parent="CustomKey">
+        <item name="android:background">@color/keyboard_key_extra</item>
+        <item name="android:textColor">@color/keyboard_key_extra_text</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="CustomKeySuggestion" parent="CustomKey">
+        <item name="android:background">@color/keyboard_suggestion_background</item>
+        <item name="android:textColor">@color/colorText1</item>
+    </style>
+
+    <style name="CustomKeySettings" parent="CustomKey">
+        <item name="android:layout_width">@dimen/key_width</item>
+        <item name="android:layout_height">@dimen/key_height</item>
+        <item name="android:background">@color/keyboard_suggestion_background</item>
+        <item name="android:textColor">@color/colorText2</item>
+    </style>
+
 </resources>

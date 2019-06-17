@@ -10,6 +10,7 @@ import android.view.Window
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import android.widget.Button
+import android.widget.Toast
 
 class CustomKeyboard2 : InputMethodService() {
 
@@ -65,9 +66,27 @@ class CustomKeyboard2 : InputMethodService() {
     private lateinit var keySpace: Button
     private lateinit var keySm: Button
     private lateinit var keyLa: Button
-    private lateinit var keyIc: Button
+    private lateinit var keySettings: Button
+    private lateinit var keyWord1: Button
+    private lateinit var keyWord2: Button
+    private lateinit var keyWord3: Button
 
-
+    private lateinit var keyExtra1: Button
+    private lateinit var keyExtra2: Button
+    private lateinit var keyExtra3: Button
+    private lateinit var keyExtra4: Button
+    private lateinit var keyExtra5: Button
+    private lateinit var keyExtra6: Button
+    private lateinit var keyExtra7: Button
+    private lateinit var keyExtra8: Button
+    private lateinit var keyExtra9: Button
+    private lateinit var keyExtra10: Button
+    private lateinit var keyExtra11: Button
+    private lateinit var keyExtra12: Button
+    private lateinit var keyExtra13: Button
+    private lateinit var keyExtra14: Button
+    private val extraKeys: ArrayList<Button> = arrayListOf()
+    private var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
 
 
     override fun onConfigureWindow(win: Window?, isFullscreen: Boolean, isCandidatesOnly: Boolean) {
@@ -93,7 +112,9 @@ class CustomKeyboard2 : InputMethodService() {
                     setKeyOnClickListeners()
                 }
                 Configuration.ORIENTATION_LANDSCAPE -> {
-                    view = layoutInflater.inflate(R.layout.keyboard_custom_layout_landscape, null)
+//                    view = layoutInflater.inflate(R.layout.keyboard_custom_layout_landscape, null)
+                    view = layoutInflater.inflate(R.layout.keyboard_custom_layout_portrait, null)
+
                 }
                 else -> {
                 }
@@ -158,13 +179,57 @@ class CustomKeyboard2 : InputMethodService() {
         return xlarge || large
     }
 
-    private fun getKeyClickListener(text: String = "") = View.OnClickListener {
-        val output = if(text.isEmpty()) {
-            (it as Button).text
+    private fun getKeyClickListener(extra: Boolean = false, text: String = "") = View.OnClickListener {
+        val key = it as Button
+        val output = if (text.isEmpty()) {
+            key.text
         } else {
             text
         }
         ic.commitText(output, output.length)
+        disableAllExtraKeys()
+
+        if (!extra) { // if not extra, show alternative keys
+            if (output.length == 1) { // todo use tag (spike)
+                showExtraKeys(output[0].toInt())
+            }
+        }
+    }
+
+
+    private fun getOnLongClickListener(extra: Boolean = false, text: String = "") = View.OnLongClickListener {
+        val key = it as Button
+        val output = if (text.isEmpty()) {
+            key.text
+        } else {
+            text
+        }
+        if (!extra) { // if not extra, show alternative keys
+            if (output.length == 1) { // todo use tag (spike)
+                showExtraKeys(output[0].toInt())
+            }
+        }
+        true
+    }
+
+
+    private fun disableAllExtraKeys() {
+        extraKeys.forEach {
+            it.text = applicationContext.resources.getString(R.string.key_placeholder)
+            it.isEnabled = false
+        }
+    }
+
+    private val symKeyClickListener = View.OnClickListener {
+        Toast.makeText(applicationContext, "Symbol", Toast.LENGTH_SHORT).show()
+    }
+
+    private val lanKeyClickListener = View.OnClickListener {
+        Toast.makeText(applicationContext, "Lan", Toast.LENGTH_SHORT).show()
+    }
+
+    private val settingsKeyClickListener = View.OnClickListener {
+        Toast.makeText(applicationContext, "Settings", Toast.LENGTH_SHORT).show()
     }
 
     // todo : make a helper
@@ -213,13 +278,33 @@ class CustomKeyboard2 : InputMethodService() {
         keyShift = view.findViewById(R.id.keyShift)
 
         keyQuestion = view.findViewById(R.id.keyQuestion)
-        keyPeriod = view.findViewById(R.id.keyQuestion)
+        keyPeriod = view.findViewById(R.id.keyPeriod)
         keyComma = view.findViewById(R.id.keyComma)
         keyHyphen = view.findViewById(R.id.keyHyphen)
         keySpace = view.findViewById(R.id.keySpace)
         keySm = view.findViewById(R.id.keySym)
         keyLa = view.findViewById(R.id.keyLang)
-        keyIc = view.findViewById(R.id.keyIcon)
+        keySettings = view.findViewById(R.id.keySettings)
+        keyWord1 = view.findViewById(R.id.keySuggestion1)
+        keyWord2 = view.findViewById(R.id.keySuggestion2)
+        keyWord3 = view.findViewById(R.id.keySuggestion3)
+
+        keyExtra1 = view.findViewById(R.id.keyLetterExtra1)
+        keyExtra2 = view.findViewById(R.id.keyLetterExtra2)
+        keyExtra3 = view.findViewById(R.id.keyLetterExtra3)
+        keyExtra4 = view.findViewById(R.id.keyLetterExtra4)
+        keyExtra5 = view.findViewById(R.id.keyLetterExtra5)
+        keyExtra6 = view.findViewById(R.id.keyLetterExtra6)
+        keyExtra7 = view.findViewById(R.id.keyLetterExtra7)
+        keyExtra8 = view.findViewById(R.id.keyLetterExtra8)
+        keyExtra9 = view.findViewById(R.id.keyLetterExtra9)
+        keyExtra10 = view.findViewById(R.id.keyLetterExtra9)
+        keyExtra11 = view.findViewById(R.id.keyLetterExtra9)
+        keyExtra12 = view.findViewById(R.id.keyLetterExtra9)
+        keyExtra13 = view.findViewById(R.id.keyLetterExtra9)
+        keyExtra14 = view.findViewById(R.id.keyLetterExtra9)
+
+        initExtraCodes()
     }
 
     private fun setKeyOnClickListeners() {
@@ -284,10 +369,29 @@ class CustomKeyboard2 : InputMethodService() {
         keyPeriod.setOnClickListener(getKeyClickListener())
         keyComma.setOnClickListener(getKeyClickListener())
         keyHyphen.setOnClickListener(getKeyClickListener())
-        keySpace.setOnClickListener(getKeyClickListener(" "))
-        keySm.setOnClickListener(getKeyClickListener())
-        keyLa.setOnClickListener(getKeyClickListener())
-        keyIc.setOnClickListener(getKeyClickListener())
+        keySpace.setOnClickListener(getKeyClickListener(false, " "))
+        keySm.setOnClickListener(symKeyClickListener)
+        keyLa.setOnClickListener(lanKeyClickListener)
+
+        keySettings.setOnClickListener(settingsKeyClickListener)
+        keyWord1.setOnClickListener(getKeyClickListener())
+        keyWord2.setOnClickListener(getKeyClickListener())
+        keyWord3.setOnClickListener(getKeyClickListener())
+
+        keyExtra1.setOnClickListener(getKeyClickListener())
+        keyExtra2.setOnClickListener(getKeyClickListener())
+        keyExtra3.setOnClickListener(getKeyClickListener())
+        keyExtra4.setOnClickListener(getKeyClickListener())
+        keyExtra5.setOnClickListener(getKeyClickListener())
+        keyExtra6.setOnClickListener(getKeyClickListener())
+        keyExtra7.setOnClickListener(getKeyClickListener())
+        keyExtra8.setOnClickListener(getKeyClickListener())
+        keyExtra9.setOnClickListener(getKeyClickListener())
+
+        // long click listeners
+        keyA.setOnLongClickListener(getOnLongClickListener())
+
+        initExtraKeys()
     }
 
     private fun setAllCaps(allCaps: Boolean) {
@@ -319,10 +423,111 @@ class CustomKeyboard2 : InputMethodService() {
         keyM.text = setCase(keyM, allCaps)
     }
 
-    private fun setCase(button: Button, allCaps: Boolean): String = if(allCaps) {
+    private fun setCase(button: Button, allCaps: Boolean): String = if (allCaps) {
         button.text.toString().toUpperCase()
     } else {
         button.text.toString().toLowerCase()
+    }
+
+    private fun initExtraKeys() {
+        keyExtra1.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra2.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra3.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra4.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra5.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra6.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra7.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra8.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra9.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra10.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra11.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra12.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra13.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+        keyExtra14.apply {
+            extraKeys.add(this)
+            this.isEnabled = false
+            setOnClickListener(getKeyClickListener(true))
+        }
+    }
+
+    private fun showExtraKeys(code: Int) {
+        val relatedChars = getRelatedCharsRes(code)
+        if (relatedChars != null) {
+            (0 until relatedChars.size).forEach { index ->
+                extraKeys[index].text = "${relatedChars[index].toChar()}"
+                extraKeys[index].isEnabled = true
+            }
+        }
+    }
+
+    private fun getRelatedCharsRes(code: Int): ArrayList<Int>? {
+        return if (extraKeysCodesMap.containsKey(code)) {
+            extraKeysCodesMap[code] as ArrayList<Int>
+        } else {
+            null
+        }
+    }
+
+    private fun initExtraCodes() {
+        val res = applicationContext.resources
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_a)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_a_ro1),
+                res.getInteger(R.integer.key_code_letter_a_ro2),
+                res.getInteger(R.integer.key_code_letter_a_sa)
+        )
+        // todo complete
     }
 
     companion object {

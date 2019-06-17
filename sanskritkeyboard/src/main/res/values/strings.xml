@@ -49,5 +49,6 @@
     <string name="comma">,</string>
     <string name="hyphen">-</string>
     <string name="space">\Space</string>
+    <string name="key_placeholder">°</string>
 
 </resources>
