@@ -40,5 +40,9 @@
     <integer name="key_code_letter_a_ro1">259</integer>
     <integer name="key_code_letter_a_ro2">226</integer>
     <integer name="key_code_letter_a_sa">257</integer>
+    <integer name="key_code_letter_A">65</integer>
+    <integer name="key_code_letter_A_ro1">258</integer>
+    <integer name="key_code_letter_A_ro2">194</integer>
+    <integer name="key_code_letter_A_sa">256</integer>
 
 </resources>
