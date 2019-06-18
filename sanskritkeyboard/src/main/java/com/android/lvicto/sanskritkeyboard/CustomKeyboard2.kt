@@ -17,6 +17,7 @@ class CustomKeyboard2 : InputMethodService() {
     private lateinit var ic: InputConnection
     private var config: Int? = null
     private var allCaps: Boolean = false
+    private var allCapsPersist: Boolean = false
     private lateinit var keyQ: Button
     private lateinit var keyW: Button
     private lateinit var keyE: Button
@@ -189,11 +190,16 @@ class CustomKeyboard2 : InputMethodService() {
         ic.commitText(output, output.length)
         disableAllExtraKeys()
 
-        if (!extra) { // if not extra, show alternative keys
+        if (!extra) { // if not an alternate, show alternative keys
             if (output.length == 1) { // todo use tag (spike)
                 showExtraKeys(output[0].toInt())
             }
         }
+
+        if(allCaps && !allCapsPersist) { // todo add isLetter() condition
+            toggleAllCaps()
+        }
+        Log.d(LOG_TAG, "key = ${output[0].toInt()}")
     }
 
 
@@ -360,8 +366,22 @@ class CustomKeyboard2 : InputMethodService() {
 
         keyShift.apply {
             setOnClickListener {
-                allCaps = !allCaps
-                this@CustomKeyboard2.setAllCaps(allCaps)
+                if(!allCaps) {
+                    toggleAllCaps()
+                } else if(allCaps && !allCapsPersist) {
+                    toggleAllCaps()
+                } else {
+                    toggleAllCaps()
+                    allCapsPersist = false
+                }
+            }
+
+            setOnLongClickListener {
+                if(!allCaps) {
+                    toggleAllCaps()
+                    allCapsPersist = true
+                }
+                true
             }
         }
 
@@ -394,6 +414,11 @@ class CustomKeyboard2 : InputMethodService() {
         initExtraKeys()
     }
 
+    private fun toggleAllCaps() {
+        allCaps = !allCaps
+        this@CustomKeyboard2.setAllCaps(allCaps)
+    }
+
     private fun setAllCaps(allCaps: Boolean) {
         keyQ.text = setCase(keyQ, allCaps)
         keyW.text = setCase(keyW, allCaps)
@@ -421,6 +446,12 @@ class CustomKeyboard2 : InputMethodService() {
         keyB.text = setCase(keyB, allCaps)
         keyN.text = setCase(keyN, allCaps)
         keyM.text = setCase(keyM, allCaps)
+
+        extraKeys.forEach {
+            if(it.isEnabled) {
+                it.text = setCase(it, allCaps)
+            }
+        }
     }
 
     private fun setCase(button: Button, allCaps: Boolean): String = if (allCaps) {
@@ -526,6 +557,11 @@ class CustomKeyboard2 : InputMethodService() {
                 res.getInteger(R.integer.key_code_letter_a_ro1),
                 res.getInteger(R.integer.key_code_letter_a_ro2),
                 res.getInteger(R.integer.key_code_letter_a_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_A)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_A_ro1),
+                res.getInteger(R.integer.key_code_letter_A_ro2),
+                res.getInteger(R.integer.key_code_letter_A_sa)
         )
         // todo complete
     }
