@@ -410,6 +410,14 @@ class CustomKeyboard2 : InputMethodService() {
 
         // long click listeners
         keyA.setOnLongClickListener(getOnLongClickListener())
+        keyI.setOnLongClickListener(getOnLongClickListener())
+        keyL.setOnLongClickListener(getOnLongClickListener())
+        keyM.setOnLongClickListener(getOnLongClickListener())
+        keyN.setOnLongClickListener(getOnLongClickListener())
+        keyR.setOnLongClickListener(getOnLongClickListener())
+        keyS.setOnLongClickListener(getOnLongClickListener())
+        keyU.setOnLongClickListener(getOnLongClickListener())
+        keyH.setOnLongClickListener(getOnLongClickListener())
 
         initExtraKeys()
     }
@@ -563,7 +571,61 @@ class CustomKeyboard2 : InputMethodService() {
                 res.getInteger(R.integer.key_code_letter_A_ro2),
                 res.getInteger(R.integer.key_code_letter_A_sa)
         )
-        // todo complete
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_i)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_i_ro),
+                res.getInteger(R.integer.key_code_letter_i_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_I)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_l)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_l_sa),
+                res.getInteger(R.integer.key_code_letter_l_sa_long)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_L)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_m)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_m_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_M)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_n)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_n_sa1),
+                res.getInteger(R.integer.key_code_letter_n_sa2),
+                res.getInteger(R.integer.key_code_letter_n_sa3)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_N)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_r)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_r_sa1),
+                res.getInteger(R.integer.key_code_letter_r_sa2)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_R)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_s)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_s_sa1),
+                res.getInteger(R.integer.key_code_letter_s_sa2),
+                res.getInteger(R.integer.key_code_letter_s_sa3)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_S)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_u)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_u_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_U)] = arrayListOf(
+                // todo
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_h)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_h_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_H)] = arrayListOf(
+            // todo
+        )
     }
 
     companion object {
