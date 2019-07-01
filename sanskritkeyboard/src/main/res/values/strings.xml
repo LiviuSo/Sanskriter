@@ -45,10 +45,12 @@
     <string name="key_label_letter_m">m</string>
 
     <string name="key_question_mark">\?</string>
-    <string name="period">.</string>
-    <string name="comma">,</string>
-    <string name="hyphen">-</string>
-    <string name="space">\Space</string>
+    <string name="key_space">\Space</string>
     <string name="key_placeholder">°</string>
+    <string name="key_period">.</string>
+    <string name="key_comma">,</string>
+    <string name="key_parantesis">()</string>
+    <string name="key_punctuation">\?.</string>
+    <string name="key_math">+-</string>
 
 </resources>

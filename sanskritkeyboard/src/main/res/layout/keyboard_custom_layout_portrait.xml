@@ -376,39 +376,32 @@
         app:layout_constraintTop_toBottomOf="@id/llZxcvb">
 
         <Button
-            android:id="@+id/keyQuestion"
+            android:id="@+id/keyPunctuation"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_question_mark" />
+            android:text="@string/key_punctuation"/>
 
         <Button
-            android:id="@+id/keyPeriod"
+            android:id="@+id/keyParanthesis"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/period" />
+            android:text="@string/key_parantesis"/>
 
         <Button
-            android:id="@+id/keyComma"
+            android:id="@+id/keyMath"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/comma" />
-
-        <Button
-            android:id="@+id/keyHyphen"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/hyphen" />
+            android:text="@string/key_math"/>
 
         <Button
             android:id="@+id/keySpace"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/space" />
+            android:layout_weight="2"
+            android:text="@string/key_space" />
 
         <Button
             android:id="@+id/keySym"
