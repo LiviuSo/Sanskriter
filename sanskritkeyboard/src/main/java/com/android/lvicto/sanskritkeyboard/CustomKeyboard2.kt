@@ -60,10 +60,9 @@ class CustomKeyboard2 : InputMethodService() {
     private lateinit var keyAc: Button
     private lateinit var keyShift: Button
 
-    private lateinit var keyQuestion: Button
-    private lateinit var keyPeriod: Button
-    private lateinit var keyComma: Button
-    private lateinit var keyHyphen: Button
+    private lateinit var keyPunctuation: Button
+    private lateinit var keyParanthesis: Button
+    private lateinit var keyMath: Button
     private lateinit var keySpace: Button
     private lateinit var keySm: Button
     private lateinit var keyLa: Button
@@ -97,9 +96,9 @@ class CustomKeyboard2 : InputMethodService() {
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
+        super.onStartInputView(info, restarting)
         Log.d(LOG_TAG, "onStartInputView()")
         ic = currentInputConnection
-        super.onStartInputView(info, restarting)
     }
 
     override fun onCreateInputView(): View {
@@ -187,6 +186,7 @@ class CustomKeyboard2 : InputMethodService() {
         } else {
             text
         }
+        // todo logic for label with multiple characters
         ic.commitText(output, output.length)
         disableAllExtraKeys()
 
@@ -199,7 +199,7 @@ class CustomKeyboard2 : InputMethodService() {
         if(allCaps && !allCapsPersist) { // todo add isLetter() condition
             toggleAllCaps()
         }
-        Log.d(LOG_TAG, "key = ${output[0].toInt()}")
+        Log.d(LOG_TAG, "key = ${output[0].toInt()}") // debug
     }
 
 
@@ -283,10 +283,9 @@ class CustomKeyboard2 : InputMethodService() {
         keyAc = view.findViewById(R.id.keyAction)
         keyShift = view.findViewById(R.id.keyShift)
 
-        keyQuestion = view.findViewById(R.id.keyQuestion)
-        keyPeriod = view.findViewById(R.id.keyPeriod)
-        keyComma = view.findViewById(R.id.keyComma)
-        keyHyphen = view.findViewById(R.id.keyHyphen)
+        keyPunctuation = view.findViewById(R.id.keyPunctuation)
+        keyMath = view.findViewById(R.id.keyMath)
+        keyParanthesis = view.findViewById(R.id.keyParanthesis)
         keySpace = view.findViewById(R.id.keySpace)
         keySm = view.findViewById(R.id.keySym)
         keyLa = view.findViewById(R.id.keyLang)
@@ -385,10 +384,9 @@ class CustomKeyboard2 : InputMethodService() {
             }
         }
 
-        keyQuestion.setOnClickListener(getKeyClickListener())
-        keyPeriod.setOnClickListener(getKeyClickListener())
-        keyComma.setOnClickListener(getKeyClickListener())
-        keyHyphen.setOnClickListener(getKeyClickListener())
+        keyPunctuation.setOnClickListener(getKeyClickListener())
+        keyParanthesis.setOnClickListener(getKeyClickListener())
+        keyMath.setOnClickListener(getKeyClickListener())
         keySpace.setOnClickListener(getKeyClickListener(false, " "))
         keySm.setOnClickListener(symKeyClickListener)
         keyLa.setOnClickListener(lanKeyClickListener)
@@ -576,20 +574,22 @@ class CustomKeyboard2 : InputMethodService() {
                 res.getInteger(R.integer.key_code_letter_i_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_I)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_I_ro),
+                res.getInteger(R.integer.key_code_letter_I_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_l)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_l_sa),
                 res.getInteger(R.integer.key_code_letter_l_sa_long)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_L)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_L_sa),
+                res.getInteger(R.integer.key_code_letter_L_sa_long)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_m)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_m_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_M)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_M_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_n)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_n_sa1),
@@ -597,34 +597,48 @@ class CustomKeyboard2 : InputMethodService() {
                 res.getInteger(R.integer.key_code_letter_n_sa3)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_N)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_N_sa1),
+                res.getInteger(R.integer.key_code_letter_N_sa2),
+                res.getInteger(R.integer.key_code_letter_N_sa3)
+
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_r)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_r_sa1),
                 res.getInteger(R.integer.key_code_letter_r_sa2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_R)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_R_sa1),
+                res.getInteger(R.integer.key_code_letter_R_sa2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_s)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_s_ro),
                 res.getInteger(R.integer.key_code_letter_s_sa1),
-                res.getInteger(R.integer.key_code_letter_s_sa2),
-                res.getInteger(R.integer.key_code_letter_s_sa3)
+                res.getInteger(R.integer.key_code_letter_s_sa2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_S)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_S_ro),
+                res.getInteger(R.integer.key_code_letter_S_sa1),
+                res.getInteger(R.integer.key_code_letter_S_sa2)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_t)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_t_ro),
+                res.getInteger(R.integer.key_code_letter_t_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_T)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_T_ro),
+                res.getInteger(R.integer.key_code_letter_T_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_u)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_u_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_U)] = arrayListOf(
-                // todo
+                res.getInteger(R.integer.key_code_letter_U_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_h)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_h_sa)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_H)] = arrayListOf(
-            // todo
+                res.getInteger(R.integer.key_code_letter_H_sa)
         )
     }
 

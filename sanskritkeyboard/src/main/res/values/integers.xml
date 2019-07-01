@@ -56,34 +56,34 @@
     <integer name="key_code_letter_m">109</integer>
 
 
-    <integer name="key_code_letter_Z">-1</integer>
-    <integer name="key_code_letter_X">-1</integer>
-    <integer name="key_code_letter_C">-1</integer>
-    <integer name="key_code_letter_V">-1</integer>
-    <integer name="key_code_letter_B">-1</integer>
-    <integer name="key_code_letter_N">-1</integer>
-    <integer name="key_code_letter_M">-1</integer>
+    <integer name="key_code_letter_Z">90</integer>
+    <integer name="key_code_letter_X">88</integer>
+    <integer name="key_code_letter_C">67</integer>
+    <integer name="key_code_letter_V">86</integer>
+    <integer name="key_code_letter_B">66</integer>
+    <integer name="key_code_letter_N">78</integer>
+    <integer name="key_code_letter_M">77</integer>
 
-    <integer name="key_code_letter_Q">-1</integer>
-    <integer name="key_code_letter_W">-1</integer>
-    <integer name="key_code_letter_E">-1</integer>
-    <integer name="key_code_letter_R">-1</integer>
-    <integer name="key_code_letter_T">-1</integer>
-    <integer name="key_code_letter_Y">-1</integer>
-    <integer name="key_code_letter_U">-1</integer>
-    <integer name="key_code_letter_I">-1</integer>
-    <integer name="key_code_letter_O">-1</integer>
-    <integer name="key_code_letter_P">-1</integer>
+    <integer name="key_code_letter_Q">81</integer>
+    <integer name="key_code_letter_W">87</integer>
+    <integer name="key_code_letter_E">69</integer>
+    <integer name="key_code_letter_R">82</integer>
+    <integer name="key_code_letter_T">84</integer>
+    <integer name="key_code_letter_Y">89</integer>
+    <integer name="key_code_letter_U">85</integer>
+    <integer name="key_code_letter_I">73</integer>
+    <integer name="key_code_letter_O">79</integer>
+    <integer name="key_code_letter_P">80</integer>
 
     <integer name="key_code_letter_A">65</integer>
-    <integer name="key_code_letter_S">-1</integer>
-    <integer name="key_code_letter_D">-1</integer>
-    <integer name="key_code_letter_F">-1</integer>
-    <integer name="key_code_letter_G">-1</integer>
-    <integer name="key_code_letter_H">-1</integer>
-    <integer name="key_code_letter_J">-1</integer>
-    <integer name="key_code_letter_K">-1</integer>
-    <integer name="key_code_letter_L">-1</integer>
+    <integer name="key_code_letter_S">83</integer>
+    <integer name="key_code_letter_D">68</integer>
+    <integer name="key_code_letter_F">70</integer>
+    <integer name="key_code_letter_G">71</integer>
+    <integer name="key_code_letter_H">72</integer>
+    <integer name="key_code_letter_J">74</integer>
+    <integer name="key_code_letter_K">75</integer>
+    <integer name="key_code_letter_L">76</integer>
 
 
     <integer name="key_code_letter_a_ro1">259</integer>
@@ -95,45 +95,45 @@
 
     <integer name="key_code_letter_i_ro">238</integer>
     <integer name="key_code_letter_i_sa">299</integer>
-    <integer name="key_code_letter_I_ro">-1</integer>
-    <integer name="key_code_letter_I_sa">-1</integer>
+    <integer name="key_code_letter_I_ro">206</integer>
+    <integer name="key_code_letter_I_sa">298</integer>
 
     <integer name="key_code_letter_l_sa">7735</integer>
     <integer name="key_code_letter_l_sa_long">7737</integer>
-    <integer name="key_code_letter_L_sa">-1</integer>
-    <integer name="key_code_letter_L_sa_long">-1</integer>
+    <integer name="key_code_letter_L_sa">7734</integer>
+    <integer name="key_code_letter_L_sa_long">7736</integer>
 
     <integer name="key_code_letter_m_sa">7747</integer>
-    <integer name="key_code_letter_M_sa">-1</integer>
+    <integer name="key_code_letter_M_sa">7746</integer>
 
     <integer name="key_code_letter_n_sa1">7749</integer>
     <integer name="key_code_letter_n_sa2">241</integer>
     <integer name="key_code_letter_n_sa3">7751</integer>
-    <integer name="key_code_letter_N_sa1">-1</integer>
-    <integer name="key_code_letter_N_sa2">-1</integer>
-    <integer name="key_code_letter_N_sa3">-1</integer>
+    <integer name="key_code_letter_N_sa1">7748</integer>
+    <integer name="key_code_letter_N_sa2">209</integer>
+    <integer name="key_code_letter_N_sa3">7750</integer>
 
     <integer name="key_code_letter_r_sa1">7771</integer>
     <integer name="key_code_letter_r_sa2">7773</integer>
-    <integer name="key_code_letter_R_sa1">-1</integer>
-    <integer name="key_code_letter_R_sa2">-1</integer>
+    <integer name="key_code_letter_R_sa1">7770</integer>
+    <integer name="key_code_letter_R_sa2">7772</integer>
 
-    <integer name="key_code_letter_s_sa1">537</integer>
-    <integer name="key_code_letter_s_sa2">347</integer>
-    <integer name="key_code_letter_s_sa3">7779</integer>
-    <integer name="key_code_letter_S_sa1">-1</integer>
-    <integer name="key_code_letter_S_sa2">-1</integer>
-    <integer name="key_code_letter_S_sa3">-1</integer>
+    <integer name="key_code_letter_s_ro">537</integer>
+    <integer name="key_code_letter_s_sa1">347</integer>
+    <integer name="key_code_letter_s_sa2">7779</integer>
+    <integer name="key_code_letter_S_ro">536</integer>
+    <integer name="key_code_letter_S_sa1">346</integer>
+    <integer name="key_code_letter_S_sa2">7778</integer>
 
     <integer name="key_code_letter_t_ro">539</integer>
     <integer name="key_code_letter_t_sa">7789</integer>
-    <integer name="key_code_letter_T_ro">-1</integer>
-    <integer name="key_code_letter_T_sa">-1</integer>
+    <integer name="key_code_letter_T_ro">538</integer>
+    <integer name="key_code_letter_T_sa">7788</integer>
 
     <integer name="key_code_letter_u_sa">363</integer>
-    <integer name="key_code_letter_U_sa">-1</integer>
+    <integer name="key_code_letter_U_sa">362</integer>
 
     <integer name="key_code_letter_h_sa">7717</integer>
-    <integer name="key_code_letter_H_sa">-1</integer>
+    <integer name="key_code_letter_H_sa">7716</integer>
 
 </resources>
