@@ -374,14 +374,14 @@ class CustomKeyboard : InputMethodService(), KeyboardView.OnKeyboardActionListen
         KeyboardLang.SA.lang = context.getString(R.string.kbLabelSanskrit)
 
         // integers
-        Keycode.DELETE.code = context.resources.getInteger(R.integer.keycode_backspace)
-        Keycode.DONE.code = context.resources.getInteger(R.integer.keycode_ac)
-        Keycode.SHIFT.code = context.resources.getInteger(R.integer.keycode_shift)
-        Keycode.QWERTY_SYM.code = context.resources.getInteger(R.integer.keycode_qwerty_sym)
-        Keycode.SANSKRIT_NUM.code = context.resources.getInteger(R.integer.keycode_sa_dg)
-        Keycode.SPACE.code = context.resources.getInteger(R.integer.keycode_space)
-        Keycode.KB.code = context.resources.getInteger(R.integer.keycode_switch)
-        Keycode.BACK.code = context.resources.getInteger(R.integer.keycode_keyboard_back)
+        Keycode.DELETE.code = context.resources.getInteger(R.integer.key_code_backspace)
+        Keycode.DONE.code = context.resources.getInteger(R.integer.key_code_ac)
+        Keycode.SHIFT.code = context.resources.getInteger(R.integer.key_code_shift)
+        Keycode.QWERTY_SYM.code = context.resources.getInteger(R.integer.key_code_qwerty_sym)
+        Keycode.SANSKRIT_NUM.code = context.resources.getInteger(R.integer.key_code_sa_dg)
+        Keycode.SPACE.code = context.resources.getInteger(R.integer.key_code_space)
+        Keycode.KB.code = context.resources.getInteger(R.integer.key_code_switch)
+        Keycode.BACK.code = context.resources.getInteger(R.integer.key_code_keyboard_back)
 
         keyPopupWidth = context.resources.getInteger(R.integer.size_key_popup_width) // todo: investigate
         keyPopupHeight = context.resources.getInteger(R.integer.size_key_popup_height)

@@ -7,7 +7,7 @@
           android:keyHeight="@dimen/keyHeight">
 
     <Row>
-        <Key android:keyLabel="Bk" android:codes="@integer/keycode_keyboard_back"/>
+        <Key android:keyLabel="Bk" android:codes="@integer/key_code_keyboard_back"/>
     </Row>
 
     <!-- ० १ २ ३ ४ ५ ६ ७ ८ ९ -->

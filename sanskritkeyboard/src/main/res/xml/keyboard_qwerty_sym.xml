@@ -31,7 +31,7 @@
         <Key android:keyLabel="|" android:codes="25"/>
         <Key android:keyLabel="_" android:codes="95"/>
         <Key android:keyLabel="#" android:codes="35"/>
-        <Key android:keyLabel="~" android:codes="120"/>
+        <Key android:keyLabel="~" android:codes="126"/>
         <Key android:keyLabel="\u0022" android:codes="34"/>
         <Key android:keyLabel="\u003E" android:codes="62"/>
         <Key android:keyLabel="\u003C" android:codes="60" android:keyEdgeFlags="right"/>

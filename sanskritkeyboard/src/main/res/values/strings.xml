@@ -44,13 +44,13 @@
     <string name="key_label_letter_n">n</string>
     <string name="key_label_letter_m">m</string>
 
-    <string name="key_question_mark">\?</string>
     <string name="key_space">\Space</string>
     <string name="key_placeholder">°</string>
     <string name="key_period">.</string>
     <string name="key_comma">,</string>
-    <string name="key_parantesis">()</string>
-    <string name="key_punctuation">\?.</string>
-    <string name="key_math">+-</string>
+    <string name="key_question_mark">\?</string>
+    <string name="key_exclamation_mark">!</string>
+    <string name="key_hyphen">-</string>
+    <string name="key_at">\@</string>
 
 </resources>
