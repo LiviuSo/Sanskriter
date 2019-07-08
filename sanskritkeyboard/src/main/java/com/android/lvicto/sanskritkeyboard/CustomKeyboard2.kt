@@ -60,12 +60,14 @@ class CustomKeyboard2 : InputMethodService() {
     private lateinit var keyAc: Button
     private lateinit var keyShift: Button
 
-    private lateinit var keyPunctuation: Button
-    private lateinit var keyParanthesis: Button
-    private lateinit var keyMath: Button
+    private lateinit var keyPeriod: Button
+    private lateinit var keyQuestion: Button
+    private lateinit var keyComma: Button
     private lateinit var keySpace: Button
-    private lateinit var keySm: Button
-    private lateinit var keyLa: Button
+    private lateinit var keyExclamation: Button
+    private lateinit var keyHyphen: Button
+    private lateinit var keyAt: Button
+
     private lateinit var keySettings: Button
     private lateinit var keyWord1: Button
     private lateinit var keyWord2: Button
@@ -191,19 +193,19 @@ class CustomKeyboard2 : InputMethodService() {
         disableAllExtraKeys()
 
         if (!extra) { // if not an alternate, show alternative keys
-            if (output.length == 1) { // todo use tag (spike)
-                showExtraKeys(output[0].toInt())
-            }
+            showExtraKeys(output[0].toInt())
         }
 
-        if(allCaps && !allCapsPersist) { // todo add isLetter() condition
+        if (allCaps && !allCapsPersist) { // todo add isLetter() condition
             toggleAllCaps()
         }
+
         Log.d(LOG_TAG, "key = ${output[0].toInt()}") // debug
     }
 
 
     private fun getOnLongClickListener(extra: Boolean = false, text: String = "") = View.OnLongClickListener {
+        disableAllExtraKeys()
         val key = it as Button
         val output = if (text.isEmpty()) {
             key.text
@@ -224,14 +226,6 @@ class CustomKeyboard2 : InputMethodService() {
             it.text = applicationContext.resources.getString(R.string.key_placeholder)
             it.isEnabled = false
         }
-    }
-
-    private val symKeyClickListener = View.OnClickListener {
-        Toast.makeText(applicationContext, "Symbol", Toast.LENGTH_SHORT).show()
-    }
-
-    private val lanKeyClickListener = View.OnClickListener {
-        Toast.makeText(applicationContext, "Lan", Toast.LENGTH_SHORT).show()
     }
 
     private val settingsKeyClickListener = View.OnClickListener {
@@ -283,12 +277,13 @@ class CustomKeyboard2 : InputMethodService() {
         keyAc = view.findViewById(R.id.keyAction)
         keyShift = view.findViewById(R.id.keyShift)
 
-        keyPunctuation = view.findViewById(R.id.keyPunctuation)
-        keyMath = view.findViewById(R.id.keyMath)
-        keyParanthesis = view.findViewById(R.id.keyParanthesis)
+        keyPeriod = view.findViewById(R.id.keyPerion)
+        keyComma = view.findViewById(R.id.keyComma)
+        keyQuestion = view.findViewById(R.id.keyQuestion)
         keySpace = view.findViewById(R.id.keySpace)
-        keySm = view.findViewById(R.id.keySym)
-        keyLa = view.findViewById(R.id.keyLang)
+        keyExclamation = view.findViewById(R.id.keyExclamation)
+        keyHyphen = view.findViewById(R.id.keyHyphen)
+        keyAt = view.findViewById(R.id.keyAt)
         keySettings = view.findViewById(R.id.keySettings)
         keyWord1 = view.findViewById(R.id.keySuggestion1)
         keyWord2 = view.findViewById(R.id.keySuggestion2)
@@ -303,11 +298,11 @@ class CustomKeyboard2 : InputMethodService() {
         keyExtra7 = view.findViewById(R.id.keyLetterExtra7)
         keyExtra8 = view.findViewById(R.id.keyLetterExtra8)
         keyExtra9 = view.findViewById(R.id.keyLetterExtra9)
-        keyExtra10 = view.findViewById(R.id.keyLetterExtra9)
-        keyExtra11 = view.findViewById(R.id.keyLetterExtra9)
-        keyExtra12 = view.findViewById(R.id.keyLetterExtra9)
-        keyExtra13 = view.findViewById(R.id.keyLetterExtra9)
-        keyExtra14 = view.findViewById(R.id.keyLetterExtra9)
+        keyExtra10 = view.findViewById(R.id.keyLetterExtra10)
+        keyExtra11 = view.findViewById(R.id.keyLetterExtra11)
+        keyExtra12 = view.findViewById(R.id.keyLetterExtra12)
+        keyExtra13 = view.findViewById(R.id.keyLetterExtra13)
+        keyExtra14 = view.findViewById(R.id.keyLetterExtra14)
 
         initExtraCodes()
     }
@@ -365,9 +360,9 @@ class CustomKeyboard2 : InputMethodService() {
 
         keyShift.apply {
             setOnClickListener {
-                if(!allCaps) {
+                if (!allCaps) {
                     toggleAllCaps()
-                } else if(allCaps && !allCapsPersist) {
+                } else if (allCaps && !allCapsPersist) {
                     toggleAllCaps()
                 } else {
                     toggleAllCaps()
@@ -376,7 +371,7 @@ class CustomKeyboard2 : InputMethodService() {
             }
 
             setOnLongClickListener {
-                if(!allCaps) {
+                if (!allCaps) {
                     toggleAllCaps()
                     allCapsPersist = true
                 }
@@ -384,12 +379,13 @@ class CustomKeyboard2 : InputMethodService() {
             }
         }
 
-        keyPunctuation.setOnClickListener(getKeyClickListener())
-        keyParanthesis.setOnClickListener(getKeyClickListener())
-        keyMath.setOnClickListener(getKeyClickListener())
+        keyPeriod.setOnClickListener(getKeyClickListener())
+        keyQuestion.setOnClickListener(getKeyClickListener())
+        keyComma.setOnClickListener(getKeyClickListener())
         keySpace.setOnClickListener(getKeyClickListener(false, " "))
-        keySm.setOnClickListener(symKeyClickListener)
-        keyLa.setOnClickListener(lanKeyClickListener)
+        keyExclamation.setOnClickListener(getKeyClickListener())
+        keyHyphen.setOnClickListener(getKeyClickListener())
+        keyAt.setOnClickListener(getKeyClickListener())
 
         keySettings.setOnClickListener(settingsKeyClickListener)
         keyWord1.setOnClickListener(getKeyClickListener())
@@ -409,6 +405,8 @@ class CustomKeyboard2 : InputMethodService() {
         // long click listeners
         keyA.setOnLongClickListener(getOnLongClickListener())
         keyI.setOnLongClickListener(getOnLongClickListener())
+        keyT.setOnLongClickListener(getOnLongClickListener())
+        keyD.setOnLongClickListener(getOnLongClickListener())
         keyL.setOnLongClickListener(getOnLongClickListener())
         keyM.setOnLongClickListener(getOnLongClickListener())
         keyN.setOnLongClickListener(getOnLongClickListener())
@@ -416,6 +414,13 @@ class CustomKeyboard2 : InputMethodService() {
         keyS.setOnLongClickListener(getOnLongClickListener())
         keyU.setOnLongClickListener(getOnLongClickListener())
         keyH.setOnLongClickListener(getOnLongClickListener())
+        keyPeriod.setOnLongClickListener(getOnLongClickListener())
+        keySpace.setOnLongClickListener {
+            Toast.makeText(applicationContext, "Lan", Toast.LENGTH_SHORT).show()
+            true
+        }
+        keyHyphen.setOnLongClickListener(getOnLongClickListener())
+        keyAt.setOnLongClickListener(getOnLongClickListener())
 
         initExtraKeys()
     }
@@ -454,7 +459,7 @@ class CustomKeyboard2 : InputMethodService() {
         keyM.text = setCase(keyM, allCaps)
 
         extraKeys.forEach {
-            if(it.isEnabled) {
+            if (it.isEnabled) {
                 it.text = setCase(it, allCaps)
             }
         }
@@ -542,7 +547,9 @@ class CustomKeyboard2 : InputMethodService() {
     private fun showExtraKeys(code: Int) {
         val relatedChars = getRelatedCharsRes(code)
         if (relatedChars != null) {
+            Log.d(LOG_TAG, "relatedChars.size: ${relatedChars.size}")
             (0 until relatedChars.size).forEach { index ->
+                Log.d(LOG_TAG, "relatedChars[$index]: ${relatedChars[index]}")
                 extraKeys[index].text = "${relatedChars[index].toChar()}"
                 extraKeys[index].isEnabled = true
             }
@@ -560,7 +567,7 @@ class CustomKeyboard2 : InputMethodService() {
     private fun initExtraCodes() {
         val res = applicationContext.resources
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_a)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_a_ro1),
+                R.integer.key_code_letter_a_ro1.getVal(applicationContext),
                 res.getInteger(R.integer.key_code_letter_a_ro2),
                 res.getInteger(R.integer.key_code_letter_a_sa)
         )
@@ -600,7 +607,6 @@ class CustomKeyboard2 : InputMethodService() {
                 res.getInteger(R.integer.key_code_letter_N_sa1),
                 res.getInteger(R.integer.key_code_letter_N_sa2),
                 res.getInteger(R.integer.key_code_letter_N_sa3)
-
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_r)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_r_sa1),
@@ -628,6 +634,12 @@ class CustomKeyboard2 : InputMethodService() {
                 res.getInteger(R.integer.key_code_letter_T_ro),
                 res.getInteger(R.integer.key_code_letter_T_sa)
         )
+        extraKeysCodesMap[R.integer.key_code_letter_d.getVal(applicationContext)] = arrayListOf(
+                R.integer.key_code_letter_d_sa.getVal(applicationContext)
+        )
+        extraKeysCodesMap[R.integer.key_code_letter_D.getVal(applicationContext)] = arrayListOf(
+                R.integer.key_code_letter_D_sa.getVal(applicationContext)
+        )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_u)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_u_sa)
         )
@@ -640,9 +652,49 @@ class CustomKeyboard2 : InputMethodService() {
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_H)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_H_sa)
         )
+        extraKeysCodesMap[R.integer.key_code_period.getVal(applicationContext)] = arrayListOf(
+                R.integer.key_code_apostrophy.getVal(applicationContext),
+                R.integer.key_code_quote.getVal(applicationContext),
+                R.integer.key_code_semicolon.getVal(applicationContext),
+                R.integer.key_code_colon.getVal(applicationContext)
+        )
+
+        extraKeysCodesMap[R.integer.key_code_hyphen.getVal(applicationContext)] = arrayListOf(
+                R.integer.key_code_plus.getVal(applicationContext),
+                R.integer.key_code_multiplication.getVal(applicationContext),
+                R.integer.key_code_division.getVal(applicationContext),
+                R.integer.key_code_lt.getVal(applicationContext),
+                R.integer.key_code_gt.getVal(applicationContext),
+                R.integer.key_code_equal.getVal(applicationContext),
+                R.integer.key_code_xor.getVal(applicationContext),
+                R.integer.key_code_percent.getVal(applicationContext),
+                R.integer.key_code_tilda.getVal(applicationContext)
+        )
+
+        extraKeysCodesMap[R.integer.key_code_at.getVal(applicationContext)] = arrayListOf(
+                R.integer.key_code_underscore.getVal(applicationContext),
+                R.integer.key_code_slash.getVal(applicationContext),
+                R.integer.key_code_pipe.getVal(applicationContext),
+                R.integer.key_code_cent.getVal(applicationContext),
+                R.integer.key_code_back_apostrophe.getVal(applicationContext),
+                R.integer.key_code_dollar.getVal(applicationContext),
+                R.integer.key_code_pound.getVal(applicationContext),
+                R.integer.key_code_backslash.getVal(applicationContext),
+
+                R.integer.key_code_open_paranthesis.getVal(applicationContext),
+                R.integer.key_code_close_paranthesis.getVal(applicationContext),
+                R.integer.key_code_open_square_paranthesis.getVal(applicationContext),
+                R.integer.key_code_close_square_paranthesis.getVal(applicationContext),
+                R.integer.key_code_open_curly_brace.getVal(applicationContext),
+                R.integer.key_code_close_curly_brace.getVal(applicationContext)
+
+        )
+
     }
 
     companion object {
         const val LOG_TAG = "CustomKeyboard2"
     }
 }
+
+fun Int.getVal(context: Context): Int = context.resources.getInteger(this)

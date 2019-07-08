@@ -67,7 +67,7 @@
         <Key android:keyLabel="\u0937" android:codes="2359"/>
         <Key android:keyLabel="\u0938" android:codes="2360"/>
         <Key android:keyLabel="BS" android:keyEdgeFlags="right" android:isRepeatable="true"
-             android:keyWidth="20%" android:codes="@integer/keycode_backspace"/>
+             android:keyWidth="20%" android:codes="@integer/key_code_backspace"/>
 
     </Row>
 
@@ -81,10 +81,10 @@
         <Key android:keyLabel="\u0930" android:codes="2352"/>
         <Key android:keyLabel="\u0932" android:codes="2354"/>
         <Key android:keyLabel="\u0935" android:codes="2357"/>
-        <Key android:keyLabel="SPACE" android:keyWidth="25%p" android:isRepeatable="true" android:codes="@integer/keycode_space"/>
-        <Key android:keyLabel="SM" android:codes="@integer/keycode_qwerty_sym"/>
-        <Key android:keyLabel="Kb" android:codes="@integer/keycode_switch"/>
-        <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:keyWidth="15%p" android:codes="@integer/keycode_ac"/>
+        <Key android:keyLabel="SPACE" android:keyWidth="25%p" android:isRepeatable="true" android:codes="@integer/key_code_space"/>
+        <Key android:keyLabel="SM" android:codes="@integer/key_code_qwerty_sym"/>
+        <Key android:keyLabel="Kb" android:codes="@integer/key_code_switch"/>
+        <Key android:keyLabel="AC" android:keyEdgeFlags="right" android:keyWidth="15%p" android:codes="@integer/key_code_ac"/>
     </Row>
 
 </Keyboard>

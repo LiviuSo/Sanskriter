@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <integer name="keycode_ac">-4</integer>
-    <integer name="keycode_backspace">-5</integer>
-    <integer name="keycode_qwerty_sym">-6</integer>
-    <integer name="keycode_sa_dg">-9</integer>
-    <integer name="keycode_shift">-1</integer>
-    <integer name="keycode_space">32</integer>
-    <integer name="keycode_switch">-11</integer>
-    <integer name="keycode_icon">-12</integer>
-    <integer name="keycode_keyboard_back">-12</integer>
+    <integer name="key_code_ac">-4</integer>
+    <integer name="key_code_backspace">-5</integer>
+    <integer name="key_code_sa_dg">-9</integer>
+    <integer name="key_code_shift">-1</integer>
+    <integer name="key_code_space">32</integer>
+    <integer name="key_code_switch">-11</integer>
+    <integer name="key_code_icon">-12</integer>
+    <integer name="key_code_keyboard_back">-12</integer>
 
     <integer name="size_key_popup_height">100</integer>
     <integer name="size_key_popup_width">80</integer>
@@ -130,10 +129,55 @@
     <integer name="key_code_letter_T_ro">538</integer>
     <integer name="key_code_letter_T_sa">7788</integer>
 
+    <integer name="key_code_letter_d_sa">7693</integer>
+    <integer name="key_code_letter_D_sa">7692</integer>
+
     <integer name="key_code_letter_u_sa">363</integer>
     <integer name="key_code_letter_U_sa">362</integer>
 
     <integer name="key_code_letter_h_sa">7717</integer>
     <integer name="key_code_letter_H_sa">7716</integer>
+
+    <integer name="key_code_question_mark">63</integer>
+    <integer name="key_code_exclamation_mark">33</integer>
+    <integer name="key_code_comma">44</integer>
+
+    <integer name="key_code_apostrophy">39</integer>
+    <integer name="key_code_quote">34</integer>
+    <integer name="key_code_semicolon">59</integer>
+    <integer name="key_code_colon">58</integer>
+
+    <integer name="key_code_open_paranthesis">40</integer>
+    <integer name="key_code_close_paranthesis">41</integer>
+    <integer name="key_code_open_square_paranthesis">91</integer>
+    <integer name="key_code_close_square_paranthesis">93</integer>
+    <integer name="key_code_open_curly_brace">123</integer>
+    <integer name="key_code_close_curly_brace">125</integer>
+
+    <integer name="key_code_period">46</integer>
+    <integer name="key_code_hyphen">45</integer>
+    <integer name="key_code_ampersand">38</integer>
+    <integer name="key_code_at">64</integer>
+
+    <integer name="key_code_qwerty_sym">-6</integer>
+
+    <integer name="key_code_plus">43</integer>
+    <integer name="key_code_multiplication">42</integer>
+    <integer name="key_code_division">247</integer>
+    <integer name="key_code_lt">60</integer>
+    <integer name="key_code_gt">62</integer>
+    <integer name="key_code_equal">61</integer>
+    <integer name="key_code_xor">94</integer>
+    <integer name="key_code_percent">37</integer>
+    <integer name="key_code_tilda">126</integer>
+
+    <integer name="key_code_underscore">95</integer>
+    <integer name="key_code_slash">47</integer>
+    <integer name="key_code_backslash">92</integer>
+    <integer name="key_code_pipe">124</integer>
+    <integer name="key_code_back_apostrophe">96</integer>
+    <integer name="key_code_dollar">36</integer>
+    <integer name="key_code_pound">163</integer>
+    <integer name="key_code_cent">162</integer>
 
 </resources>
