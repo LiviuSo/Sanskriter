@@ -383,7 +383,7 @@
         app:layout_constraintTop_toBottomOf="@id/llZxcvb">
 
         <Button
-            android:id="@+id/keyPerion"
+            android:id="@+id/keyPeriod"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
