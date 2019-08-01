@@ -15,7 +15,7 @@
         <Key android:keyLabel="\u096B" android:keyEdgeFlags="right" android:codes="2411"/>
     </Row>
 
-    <!-- ५ ६ ७ ८ ९ -->
+    <!-- १ २ ३ ४ --><!-- ५ ६ ७ ८ ९ ० -->
     <Row>
         <Key android:keyLabel="\u096C" android:keyEdgeFlags="left" android:codes="2412"/>
         <Key android:keyLabel="\u096D" android:codes="2413"/>

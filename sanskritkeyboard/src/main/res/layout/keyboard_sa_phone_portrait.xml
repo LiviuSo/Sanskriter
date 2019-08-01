@@ -1,61 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <LinearLayout
         android:id="@+id/llSuggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/keyboard_suggestion_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/keyboard_suggestion_background">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/keySuggestion1"
+            style="@style/CustomKeySuggestion"
             android:layout_width="0dp"
             android:layout_weight="1"
-            style="@style/CustomKeySuggestion"
             android:text="word1" />
 
-        <include layout="@layout/separator_vertical"/>
+        <include layout="@layout/separator_vertical" />
 
         <Button
             android:id="@+id/keySuggestion2"
+            style="@style/CustomKeySuggestion"
             android:layout_width="0dp"
             android:layout_weight="1"
-            style="@style/CustomKeySuggestion"
             android:text="word3" />
 
-        <include layout="@layout/separator_vertical"/>
+        <include layout="@layout/separator_vertical" />
 
         <Button
             android:id="@+id/keySuggestion3"
+            style="@style/CustomKeySuggestion"
             android:layout_width="0dp"
             android:layout_weight="1"
-            style="@style/CustomKeySuggestion"
             android:text="word2" />
 
-        <include layout="@layout/separator_vertical"/>
-
-        <Button
-            android:id="@+id/keyIcon"
-            style="@style/CustomKeySettings"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="IC" />
+        <include layout="@layout/separator_vertical" />
 
         <Button
             android:id="@+id/keySettings"
+            style="@style/CustomKeySettings"
             android:layout_margin="0dp"
             android:padding="0dp"
-            style="@style/CustomKeySettings"
             android:text="Se" />
 
     </LinearLayout>
@@ -74,74 +65,74 @@
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_1" />
+            android:text="@string/key_label_sa_digit_1" />
 
         <Button
             android:id="@+id/keyDigit2"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_2" />
+            android:text="@string/key_label_sa_digit_2" />
 
         <Button
             android:id="@+id/keyDigit3"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_3" />
+            android:text="@string/key_label_sa_digit_3" />
 
         <Button
             android:id="@+id/keyDigit4"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_4" />
+            android:text="@string/key_label_sa_digit_4" />
 
         <Button
             android:id="@+id/keyDigit5"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_5" />
+            android:text="@string/key_label_sa_digit_5" />
 
         <Button
             android:id="@+id/keyDigit6"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_6" />
+            android:text="@string/key_label_sa_digit_6" />
 
         <Button
             android:id="@+id/keyDigit7"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_7" />
+            android:text="@string/key_label_sa_digit_7" />
 
         <Button
             android:id="@+id/keyDigit8"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_8" />
+            android:text="@string/key_label_sa_digit_8" />
 
         <Button
             android:id="@+id/keyDigit9"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_9" />
+            android:text="@string/key_label_sa_digit_9" />
 
         <Button
             android:id="@+id/keyDigit0"
             style="@style/CustomKeyDigit"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_digit_0" />
+            android:text="@string/key_label_sa_digit_0" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llQwerty"
+        android:id="@+id/llSa1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -150,304 +141,383 @@
         app:layout_constraintTop_toBottomOf="@id/llDigits">
 
         <Button
-            android:id="@+id/keyQ"
+            android:id="@+id/keySaA"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_q" />
+            android:text="@string/key_label_sa_letter_a" />
 
         <Button
-            android:id="@+id/keyW"
+            android:id="@+id/keySaI"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_w" />
+            android:text="@string/key_label_sa_letter_i" />
 
         <Button
-            android:id="@+id/keyE"
+            android:id="@+id/keySaU"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_e" />
+            android:text="@string/key_label_sa_letter_u" />
 
         <Button
-            android:id="@+id/keyR"
+            android:id="@+id/keySaRi"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_r" />
+            android:text="@string/key_label_sa_letter_ri" />
 
         <Button
-            android:id="@+id/keyT"
+            android:id="@+id/keySaLi"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_t" />
+            android:text="@string/key_label_sa_letter_li" />
 
         <Button
-            android:id="@+id/keyY"
+            android:id="@+id/keySaE"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_y" />
+            android:text="@string/key_label_sa_letter_e" />
 
         <Button
-            android:id="@+id/keyU"
+            android:id="@+id/keySaO"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_u" />
+            android:text="@string/key_label_sa_letter_o" />
 
         <Button
-            android:id="@+id/keyI"
+            android:id="@+id/keySaH"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_i" />
+            android:text="@string/key_label_sa_letter_h" />
 
         <Button
-            android:id="@+id/keyO"
+            android:id="@+id/keySaRed"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_o" />
+            android:text="@string/key_label_sa_red" />
 
         <Button
-            android:id="@+id/keyP"
+            android:id="@+id/keySaSep"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_p" />
+            android:text="@string/key_label_sa_sep" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llAsdfg"
+        android:id="@+id/llSa2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llQwerty">
+        app:layout_constraintTop_toBottomOf="@id/llSa1">
 
         <Button
-            android:id="@+id/keyA"
+            android:id="@+id/keySaKa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_a" />
+            android:text="@string/key_label_sa_letter_ka" />
 
         <Button
-            android:id="@+id/keyS"
+            android:id="@+id/keySaKha"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_s" />
+            android:text="@string/key_label_sa_letter_kha" />
 
         <Button
-            android:id="@+id/keyD"
+            android:id="@+id/keySaGa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_d" />
+            android:text="@string/key_label_sa_letter_ga" />
 
         <Button
-            android:id="@+id/keyF"
+            android:id="@+id/keySaGha"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_f" />
+            android:text="@string/key_label_sa_letter_gha" />
 
         <Button
-            android:id="@+id/keyG"
+            android:id="@+id/keySaCa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_g" />
+            android:text="@string/key_label_sa_letter_ca" />
 
         <Button
-            android:id="@+id/keyH"
+            android:id="@+id/keySaCha"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_h" />
+            android:text="@string/key_label_sa_letter_cha" />
 
         <Button
-            android:id="@+id/keyJ"
+            android:id="@+id/keySaJa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_j" />
+            android:text="@string/key_label_sa_letter_ja" />
 
         <Button
-            android:id="@+id/keyK"
+            android:id="@+id/keySaJha"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_k" />
+            android:text="@string/key_label_sa_letter_jha" />
 
         <Button
-            android:id="@+id/keyL"
+            android:id="@+id/keySaTa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_l" />
+            android:text="@string/key_label_sa_letter_ta" />
+
+        <Button
+            android:id="@+id/keySaTha"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_tha" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSa3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSa2">
+
+        <Button
+            android:id="@+id/keySaDa"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_da" />
+
+        <Button
+            android:id="@+id/keySaDha"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_dha" />
+
+        <Button
+            android:id="@+id/keySaTa2"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_ta2" />
+
+        <Button
+            android:id="@+id/keySaTha2"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_tha2" />
+
+        <Button
+            android:id="@+id/keySaDa2"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_da2" />
+
+        <Button
+            android:id="@+id/keySaDha2"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_dha2" />
+
+        <Button
+            android:id="@+id/keySaPa"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_pa" />
+
+        <Button
+            android:id="@+id/keySaPha"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_pha" />
+
+        <Button
+            android:id="@+id/keyBa"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_ba" />
+
+        <Button
+            android:id="@+id/keyBha"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_bha" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSa4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSa3">
+
+        <Button
+            android:id="@+id/keySaNa1"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_na1" />
+
+        <Button
+            android:id="@+id/keySaNa2"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_na2" />
+
+        <Button
+            android:id="@+id/keySaNa3"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_na3" />
+
+        <Button
+            android:id="@+id/keySaNa4"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_na4" />
+
+        <Button
+            android:id="@+id/keySaMa"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_ma" />
+
+        <Button
+            android:id="@+id/keySaSa1"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_sa1" />
+
+        <Button
+            android:id="@+id/keySaSa2"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_sa2" />
+
+        <Button
+            android:id="@+id/keySaSa3"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_sa3" />
 
         <Button
             android:id="@+id/keyDel"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="Del" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llZxcvb"
+        android:id="@+id/llSa5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llAsdfg">
+        app:layout_constraintTop_toBottomOf="@id/llSa4">
+
+    <Button
+        android:id="@+id/keySaYa"
+        style="@style/CustomKeyLetter"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="@string/key_label_sa_letter_ya" />
 
         <Button
-            android:id="@+id/keyShift"
+            android:id="@+id/keySaRa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Sh" />
+            android:text="@string/key_label_sa_letter_ra" />
 
         <Button
-            android:id="@+id/keyZ"
+            android:id="@+id/keySaLa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_z" />
+            android:text="@string/key_label_sa_letter_la" />
 
         <Button
-            android:id="@+id/keyX"
+            android:id="@+id/keySaVa"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_letter_x" />
-
-        <Button
-            android:id="@+id/keyC"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_letter_c" />
-
-        <Button
-            android:id="@+id/keyV"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_letter_v" />
-
-        <Button
-            android:id="@+id/keyB"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_letter_b" />
-
-        <Button
-            android:id="@+id/keyN"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_letter_n" />
-
-        <Button
-            android:id="@+id/keyM"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_letter_m" />
-
-        <Button
-            android:id="@+id/keyAction"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Ac" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llPunct"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llZxcvb">
-
-        <Button
-            android:id="@+id/keyPeriod"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_period"/>
-
-        <Button
-            android:id="@+id/keyComma"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_comma"/>
-
-        <Button
-            android:id="@+id/keyQuestion"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_question_mark"/>
+            android:text="@string/key_label_sa_letter_va" />
 
         <Button
             android:id="@+id/keySpace"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="2"
-            android:text="@string/key_space" />
+            android:layout_weight="3"
+            android:text="@string/key_label_space" />
 
         <Button
-            android:id="@+id/keyExclamation"
+            android:id="@+id/keySaAnusvara"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_exclamation_mark" />
+            android:text="@string/key_label_sa_letter_extra_anushvara" />
 
         <Button
-            android:id="@+id/keyHyphen"
+            android:id="@+id/keySaVisarga"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_hyphen" />
+            android:text="@string/key_label_sa_letter_extra_visarga" />
 
         <Button
-            android:id="@+id/keyAt"
+            android:id="@+id/keySaALong"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_at" />
+            android:text="@string/key_label_sa_letter_extra_a_long" />
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llPunct"
-        app:layout_constraintBottom_toTopOf="@id/svExtra"/>
 
     <HorizontalScrollView
         android:id="@+id/svExtra"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llPunct"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/llSa5">
 
         <LinearLayout
             android:id="@+id/llKeyExtra"
@@ -458,74 +528,89 @@
             <Button
                 android:id="@+id/keyLetterExtra1"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra2"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra3"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra4"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra5"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra6"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra7"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra8"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra9"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra10"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra11"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra12"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra13"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
 
             <Button
                 android:id="@+id/keyLetterExtra14"
                 style="@style/CustomKeyExtra"
-                android:text="@string/key_placeholder"/>
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra13"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra15"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra16"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra17"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder" />
+
         </LinearLayout>
     </HorizontalScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
