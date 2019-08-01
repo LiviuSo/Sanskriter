@@ -2,7 +2,6 @@ package com.android.lvicto.sanskritkeyboard
 
 import android.content.Context
 import android.view.View
-import android.view.inputmethod.InputConnection
 
 class PhonePortraitSaKbLayoutInitializer(context: Context) : KeyboardLayoutInitializer(context) {
 
@@ -10,9 +9,8 @@ class PhonePortraitSaKbLayoutInitializer(context: Context) : KeyboardLayoutIniti
 
     }
 
-    override fun getView(): View {
-        return View(context)
-    }
+    override fun getView(): View =
+            context.layoutInflater().inflate(R.layout.keyboard_sa_phone_portrait, null)
 
     override fun bindKeys(view: View) {
     }

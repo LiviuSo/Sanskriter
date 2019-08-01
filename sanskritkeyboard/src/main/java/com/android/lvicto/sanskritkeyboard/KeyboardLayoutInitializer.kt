@@ -16,25 +16,22 @@ abstract class KeyboardLayoutInitializer(val context: Context) {
     protected abstract fun getKeyClickListener(extra: Boolean = false, text: String = ""): View.OnClickListener
     protected abstract fun getKeyLongClickListener(extra: Boolean = false, text: String = ""): View.OnLongClickListener
 
-    lateinit var ic: InputConnection
-
-    fun initKeyboard(): View? {
-        initExtraCodes()
-        val view = getView()
-        bindKeys(view)
-        return view
-    }
-
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
 
-    private fun getRelatedCharsRes(code: Int): ArrayList<Int>? {
-        return if (extraKeysCodesMap.containsKey(code)) {
-            extraKeysCodesMap[code] as ArrayList<Int>
-        } else {
-            null
-        }
+    lateinit var ic: InputConnection
+
+    fun initKeyboard(): View? = getView().apply {
+        initExtraCodes()
+        bindKeys(this)
     }
+
+    private fun getRelatedCharsRes(code: Int): ArrayList<Int>? =
+            if (extraKeysCodesMap.containsKey(code)) {
+                extraKeysCodesMap[code] as ArrayList<Int>
+            } else {
+                null
+            }
 
     fun showExtraKeys(code: Int) {
         val relatedChars = getRelatedCharsRes(code)
@@ -50,7 +47,7 @@ abstract class KeyboardLayoutInitializer(val context: Context) {
 
     fun disableAllExtraKeys() {
         extraKeys.forEach {
-            it.text = context.resources.getString(R.string.key_placeholder)
+            it.text = context.resources.getString(R.string.key_label_placeholder)
             it.isEnabled = false
         }
     }

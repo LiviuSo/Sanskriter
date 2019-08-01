@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Configuration
 import android.inputmethodservice.InputMethodService
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
@@ -16,11 +17,11 @@ class CustomKeyboard2 : InputMethodService() {
     override fun onInitializeInterface() {
         Log.d(LOG_TAG, "onInitializeInterface()")
         val kbConfig = KeyboardConfig(applicationContext.isTablet(), applicationContext.getOrientation(), KeyboardType.QWERTY)
-        keyboardLayoutInitializer = KeyboardLayoutInitializer.getLyoutInitializer(applicationContext, kbConfig)!!
+//        keyboardLayoutInitializer = KeyboardLayoutInitializer.getLyoutInitializer(applicationContext, kbConfig)!!
+        keyboardLayoutInitializer = PhonePortraitSaKbLayoutInitializer(context = applicationContext)
     }
 
-    override fun onBindInput() {
-        super.onBindInput()
+    override fun onBindInput() { // todo investigate called twice
         Log.d(LOG_TAG, "onBindInput()")
         keyboardLayoutInitializer?.ic = currentInputBinding.connection
     }
@@ -49,3 +50,6 @@ fun Context.isTablet(): Boolean {
 }
 
 fun Int.getVal(context: Context): Int = context.resources.getInteger(this)
+
+fun Context.layoutInflater(): LayoutInflater =
+        this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

@@ -3,12 +3,9 @@ package com.android.lvicto.sanskritkeyboard
 import android.content.Context
 import android.util.Log
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputConnection
 import android.widget.Button
 import android.widget.Toast
-import java.lang.NullPointerException
 
 class PhonePortraitQwertyKbLayoutInitializer(context: Context) : KeyboardLayoutInitializer(context) {
 
@@ -16,9 +13,8 @@ class PhonePortraitQwertyKbLayoutInitializer(context: Context) : KeyboardLayoutI
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
 
-    override fun getView(): View {
-        return (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.keyboard_custom_layout_portrait, null)
-    }
+    override fun getView(): View =
+            context.layoutInflater().inflate(R.layout.keyboard_qwerty_phone_portrait, null)
 
     override fun bindKeys(view: View) {
         (view.findViewById(R.id.keyDigit1) as Button).apply {
