@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskritkeyboard
+package com.android.lvicto.sanskritkeyboard.keyboard
 
 
 

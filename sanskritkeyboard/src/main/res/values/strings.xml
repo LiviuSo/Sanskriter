@@ -145,4 +145,6 @@
     <string name="key_label_sa_extra_accent1">\u0951</string>
     <string name="key_label_sa_extra_accent2">\u0952</string>
 
+    <string name="lang_label_sa">Sanskrit</string>
+    <string name="lang_label_qwerty">Qwerty</string>
 </resources>

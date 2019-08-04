@@ -1,13 +1,17 @@
-package com.android.lvicto.sanskritkeyboard
+package com.android.lvicto.sanskritkeyboard.keyboard.initializer
 
 import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import com.android.lvicto.sanskritkeyboard.CustomKeyboard2.Companion.LOG_TAG
+import com.android.lvicto.sanskritkeyboard.R
+import com.android.lvicto.sanskritkeyboard.button
+import com.android.lvicto.sanskritkeyboard.getVal
+import com.android.lvicto.sanskritkeyboard.layoutInflater
 
-class PhonePortraitQwertyKbLayoutInitializer(context: Context) :
-        KeyboardLayoutInitializer(context) {
+open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
+        KbLayoutInitializer(context) {
     private var allCaps: Boolean = false
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
@@ -24,7 +28,7 @@ class PhonePortraitQwertyKbLayoutInitializer(context: Context) :
     }
 
     override fun getView(): View =
-            context.layoutInflater().inflate(R.layout.keyboard_qwerty_phone_portrait, null)
+            context.layoutInflater().inflate(R.layout.keyboard_phone_portrait_qwerty, null)
 
     override fun bindKeys(view: View) {
         super.bindKeys(view)
@@ -264,7 +268,7 @@ class PhonePortraitQwertyKbLayoutInitializer(context: Context) :
             toggleAllCaps()
         }
 
-        Log.d(LOG_TAG, "key = ${output[0].toInt()} committed: $success ic: $ic") // debug
+//        Log.d(LOG_TAG, "key = ${output[0].toInt()} committed: $success ic: $ic") // debug
     }
 
     override fun getKeyLongClickListener(extra: Boolean, text: String) = View.OnLongClickListener {
