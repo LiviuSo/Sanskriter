@@ -24,7 +24,7 @@
         <Key android:keyLabel="\u0966" android:keyEdgeFlags="right" android:codes="2406"/>
     </Row>
 
-    <!--  ् ऀ ँ ं ः ा ि ी ु ू -->
+    <!--  ऽ ऀ ँ ं ः ा ि ी ु ू -->
     <Row>
         <Key android:keyLabel="\u093D" android:keyEdgeFlags="left" android:codes="2365"/>
         <Key android:keyLabel="\u0900" android:codes="2304"/>

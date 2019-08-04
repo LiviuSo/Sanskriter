@@ -2,7 +2,6 @@ package com.android.lvicto.sanskritkeyboard
 
 import android.content.Context
 import android.view.View
-import android.view.inputmethod.InputConnection
 
 class PhoneLandscapeQwertyKbLayoutInitializer(context: Context) : KeyboardLayoutInitializer(context) {
     override fun initExtraCodes() {

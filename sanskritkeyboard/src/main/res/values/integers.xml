@@ -180,4 +180,106 @@
     <integer name="key_code_pound">163</integer>
     <integer name="key_code_cent">162</integer>
 
+    <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) ह -->
+    <integer name="key_code_sa_a">2309</integer>
+    <integer name="key_code_sa_i">2311</integer>
+    <integer name="key_code_sa_u">2313</integer>
+    <integer name="key_code_sa_ri">2315</integer>
+    <integer name="key_code_sa_lri">2316</integer>
+    <integer name="key_code_sa_e">2319</integer>
+    <integer name="key_code_sa_o">2323</integer>
+    <integer name="key_code_sa_h">2361</integer>
+
+    <!-- क ख ग घ च छ ज झ ट ठ -->
+    <integer name="key_code_sa_ka">2325</integer>
+    <integer name="key_code_sa_kha">2326</integer>
+    <integer name="key_code_sa_ga">2327</integer>
+    <integer name="key_code_sa_gha">2328</integer>
+    <integer name="key_code_sa_ca">2330</integer>
+    <integer name="key_code_sa_cha">2331</integer>
+    <integer name="key_code_sa_ja">2332</integer>
+    <integer name="key_code_sa_jha">2333</integer>
+    <integer name="key_code_sa_ta2">2335</integer>
+    <integer name="key_code_sa_tha2">2336</integer>
+
+    <!-- ड ढ त थ द ध प फ ब भ -->
+    <integer name="key_code_sa_da2">2337</integer>
+    <integer name="key_code_sa_dha2">2338</integer>
+    <integer name="key_code_sa_ta">2340</integer>
+    <integer name="key_code_sa_tha">2341</integer>
+    <integer name="key_code_sa_da">2342</integer>
+    <integer name="key_code_sa_dha">2343</integer>
+    <integer name="key_code_sa_pa">2346</integer>
+    <integer name="key_code_sa_pha">2347</integer>
+    <integer name="key_code_sa_ba">2348</integer>
+    <integer name="key_code_sa_bha">2349</integer>
+
+    <!--  ङ ञ ण न म श ष स BS(20%) -->
+    <integer name="key_code_sa_na1">2329</integer>
+    <integer name="key_code_sa_na2">2334</integer>
+    <integer name="key_code_sa_na3">2339</integer>
+    <integer name="key_code_sa_na4">2344</integer>
+    <integer name="key_code_sa_ma">2350</integer>
+    <integer name="key_code_sa_sa1">2358</integer>
+    <integer name="key_code_sa_sa2">2359</integer>
+    <integer name="key_code_sa_sa3">2360</integer>
+
+    <!-- य र ल व -->
+    <integer name="key_code_sa_ya">2351</integer>
+    <integer name="key_code_sa_ra">2352</integer>
+    <integer name="key_code_sa_la">2354</integer>
+    <integer name="key_code_sa_va">2357</integer>
+
+    <!-- । -->
+    <integer name="key_code_sa_stop">2404</integer>
+
+    <!-- ॥ -->
+    <integer name="key_code_sa_double_stop">2405</integer>
+
+    <!-- आ-->
+    <integer name="key_code_sa_long_a">2310</integer>
+
+    <!-- ई -->
+    <integer name="key_code_sa_long_i">2312</integer>
+
+    <!-- ऊ -->
+    <integer name="key_code_sa_long_u">2314</integer>
+
+    <!-- ॠ -->
+    <integer name="key_code_sa_long_ri">2400</integer>
+
+    <!-- ॡ -->
+    <integer name="key_code_sa_long_lri">2401</integer>
+
+    <!-- ऐ -->
+    <integer name="key_code_sa_ai">2320</integer>
+
+    <!-- औ -->
+    <integer name="key_code_sa_au">2324</integer>
+
+    <!--  ऽ ऀ ँ ं ः ा ि ी ु ू -->
+    <integer name="key_code_extra_red">2381</integer>
+    <integer name="key_code_extra_apostrophy">2365</integer>
+    <integer name="key_code_extra_omkara1">2304</integer>
+    <integer name="key_code_extra_omkara2">2305</integer>
+    <integer name="key_code_extra_anushvara">2306</integer>
+    <integer name="key_code_extra_visarga">2307</integer>
+    <integer name="key_code_extra_long_a">2366</integer>
+    <integer name="key_code_extra_i">2367</integer>
+    <integer name="key_code_extra_long_i">2368</integer>
+    <integer name="key_code_extra_u">2369</integer>
+    <integer name="key_code_extra_long_u">2370</integer>
+
+    <!-- ृ ॄ ॢ ॣ े ै ो ौ ॑ ॒ -->
+    <integer name="key_code_extra_ri">2371</integer>
+    <integer name="key_code_extra_long_ri">2372</integer>
+    <integer name="key_code_extra_lri">2402</integer>
+    <integer name="key_code_extra_long_lri">2403</integer>
+    <integer name="key_code_extra_e">2375</integer>
+    <integer name="key_code_extra_ai">2376</integer>
+    <integer name="key_code_extra_o">2379</integer>
+    <integer name="key_code_extra_au">2380</integer>
+    <integer name="key_code_extra_accent1">2385</integer>
+    <integer name="key_code_extra_accent2">2386</integer>
+
 </resources>

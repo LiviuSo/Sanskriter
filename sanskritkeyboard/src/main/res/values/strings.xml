@@ -75,9 +75,11 @@
     <string name="key_label_sa_letter_o">\u0913</string>
     <string name="key_label_sa_letter_h">\u0939</string>
 
-    <!-- ऽ ।(॥) -->
+    <!-- ् ऽ ।(॥) -->
     <string name="key_label_sa_red">\u094D</string>
+    <string name="key_label_sa_apostrophy">\u093D</string>
     <string name="key_label_sa_sep">\u0964</string>
+    <string name="key_label_sa_double_sep">\u0965</string>
 
     <!-- क ख ग घ च छ ज झ ट ठ -->
     <string name="key_label_sa_letter_ka">\u0915</string>
@@ -88,16 +90,16 @@
     <string name="key_label_sa_letter_cha">\u091B</string>
     <string name="key_label_sa_letter_ja">\u091C</string>
     <string name="key_label_sa_letter_jha">\u091D</string>
-    <string name="key_label_sa_letter_ta">\u091F</string>
-    <string name="key_label_sa_letter_tha">\u0920</string>
+    <string name="key_label_sa_letter_ta2">\u091F</string>
+    <string name="key_label_sa_letter_tha2">\u0920</string>
 
     <!-- ड ढ त थ द ध प फ ब भ -->
-    <string name="key_label_sa_letter_da">\u0921</string>
-    <string name="key_label_sa_letter_dha">\u0922</string>
-    <string name="key_label_sa_letter_ta2">\u0924</string>
-    <string name="key_label_sa_letter_tha2">\u0925</string>
-    <string name="key_label_sa_letter_da2">\u0926</string>
-    <string name="key_label_sa_letter_dha2">\u0927</string>
+    <string name="key_label_sa_letter_da2">\u0921</string>
+    <string name="key_label_sa_letter_dha2">\u0922</string>
+    <string name="key_label_sa_letter_ta">\u0924</string>
+    <string name="key_label_sa_letter_tha">\u0925</string>
+    <string name="key_label_sa_letter_da">\u0926</string>
+    <string name="key_label_sa_letter_dha">\u0927</string>
     <string name="key_label_sa_letter_pa">\u092A</string>
     <string name="key_label_sa_letter_pha">\u092B</string>
     <string name="key_label_sa_letter_ba">\u092C</string>
@@ -120,27 +122,27 @@
     <string name="key_label_sa_letter_va">\u0935</string>
 
     <!--  ् ऀ ँ ं ः ा ि ी ु ू -->
-    <string name="key_label_sa_letter_extra_red2">\u093D</string>
-    <string name="key_label_sa_letter_extra_omkara1">\u0900</string>
-    <string name="key_label_sa_letter_extra_omkara2">\u0901</string>
-    <string name="key_label_sa_letter_extra_anushvara">\u0902</string>
-    <string name="key_label_sa_letter_extra_visarga">\u0903</string>
-    <string name="key_label_sa_letter_extra_a_long">\u093E</string>
-    <string name="key_label_sa_letter_extra_i_short">\u093F</string>
-    <string name="key_label_sa_letter_extra_i_long">\u0940</string>
-    <string name="key_label_sa_letter_extra_u_short">\u0941</string>
-    <string name="key_label_sa_letter_extra_u_long">\u0942</string>
+    <string name="key_label_sa_extra_red">\u094D</string>
+    <string name="key_label_sa_extra_omkara1">\u0900</string>
+    <string name="key_label_sa_extra_omkara2">\u0901</string>
+    <string name="key_label_sa_extra_anushvara">\u0902</string>
+    <string name="key_label_sa_extra_visarga">\u0903</string>
+    <string name="key_label_sa_extra_a_long">\u093E</string>
+    <string name="key_label_sa_extra_i_short">\u093F</string>
+    <string name="key_label_sa_extra_i_long">\u0940</string>
+    <string name="key_label_sa_extra_u_short">\u0941</string>
+    <string name="key_label_sa_extra_u_long">\u0942</string>
 
     <!-- ृ ॄ ॢ ॣ े ै ो ौ ॑ ॒ -->
-    <string name="key_label_sa_letter_extra_r">\u0943</string>
-    <string name="key_label_sa_letter_extra_r_long">\u0944</string>
-    <string name="key_label_sa_letter_extra_l">\u0962</string>
-    <string name="key_label_sa_letter_extra_l_long">\u0963</string>
-    <string name="key_label_sa_letter_extra_e">\u0947</string>
-    <string name="key_label_sa_letter_extra_ai">\u0948</string>
-    <string name="key_label_sa_letter_extra_o">\u094B</string>
-    <string name="key_label_sa_letter_extra_au">\u094C</string>
-    <string name="key_label_sa_letter_extra_accent1">\u0951</string>
-    <string name="key_label_sa_letter_extra_accent2">\u0952</string>
+    <string name="key_label_sa_extra_ri">\u0943</string>
+    <string name="key_label_sa_extra_ri_long">\u0944</string>
+    <string name="key_label_sa_extra_extra_lri">\u0962</string>
+    <string name="key_label_sa_extra_lri_long">\u0963</string>
+    <string name="key_label_sa_extra_e">\u0947</string>
+    <string name="key_label_sa_extra_ai">\u0948</string>
+    <string name="key_label_sa_extra_o">\u094B</string>
+    <string name="key_label_sa_extra_au">\u094C</string>
+    <string name="key_label_sa_extra_accent1">\u0951</string>
+    <string name="key_label_sa_extra_accent2">\u0952</string>
 
 </resources>
