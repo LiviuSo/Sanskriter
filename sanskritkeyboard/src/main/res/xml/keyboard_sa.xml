@@ -7,7 +7,7 @@
 
     <Row></Row>
 
-    <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) ह ऽ ।(॥) -->
+    <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) ह ् ।(॥) -->
     <Row>
         <Key android:keyLabel="\u0905" android:keyEdgeFlags="left" android:codes="2309"
             android:popupKeyboard="@xml/candidates_sa_long_a"/>

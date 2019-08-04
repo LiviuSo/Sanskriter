@@ -4,26 +4,28 @@ import android.content.Context
 import android.content.res.Configuration
 import android.inputmethodservice.InputMethodService
 import android.util.Log
+import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
+import android.widget.Button
+import androidx.annotation.IdRes
 
 class CustomKeyboard2 : InputMethodService() {
 
     private var keyboardLayoutInitializer: KeyboardLayoutInitializer? = null
-    private lateinit var ic: InputConnection
 
     override fun onInitializeInterface() {
         Log.d(LOG_TAG, "onInitializeInterface()")
-        val kbConfig = KeyboardConfig(applicationContext.isTablet(), applicationContext.getOrientation(), KeyboardType.QWERTY)
-//        keyboardLayoutInitializer = KeyboardLayoutInitializer.getLyoutInitializer(applicationContext, kbConfig)!!
-        keyboardLayoutInitializer = PhonePortraitSaKbLayoutInitializer(context = applicationContext)
+        val kbConfig = KeyboardConfig(applicationContext.isTablet(), applicationContext.getOrientation(), KeyboardType.SA)
+        keyboardLayoutInitializer = KeyboardLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)!!
     }
 
     override fun onBindInput() { // todo investigate called twice
         Log.d(LOG_TAG, "onBindInput()")
-        keyboardLayoutInitializer?.ic = currentInputBinding.connection
+        keyboardLayoutInitializer?.ic = currentInputConnection
     }
 
     override fun onCreateInputView(): View {
@@ -33,7 +35,10 @@ class CustomKeyboard2 : InputMethodService() {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         Log.d(LOG_TAG, "onStartInputView()")
-        keyboardLayoutInitializer?.ic = currentInputBinding.connection
+        keyboardLayoutInitializer?.ic = currentInputConnection
+        if (info != null) {
+            keyboardLayoutInitializer?.currentInputEditorInfo = info
+        }
     }
 
     companion object {
@@ -53,3 +58,5 @@ fun Int.getVal(context: Context): Int = context.resources.getInteger(this)
 
 fun Context.layoutInflater(): LayoutInflater =
         this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+infix fun View.button(@IdRes id: Int): Button = (this.findViewById(id) as Button)

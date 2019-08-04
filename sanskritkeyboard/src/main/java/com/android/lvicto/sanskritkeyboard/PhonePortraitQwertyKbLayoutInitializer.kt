@@ -2,185 +2,95 @@ package com.android.lvicto.sanskritkeyboard
 
 import android.content.Context
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import com.android.lvicto.sanskritkeyboard.CustomKeyboard2.Companion.LOG_TAG
 
-class PhonePortraitQwertyKbLayoutInitializer(context: Context) : KeyboardLayoutInitializer(context) {
-
+class PhonePortraitQwertyKbLayoutInitializer(context: Context) :
+        KeyboardLayoutInitializer(context) {
     private var allCaps: Boolean = false
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
+
+    private val shiftOnClickListener: View.OnClickListener = View.OnClickListener {
+        if (!allCaps) {
+            toggleAllCaps()
+        } else if (allCaps && !allCapsPersist) {
+            toggleAllCaps()
+        } else {
+            toggleAllCaps()
+            allCapsPersist = false
+        }
+    }
 
     override fun getView(): View =
             context.layoutInflater().inflate(R.layout.keyboard_qwerty_phone_portrait, null)
 
     override fun bindKeys(view: View) {
-        (view.findViewById(R.id.keyDigit1) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit2) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit3) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit4) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit5) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit6) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit7) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit8) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit9) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyDigit0) as Button).apply {
-            setOnClickListener(getKeyClickListener())
+        super.bindKeys(view)
+        val keysClickListenerOnly = arrayListOf(
+                view button R.id.keyDigit1
+                , view button R.id.keyDigit2
+                , view button R.id.keyDigit3
+                , view button R.id.keyDigit4
+                , view button R.id.keyDigit5
+                , view button R.id.keyDigit6
+                , view button R.id.keyDigit7
+                , view button R.id.keyDigit8
+                , view button R.id.keyDigit9
+                , view button R.id.keyDigit0
+                , view button R.id.keyComma
+                , view button R.id.keyQuestion
+                , view button R.id.keyExclamation
+                , view button R.id.keySuggestion1
+                , view button R.id.keySuggestion2
+                , view button R.id.keySuggestion3
+        )
+        keysClickListenerOnly.forEach {
+            it.setOnClickListener(getKeyClickListener())
         }
 
-        (view.findViewById(R.id.keyQ) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyW) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyE) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyR) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyT) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyY) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyU) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyI) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyO) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyP) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyA) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyS) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyD) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyF) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyG) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyH) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyJ) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyK) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyL) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyZ) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyX) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyV) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyB) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyN) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
-        }
-        (view.findViewById(R.id.keyM) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-            keysToAllCaps.add(this)
+        val keysClickListenerOnlyAllCpas = arrayListOf(
+                view button R.id.keyQ
+                , view button R.id.keyW
+                , view button R.id.keyE
+                , view button R.id.keyY
+                , view button R.id.keyO
+                , view button R.id.keyP
+                , view button R.id.keyF
+                , view button R.id.keyZ
+                , view button R.id.keyX
+                , view button R.id.keyV
+                , view button R.id.keyB
+                , view button R.id.keyJ
+                , view button R.id.keyK
+                , view button R.id.keyG
+        )
+        keysClickListenerOnlyAllCpas.forEach {
+            it.setOnClickListener(getKeyClickListener())
+            keysToAllCaps.add(it)
         }
 
-        (view.findViewById(R.id.keyDel) as Button).apply {
-            setOnClickListener {
-                ic.deleteSurroundingText(1, 0)
-            }
+        val keysClickListenerLongListenerAllCpas = arrayListOf(
+                view button R.id.keyR
+                , view button R.id.keyT
+                , view button R.id.keyU
+                , view button R.id.keyI
+                , view button R.id.keyA
+                , view button R.id.keyS
+                , view button R.id.keyD
+                , view button R.id.keyH
+                , view button R.id.keyL
+                , view button R.id.keyN
+                , view button R.id.keyM
+        )
+        keysClickListenerLongListenerAllCpas.forEach {
+            it.setOnClickListener(getKeyClickListener())
+            it.setOnLongClickListener(getKeyLongClickListener())
+            keysToAllCaps.add(it)
         }
-        (view.findViewById(R.id.keyAction) as Button).apply {
-            setOnClickListener {
-                ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
-            }
-        }
-        (view.findViewById(R.id.keyShift) as Button).apply {
-            setOnClickListener {
-                if (!allCaps) {
-                    toggleAllCaps()
-                } else if (allCaps && !allCapsPersist) {
-                    toggleAllCaps()
-                } else {
-                    toggleAllCaps()
-                    allCapsPersist = false
-                }
-            }
+        (view button R.id.keyShift).apply {
+            setOnClickListener(shiftOnClickListener)
 
             setOnLongClickListener {
                 if (!allCaps) {
@@ -190,117 +100,23 @@ class PhonePortraitQwertyKbLayoutInitializer(context: Context) : KeyboardLayoutI
                 true
             }
         }
-        (view.findViewById(R.id.keyPeriod) as Button).apply {
+        (view button R.id.keyPeriod).apply {
             setOnClickListener(getKeyClickListener())
             setOnLongClickListener(getKeyLongClickListener())
         }
-        (view.findViewById(R.id.keyComma) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyQuestion) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keySpace) as Button).apply {
-            setOnClickListener(getKeyClickListener(false, " "))
-            setOnLongClickListener {
-                Toast.makeText(context, "Lan", Toast.LENGTH_SHORT).show()
-                true
-            }
-        }
-        (view.findViewById(R.id.keyExclamation) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyHyphen) as Button).apply {
+        (view button R.id.keyHyphen).apply {
             setOnClickListener(getKeyClickListener())
             setOnLongClickListener(getKeyLongClickListener())
         }
-        (view.findViewById(R.id.keyAt) as Button).apply {
+        (view button R.id.keyAt).apply {
             setOnClickListener(getKeyClickListener())
             setOnLongClickListener(getKeyLongClickListener())
         }
-        (view.findViewById(R.id.keySettings) as Button).apply {
+        (view button R.id.keySettings).apply {
             setOnClickListener(settingsKeyClickListener)
         }
-        (view.findViewById(R.id.keySuggestion1) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keySuggestion2) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keySuggestion3) as Button).apply {
-            setOnClickListener(getKeyClickListener())
-        }
 
-        (view.findViewById(R.id.keyLetterExtra1) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra2) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra3) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra4) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra5) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra6) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra7) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra8) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra9) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra10) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra11) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra12) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra13) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
-        (view.findViewById(R.id.keyLetterExtra14) as Button).apply {
-            extraKeys.add(this)
-            isEnabled = false
-            setOnClickListener(getKeyClickListener())
-        }
+        initExtraKeys(view)
     }
 
     override fun initExtraCodes() {
@@ -448,7 +264,7 @@ class PhonePortraitQwertyKbLayoutInitializer(context: Context) : KeyboardLayoutI
             toggleAllCaps()
         }
 
-        Log.d(CustomKeyboard2.LOG_TAG, "key = ${output[0].toInt()} committed: $success ic: $ic") // debug
+        Log.d(LOG_TAG, "key = ${output[0].toInt()} committed: $success ic: $ic") // debug
     }
 
     override fun getKeyLongClickListener(extra: Boolean, text: String) = View.OnLongClickListener {
