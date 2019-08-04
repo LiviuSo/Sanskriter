@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskritkeyboard
+package com.android.lvicto.sanskritkeyboard.keyboard.initializer
 
 import android.content.Context
 import android.content.res.Configuration
@@ -8,10 +8,14 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import com.android.lvicto.sanskritkeyboard.*
 import com.android.lvicto.sanskritkeyboard.CustomKeyboard2.Companion.LOG_TAG
+import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
+import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
 
-abstract class KeyboardLayoutInitializer(val context: Context) {
+abstract class KbLayoutInitializer(val context: Context) {
 
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
@@ -24,19 +28,31 @@ abstract class KeyboardLayoutInitializer(val context: Context) {
     lateinit var ic: InputConnection
     lateinit var currentInputEditorInfo: EditorInfo
 
-    protected val spaceClickListener: View.OnClickListener = getKeyClickListener(false, " ")
+    private val spaceClickListener: View.OnClickListener = View.OnClickListener {
+        val output = " "
+        ic.commitText(output, output.length)
+        disableAllExtraKeys()
+        val key = (it as TextView)
+        if(key.text == "Qwerty") { // todo improve
+            key.text = "Sanskrit"
+        } else {
+            key.text = "Qwerty"
+        }
+    }
 
     protected val settingsKeyClickListener = View.OnClickListener {
         Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
     }
 
-    protected val deleteOnClickListener: View.OnClickListener = View.OnClickListener {
+    lateinit var keyboardSwitch: KeyboardSwitch
+
+    private val deleteOnClickListener: View.OnClickListener = View.OnClickListener {
         Log.d(LOG_TAG, "deleteOnClickListener: $ic")
         ic.deleteSurroundingText(1, 0)
         disableAllExtraKeys()
     }
 
-    protected val actionOnClickListener: View.OnClickListener = View.OnClickListener {
+    private val actionOnClickListener: View.OnClickListener = View.OnClickListener {
         val imeOptions = currentInputEditorInfo.imeOptions
         when {  // todo fix
             imeOptions == 0 -> {
@@ -87,11 +103,11 @@ abstract class KeyboardLayoutInitializer(val context: Context) {
         (view button R.id.keySpace).apply {
             setOnClickListener(spaceClickListener)
             setOnLongClickListener {
-                Toast.makeText(context, "Lan", Toast.LENGTH_SHORT).show()
+                keyboardSwitch.switchKeyboard()
                 true
             }
         }
-        view.findViewById<Button>(R.id.keySaDel).apply {
+        view.findViewById<Button>(R.id.keyDel).apply {
             setOnClickListener(deleteOnClickListener)
         }
         (view button R.id.keyAction).apply {
@@ -154,42 +170,42 @@ abstract class KeyboardLayoutInitializer(val context: Context) {
 
     companion object {
 
-        fun getLayoutInitializer(context: Context, config: KeyboardConfig): KeyboardLayoutInitializer? {
+        fun getLayoutInitializer(context: Context, config: KeyboardConfig): KbLayoutInitializer? {
 
             val orientation = config.orientation
             val tablet = config.isTablet
             val keyboardType = config.type
 
-            var keyboardLayoutInitializer: KeyboardLayoutInitializer? = null
+            var kbLayoutInitializer: KbLayoutInitializer? = null
             when {
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    keyboardLayoutInitializer = TabletPortraitQwertyKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerTabletPortraitQwerty(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    keyboardLayoutInitializer = PhonePortraitQwertyKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerPhonePortraitQwerty(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    keyboardLayoutInitializer = TabletLanscapeQwertyKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerTabletLanscapeQwerty(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    keyboardLayoutInitializer = PhoneLandscapeQwertyKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerPhoneLandscapeQwertyPhonePortraitQwerty(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    keyboardLayoutInitializer = TabletPortraitSaKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerTabletPortraitSa(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    keyboardLayoutInitializer = PhonePortraitSaKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerPhonePortraitSa(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    keyboardLayoutInitializer = TabletLandscapeSaKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerTabletLandscapeSa(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    keyboardLayoutInitializer = PhoneLandscapeSaKbLayoutInitializer(context)
+                    kbLayoutInitializer = KbLayoutInitializerPhoneLandscapeSaPhonePortraitSa(context)
                 }
                 else -> {
                 }
             }
-            return keyboardLayoutInitializer
+            return kbLayoutInitializer
         }
     }
 }

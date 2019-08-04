@@ -1,12 +1,15 @@
-package com.android.lvicto.sanskritkeyboard
+package com.android.lvicto.sanskritkeyboard.keyboard.initializer
 
 import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import com.android.lvicto.sanskritkeyboard.CustomKeyboard2
+import com.android.lvicto.sanskritkeyboard.R
+import com.android.lvicto.sanskritkeyboard.button
+import com.android.lvicto.sanskritkeyboard.layoutInflater
 
-class PhonePortraitSaKbLayoutInitializer(context: Context) : KeyboardLayoutInitializer(context) {
+open class KbLayoutInitializerPhonePortraitSa(context: Context) : KbLayoutInitializer(context) {
 
     override fun initExtraCodes() {
         val res = context.resources
@@ -69,7 +72,7 @@ class PhonePortraitSaKbLayoutInitializer(context: Context) : KeyboardLayoutIniti
     }
 
     override fun getView(): View =
-            context.layoutInflater().inflate(R.layout.keyboard_sa_phone_portrait, null)
+            context.layoutInflater().inflate(R.layout.keyboard_phone_portrait_sa, null)
 
     override fun bindKeys(view: View) {
         super.bindKeys(view)
@@ -139,13 +142,6 @@ class PhonePortraitSaKbLayoutInitializer(context: Context) : KeyboardLayoutIniti
         }
         view.findViewById<Button>(R.id.keySettings).apply {
             setOnClickListener(settingsKeyClickListener)
-        }
-        (view button R.id.keySpace).apply {
-            setOnClickListener(spaceClickListener)
-            setOnLongClickListener {
-                Toast.makeText(context, "Lan", Toast.LENGTH_SHORT).show()
-                true
-            }
         }
 
         initExtraKeys(view)
