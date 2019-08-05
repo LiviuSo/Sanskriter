@@ -1,50 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.android.lvicto.sanskritkeyboard">
+    package="com.android.lvicto.sanskritkeyboard">
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher_keyboard"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_keyboard_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_keyboard"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_keyboard_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".SettingsActivity"></activity>
 
         <service
-                android:name="com.android.lvicto.sanskritkeyboard.CustomKeyboard"
-                android:label="CustomKeyboard"
-                android:permission="android.permission.BIND_INPUT_METHOD">
+            android:name=".CustomKeyboard"
+            android:label="CustomKeyboard"
+            android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data
-                    android:name="android.view.im"
-                    android:resource="@xml/method"/>
+                android:name="android.view.im"
+                android:resource="@xml/method" />
 
             <intent-filter>
-                <action android:name="android.view.InputMethod"/>
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
-
         <service
-            android:name="com.android.lvicto.sanskritkeyboard.CustomKeyboard2"
+            android:name=".CustomKeyboard2"
             android:label="CustomKeyboard2"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data
                 android:name="android.view.im"
-                android:resource="@xml/method"/>
+                android:resource="@xml/method" />
 
             <intent-filter>
-                <action android:name="android.view.InputMethod"/>
+                <action android:name="android.view.InputMethod" />
             </intent-filter>
         </service>
 
-
-        <activity
-                android:name="com.android.lvicto.sanskritkeyboard.TestKeyboardActivity">
+        <activity android:name=".TestKeyboardActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
