@@ -2,16 +2,16 @@
 
 buildscript {
     // versions
-    ext.kotlinVersion = '1.3.31'
+    ext.kotlinVersion = '1.3.41'
     ext.supportVersion = '28.0.0'
-    ext.gradleVersion = '3.4.1'
-    ext.appcompatVersion = '1.1.0-beta01'
+    ext.gradleVersion = '3.4.2'
+    ext.appcompatVersion = '1.1.0-rc01'
     ext.junitVersion = '4.13-beta-3'
     ext.testRunnerVersion = '1.2.0'
     ext.espressoCoreVersion = '3.2.0'
-    ext.constraintLayoutVersion = '2.0.0-beta1'
-    ext.materialVersion = '1.1.0-alpha07'
-    ext.archLifecycleVersion = '2.2.0-alpha01'
+    ext.constraintLayoutVersion = '2.0.0-beta2'
+    ext.materialVersion = '1.1.0-alpha09'
+    ext.archLifecycleVersion = '2.2.0-alpha02'
     ext.roomVersion = '2.1.0'
     ext.zoomImageVersion = '1.1.0'
     ext.gsonVersionVersion = '2.8.5'

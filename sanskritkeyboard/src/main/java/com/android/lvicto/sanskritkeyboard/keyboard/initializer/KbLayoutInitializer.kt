@@ -41,7 +41,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     protected val settingsKeyClickListener = View.OnClickListener {
-        Toast.makeText(context, "Settings", Toast.LENGTH_SHORT).show()
+        context.startActivity(SettingsActivity.intent(context))
     }
 
     lateinit var keyboardSwitch: KeyboardSwitch
@@ -112,6 +112,9 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
         (view button R.id.keyAction).apply {
             setOnClickListener(actionOnClickListener)
+        }
+        (view button R.id.keySettings).apply {
+            setOnClickListener(settingsKeyClickListener)
         }
     }
 
