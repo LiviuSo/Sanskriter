@@ -4,12 +4,14 @@ import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import android.widget.Button
+import android.widget.PopupWindow
 import android.widget.TextView
-import android.widget.Toast
 import com.android.lvicto.sanskritkeyboard.*
 import com.android.lvicto.sanskritkeyboard.CustomKeyboard2.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
@@ -19,8 +21,6 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
-    protected abstract fun getKeyClickListener(extra: Boolean = false, text: String = ""): View.OnClickListener
-    protected abstract fun getKeyLongClickListener(extra: Boolean = false, text: String = ""): View.OnLongClickListener
 
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
@@ -28,12 +28,16 @@ abstract class KbLayoutInitializer(val context: Context) {
     lateinit var ic: InputConnection
     lateinit var currentInputEditorInfo: EditorInfo
 
+    protected open fun toggleShiftBack() {
+
+    }
+
     private val spaceClickListener: View.OnClickListener = View.OnClickListener {
         val output = " "
         ic.commitText(output, output.length)
         disableAllExtraKeys()
         val key = (it as TextView)
-        if(key.text == "Qwerty") { // todo improve
+        if (key.text == "Qwerty") { // todo improve
             key.text = "Sanskrit"
         } else {
             key.text = "Qwerty"
@@ -93,6 +97,62 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
+    protected fun getCommonTouchListener(text: String = "", extra: Boolean = false) = object : View.OnTouchListener {
+        private var popup: PopupWindow? = null
+        var actionTime: Long = 0
+
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            val output = if (text.isEmpty()) {
+                (view as Button).text.toString()
+            } else {
+                text
+            }
+
+            return when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    Log.d(LOG_TAG, "Action was DOWN")
+
+                    actionTime = System.currentTimeMillis()
+                    Log.d(LOG_TAG, "DOWN: $actionTime")
+
+                    // show preview (if not extra)
+                    if(!extra) {
+                        val rect = view.locateView()
+                        Log.d(LOG_TAG, "${rect.left} ${rect.right} ${rect.bottom} ${rect.top} ")
+                        popup = view.createPopup(output)
+                        popup?.show(view, rect)
+                    }
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    Log.d(LOG_TAG, "Action was UP")
+
+                    val delay = System.currentTimeMillis() - actionTime
+                    if (delay >= LONG_PRESS_TIME) {
+                        Log.d(LOG_TAG, "Long press: $delay $LONG_PRESS_TIME")
+                        // do smth
+                    } else {
+                        // send text if not long tap
+                        ic.commitText(output, output.length)
+                    }
+                    // show extra keys
+                    disableAllExtraKeys()
+                    if (!extra) {
+                        showExtraKeys(output[0].toInt())
+                        // close preview pop-up
+                        view.postDelayed({
+                            popup?.dismiss()
+                        }, DELAY_HIDE_PREVIEW)
+                    }
+                    // toggle shift back (if not in permanent state)
+                    toggleShiftBack()
+                    view.performClick()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
     fun initKeyboard(): View? = getView().apply {
         initExtraCodes()
@@ -123,7 +183,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         if (relatedChars != null) {
             Log.d(LOG_TAG, "relatedChars.size: ${relatedChars.size}")
             (0 until relatedChars.size).forEach { index ->
-                Log.d(LOG_TAG, "relatedChars[$index]: ${relatedChars[index]}")
+                //                Log.d(LOG_TAG, "relatedChars[$index]: ${relatedChars[index]}")
                 extraKeys[index].text = "${relatedChars[index].toChar()}"
                 extraKeys[index].isEnabled = true
             }
@@ -160,7 +220,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         )
         extraKeys.forEach {
             it.isEnabled = false
-            it.setOnClickListener(getKeyClickListener(true))
+            it.setOnTouchListener(getCommonTouchListener(extra = true))
         }
     }
 
@@ -210,5 +270,9 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
             return kbLayoutInitializer
         }
+
+        private const val DELAY_HIDE_PREVIEW: Long = 120
+        private val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
+
     }
 }

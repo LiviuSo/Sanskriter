@@ -17,6 +17,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     private var keysToAllCaps = arrayListOf<Button>()
 
     private val shiftOnClickListener: View.OnClickListener = View.OnClickListener {
+        Log.d(LOG_TAG, "shiftOnClickListener: $allCaps")
         if (!allCaps) {
             toggleAllCaps()
         } else if (allCaps && !allCapsPersist) {
@@ -46,12 +47,12 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 , view button R.id.keyComma
                 , view button R.id.keyQuestion
                 , view button R.id.keyExclamation
-                , view button R.id.keySuggestion1
-                , view button R.id.keySuggestion2
-                , view button R.id.keySuggestion3
+                , view button R.id.keyPeriod
+                , view button R.id.keyHyphen
+                , view button R.id.keyAt
         )
         keysClickListenerOnly.forEach {
-            it.setOnClickListener(getKeyClickListener())
+            it.setOnTouchListener(getCommonTouchListener())
         }
 
         val keysClickListenerOnlyAllCpas = arrayListOf(
@@ -69,14 +70,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 , view button R.id.keyJ
                 , view button R.id.keyK
                 , view button R.id.keyG
-        )
-        keysClickListenerOnlyAllCpas.forEach {
-            it.setOnClickListener(getKeyClickListener())
-            keysToAllCaps.add(it)
-        }
-
-        val keysClickListenerLongListenerAllCpas = arrayListOf(
-                view button R.id.keyR
+                , view button R.id.keyR
                 , view button R.id.keyT
                 , view button R.id.keyU
                 , view button R.id.keyI
@@ -87,12 +81,13 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 , view button R.id.keyL
                 , view button R.id.keyN
                 , view button R.id.keyM
+                , view button R.id.keyC
         )
-        keysClickListenerLongListenerAllCpas.forEach {
-            it.setOnClickListener(getKeyClickListener())
-            it.setOnLongClickListener(getKeyLongClickListener())
+        keysClickListenerOnlyAllCpas.forEach {
+            it.setOnTouchListener(getCommonTouchListener())
             keysToAllCaps.add(it)
         }
+
         (view button R.id.keyShift).apply {
             setOnClickListener(shiftOnClickListener)
 
@@ -103,21 +98,6 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 }
                 true
             }
-        }
-        (view button R.id.keyPeriod).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-        }
-        (view button R.id.keyHyphen).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-        }
-        (view button R.id.keyAt).apply {
-            setOnClickListener(getKeyClickListener())
-            setOnLongClickListener(getKeyLongClickListener())
-        }
-        (view button R.id.keySettings).apply {
-            setOnClickListener(settingsKeyClickListener)
         }
 
         initExtraKeys(view)
@@ -249,42 +229,10 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
         )
     }
 
-    override fun getKeyClickListener(extra: Boolean, text: String) = View.OnClickListener {
-        val key = it as Button
-        val output = if (text.isEmpty()) {
-            key.text
-        } else {
-            text
-        }
-        // todo logic for label with multiple characters
-        val success = ic.commitText(output, output.length)
-        disableAllExtraKeys()
-
-        if (!extra) { // if not an alternate, show alternative keys
-            showExtraKeys(output[0].toInt())
-        }
-
-        if (allCaps && !allCapsPersist) { // todo add isLetter() condition
+    override fun toggleShiftBack() {
+        if(allCaps && !allCapsPersist) {
             toggleAllCaps()
         }
-
-//        Log.d(LOG_TAG, "key = ${output[0].toInt()} committed: $success ic: $ic") // debug
-    }
-
-    override fun getKeyLongClickListener(extra: Boolean, text: String) = View.OnLongClickListener {
-        disableAllExtraKeys()
-        val key = it as Button
-        val output = if (text.isEmpty()) {
-            key.text
-        } else {
-            text
-        }
-        if (!extra) { // if not extra, show alternative keys
-            if (output.length == 1) { // todo use tag (spike)
-                showExtraKeys(output[0].toInt())
-            }
-        }
-        true
     }
 
     private fun toggleAllCaps() {
@@ -292,10 +240,15 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
         setAllCaps(allCaps)
     }
 
-    private fun setCase(button: Button, allCaps: Boolean): String = if (allCaps) {
-        button.text.toString().toUpperCase()
-    } else {
-        button.text.toString().toLowerCase()
+    private fun setCase(button: Button, allCaps: Boolean): String {
+        val txt = button.text.toString()
+        val newTxt = if (allCaps) {
+            txt.toUpperCase()
+        } else {
+            txt.toLowerCase()
+        }
+        button.text = newTxt
+        return newTxt
     }
 
     private fun setAllCaps(allCaps: Boolean) {
@@ -305,7 +258,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
 
         extraKeys.forEach {
             if (it.isEnabled) {
-                it.text = setCase(it, allCaps)
+                setCase(it, allCaps)
             }
         }
     }
