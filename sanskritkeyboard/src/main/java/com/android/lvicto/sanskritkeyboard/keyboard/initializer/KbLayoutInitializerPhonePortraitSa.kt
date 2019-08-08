@@ -1,10 +1,7 @@
 package com.android.lvicto.sanskritkeyboard.keyboard.initializer
 
 import android.content.Context
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import com.android.lvicto.sanskritkeyboard.CustomKeyboard2
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.button
 import com.android.lvicto.sanskritkeyboard.layoutInflater
@@ -130,49 +127,13 @@ open class KbLayoutInitializerPhonePortraitSa(context: Context) : KbLayoutInitia
                 , view button R.id.keySaLa
                 , view button R.id.keySaVa
                 , view button R.id.keySaHa
+                , view button R.id.keySaSep
 
         )
         keysClickListener.forEach {
-            it.setOnClickListener(getKeyClickListener())
-        }
-
-        view.findViewById<Button>(R.id.keySaSep).apply {
-            this.setOnClickListener(getKeyClickListener())
-            this.setOnLongClickListener(getKeyLongClickListener())
-        }
-        view.findViewById<Button>(R.id.keySettings).apply {
-            setOnClickListener(settingsKeyClickListener)
+            it.setOnTouchListener(getCommonTouchListener())
         }
 
         initExtraKeys(view)
     }
-
-    override fun getKeyClickListener(extra: Boolean, text: String): View.OnClickListener = View.OnClickListener {
-        val output = if (text.isEmpty()) {
-            (it as Button).text
-        } else {
-            text
-        }
-        val success = ic.commitText(output, output.length)
-        disableAllExtraKeys()
-        if (!extra) {
-            showExtraKeys(output[0].toInt())
-        }
-        Log.d(CustomKeyboard2.LOG_TAG, "key = ${output[0].toInt()} committed: $success ic: $ic") // debug
-    }
-
-    override fun getKeyLongClickListener(extra: Boolean, text: String) = View.OnLongClickListener {
-        disableAllExtraKeys()
-        val key = it as Button
-        val output = if (text.isEmpty()) {
-            key.text
-        } else {
-            text
-        }
-        if (!extra) { // if not extra, show alternative keys
-            showExtraKeys(output[0].toInt())
-        }
-        true
-    }
-
 }
