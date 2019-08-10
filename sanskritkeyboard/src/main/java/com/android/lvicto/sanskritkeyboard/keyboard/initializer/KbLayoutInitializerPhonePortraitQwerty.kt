@@ -16,6 +16,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
 
+    // todo convert to a touch listener
     private val shiftOnClickListener: View.OnClickListener = View.OnClickListener {
         Log.d(LOG_TAG, "shiftOnClickListener: $allCaps")
         if (!allCaps) {

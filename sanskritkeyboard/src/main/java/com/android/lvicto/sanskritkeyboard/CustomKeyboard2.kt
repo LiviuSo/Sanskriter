@@ -30,38 +30,50 @@ class CustomKeyboard2 : InputMethodService(), KeyboardSwitch {
         }
         onInitializeInterface()
         onBindInput()
-        setInputView(kbLayoutInitializer!!.initKeyboard()!!)
+        setInputView(kbLayoutInitializer.initKeyboard())
+        onStartInput(null, true) // todo investigate if possibly called with these params
     }
 
-    private var kbLayoutInitializer: KbLayoutInitializer? = null
+    private lateinit var kbLayoutInitializer: KbLayoutInitializer
 
     override fun onInitializeInterface() {
         Log.d(LOG_TAG, "onInitializeInterface()")
         val kbConfig = KeyboardConfig(applicationContext.isTablet(), applicationContext.getOrientation(), currentKeyboardType)
         kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)!!
-        kbLayoutInitializer!!.keyboardSwitch = this // todo get rid of !!
+        kbLayoutInitializer.keyboardSwitch = this
     }
 
-    override fun onBindInput() { // todo investigate called twice
+    override fun onBindInput() {
         Log.d(LOG_TAG, "onBindInput()")
-        kbLayoutInitializer?.ic = currentInputConnection
+        if(currentInputConnection != null) {
+            kbLayoutInitializer.ic = currentInputConnection
+        }
+    }
+
+    override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
+        Log.d(LOG_TAG, "onStartInput()")
+        kbLayoutInitializer.currentInputEditorInfo = currentInputEditorInfo
+        if (attribute == null && restarting) {
+            kbLayoutInitializer.setActionType()
+        }
     }
 
     override fun onCreateInputView(): View {
         Log.d(LOG_TAG, "onCreateInputView()")
         if(currentInputConnection != null) {
-            kbLayoutInitializer?.ic = currentInputConnection
+            kbLayoutInitializer.ic = currentInputConnection
         }
-        return kbLayoutInitializer!!.initKeyboard()!!
+        return kbLayoutInitializer.initKeyboard()
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         Log.d(LOG_TAG, "onStartInputView()")
         if(currentInputConnection != null) {
-            kbLayoutInitializer?.ic = currentInputConnection
+            kbLayoutInitializer.ic = currentInputConnection
         }
         if (info != null) {
-            kbLayoutInitializer?.currentInputEditorInfo = info
+            kbLayoutInitializer.currentInputEditorInfo = info
+            kbLayoutInitializer.setActionType()
         }
     }
 
