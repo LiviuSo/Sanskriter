@@ -2,7 +2,6 @@ package com.android.lvicto.sanskritkeyboard.keyboard.initializer
 
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -16,6 +15,7 @@ import com.android.lvicto.sanskritkeyboard.*
 import com.android.lvicto.sanskritkeyboard.CustomKeyboard2.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
+import java.lang.Exception
 
 abstract class KbLayoutInitializer(val context: Context) {
 
@@ -27,74 +27,56 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     lateinit var ic: InputConnection
     lateinit var currentInputEditorInfo: EditorInfo
+    lateinit var actionButton: Button
+    lateinit var keyboardSwitch: KeyboardSwitch
 
     protected open fun toggleShiftBack() {
-
+        // to override
     }
 
+    // todo convert to a touch listener
     private val spaceClickListener: View.OnClickListener = View.OnClickListener {
         val output = " "
         ic.commitText(output, output.length)
         disableAllExtraKeys()
         val key = (it as TextView)
-        if (key.text == "Qwerty") { // todo improve
+        if (key.text == "Qwerty") { // todo add resources & fix bug (text changing at tap)
             key.text = "Sanskrit"
         } else {
             key.text = "Qwerty"
         }
     }
 
-    protected val settingsKeyClickListener = View.OnClickListener {
+    // todo convert to a touch listener
+    private val settingsKeyClickListener = View.OnClickListener {
         context.startActivity(SettingsActivity.intent(context))
     }
 
-    lateinit var keyboardSwitch: KeyboardSwitch
-
+    // todo convert to a touch listener
     private val deleteOnClickListener: View.OnClickListener = View.OnClickListener {
         Log.d(LOG_TAG, "deleteOnClickListener: $ic")
         ic.deleteSurroundingText(1, 0)
         disableAllExtraKeys()
     }
 
+    // todo convert to a touch listener
     private val actionOnClickListener: View.OnClickListener = View.OnClickListener {
-        val imeOptions = currentInputEditorInfo.imeOptions
-        when {  // todo fix
-            imeOptions == 0 -> {
-                Log.d(LOG_TAG, " EditorInfo.IME_ACTION_UNSPECIFIED")
-            }
-            EditorInfo.IME_ACTION_PREVIOUS and imeOptions == EditorInfo.IME_ACTION_PREVIOUS -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Log.d(LOG_TAG, "EditorInfo.IME_ACTION_PREVIOUS")
-                } else {
-                    Log.d(LOG_TAG, "EditorInfo.IME_ACTION_PREVIOUS unavailable")
-                }
-            }
-            EditorInfo.IME_ACTION_DONE and imeOptions == EditorInfo.IME_ACTION_DONE -> {
-                Log.d(LOG_TAG, "EditorInfo.IME_ACTION_DONE")
-            }
-            EditorInfo.IME_ACTION_NEXT and imeOptions == EditorInfo.IME_ACTION_NEXT -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NEXT")
-                } else {
-                    Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NEXT unavailable")
-                }
-            }
-            EditorInfo.IME_ACTION_SEND and imeOptions == EditorInfo.IME_ACTION_SEND -> {
-                Log.d(LOG_TAG, "EditorInfo.IME_ACTION_SEND")
-            }
-            EditorInfo.IME_ACTION_SEARCH and imeOptions == EditorInfo.IME_ACTION_SEARCH -> {
-                Log.d(LOG_TAG, "EditorInfo.IME_ACTION_SEARCH")
-            }
-            EditorInfo.IME_ACTION_GO and imeOptions == EditorInfo.IME_ACTION_GO -> {
-                Log.d(LOG_TAG, "EditorInfo.IME_ACTION_GO")
-            }
-            EditorInfo.IME_ACTION_NONE and imeOptions == EditorInfo.IME_ACTION_NONE -> {
-                Log.d(LOG_TAG, "EditorInfo.IME_ACTION_NONE")
-            }
-            else -> {
-                Log.d(LOG_TAG, "EditorInfo.UNKNOWN")
-            }
+        val ei = currentInputEditorInfo
+        if (ei.actionId != 0) {
+            ic.performEditorAction(ei.actionId)
+        } else if (ei.imeOptions and EditorInfo.IME_MASK_ACTION != EditorInfo.IME_ACTION_NONE) {
+            ic.performEditorAction(ei.imeOptions and EditorInfo.IME_MASK_ACTION)
         }
+    }
+
+    fun initKeyboard(): View = getView().apply {
+        initExtraCodes()
+        bindKeys(this)
+    }
+
+    fun setActionType() {
+        Log.d(LOG_TAG, "setActionType() $actionButton")
+        actionButton.text = getActionTypeString()
     }
 
     protected fun getCommonTouchListener(text: String = "", extra: Boolean = false) = object : View.OnTouchListener {
@@ -116,7 +98,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     Log.d(LOG_TAG, "DOWN: $actionTime")
 
                     // show preview (if not extra)
-                    if(!extra) {
+                    if (!extra) {
                         val rect = view.locateView()
                         Log.d(LOG_TAG, "${rect.left} ${rect.right} ${rect.bottom} ${rect.top} ")
                         popup = view.createPopup(output)
@@ -154,11 +136,9 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    fun initKeyboard(): View? = getView().apply {
-        initExtraCodes()
-        bindKeys(this)
-    }
-
+    /**
+     * Set common keys
+     */
     protected open fun bindKeys(view: View) {
         (view button R.id.keySpace).apply {
             setOnClickListener(spaceClickListener)
@@ -171,10 +151,46 @@ abstract class KbLayoutInitializer(val context: Context) {
             setOnClickListener(deleteOnClickListener)
         }
         (view button R.id.keyAction).apply {
+            actionButton = this
             setOnClickListener(actionOnClickListener)
         }
         (view button R.id.keySettings).apply {
             setOnClickListener(settingsKeyClickListener)
+        }
+    }
+
+    private fun getActionTypeString() = when (currentInputEditorInfo.imeOptions and EditorInfo.IME_MASK_ACTION) {
+        EditorInfo.IME_ACTION_NONE -> {
+            Log.d(LOG_TAG, "IME_ACTION_NONE")
+            "AC" // todo create resources & remove logs
+        }
+        EditorInfo.IME_ACTION_GO -> {
+            Log.d(LOG_TAG, "IME_ACTION_GO")
+            "GO"
+        }
+        EditorInfo.IME_ACTION_SEARCH -> {
+            Log.d(LOG_TAG, "IME_ACTION_SEARCH")
+            "SC"
+        }
+        EditorInfo.IME_ACTION_SEND -> {
+            Log.d(LOG_TAG, "IME_ACTION_SEND")
+            "SE"
+        }
+        EditorInfo.IME_ACTION_NEXT -> {
+            Log.d(LOG_TAG, "IME_ACTION_NEXT")
+            "->"
+        }
+        EditorInfo.IME_ACTION_DONE -> {
+            Log.d(LOG_TAG, "IME_ACTION_DONE")
+            "OK"
+        }
+        EditorInfo.IME_ACTION_PREVIOUS -> {
+            Log.d(LOG_TAG, "IME_ACTION_PREVIOUS")
+            "<-"
+        }
+        else -> {
+            Log.d(LOG_TAG, "Default ime")
+            "AC"
         }
     }
 
@@ -183,7 +199,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         if (relatedChars != null) {
             Log.d(LOG_TAG, "relatedChars.size: ${relatedChars.size}")
             (0 until relatedChars.size).forEach { index ->
-                //                Log.d(LOG_TAG, "relatedChars[$index]: ${relatedChars[index]}")
                 extraKeys[index].text = "${relatedChars[index].toChar()}"
                 extraKeys[index].isEnabled = true
             }
@@ -233,42 +248,41 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     companion object {
 
-        fun getLayoutInitializer(context: Context, config: KeyboardConfig): KbLayoutInitializer? {
+        fun getLayoutInitializer(context: Context, config: KeyboardConfig): KbLayoutInitializer {
 
             val orientation = config.orientation
             val tablet = config.isTablet
             val keyboardType = config.type
 
-            var kbLayoutInitializer: KbLayoutInitializer? = null
-            when {
+            return when {
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    kbLayoutInitializer = KbLayoutInitializerTabletPortraitQwerty(context)
+                    KbLayoutInitializerTabletPortraitQwerty(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    kbLayoutInitializer = KbLayoutInitializerPhonePortraitQwerty(context)
+                    KbLayoutInitializerPhonePortraitQwerty(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    kbLayoutInitializer = KbLayoutInitializerTabletLanscapeQwerty(context)
+                    KbLayoutInitializerTabletLanscapeQwerty(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    kbLayoutInitializer = KbLayoutInitializerPhoneLandscapeQwertyPhonePortraitQwerty(context)
+                    KbLayoutInitializerPhoneLandscapeQwertyPhonePortraitQwerty(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    kbLayoutInitializer = KbLayoutInitializerTabletPortraitSa(context)
+                    KbLayoutInitializerTabletPortraitSa(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    kbLayoutInitializer = KbLayoutInitializerPhonePortraitSa(context)
+                    KbLayoutInitializerPhonePortraitSa(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    kbLayoutInitializer = KbLayoutInitializerTabletLandscapeSa(context)
+                    KbLayoutInitializerTabletLandscapeSa(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    kbLayoutInitializer = KbLayoutInitializerPhoneLandscapeSaPhonePortraitSa(context)
+                    KbLayoutInitializerPhoneLandscapeSaPhonePortraitSa(context)
                 }
                 else -> {
+                    throw Exception("KbLayoutInitializer: Not a valid config")
                 }
             }
-            return kbLayoutInitializer
         }
 
         private const val DELAY_HIDE_PREVIEW: Long = 120
