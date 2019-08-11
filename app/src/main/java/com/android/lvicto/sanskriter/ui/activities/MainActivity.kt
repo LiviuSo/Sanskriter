@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.DictionaryActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection

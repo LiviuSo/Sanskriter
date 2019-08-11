@@ -16,7 +16,7 @@ class BookContentRepository {
         inputStreamReader.forEachLine {
             stringBuilder.append(it)
         }
-        return io.reactivex.Observable.just(gson.fromJson(stringBuilder.toString(), BookContent::class.java))
+        return Observable.just(gson.fromJson(stringBuilder.toString(), BookContent::class.java))
     }
 
 }

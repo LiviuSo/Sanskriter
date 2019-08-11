@@ -1,12 +1,12 @@
-package com.android.lvicto.sanskriter.db
+package com.android.lvicto.db
 
 import android.content.Context
 import android.os.AsyncTask
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.android.lvicto.sanskriter.db.dao.WordDao
-import com.android.lvicto.sanskriter.db.entity.Word
+import com.android.lvicto.db.dao.WordDao
+import com.android.lvicto.db.entity.Word
 
 @Database(entities = [Word::class], version = 1)
 abstract class WordsDatabase : RoomDatabase() {

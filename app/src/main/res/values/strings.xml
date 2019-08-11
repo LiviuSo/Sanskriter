@@ -2,15 +2,8 @@
     <string name="app_name">Sanskriter</string>
 
     <string name="chapter">Chapter</string>
-    <string name="saveWord">Save</string>
-    <string name="dictionary">Dictionary</string>
-    <string name="dic_search_hint">Start typing</string>
-    <string name="string_menu">Import</string>
-    <string name="string_export">Export</string>
-    <string name="string_find">Find</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="close_search_bar_descr">Close search bar</string>
 
 </resources>

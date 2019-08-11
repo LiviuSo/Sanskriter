@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskriter.adapters
+package com.android.lvicto
 
 import android.content.Context
 import android.util.Log
@@ -9,8 +9,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.db.entity.Word
+import com.android.lvicto.db.entity.Word
 
 
 class WordsAdapter(private val context: Context,
@@ -29,7 +28,7 @@ class WordsAdapter(private val context: Context,
         }
     val selectedToRemove = arrayListOf<Int>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordsAdapter.WordViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         val view = if (type == TYPE_NON_REMOVABLE) {
             LayoutInflater.from(context).inflate(R.layout.item_word, parent, false)
         } else { // TYPE_REMOVABLE
@@ -46,7 +45,7 @@ class WordsAdapter(private val context: Context,
         }
     }
 
-    override fun onBindViewHolder(holder: WordsAdapter.WordViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         if (words != null) {
             holder.bindData(words!![position], getItemViewType(position), position)
         } else {

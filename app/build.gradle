@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -36,6 +35,7 @@ android {
 dependencies {
 
     implementation project(":commons")
+    implementation project(":dictionary")
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
@@ -45,20 +45,12 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
-    implementation "androidx.recyclerview:recyclerview:$recViewVersion"
 
     implementation "com.jsibbold:zoomage:${zoomImageVersion}"
+
     implementation "com.google.code.gson:gson:$gsonVersionVersion"
-    implementation "com.google.android.material:material:$materialVersion"
 
-    // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
-    kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
-
-    // Room components
-    implementation "androidx.room:room-runtime:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
-    androidTestImplementation "androidx.room:room-testing:$roomVersion"
+    implementation "androidx.recyclerview:recyclerview:$recViewVersion"
 
     // RxJava & RxAndroid
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
