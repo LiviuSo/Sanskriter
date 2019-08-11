@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskriter.repositories
+package com.android.lvicto
 
 import android.content.Context
 import android.util.Log

@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskriter.db.entity
+package com.android.lvicto.db.entity
 
 import android.os.Parcel
 import android.os.Parcelable

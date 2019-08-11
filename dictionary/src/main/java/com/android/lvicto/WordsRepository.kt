@@ -1,9 +1,9 @@
-package com.android.lvicto.sanskriter.repositories
+package com.android.lvicto
 
 import android.app.Application
-import com.android.lvicto.sanskriter.db.WordsDatabase
-import com.android.lvicto.sanskriter.db.dao.WordDao
-import com.android.lvicto.sanskriter.db.entity.Word
+import com.android.lvicto.db.WordsDatabase
+import com.android.lvicto.db.dao.WordDao
+import com.android.lvicto.db.entity.Word
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 

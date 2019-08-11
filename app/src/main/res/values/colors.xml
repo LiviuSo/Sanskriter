@@ -3,16 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorPrimaryBook">#c96375</color>
-    <color name="colorPrimaryDarkBook">#9e0315</color>
-    <color name="colorPrimaryDictionary">#86c777</color>
-    <color name="colorPrimaryDarkDictionary">#03640d</color>
 
     <color name="colorAccent">#FF4081</color>
     <color name="sectionTitleColor">#f2dada</color>
     <color name="sectionSelectedTitleColor">#edbbbb</color>
     <color name="chapterTitleColor">#eca0ac</color>
-    <color name="colorWordRemovable">#eaa2ac</color>
-    <color name="colorWord">#c4efda</color>
-    <color name="colorShowDefinition">#1baf2f</color>
-    <color name="colorSearchWord">#deeae9</color>
 </resources>

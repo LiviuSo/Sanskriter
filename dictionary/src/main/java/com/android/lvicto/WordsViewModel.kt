@@ -1,14 +1,12 @@
-package com.android.lvicto.sanskriter.viewmodels
+package com.android.lvicto
 
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.lvicto.sanskriter.data.dic.Words
-import com.android.lvicto.sanskriter.db.entity.Word
-import com.android.lvicto.sanskriter.repositories.FileRepository
-import com.android.lvicto.sanskriter.repositories.WordsRepository
+import com.android.lvicto.db.entity.Word
+import com.android.lvicto.dic.Words
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -52,8 +50,7 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
         val words = Gson().fromJson(json, Words::class.java)
         Observable.fromIterable(words.list)
                 .flatMap { w ->
-                    repo.insertWordRx(w)
-                            .concatMap { Observable.just(w) }
+                    repo.insertWordRx(w).concatMap { Observable.just(w) }
                 }
                 .toList()
                 .toObservable()

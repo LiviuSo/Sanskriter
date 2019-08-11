@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskriter.ui.activities
+package com.android.lvicto
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -18,19 +18,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.adapters.WordsAdapter
-import com.android.lvicto.sanskriter.data.dic.Words
-import com.android.lvicto.sanskriter.db.entity.Word
-import com.android.lvicto.sanskriter.utils.Constants
-import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD
-import com.android.lvicto.sanskriter.utils.Constants.Keyboard.EXTRA_WORD_ID
-import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_ADD_WORD
-import com.android.lvicto.sanskriter.utils.Constants.Keyboard.REQUEST_CODE_EDIT_WORD
-import com.android.lvicto.sanskriter.utils.KeyboardHelper.hideSoftKeyboard
-import com.android.lvicto.sanskriter.viewmodels.WordsViewModel
+import com.android.lvicto.Constants.Dictonary.EXTRA_WORD
+import com.android.lvicto.Constants.Dictonary.EXTRA_WORD_IAST
+import com.android.lvicto.Constants.Dictonary.EXTRA_WORD_ID
+import com.android.lvicto.Constants.Dictonary.EXTRA_WORD_RO
+import com.android.lvicto.Constants.Dictonary.EXTRA_WORD_SA
+import com.android.lvicto.Constants.Dictonary.EXTRA_WORD_WORD_EN
+import com.android.lvicto.Constants.Dictonary.REQUEST_CODE_ADD_WORD
+import com.android.lvicto.Constants.Dictonary.REQUEST_CODE_EDIT_WORD
+import com.android.lvicto.Utils.hideSoftKeyboard
+import com.android.lvicto.db.entity.Word
+import com.android.lvicto.dic.Words
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_all_words.*
@@ -102,10 +103,10 @@ class DictionaryActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_ADD_WORD, REQUEST_CODE_EDIT_WORD -> {
-                    val wordRo = data!!.getStringExtra(Constants.Keyboard.EXTRA_WORD_RO)
-                    val wordEn = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_WORD_EN)
-                    val wordSa = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_SA)
-                    val wordIAST = data.getStringExtra(Constants.Keyboard.EXTRA_WORD_IAST)
+                    val wordRo = data!!.getStringExtra(EXTRA_WORD_RO)
+                    val wordEn = data.getStringExtra(EXTRA_WORD_WORD_EN)
+                    val wordSa = data.getStringExtra(EXTRA_WORD_SA)
+                    val wordIAST = data.getStringExtra(EXTRA_WORD_IAST)
                     val word = Word(word = wordSa, wordIAST = wordIAST, meaningEn = wordEn, meaningRo = wordRo)
                     if (data.hasExtra(EXTRA_WORD_ID)) {
                         word.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
@@ -182,7 +183,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
 
         // words recycleview
-        recyclerView = findViewById<RecyclerView>(R.id.rv_words)
+        recyclerView = findViewById(R.id.rv_words)
         wordsAdapter = WordsAdapter(this, itemDefinitionClickListener,
                 itemEditClickListener,
                 longClickListener

@@ -53,13 +53,4 @@ object KeyboardHelper {
         intent.flags = FLAG_ACTIVITY_NEW_TASK
         activity.startActivityForResult(intent, 0) // todo try to use startActivityForResult()
     }
-
-    fun hideSoftKeyboard(activity: Activity) {
-        val view = activity.currentFocus
-        if (view != null) {
-            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
-
 }

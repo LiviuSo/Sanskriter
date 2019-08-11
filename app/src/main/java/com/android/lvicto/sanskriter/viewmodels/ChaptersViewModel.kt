@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.repositories.BookContentRepository
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.db.entity.Word
+import com.android.lvicto.db.entity.Word
 
 class ChaptersViewModel : ViewModel() {
     fun filter(s: String): LiveData<List<Word>> {
