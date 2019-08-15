@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -19,7 +20,11 @@ class TestKeyboardActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val tasks = (activityManager as ActivityManager).appTasks
             tasks.forEach {
-                val taskDescr = it.taskInfo.taskDescription
+                val taskDescr = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    it.taskInfo.taskDescription
+                } else {
+                    null
+                }
                 if(taskDescr != null) {
                     if(taskDescr.label != null) {
                         Log.d("TestKeyboardActivity", "taskDescr = ${taskDescr.label}")

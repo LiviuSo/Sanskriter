@@ -21,7 +21,8 @@
             android:hint="@string/kbHintSanskrit"
             android:imeOptions="actionDone"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            android:imeActionLabel="@string/kbHintSanskrit"/>
 
         <EditText
             android:id="@+id/editTextIAST"
@@ -33,7 +34,8 @@
             android:hint="@string/kbHintIAST"
             android:imeOptions="actionNext"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            android:imeActionLabel="@string/kbHintIAST"/>
 
         <EditText
             android:id="@+id/editTextEn"
@@ -46,7 +48,8 @@
             android:imeOptions="actionGo"
             android:inputType="text"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            android:imeActionLabel="@string/kbHintEnglish"/>
 
         <EditText
             android:id="@+id/editTextRo"
@@ -58,7 +61,8 @@
             android:hint="@string/kbHintRomanian"
             android:imeOptions="actionSearch"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            android:imeActionLabel="@string/kbHintRomanian"/>
 
         <EditText
             android:id="@+id/editTextElse"
@@ -70,7 +74,8 @@
             android:hint="Else"
             android:imeOptions="actionSend"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp" />
+            tools:layout_editor_absoluteX="0dp"
+            android:imeActionLabel="Else"/>
 
         <FrameLayout
             android:layout_width="match_parent"
