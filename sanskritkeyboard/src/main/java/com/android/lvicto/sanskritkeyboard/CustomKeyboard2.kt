@@ -2,10 +2,7 @@ package com.android.lvicto.sanskritkeyboard
 
 import android.content.Context
 import android.content.res.Configuration
-import android.inputmethodservice.InputMethodService
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import androidx.annotation.IdRes
@@ -13,68 +10,89 @@ import com.android.lvicto.sanskritkeyboard.keyboard.initializer.KbLayoutInitiali
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
 import android.graphics.Rect
-import android.view.Gravity
+import android.view.*
 import android.widget.PopupWindow
 import android.widget.TextView
 
 
-class CustomKeyboard2 : InputMethodService(), KeyboardSwitch {
+class CustomKeyboard2 : StubbedInputMethodService(), KeyboardSwitch {
 
-    private var currentKeyboardType = KeyboardType.QWERTY
+    private var mIsTablet = true
+    private var mOrientation = Configuration.ORIENTATION_UNDEFINED
+    private var mCurrentKbType = KeyboardType.NONE
+    private var mNewConfig = false
+    private var mSwitching = false
 
     override fun switchKeyboard() {
-        currentKeyboardType = if(currentKeyboardType == KeyboardType.QWERTY) {
+        mCurrentKbType = if (mCurrentKbType == KeyboardType.QWERTY) {
             KeyboardType.SA
         } else {
             KeyboardType.QWERTY
         }
-        onInitializeInterface()
-        onBindInput()
+        Log.d(LOG_TAG, "switchKeyboard()")
+        mSwitching = true
+        onStartInput(null, false)
+        mSwitching = false
         setInputView(kbLayoutInitializer.initKeyboard())
-        onStartInput(null, true) // todo investigate if possibly called with these params
     }
 
     private lateinit var kbLayoutInitializer: KbLayoutInitializer
 
-    override fun onInitializeInterface() {
-        Log.d(LOG_TAG, "onInitializeInterface()")
-        val kbConfig = KeyboardConfig(applicationContext.isTablet(), applicationContext.getOrientation(), currentKeyboardType)
-        kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)!!
-        kbLayoutInitializer.keyboardSwitch = this
-    }
-
-    override fun onBindInput() {
-        Log.d(LOG_TAG, "onBindInput()")
-        if(currentInputConnection != null) {
-            kbLayoutInitializer.ic = currentInputConnection
-        }
-    }
-
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
-        Log.d(LOG_TAG, "onStartInput()")
-        kbLayoutInitializer.currentInputEditorInfo = currentInputEditorInfo
-        if (attribute == null && restarting) {
-            kbLayoutInitializer.setActionType()
-        }
-    }
+        Log.d(LOG_TAG, "onStartInput($attribute $restarting) label: ${attribute?.actionLabel}")
 
-    override fun onCreateInputView(): View {
-        Log.d(LOG_TAG, "onCreateInputView()")
-        if(currentInputConnection != null) {
-            kbLayoutInitializer.ic = currentInputConnection
+        mNewConfig = if (!mSwitching) { //
+            val currentKbType = if (attribute?.actionLabel == applicationContext.getString(R.string.kbHintSanskrit)) {
+                KeyboardType.SA
+            } else {
+                KeyboardType.QWERTY
+            }
+            updateConfigParams(currentKbType)
+        } else {
+            true // switching keyboard, so new config obviously
         }
-        return kbLayoutInitializer.initKeyboard()
+
+        Log.d(LOG_TAG, "onStartInput() mNewConfig = $mNewConfig")
+        if (mNewConfig) { // if new config, create a new initializer
+            Log.d(LOG_TAG, "onStartInput() new kbLayoutInitializer:$mCurrentKbType")
+            val kbConfig = KeyboardConfig(mIsTablet, mOrientation, mCurrentKbType)
+            kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)
+            kbLayoutInitializer.keyboardSwitch = this // because we need the inputConnection
+            kbLayoutInitializer.ic = currentInputConnection
+            if (!mSwitching) { // the view will be created in switchKeyboard()
+                Log.d(LOG_TAG, "onStartInput() mSwitching = $mSwitching")
+                setInputView(kbLayoutInitializer.initKeyboard())
+                completeLayoutInit(attribute)
+            }
+        }
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
-        Log.d(LOG_TAG, "onStartInputView()")
-        if(currentInputConnection != null) {
-            kbLayoutInitializer.ic = currentInputConnection
-        }
-        if (info != null) {
+        Log.d(LOG_TAG, "onStartInputView($info $restarting)")
+        completeLayoutInit(info)
+    }
+
+    private fun completeLayoutInit(info: EditorInfo?) {
+        kbLayoutInitializer.ic = currentInputConnection
+        if(info != null) {
+            // simply update the action button
             kbLayoutInitializer.currentInputEditorInfo = info
             kbLayoutInitializer.setActionType()
         }
+    }
+
+    private fun updateConfigParams(currentKbType: KeyboardType): Boolean {
+        val newIsTablet = applicationContext.isTablet()
+        val newOrientation = applicationContext.getOrientation()
+        val updated = mIsTablet != newIsTablet
+                || mOrientation != newOrientation
+                || mCurrentKbType != currentKbType
+        if (updated) {
+            mIsTablet = newIsTablet
+            mOrientation = newOrientation
+            mCurrentKbType = currentKbType
+        }
+        return updated
     }
 
     companion object {
