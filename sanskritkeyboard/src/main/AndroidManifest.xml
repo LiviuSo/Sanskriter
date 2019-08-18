@@ -9,10 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_keyboard_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".ui.SettingsActivity"></activity>
 
         <service
-            android:name=".CustomKeyboard"
+            android:name=".service.CustomKeyboard"
             android:label="CustomKeyboard"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data
@@ -24,7 +24,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".CustomKeyboard2"
+            android:name=".service.CustomKeyboard2"
             android:label="CustomKeyboard2"
             android:permission="android.permission.BIND_INPUT_METHOD">
             <meta-data
@@ -36,7 +36,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".TestKeyboardActivity">
+        <activity android:name=".ui.TestKeyboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

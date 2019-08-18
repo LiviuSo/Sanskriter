@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.book.BookPage
-import com.android.lvicto.sanskriter.utils.AssetsHelper.getDrawableFromAssets
+import com.android.lvicto.sanskriter.util.AssetsHelper.getDrawableFromAssets
 
 class PageFragment : Fragment() {
 
