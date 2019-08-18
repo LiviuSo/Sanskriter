@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.BookPagesFragment
 import com.android.lvicto.sanskriter.ui.fragments.ZoomPageFragment
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.util.PreferenceHelper
 
 class PagesActivity : FragmentActivity(),
         BookPagesFragment.OnFragmentInteractionListener {

@@ -11,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
-import com.android.lvicto.sanskriter.source.BookHelper
+import com.android.lvicto.sanskriter.util.BookHelper
 import com.android.lvicto.sanskriter.ui.fragments.BookContentsFragment
-import com.android.lvicto.sanskriter.viewmodels.ChaptersViewModel
+import com.android.lvicto.sanskriter.viewmodel.ChaptersViewModel
 
 class BookActivity : AppCompatActivity(),
         BookContentsFragment.OnFragmentInteractionListener {

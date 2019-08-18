@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.*
-import com.android.lvicto.sanskriter.utils.Constants
-import com.android.lvicto.sanskriter.utils.KeyboardHelper
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.util.Constants
+import com.android.lvicto.sanskriter.util.KeyboardHelper
+import com.android.lvicto.sanskriter.util.PreferenceHelper
 
 /**
  * todo:

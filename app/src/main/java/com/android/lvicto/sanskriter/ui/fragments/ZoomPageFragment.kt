@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.utils.AssetsHelper
+import com.android.lvicto.sanskriter.util.AssetsHelper
 
 class ZoomPageFragment : Fragment() {
 

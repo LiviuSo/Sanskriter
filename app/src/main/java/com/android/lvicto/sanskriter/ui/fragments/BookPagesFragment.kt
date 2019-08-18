@@ -10,9 +10,9 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.source.BookHelper
-import com.android.lvicto.sanskriter.utils.AssetsHelper
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.util.BookHelper
+import com.android.lvicto.sanskriter.util.AssetsHelper
+import com.android.lvicto.sanskriter.util.PreferenceHelper
 
 
 /**

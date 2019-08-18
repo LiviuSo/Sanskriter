@@ -4,12 +4,12 @@
 
     <application>
         <activity
-            android:name=".DictionaryActivity"
+            android:name=".ui.DictionaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
 
         <activity
-            android:name=".AddModifyWordActivity"
+            android:name=".ui.AddModifyWordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
     </application>

@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.activities.SetupActivity
-import com.android.lvicto.sanskriter.utils.Constants
+import com.android.lvicto.sanskriter.util.Constants
 
 abstract class SetupFragment : Fragment() {
 
