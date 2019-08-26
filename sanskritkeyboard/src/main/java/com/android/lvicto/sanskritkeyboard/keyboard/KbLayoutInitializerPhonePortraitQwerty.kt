@@ -1,4 +1,4 @@
-package com.android.lvicto.sanskritkeyboard.utils.initializer
+package com.android.lvicto.sanskritkeyboard.keyboard
 
 import android.content.Context
 import android.util.Log

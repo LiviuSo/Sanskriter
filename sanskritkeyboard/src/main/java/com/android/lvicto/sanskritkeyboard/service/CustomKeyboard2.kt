@@ -13,9 +13,9 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.IdRes
 import com.android.lvicto.sanskritkeyboard.R
-import com.android.lvicto.sanskritkeyboard.utils.initializer.KbLayoutInitializer
-import com.android.lvicto.sanskritkeyboard.utils.initializer.KeyboardConfig
-import com.android.lvicto.sanskritkeyboard.utils.initializer.KeyboardType
+import com.android.lvicto.sanskritkeyboard.keyboard.KbLayoutInitializer
+import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
+import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
 
 
 class CustomKeyboard2 : StubbedInputMethodService(), KeyboardSwitch {
