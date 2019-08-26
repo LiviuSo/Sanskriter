@@ -2,11 +2,17 @@ package com.android.lvicto.sanskritkeyboard.ui
 
 import android.app.Activity
 import android.app.ActivityManager
+import android.content.Context
+import android.inputmethodservice.InputMethodService
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.sanskritkeyboard.R
+import kotlinx.android.synthetic.main.activity_keyboard_test.*
 
 
 class TestKeyboardActivity : AppCompatActivity() {
@@ -35,4 +41,5 @@ class TestKeyboardActivity : AppCompatActivity() {
             // clear
         }
     }
+
 }

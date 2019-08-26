@@ -2,7 +2,7 @@ package com.android.lvicto.sanskritkeyboard.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 
 @SuppressLint("ApplySharedPref")
 class PreferenceHelper(private val context: Context) {

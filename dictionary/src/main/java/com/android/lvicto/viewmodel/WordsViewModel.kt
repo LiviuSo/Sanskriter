@@ -96,7 +96,8 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
                     }
                 }
                 .toList()
-                .toObservable().subscribe {
+                .toObservable()
+                .subscribe {
                     filteredWords.postValue(it)
                 }
         return filteredWords

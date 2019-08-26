@@ -13,108 +13,113 @@ import android.view.inputmethod.EditorInfo
 open class StubbedInputMethodService : InputMethodService() {
 
     override fun onInitializeInterface() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onInitializeInterface()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onInitializeInterface()")
     }
 
     override fun onBindInput() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onBindInput()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onBindInput()")
     }
 
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onStartInput()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onStartInput()")
     }
 
     override fun onCreateInputView(): View {
-        Log.d(CustomKeyboard2.LOG_TAG, "onCreateInputView()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onCreateInputView()")
         return View(applicationContext)
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onStartInputView()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onStartInputView()")
     }
 
     override fun onRebind(intent: Intent?) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onRebind()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onRebind()")
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d(CustomKeyboard2.LOG_TAG, "onStartCommand()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onStartCommand()")
 
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onTaskRemoved(rootIntent: Intent?) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onTaskRemoved()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onTaskRemoved()")
         super.onTaskRemoved(rootIntent)
     }
 
     override fun onTrimMemory(level: Int) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onTrimMemory()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onTrimMemory()")
         super.onTrimMemory(level)
     }
 
     override fun onLowMemory() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onLowMemory()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onLowMemory()")
         super.onLowMemory()
     }
 
     override fun onStart(intent: Intent?, startId: Int) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onStart()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onStart()")
         super.onStart(intent, startId)
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
-        Log.d(CustomKeyboard2.LOG_TAG, "onUnbind()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onUnbind()")
         return super.onUnbind(intent)
     }
 
     override fun onViewClicked(focusChanged: Boolean) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onViewClicked($focusChanged)")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onViewClicked($focusChanged)")
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d(CustomKeyboard2.LOG_TAG, "onKeyDown()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onKeyDown()")
         return super.onKeyDown(keyCode, event)
     }
 
     override fun onShowInputRequested(flags: Int, configChange: Boolean): Boolean {
-        Log.d(CustomKeyboard2.LOG_TAG, "onShowInputRequested()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onShowInputRequested()")
         return super.onShowInputRequested(flags, configChange)
     }
 
     override fun onFinishInput() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onFinishInput()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onFinishInput()")
         super.onFinishInput()
     }
 
     override fun onWindowShown() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onWindowShown()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onWindowShown()")
         super.onWindowShown()
     }
 
     override fun onDestroy() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onDestroy()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onDestroy()")
         super.onDestroy()
     }
 
     override fun onCreate() {
-        Log.d(CustomKeyboard2.LOG_TAG, "onCreate()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onCreate()")
         super.onCreate()
     }
 
     override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
-        Log.d(CustomKeyboard2.LOG_TAG, "onGenericMotionEvent()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onGenericMotionEvent()")
         return super.onGenericMotionEvent(event)
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
-        Log.d(CustomKeyboard2.LOG_TAG, "onFinishInputView()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onFinishInputView()")
         super.onFinishInputView(finishingInput)
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.d(CustomKeyboard2.LOG_TAG, "onKeyUp()")
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onKeyUp()")
         return super.onKeyUp(keyCode, event)
     }
 
+    override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onUpdateSelection($oldSelStart $newSelStart $newSelEnd $newSelEnd)")
+
+    }
 }
