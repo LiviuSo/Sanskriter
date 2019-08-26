@@ -18,7 +18,7 @@ import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
 
 
-class CustomKeyboard2 : StubbedInputMethodService(), KeyboardSwitch {
+class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     private var mIsTablet = true
     private var mOrientation = Configuration.ORIENTATION_UNDEFINED
@@ -108,7 +108,7 @@ class CustomKeyboard2 : StubbedInputMethodService(), KeyboardSwitch {
     }
 
     companion object {
-        const val LOG_TAG = "CustomKeyboard2"
+        const val LOG_TAG = "SanskritCustomKeyboard"
     }
 }
 

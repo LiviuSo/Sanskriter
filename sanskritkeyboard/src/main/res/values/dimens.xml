@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="keyHeight">55dp</dimen>
     <dimen name="preview_width">50dp</dimen>
     <dimen name="preview_height">50dp</dimen>
 

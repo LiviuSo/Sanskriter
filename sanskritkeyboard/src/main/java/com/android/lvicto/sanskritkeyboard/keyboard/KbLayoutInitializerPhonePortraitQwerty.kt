@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import com.android.lvicto.sanskritkeyboard.service.CustomKeyboard2.Companion.LOG_TAG
+import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.service.button
 import com.android.lvicto.sanskritkeyboard.service.getVal

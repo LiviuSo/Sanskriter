@@ -15,7 +15,7 @@ class PreferenceHelper(private val context: Context) {
     }
 
     fun setKeyboardSelected(value: Boolean) {
-        PreferenceManager.getDefaultSharedPreferences(context)
+        PreferenceManager.getDefaultSharedPreferences(context)  // todo fix deprecation
                 .edit().putBoolean(KEY_KEYBOARD_SETUP, value).commit()
     }
 

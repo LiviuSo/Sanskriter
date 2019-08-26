@@ -6,11 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.android.lvicto.sanskritkeyboard.R
-import com.android.lvicto.sanskritkeyboard.data.Suggestion
-import com.android.lvicto.sanskritkeyboard.service.CustomKeyboard2.Companion.LOG_TAG
-import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
 
 
 class TestKeyboardActivity : AppCompatActivity() {

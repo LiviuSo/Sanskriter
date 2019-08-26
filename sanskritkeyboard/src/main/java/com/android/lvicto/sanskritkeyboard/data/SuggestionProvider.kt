@@ -1,7 +1,7 @@
 package com.android.lvicto.sanskritkeyboard.data
 
 object SuggestionProvider {
-    fun getQwertySuggestions(): List<Suggestion> = arrayListOf(
+    fun getQwertySuggestions(): List<Suggestion> = arrayListOf( // todo use a json in a file
             Suggestion("a", 5)
             , Suggestion("ability", 783)
             , Suggestion("able", 386)

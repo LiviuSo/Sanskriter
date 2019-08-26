@@ -17,7 +17,7 @@ import android.widget.TextView
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.data.Suggestion
 import com.android.lvicto.sanskritkeyboard.service.*
-import com.android.lvicto.sanskritkeyboard.service.CustomKeyboard2.Companion.LOG_TAG
+import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.ui.SettingsActivity
 import com.android.lvicto.sanskritkeyboard.utils.Constants.MAX_INPUT_LEN
 import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
