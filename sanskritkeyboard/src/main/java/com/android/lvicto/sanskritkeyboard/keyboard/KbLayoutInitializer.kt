@@ -20,6 +20,10 @@ import com.android.lvicto.sanskritkeyboard.service.*
 import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.ui.SettingsActivity
 import com.android.lvicto.sanskritkeyboard.utils.Constants.MAX_INPUT_LEN
+import com.android.lvicto.sanskritkeyboard.utils.button
+import com.android.lvicto.sanskritkeyboard.utils.createPopup
+import com.android.lvicto.sanskritkeyboard.utils.locateView
+import com.android.lvicto.sanskritkeyboard.utils.show
 import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
 
 abstract class KbLayoutInitializer(val context: Context) {
@@ -44,16 +48,39 @@ abstract class KbLayoutInitializer(val context: Context) {
         // to override
     }
 
-    // todo convert to a touch listener
-    private val spaceClickListener: View.OnClickListener = View.OnClickListener {
-        val output = " "
-        ic.commitText(output, 1)
-        disableAllExtraKeys()
-        val key = (it as TextView)
-        if (key.text == "Qwerty") { // todo add resources & fix bug (text changing at tap)
-            key.text = "Sanskrit"
-        } else {
-            key.text = "Qwerty"
+    private fun getSpaceKeyTouchListener() = object : View.OnTouchListener {
+        var actionTime: Long = 0
+
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            return when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    actionTime = System.currentTimeMillis()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    val delay = System.currentTimeMillis() - actionTime
+                    if (delay >= LONG_PRESS_TIME) { // long tap - switch keyboard
+                        Log.d(LOG_TAG, "Long press: $delay $LONG_PRESS_TIME")
+                        keyboardSwitch.switchKeyboard()
+                        // change label
+                        val key = (view as TextView)
+                        if (key.text == context.getText(R.string.lang_label_qwerty)) {
+                            key.text = context.getText(R.string.lang_label_sa)
+                        } else {
+                            key.text = context.getText(R.string.lang_label_qwerty)
+                        }
+                    } else { // normal tap - space key functionality
+                        val output = " "
+                        ic.commitText(output, 1)
+                        disableAllExtraKeys()
+                        view.performClick()
+                    }
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
         }
     }
 
@@ -143,7 +170,7 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
 
             return when (motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> {
+                MotionEvent.ACTION_DOWN -> { // todo show extra keys and vibrate on KEY_DOWN
                     Log.d(LOG_TAG, "Action was DOWN")
 
                     actionTime = System.currentTimeMillis()
@@ -282,11 +309,7 @@ abstract class KbLayoutInitializer(val context: Context) {
      */
     protected open fun bindKeys(view: View) {
         (view button R.id.keySpace).apply {
-            setOnClickListener(spaceClickListener)
-            setOnLongClickListener {
-                keyboardSwitch.switchKeyboard()
-                true
-            }
+            setOnTouchListener(getSpaceKeyTouchListener())
         }
         view.findViewById<Button>(R.id.keyDel).apply {
             setOnClickListener(deleteOnClickListener)

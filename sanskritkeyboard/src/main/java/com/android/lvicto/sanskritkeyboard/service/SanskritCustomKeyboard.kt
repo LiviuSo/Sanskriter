@@ -1,21 +1,14 @@
 package com.android.lvicto.sanskritkeyboard.service
 
-import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Rect
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import android.widget.PopupWindow
-import android.widget.TextView
-import androidx.annotation.IdRes
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.keyboard.KbLayoutInitializer
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
+import com.android.lvicto.sanskritkeyboard.utils.getOrientation
+import com.android.lvicto.sanskritkeyboard.utils.isTablet
 
 
 class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
@@ -114,52 +107,4 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
 interface KeyboardSwitch {
     fun switchKeyboard()
-}
-
-fun Context.getOrientation(): Int = this.resources?.configuration?.orientation!!
-
-fun Context.isTablet(): Boolean {
-    val xlarge = this.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == 4
-    val large = this.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK == Configuration.SCREENLAYOUT_SIZE_LARGE
-    return xlarge || large
-}
-
-fun Int.getVal(context: Context): Int = context.resources.getInteger(this)
-
-fun Context.layoutInflater(): LayoutInflater =
-        this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-infix fun View.button(@IdRes id: Int): Button = (this.findViewById(id) as Button)
-
-fun View.locateView(): Rect {
-    val locInt = IntArray(2)
-    try {
-        this.getLocationInWindow(locInt)
-    } catch (npe: Throwable) {
-        // Happens when the view doesn't exist on screen anymore.
-        return Rect(-1, -1, -1, -1)
-    }
-
-    val location = Rect()
-    location.left = locInt[0]
-    location.top = locInt[1]
-    location.right = location.left + this.width
-    location.bottom = location.top + this.height
-    return location
-}
-
-fun View.createPopup(text: String): PopupWindow {
-    val context = this.context
-    val popup = PopupWindow(this)
-    popup.contentView = context.layoutInflater().inflate(R.layout.popup_key_preview, null)
-    popup.isOutsideTouchable = true
-    popup.contentView.findViewById<TextView>(R.id.tvPreview).text = text
-    return popup
-}
-
-fun PopupWindow.show(parent: View, rect: Rect) {
-    val width = rect.bottom - rect.top
-    val height = rect.right - rect.left
-    this.showAtLocation(parent.rootView, Gravity.START or Gravity.TOP, rect.left, rect.top - height)
-    this.update(width, height)
 }
