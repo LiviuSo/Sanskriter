@@ -1,5 +1,6 @@
 package com.android.lvicto.sanskritkeyboard.utils.initializer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
@@ -7,16 +8,19 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.ExtractedText
+import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
-import com.android.lvicto.sanskritkeyboard.*
+import com.android.lvicto.sanskritkeyboard.R
+import com.android.lvicto.sanskritkeyboard.data.Suggestion
 import com.android.lvicto.sanskritkeyboard.service.*
 import com.android.lvicto.sanskritkeyboard.service.CustomKeyboard2.Companion.LOG_TAG
-import com.android.lvicto.sanskritkeyboard.service.KeyboardSwitch
 import com.android.lvicto.sanskritkeyboard.ui.SettingsActivity
-import java.lang.Exception
+import com.android.lvicto.sanskritkeyboard.utils.Constants.MAX_INPUT_LEN
+import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
 
 abstract class KbLayoutInitializer(val context: Context) {
 
@@ -26,10 +30,15 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
 
-    lateinit var ic: InputConnection
+    lateinit var ic: InputConnection // todo set it through the interface (keyboardSwitch)
     lateinit var currentInputEditorInfo: EditorInfo
     private lateinit var actionButton: Button
     lateinit var keyboardSwitch: KeyboardSwitch
+    private lateinit var mSugg1: Button
+    private lateinit var mSugg2: Button
+    private lateinit var mSugg3: Button
+    private val suggViewModel = SuggestionViewModel()
+    private val mTypedText = StringBuffer()
 
     protected open fun toggleShiftBack() {
         // to override
@@ -38,7 +47,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     // todo convert to a touch listener
     private val spaceClickListener: View.OnClickListener = View.OnClickListener {
         val output = " "
-        ic.commitText(output, output.length)
+        ic.commitText(output, 1)
         disableAllExtraKeys()
         val key = (it as TextView)
         if (key.text == "Qwerty") { // todo add resources & fix bug (text changing at tap)
@@ -58,9 +67,17 @@ abstract class KbLayoutInitializer(val context: Context) {
         Log.d(LOG_TAG, "deleteOnClickListener: $ic")
         ic.deleteSurroundingText(1, 0)
         disableAllExtraKeys()
+        // update suggestions
+        if (mTypedText.isNotEmpty()) { // todo consider cursor position
+            mTypedText.delete(mTypedText.length - 1, mTypedText.length)
+            Log.d(LOG_TAG, "mTypedText : $mTypedText")
+        }
+        Log.d(LOG_TAG, "deleteOnClickListener : $mTypedText")
+        updateSuggestions(mTypedText.toString())
     }
 
     // todo convert to a touch listener
+    // todo investigate: what happens with the suggestions
     private val actionOnClickListener: View.OnClickListener = View.OnClickListener {
         val ei = currentInputEditorInfo
         if (ei.actionId != 0) {
@@ -70,8 +87,42 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
+    // todo convert to a touch listener
+    // todo show system bar when hiding the suggs
+    private val suggestionOnClickListener = View.OnClickListener {
+        val text = "${(it as TextView).text} " // add a space // todo make it a setting
+        if (text.isNotEmpty()) {
+            // replace with last part of the output with 'text'
+            val index = getCursorPosition() // todo create a component that manages the suggestions
+            val lengthBefore = index - ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).lastIndexOf(' ') - 1  // -1 to include the space
+            val lengthAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ') + 1 // +1 to include the space
+            Log.d(LOG_TAG, "index: $index indexFistSpace: ${ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ')} lengthBefore: $lengthBefore lengthAfter: $lengthAfter ")
+            ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
+            // update cursor position and commit new word
+            ic.commitText(text, 1)
+        }
+        mTypedText.delete(0, mTypedText.length)
+        mSugg1.visibility = View.GONE
+        mSugg2.visibility = View.GONE
+        mSugg3.visibility = View.GONE
+    }
+
+    private fun getCursorPosition(): Int {
+        val extracted: ExtractedText = ic.getExtractedText(ExtractedTextRequest(), 0)
+        return extracted.startOffset + extracted.selectionStart
+    }
+
+    fun getSurroundingWord(): String = StringBuffer()
+            .append(ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).takeLastWhile {
+                it != ' '
+            }).append(ic.getTextAfterCursor(MAX_INPUT_LEN, 0).takeWhile {
+                it != ' '
+            })
+            .toString()
+
     fun initKeyboard(): View = getView().apply {
         initExtraCodes()
+        mTypedText.delete(0, mTypedText.length)
         bindKeys(this)
     }
 
@@ -116,7 +167,13 @@ abstract class KbLayoutInitializer(val context: Context) {
                         // do smth
                     } else {
                         // send text if not long tap
-                        ic.commitText(output, output.length)
+                        ic.commitText(output, 1)
+
+                        // update suggestions
+                        if (output.isNotBlank()) {
+                            mTypedText.append(output)
+                            updateSuggestions(mTypedText.toString())
+                        }
                     }
                     // show extra keys
                     disableAllExtraKeys()
@@ -133,6 +190,89 @@ abstract class KbLayoutInitializer(val context: Context) {
                     true
                 }
                 else -> false
+            }
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    fun updateSuggestions(string: String) {
+        if (string.isNotBlank() || string.isNotEmpty()) { // no suggestions for spaces
+            suggViewModel.getSuggestions(string).subscribe({
+                getSuggestions(it!!)
+            }, {
+                Log.d(LOG_TAG, it.message ?: "No exception")
+            })
+        } else { // hide the suggestions
+            // todo make a function
+            if (mSugg1.visibility != View.GONE) {
+                mSugg1.visibility = View.GONE
+            }
+            if (mSugg2.visibility != View.GONE) {
+                mSugg2.visibility = View.GONE
+            }
+            if (mSugg3.visibility != View.GONE) {
+                mSugg3.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun getSuggestions(it: List<Suggestion>) {
+        when (it.size) {
+            0 -> {
+                Log.d(LOG_TAG, "found 0 suggs; $mTypedText")
+                if (mSugg1.visibility != View.VISIBLE) {
+                    mSugg1.visibility = View.VISIBLE
+                }
+                if (mSugg2.visibility != View.GONE) {
+                    mSugg2.visibility = View.GONE
+                }
+                if (mSugg3.visibility != View.GONE) {
+                    mSugg3.visibility = View.GONE
+                }
+                mSugg1.text = mTypedText
+                mSugg1.tag = mTypedText
+            }
+            1 -> {
+                Log.d(LOG_TAG, "found 1 suggs; $mTypedText")
+                if (mSugg1.visibility != View.VISIBLE) {
+                    mSugg1.visibility = View.VISIBLE
+                }
+                if (mSugg2.visibility != View.GONE) {
+                    mSugg2.visibility = View.GONE
+                }
+                if (mSugg3.visibility != View.GONE) {
+                    mSugg3.visibility = View.GONE
+                }
+                mSugg1.text = it[0].word
+            }
+            2 -> {
+                Log.d(LOG_TAG, "found 2 suggs; $mTypedText")
+                if (mSugg1.visibility != View.VISIBLE) {
+                    mSugg1.visibility = View.VISIBLE
+                }
+                if (mSugg2.visibility != View.VISIBLE) {
+                    mSugg2.visibility = View.VISIBLE
+                }
+                if (mSugg3.visibility != View.GONE) {
+                    mSugg3.visibility = View.GONE
+                }
+                mSugg1.text = it[0].word
+                mSugg2.text = it[1].word
+            }
+            else -> { // 3 or more
+                Log.d(LOG_TAG, "found 3+ suggs; $mTypedText")
+                if (mSugg1.visibility != View.VISIBLE) {
+                    mSugg1.visibility = View.VISIBLE
+                }
+                if (mSugg2.visibility != View.VISIBLE) {
+                    mSugg2.visibility = View.VISIBLE
+                }
+                if (mSugg3.visibility != View.VISIBLE) {
+                    mSugg3.visibility = View.VISIBLE
+                }
+                mSugg1.text = it[0].word
+                mSugg2.text = it[1].word
+                mSugg3.text = it[2].word
             }
         }
     }
@@ -157,6 +297,19 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
         (view button R.id.keySettings).apply {
             setOnClickListener(settingsKeyClickListener)
+        }
+        // bind suggestions
+        mSugg1 = (view button R.id.keySuggestion1).apply {
+            setOnClickListener(suggestionOnClickListener)
+            visibility = View.GONE
+        }
+        mSugg2 = (view button R.id.keySuggestion2).apply {
+            setOnClickListener(suggestionOnClickListener)
+            visibility = View.GONE
+        }
+        mSugg3 = (view button R.id.keySuggestion3).apply {
+            setOnClickListener(suggestionOnClickListener)
+            visibility = View.GONE
         }
     }
 

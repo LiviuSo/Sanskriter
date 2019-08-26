@@ -2,18 +2,20 @@ package com.android.lvicto.sanskritkeyboard.service
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.annotation.IdRes
+import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.utils.initializer.KbLayoutInitializer
 import com.android.lvicto.sanskritkeyboard.utils.initializer.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.utils.initializer.KeyboardType
-import android.graphics.Rect
-import android.view.*
-import android.widget.PopupWindow
-import android.widget.TextView
-import com.android.lvicto.sanskritkeyboard.R
 
 
 class CustomKeyboard2 : StubbedInputMethodService(), KeyboardSwitch {
@@ -71,6 +73,15 @@ class CustomKeyboard2 : StubbedInputMethodService(), KeyboardSwitch {
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         Log.d(LOG_TAG, "onStartInputView($info $restarting)")
         completeLayoutInit(info)
+    }
+
+    override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+        Log.d(LOG_TAG, "onUpdateSelection: $oldSelStart $oldSelEnd $newSelStart $newSelEnd")
+        // update suggestions
+        val word = kbLayoutInitializer.getSurroundingWord()
+        Log.d(LOG_TAG, "onUpdateSelection: $word")
+        kbLayoutInitializer.updateSuggestions(word)
     }
 
     private fun completeLayoutInit(info: EditorInfo?) {
