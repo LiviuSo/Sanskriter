@@ -51,7 +51,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     @MainThread
-    fun updateKeyboard(view: View) { // todo add animations to transitions
+    fun updateKeyboard(view: View) { // todo add animations to switching
         keyboardSwitch.switchKeyboard()
         // change label
         val key = (view as TextView)
@@ -69,15 +69,15 @@ abstract class KbLayoutInitializer(val context: Context) {
         lateinit var keyView: View
 
         val runnable = Runnable {
-             while (actionDownFlag.get()) {
-                 Log.d(LOG_TAG, "Touching Down")
-                 if(System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
-                     Log.d(LOG_TAG, "Long tap")
-                     keyView.post { updateKeyboard(keyView) }
-                     longTap.set(true)
-                     actionDownFlag.set(false) // once long tap reached, end the thread
-                 }
-             }
+            while (actionDownFlag.get()) {
+                Log.d(LOG_TAG, "Touching Down")
+                if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
+                    Log.d(LOG_TAG, "Long tap")
+                    keyView.post { updateKeyboard(keyView) }
+                    longTap.set(true)
+                    actionDownFlag.set(false) // once long tap reached, end the thread
+                }
+            }
             Log.d(LOG_TAG, "Not Touching")
         }
 
@@ -93,7 +93,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                 }
                 MotionEvent.ACTION_UP -> {
                     actionDownFlag.set(false)
-                    if(!longTap.get()) { // no tap; space key normal functionality
+                    if (!longTap.get()) { // no tap; space key normal functionality
                         val output = " "
                         ic.commitText(output, 1)
                         disableAllExtraKeys()
@@ -128,7 +128,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     // todo convert to a touch listener
-    // todo investigate: what happens with the suggestions
+    // todo investigate: what to do with the suggestions
     private val actionOnClickListener: View.OnClickListener = View.OnClickListener {
         val ei = currentInputEditorInfo
         if (ei.actionId != 0) {
@@ -140,11 +140,12 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     // todo convert to a touch listener
     // todo show system bar when hiding the suggs
+    // todo adjust number according to the length of the suggs
     private val suggestionOnClickListener = View.OnClickListener {
         val text = "${(it as TextView).text} " // add a space // todo make it a setting
         if (text.isNotEmpty()) {
             // replace with last part of the output with 'text'
-            val index = getCursorPosition() // todo create a component that manages the suggestions
+            val index = getCursorPosition() // todo create a component that manages the suggestions (refactoring)
             val lengthBefore = index - ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).lastIndexOf(' ') - 1  // -1 to include the space
             val lengthAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ') + 1 // +1 to include the space
             Log.d(LOG_TAG, "index: $index indexFistSpace: ${ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ')} lengthBefore: $lengthBefore lengthAfter: $lengthAfter ")
@@ -156,11 +157,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         mSugg1.visibility = View.GONE
         mSugg2.visibility = View.GONE
         mSugg3.visibility = View.GONE
-    }
-
-    private fun getCursorPosition(): Int {
-        val extracted: ExtractedText = ic.getExtractedText(ExtractedTextRequest(), 0)
-        return extracted.startOffset + extracted.selectionStart
     }
 
     fun getSurroundingWord(): String = StringBuffer()
@@ -184,21 +180,43 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     protected fun getCommonTouchListener(text: String = "", extra: Boolean = false) = object : View.OnTouchListener {
         private var popup: PopupWindow? = null
-        var actionTime: Long = 0
+        private var actionTime: Long = 0
+        private lateinit var flagActionUp: AtomicBoolean
+        private lateinit var longTap: AtomicBoolean
+        private lateinit var keyView: View
+        private lateinit var output: String
+
+        val runnable = Runnable {
+            // todo make it more general - to be used in spaceKeyTouchListener as well
+            // show candidates
+            while (flagActionUp.get()) {
+                if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
+                    flagActionUp.set(false)
+                    longTap.set(true)
+                    resetAndShowExtras()
+                }
+            }
+        }
 
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-            val output = if (text.isEmpty()) {
+            output = if (text.isEmpty()) {
                 (view as Button).text.toString()
             } else {
                 text
             }
 
             return when (motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> { // todo show extra keys and vibrate on KEY_DOWN
+                MotionEvent.ACTION_DOWN -> { // todo key showing the preview till ACTION_DOWN (maybe)
                     Log.d(LOG_TAG, "Action was DOWN")
+
+                    flagActionUp = AtomicBoolean(true)
+                    longTap = AtomicBoolean(false)
+                    keyView = view
 
                     actionTime = System.currentTimeMillis()
                     Log.d(LOG_TAG, "DOWN: $actionTime")
+
+                    Thread(runnable).start() // wait for long tap
 
                     // show preview (if not extra)
                     if (!extra) {
@@ -207,43 +225,47 @@ abstract class KbLayoutInitializer(val context: Context) {
                         popup = view.createPopup(output)
                         popup?.show(view, rect)
                     }
+
                     true
                 }
                 MotionEvent.ACTION_UP -> {
                     Log.d(LOG_TAG, "Action was UP")
+                    flagActionUp.set(false)
 
-                    val delay = System.currentTimeMillis() - actionTime
-                    if (delay >= LONG_PRESS_TIME) {
-                        Log.d(LOG_TAG, "Long press: $delay $LONG_PRESS_TIME")
-                        // do smth
-                    } else {
+                    if (!longTap.get()) {
+                        Log.d(LOG_TAG, "Normal tap")
                         // send text if not long tap
                         ic.commitText(output, 1)
-
                         // update suggestions
                         if (output.isNotBlank()) {
                             mTypedText.append(output)
                             updateSuggestions(mTypedText.toString())
                         }
+                        // show extras (and close the preview)
+                        resetAndShowExtras()
                     }
-                    // show extra keys
-                    disableAllExtraKeys()
-                    if (!extra) {
-                        showExtraKeys(output[0].toInt())
-                        // close preview pop-up
-                        view.postDelayed({
-                            popup?.dismiss()
-                        }, DELAY_HIDE_PREVIEW)
-                    }
-                    // toggle shift back (if not in permanent state)
-                    toggleShiftBack()
                     view.performClick()
                     true
                 }
                 else -> false
             }
         }
+
+        private fun resetAndShowExtras() {
+            // show extra keys
+            keyView.post { disableAllExtraKeys() }
+            if (!extra) {
+                keyView.post { showExtraKeys(output[0].toInt()) }
+                // close preview pop-up
+                keyView.postDelayed({
+                    popup?.dismiss()
+                }, DELAY_HIDE_PREVIEW)
+            }
+            // toggle shift back (if not in permanent state)
+            toggleShiftBack()
+        }
     }
+
 
     @SuppressLint("CheckResult")
     fun updateSuggestions(string: String) {
@@ -265,6 +287,11 @@ abstract class KbLayoutInitializer(val context: Context) {
                 mSugg3.visibility = View.GONE
             }
         }
+    }
+
+    private fun getCursorPosition(): Int {
+        val extracted: ExtractedText = ic.getExtractedText(ExtractedTextRequest(), 0)
+        return extracted.startOffset + extracted.selectionStart
     }
 
     private fun getSuggestions(it: List<Suggestion>) {
@@ -486,7 +513,7 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
         }
 
-        private const val DELAY_HIDE_PREVIEW: Long = 120
+        private const val DELAY_HIDE_PREVIEW: Long = 160
         private val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
 
     }
