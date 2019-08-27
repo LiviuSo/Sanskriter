@@ -14,6 +14,7 @@ import android.view.inputmethod.InputConnection
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.annotation.MainThread
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.data.Suggestion
 import com.android.lvicto.sanskritkeyboard.service.*
@@ -25,6 +26,7 @@ import com.android.lvicto.sanskritkeyboard.utils.createPopup
 import com.android.lvicto.sanskritkeyboard.utils.locateView
 import com.android.lvicto.sanskritkeyboard.utils.show
 import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
+import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class KbLayoutInitializer(val context: Context) {
 
@@ -48,28 +50,50 @@ abstract class KbLayoutInitializer(val context: Context) {
         // to override
     }
 
+    @MainThread
+    fun updateKeyboard(view: View) { // todo add animations to transitions
+        keyboardSwitch.switchKeyboard()
+        // change label
+        val key = (view as TextView)
+        if (key.text == context.getText(R.string.lang_label_qwerty)) {
+            key.text = context.getText(R.string.lang_label_sa)
+        } else {
+            key.text = context.getText(R.string.lang_label_qwerty)
+        }
+    }
+
     private fun getSpaceKeyTouchListener() = object : View.OnTouchListener {
         var actionTime: Long = 0
+        lateinit var actionDownFlag: AtomicBoolean
+        lateinit var longTap: AtomicBoolean
+        lateinit var keyView: View
+
+        val runnable = Runnable {
+             while (actionDownFlag.get()) {
+                 Log.d(LOG_TAG, "Touching Down")
+                 if(System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
+                     Log.d(LOG_TAG, "Long tap")
+                     keyView.post { updateKeyboard(keyView) }
+                     longTap.set(true)
+                     actionDownFlag.set(false) // once long tap reached, end the thread
+                 }
+             }
+            Log.d(LOG_TAG, "Not Touching")
+        }
 
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     actionTime = System.currentTimeMillis()
+                    actionDownFlag = AtomicBoolean(true)
+                    longTap = AtomicBoolean(false)
+                    keyView = view
+                    Thread(runnable).start() // todo investigate : stop the thread needed ?
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    val delay = System.currentTimeMillis() - actionTime
-                    if (delay >= LONG_PRESS_TIME) { // long tap - switch keyboard
-                        Log.d(LOG_TAG, "Long press: $delay $LONG_PRESS_TIME")
-                        keyboardSwitch.switchKeyboard()
-                        // change label
-                        val key = (view as TextView)
-                        if (key.text == context.getText(R.string.lang_label_qwerty)) {
-                            key.text = context.getText(R.string.lang_label_sa)
-                        } else {
-                            key.text = context.getText(R.string.lang_label_qwerty)
-                        }
-                    } else { // normal tap - space key functionality
+                    actionDownFlag.set(false)
+                    if(!longTap.get()) { // no tap; space key normal functionality
                         val output = " "
                         ic.commitText(output, 1)
                         disableAllExtraKeys()
