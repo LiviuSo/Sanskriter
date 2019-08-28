@@ -108,55 +108,95 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    // todo convert to a touch listener
-    private val settingsKeyClickListener = View.OnClickListener {
-        context.startActivity(SettingsActivity.intent(context))
-    }
-
-    // todo convert to a touch listener
-    private val deleteOnClickListener: View.OnClickListener = View.OnClickListener {
-        Log.d(LOG_TAG, "deleteOnClickListener: $ic")
-        ic.deleteSurroundingText(1, 0)
-        disableAllExtraKeys()
-        // update suggestions
-        if (mTypedText.isNotEmpty()) { // todo consider cursor position
-            mTypedText.delete(mTypedText.length - 1, mTypedText.length)
-            Log.d(LOG_TAG, "mTypedText : $mTypedText")
+    private val settingsOnTouchListener = View.OnTouchListener { view, motionEvent ->
+        when(motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                context.startActivity(SettingsActivity.intent(context))
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                true
+            }
+            else -> {
+                false
+            }
         }
-        Log.d(LOG_TAG, "deleteOnClickListener : $mTypedText")
-        updateSuggestions(mTypedText.toString())
     }
 
-    // todo convert to a touch listener
+    // todo implement continuous delete
+    private val deleteOnTouchListener = View.OnTouchListener { view, motionEvent ->
+        when(motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                ic.deleteSurroundingText(1, 0)
+                disableAllExtraKeys()
+                // update suggestions
+                if (mTypedText.isNotEmpty()) { // todo consider cursor position
+                    mTypedText.delete(mTypedText.length - 1, mTypedText.length)
+                    Log.d(LOG_TAG, "mTypedText : $mTypedText")
+                }
+                Log.d(LOG_TAG, "deleteOnClickListener : $mTypedText")
+                updateSuggestions(mTypedText.toString())
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                true
+            }
+            else -> {
+                false
+            }
+        }
+    }
+
     // todo investigate: what to do with the suggestions
-    private val actionOnClickListener: View.OnClickListener = View.OnClickListener {
-        val ei = currentInputEditorInfo
-        if (ei.actionId != 0) {
-            ic.performEditorAction(ei.actionId)
-        } else if (ei.imeOptions and EditorInfo.IME_MASK_ACTION != EditorInfo.IME_ACTION_NONE) {
-            ic.performEditorAction(ei.imeOptions and EditorInfo.IME_MASK_ACTION)
+    private val actionOnTouchListener = View.OnTouchListener { view, motionEvent ->
+        when(motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                val ei = currentInputEditorInfo
+                if (ei.actionId != 0) {
+                    ic.performEditorAction(ei.actionId)
+                } else if (ei.imeOptions and EditorInfo.IME_MASK_ACTION != EditorInfo.IME_ACTION_NONE) {
+                    ic.performEditorAction(ei.imeOptions and EditorInfo.IME_MASK_ACTION)
+                }
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                true
+            }
+            else -> {
+                false
+            }
         }
     }
 
-    // todo convert to a touch listener
     // todo show system bar when hiding the suggs
     // todo adjust number according to the length of the suggs
-    private val suggestionOnClickListener = View.OnClickListener {
-        val text = "${(it as TextView).text} " // add a space // todo make it a setting
-        if (text.isNotEmpty()) {
-            // replace with last part of the output with 'text'
-            val index = getCursorPosition() // todo create a component that manages the suggestions (refactoring)
-            val lengthBefore = index - ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).lastIndexOf(' ') - 1  // -1 to include the space
-            val lengthAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ') + 1 // +1 to include the space
-            Log.d(LOG_TAG, "index: $index indexFistSpace: ${ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ')} lengthBefore: $lengthBefore lengthAfter: $lengthAfter ")
-            ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
-            // update cursor position and commit new word
-            ic.commitText(text, 1)
+    private val suggestionOnTouchListener = View.OnTouchListener { view, motionEvent ->
+        when(motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                val text = "${(view as TextView).text} " // add a space // todo make it a setting
+                if (text.isNotEmpty()) {
+                    // replace with last part of the output with 'text'
+                    val index = getCursorPosition() // todo create a component that manages the suggestions (refactoring)
+                    val lengthBefore = index - ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).lastIndexOf(' ') - 1  // -1 to include the space
+                    val lengthAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ') + 1 // +1 to include the space
+                    Log.d(LOG_TAG, "index: $index indexFistSpace: ${ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ')} lengthBefore: $lengthBefore lengthAfter: $lengthAfter ")
+                    ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
+                    // update cursor position and commit new word
+                    ic.commitText(text, 1)
+                }
+                mTypedText.delete(0, mTypedText.length)
+                mSugg1.visibility = View.GONE
+                mSugg2.visibility = View.GONE
+                mSugg3.visibility = View.GONE
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                true
+            }
+            else -> {
+                false
+            }
         }
-        mTypedText.delete(0, mTypedText.length)
-        mSugg1.visibility = View.GONE
-        mSugg2.visibility = View.GONE
-        mSugg3.visibility = View.GONE
     }
 
     fun getSurroundingWord(): String = StringBuffer()
@@ -363,26 +403,26 @@ abstract class KbLayoutInitializer(val context: Context) {
             setOnTouchListener(getSpaceKeyTouchListener())
         }
         view.findViewById<Button>(R.id.keyDel).apply {
-            setOnClickListener(deleteOnClickListener)
+            setOnTouchListener(deleteOnTouchListener)
         }
         (view button R.id.keyAction).apply {
             actionButton = this
-            setOnClickListener(actionOnClickListener)
+            setOnTouchListener(actionOnTouchListener)
         }
         (view button R.id.keySettings).apply {
-            setOnClickListener(settingsKeyClickListener)
+            setOnTouchListener(settingsOnTouchListener)
         }
         // bind suggestions
         mSugg1 = (view button R.id.keySuggestion1).apply {
-            setOnClickListener(suggestionOnClickListener)
+            setOnTouchListener(suggestionOnTouchListener)
             visibility = View.GONE
         }
         mSugg2 = (view button R.id.keySuggestion2).apply {
-            setOnClickListener(suggestionOnClickListener)
+            setOnTouchListener(suggestionOnTouchListener)
             visibility = View.GONE
         }
         mSugg3 = (view button R.id.keySuggestion3).apply {
-            setOnClickListener(suggestionOnClickListener)
+            setOnTouchListener(suggestionOnTouchListener)
             visibility = View.GONE
         }
     }
