@@ -15,53 +15,50 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     private var mIsTablet = true
     private var mOrientation = Configuration.ORIENTATION_UNDEFINED
-    private var mCurrentKbType = KeyboardType.NONE
-    private var mNewConfig = false
-    private var mSwitching = false
+    private var mCurrentKbType = KeyboardType.QWERTY
 
     override fun switchKeyboard() {
-        mCurrentKbType = if (mCurrentKbType == KeyboardType.QWERTY) {
+        Log.d(LOG_TAG, "switchKeyboard()") // todo verify there is currentInputEditorInfo
+        val kbType = if (mCurrentKbType == KeyboardType.QWERTY) {
             KeyboardType.SA
         } else {
             KeyboardType.QWERTY
         }
-        Log.d(LOG_TAG, "switchKeyboard()")
-        setInputView(kbLayoutInitializer.initKeyboard())
+        updateConfigParams(kbType)
+        Log.d(LOG_TAG, "after: $mCurrentKbType")
+        val kbConfig = KeyboardConfig(mIsTablet, mOrientation, mCurrentKbType)
+        kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)
+        kbLayoutInitializer.keyboardSwitch = this // because we need the inputConnection
+        setInputView(kbLayoutInitializer.initKeyboardView())
+        completeLayoutInit(currentInputEditorInfo)
     }
 
     private lateinit var kbLayoutInitializer: KbLayoutInitializer
 
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
-        Log.d(LOG_TAG, "onStartInput($attribute $restarting) label: ${attribute?.actionLabel}")
-
-        mNewConfig = if (!mSwitching) {
-            val currentKbType = if (attribute?.actionLabel == applicationContext.getString(R.string.kbHintSanskrit)) {
-                KeyboardType.SA
-            } else {
-                KeyboardType.QWERTY
-            }
-            updateConfigParams(currentKbType)
-        } else {
-            true // switching keyboard, so new config obviously
-        }
-
-        Log.d(LOG_TAG, "onStartInput() mNewConfig = $mNewConfig")
-        if (mNewConfig) { // if new config, create a new initializer
-            Log.d(LOG_TAG, "onStartInput() new kbLayoutInitializer:$mCurrentKbType")
-            val kbConfig = KeyboardConfig(mIsTablet, mOrientation, mCurrentKbType)
-            kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)
-            kbLayoutInitializer.keyboardSwitch = this // because we need the inputConnection
-            kbLayoutInitializer.ic = currentInputConnection
-            if (!mSwitching) { // the view will be created in switchKeyboard()
-                Log.d(LOG_TAG, "onStartInput() mSwitching = $mSwitching")
-                setInputView(kbLayoutInitializer.initKeyboard())
-                completeLayoutInit(attribute)
-            }
-        }
+        Log.d(LOG_TAG, "onStartInputView($attribute $restarting)")
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         Log.d(LOG_TAG, "onStartInputView($info $restarting)")
+        // perform auto-switch if necessary
+        val currentKbType = when (currentInputEditorInfo.actionLabel) {
+            applicationContext.getString(R.string.kbHintSanskrit) -> {
+                KeyboardType.SA
+            }
+            applicationContext.getString(R.string.kbHintIAST) -> {
+                KeyboardType.QWERTY
+            }
+            else -> { // if the editView don't have a label matching "San" or "IAST", leave it as it is
+                mCurrentKbType
+            }
+        }
+        if (updateConfigParams(currentKbType)) { // if conf changed, create a new initializer
+            val kbConfig = KeyboardConfig(mIsTablet, mOrientation, mCurrentKbType)
+            kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)
+            kbLayoutInitializer.keyboardSwitch = this // because we need the inputConnection
+            setInputView(kbLayoutInitializer.initKeyboardView())
+        }
         completeLayoutInit(info)
     }
 
@@ -75,10 +72,11 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
     }
 
     private fun completeLayoutInit(info: EditorInfo?) {
-        if(currentInputConnection != null) {
+        if (currentInputConnection != null) {
+            Log.d(LOG_TAG, "ic initialized")
             kbLayoutInitializer.ic = currentInputConnection
         }
-        if(info != null) {
+        if (info != null) {
             // simply update the action button
             kbLayoutInitializer.currentInputEditorInfo = info
             kbLayoutInitializer.setActionType()

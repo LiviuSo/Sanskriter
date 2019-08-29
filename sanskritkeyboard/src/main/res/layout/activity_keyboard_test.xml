@@ -61,8 +61,7 @@
             android:hint="@string/kbHintRomanian"
             android:imeOptions="actionSearch"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp"
-            android:imeActionLabel="@string/kbHintRomanian"/>
+            tools:layout_editor_absoluteX="0dp"/>
 
         <EditText
             android:id="@+id/editTextElse"

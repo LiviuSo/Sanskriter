@@ -207,7 +207,7 @@ abstract class KbLayoutInitializer(val context: Context) {
             })
             .toString()
 
-    fun initKeyboard(): View = getView().apply {
+    fun initKeyboardView(): View = getView().apply {
         initExtraCodes()
         mTypedText.delete(0, mTypedText.length)
         bindKeys(this)
