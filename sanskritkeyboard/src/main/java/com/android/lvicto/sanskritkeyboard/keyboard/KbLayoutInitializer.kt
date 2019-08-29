@@ -109,7 +109,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     private val settingsOnTouchListener = View.OnTouchListener { view, motionEvent ->
-        when(motionEvent.action) {
+        when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 context.startActivity(SettingsActivity.intent(context))
                 true
@@ -123,33 +123,66 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    // todo implement continuous delete
-    private val deleteOnTouchListener = View.OnTouchListener { view, motionEvent ->
-        when(motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> {
-                ic.deleteSurroundingText(1, 0)
-                disableAllExtraKeys()
-                // update suggestions
-                if (mTypedText.isNotEmpty()) { // todo consider cursor position
-                    mTypedText.delete(mTypedText.length - 1, mTypedText.length)
-                    Log.d(LOG_TAG, "mTypedText : $mTypedText")
+    private val deleteOnTouchListener = object : View.OnTouchListener {
+        lateinit var flagKeyDown: AtomicBoolean
+        var actionTime = 0L
+        var keyView: View? = null
+
+        val runnable = Runnable {
+            while (!flagKeyDown.get()) {
+                if (System.currentTimeMillis() - actionTime > DELAY_AUTOREPEAT) {
+                    Log.d(LOG_TAG, "delete char")
+                    actionTime = System.currentTimeMillis()
+                    ic.deleteSurroundingText(1, 0)
+                    // update suggestions
+                    if (mTypedText.isNotEmpty()) { // todo consider cursor position
+                        mTypedText.delete(mTypedText.length - 1, mTypedText.length)
+                        Log.d(LOG_TAG, "mTypedText : $mTypedText")
+                    }
+                    keyView?.post {
+                        updateSuggestions(mTypedText.toString())
+                    }
                 }
-                Log.d(LOG_TAG, "deleteOnClickListener : $mTypedText")
-                updateSuggestions(mTypedText.toString())
-                true
-            }
-            MotionEvent.ACTION_UP -> {
-                true
-            }
-            else -> {
-                false
             }
         }
+
+        override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+            return when (motionEvent?.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    disableAllExtraKeys()
+
+                    // delete the first char
+                    ic.deleteSurroundingText(1, 0)
+                    // update suggestions
+                    if (mTypedText.isNotEmpty()) { // todo consider cursor position
+                        mTypedText.delete(mTypedText.length - 1, mTypedText.length)
+                        Log.d(LOG_TAG, "mTypedText : $mTypedText")
+                    }
+                    updateSuggestions(mTypedText.toString())
+
+                    // start the thread
+                    keyView = view
+                    flagKeyDown = AtomicBoolean(false)
+                    actionTime = System.currentTimeMillis()
+                    Thread(runnable).start()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    flagKeyDown.set(true)
+                    view?.performClick()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
     }
 
     // todo investigate: what to do with the suggestions
     private val actionOnTouchListener = View.OnTouchListener { view, motionEvent ->
-        when(motionEvent.action) {
+        when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 val ei = currentInputEditorInfo
                 if (ei.actionId != 0) {
@@ -171,7 +204,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     // todo show system bar when hiding the suggs
     // todo adjust number according to the length of the suggs
     private val suggestionOnTouchListener = View.OnTouchListener { view, motionEvent ->
-        when(motionEvent.action) {
+        when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 val text = "${(view as TextView).text} " // add a space // todo make it a setting
                 if (text.isNotEmpty()) {
@@ -554,6 +587,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
 
         private const val DELAY_HIDE_PREVIEW: Long = 160
+        private const val DELAY_AUTOREPEAT: Long = 100
         private val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
 
     }
