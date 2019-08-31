@@ -10,7 +10,6 @@ import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
 import com.android.lvicto.sanskritkeyboard.utils.getOrientation
 import com.android.lvicto.sanskritkeyboard.utils.isTablet
 
-// todo fix bug : long tap to switch keyboard, then press Action button -> crash
 class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     private var mIsTablet = true
@@ -18,7 +17,7 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
     private var mCurrentKbType = KeyboardType.QWERTY
 
     override fun switchKeyboard() {
-        Log.d(LOG_TAG, "switchKeyboard()") // todo verify there is currentInputEditorInfo
+        Log.d(LOG_TAG, "switchKeyboard()")
         val kbType = if (mCurrentKbType == KeyboardType.QWERTY) {
             KeyboardType.SA
         } else {
@@ -64,10 +63,8 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
-        Log.d(LOG_TAG, "onUpdateSelection: $oldSelStart $oldSelEnd $newSelStart $newSelEnd")
         // update suggestions
-        val word = kbLayoutInitializer.getSurroundingWord()
-        Log.d(LOG_TAG, "onUpdateSelection: $word")
+        val word = kbLayoutInitializer.getBeforeCursorInSurroundingWord()
         kbLayoutInitializer.updateSuggestions(word)
     }
 

@@ -117,4 +117,9 @@ open class StubbedInputMethodService : InputMethodService() {
         return super.onKeyUp(keyCode, event)
     }
 
+    override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onUpdateSelection($oldSelStart $newSelStart $newSelEnd $newSelEnd)")
+
+    }
 }

@@ -177,7 +177,6 @@ abstract class KbLayoutInitializer(val context: Context) {
                 }
             }
         }
-
     }
 
     // todo investigate: what to do with the suggestions
@@ -232,13 +231,10 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    fun getSurroundingWord(): String = StringBuffer()
+    fun getBeforeCursorInSurroundingWord(): String = StringBuffer()
             .append(ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).takeLastWhile {
                 it != ' '
-            }).append(ic.getTextAfterCursor(MAX_INPUT_LEN, 0).takeWhile {
-                it != ' '
-            })
-            .toString()
+            }).toString()
 
     fun initKeyboardView(): View = getView().apply {
         initExtraCodes()
@@ -279,7 +275,7 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
 
             return when (motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> { // todo key showing the preview till ACTION_DOWN (maybe)
+                MotionEvent.ACTION_DOWN -> { // todo key showing the preview till ACTION_DOWN (if no extras)
                     Log.d(LOG_TAG, "Action was DOWN")
 
                     flagActionUp = AtomicBoolean(true)
@@ -342,6 +338,7 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     @SuppressLint("CheckResult")
     fun updateSuggestions(string: String) {
+        mTypedText.replace(0, mTypedText.length, string)
         if (string.isNotBlank() || string.isNotEmpty()) { // no suggestions for spaces
             suggViewModel.getSuggestions(string).subscribe({
                 getSuggestions(it!!)
@@ -463,7 +460,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     private fun getActionTypeString() = when (currentInputEditorInfo.imeOptions and EditorInfo.IME_MASK_ACTION) {
         EditorInfo.IME_ACTION_NONE -> {
             Log.d(LOG_TAG, "IME_ACTION_NONE")
-            "AC" // todo create resources & remove logs
+            "AC" // todo add icons & remove logs
         }
         EditorInfo.IME_ACTION_GO -> {
             Log.d(LOG_TAG, "IME_ACTION_GO")
