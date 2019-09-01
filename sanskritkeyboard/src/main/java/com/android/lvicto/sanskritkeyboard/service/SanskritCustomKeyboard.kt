@@ -62,10 +62,18 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
     }
 
     override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
-        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
         // update suggestions
-        val word = kbLayoutInitializer.getBeforeCursorInSurroundingWord()
-        kbLayoutInitializer.updateSuggestions(word)
+        val wordAfter = kbLayoutInitializer.getAfterCursorInSurroundingWord()
+        val wordBefore = kbLayoutInitializer.getBeforeCursorInSurroundingWord()
+        Log.d(LOG_TAG, "onUpdateSelection(): [$wordBefore][$wordAfter]")
+        kbLayoutInitializer.resetTypedString("$wordBefore$wordAfter")
+        kbLayoutInitializer.updateSuggestions(wordBefore)
+        kbLayoutInitializer.justAddSugg = !kbLayoutInitializer.isTheMiddleOfWord()
+    }
+
+    override fun onViewClicked(focusChanged: Boolean) {
+//        kbLayoutInitializer.justAddSugg = !kbLayoutInitializer.isTheMiddleOfWord()
+//        Log.d(LOG_TAG, "onViewClicked(): justAddSugg=${kbLayoutInitializer.justAddSugg}")
     }
 
     private fun completeLayoutInit(info: EditorInfo?) {

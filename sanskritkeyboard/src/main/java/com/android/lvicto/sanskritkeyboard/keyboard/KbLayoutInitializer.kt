@@ -33,6 +33,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
 
+    private val autoAddSpace: Boolean = true // todo make a setting
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
 
@@ -45,6 +46,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     private lateinit var mSugg3: Button
     private val suggViewModel = SuggestionViewModel()
     private val mTypedText = StringBuffer()
+    var justAddSugg: Boolean = true
 
     protected open fun toggleShiftBack() {
         // to override
@@ -99,6 +101,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                         disableAllExtraKeys()
                         view.performClick()
                     }
+                    justAddSugg = false
                     true
                 }
                 else -> {
@@ -139,9 +142,6 @@ abstract class KbLayoutInitializer(val context: Context) {
                         mTypedText.delete(mTypedText.length - 1, mTypedText.length)
                         Log.d(LOG_TAG, "mTypedText : $mTypedText")
                     }
-                    keyView?.post {
-                        updateSuggestions(mTypedText.toString())
-                    }
                 }
             }
         }
@@ -153,13 +153,6 @@ abstract class KbLayoutInitializer(val context: Context) {
 
                     // delete the first char
                     ic.deleteSurroundingText(1, 0)
-                    // update suggestions
-                    if (mTypedText.isNotEmpty()) { // todo consider cursor position
-                        mTypedText.delete(mTypedText.length - 1, mTypedText.length)
-                        Log.d(LOG_TAG, "mTypedText : $mTypedText")
-                    }
-                    updateSuggestions(mTypedText.toString())
-
                     // start the thread
                     keyView = view
                     flagKeyDown = AtomicBoolean(false)
@@ -170,6 +163,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                 MotionEvent.ACTION_UP -> {
                     flagKeyDown.set(true)
                     view?.performClick()
+                    justAddSugg = false
                     true
                 }
                 else -> {
@@ -192,6 +186,8 @@ abstract class KbLayoutInitializer(val context: Context) {
                 true
             }
             MotionEvent.ACTION_UP -> {
+                updateSuggestions("")
+                justAddSugg = true
                 true
             }
             else -> {
@@ -205,16 +201,29 @@ abstract class KbLayoutInitializer(val context: Context) {
     private val suggestionOnTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                val text = "${(view as TextView).text} " // add a space // todo make it a setting
-                if (text.isNotEmpty()) {
-                    // replace with last part of the output with 'text'
-                    val index = getCursorPosition() // todo create a component that manages the suggestions (refactoring)
-                    val lengthBefore = index - ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).lastIndexOf(' ') - 1  // -1 to include the space
-                    val lengthAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ') + 1 // +1 to include the space
-                    Log.d(LOG_TAG, "index: $index indexFistSpace: ${ic.getTextAfterCursor(MAX_INPUT_LEN, 0).indexOf(' ')} lengthBefore: $lengthBefore lengthAfter: $lengthAfter ")
-                    ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
-                    // update cursor position and commit new word
+                Log.d(LOG_TAG, "justAddSugg: $justAddSugg")
+                val text = "${(view as Button).text}"
+                if (text.isNotEmpty()) {  // todo create a component that manages the suggestions (refactoring)
+                    if (!justAddSugg) { // replace current word with suggestion
+                        val lengthBefore = getBeforeCursorInSurroundingWord().length
+                        val lengthAfter = getAfterCursorInSurroundingWord().length
+                        Log.d(LOG_TAG, "suggestionOnTouchListener: $lengthBefore $lengthAfter")
+
+                        // replace surrounding word with suggestion
+                        ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
+
+                    } else { // subsequent tap on suggestion -> prepend a space
+                        if (autoAddSpace && !isLastWord()) {
+                            ic.commitText(" ", 1)
+                        }
+                    }
+                    // commit new word
                     ic.commitText(text, 1)
+
+                    // append space
+                    if(autoAddSpace && isLastWord()) {
+                        ic.commitText(" ", 1)
+                    }
                 }
                 mTypedText.delete(0, mTypedText.length)
                 mSugg1.visibility = View.GONE
@@ -223,6 +232,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                 true
             }
             MotionEvent.ACTION_UP -> {
+                justAddSugg = true // suggestion was just tapped
                 true
             }
             else -> {
@@ -231,10 +241,33 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    fun getBeforeCursorInSurroundingWord(): String = StringBuffer()
-            .append(ic.getTextBeforeCursor(MAX_INPUT_LEN, 0).takeLastWhile {
-                it != ' '
-            }).toString()
+    fun isLastWord(): Boolean {
+        val se = ic.getTextAfterCursor(MAX_INPUT_LEN, 0) ?: return true
+        return se.isEmpty()
+    }
+
+    @Synchronized
+    fun getBeforeCursorInSurroundingWord(): String {
+        val before = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
+        if (before.isNullOrEmpty()) {
+            return ""
+        }
+        return StringBuffer().append(before.takeLastWhile {
+            it != ' '
+        }).toString()
+    }
+
+    @Synchronized
+    fun getAfterCursorInSurroundingWord(): String {
+        val after = ic.getTextAfterCursor(MAX_INPUT_LEN, 0)
+        if (after.isNullOrEmpty()) {
+            return ""
+        }
+        return StringBuffer()
+                .append(after.takeWhile {
+                    it != ' '
+                }).toString()
+    }
 
     fun initKeyboardView(): View = getView().apply {
         initExtraCodes()
@@ -305,15 +338,11 @@ abstract class KbLayoutInitializer(val context: Context) {
                         Log.d(LOG_TAG, "Normal tap")
                         // send text if not long tap
                         ic.commitText(output, 1)
-                        // update suggestions
-                        if (output.isNotBlank()) {
-                            mTypedText.append(output)
-                            updateSuggestions(mTypedText.toString())
-                        }
                         // show extras (and close the preview)
                         resetAndShowExtras()
                     }
                     view.performClick()
+                    justAddSugg = false
                     true
                 }
                 else -> false
@@ -335,10 +364,9 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-
     @SuppressLint("CheckResult")
     fun updateSuggestions(string: String) {
-        mTypedText.replace(0, mTypedText.length, string)
+        resetTypedString(string)
         if (string.isNotBlank() || string.isNotEmpty()) { // no suggestions for spaces
             suggViewModel.getSuggestions(string).subscribe({
                 getSuggestions(it!!)
@@ -368,7 +396,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         when (it.size) {
             0 -> {
                 Log.d(LOG_TAG, "found 0 suggs; $mTypedText")
-                if (mSugg1.visibility != View.VISIBLE) {
+                if (mSugg1.visibility != View.VISIBLE && mTypedText.isNotEmpty()) {
                     mSugg1.visibility = View.VISIBLE
                 }
                 if (mSugg2.visibility != View.GONE) {
@@ -543,6 +571,18 @@ abstract class KbLayoutInitializer(val context: Context) {
             } else {
                 null
             }
+
+    fun resetTypedString(s: String = "") {
+        mTypedText.replace(0, mTypedText.length, s)
+    }
+
+    fun isTheMiddleOfWord(): Boolean {
+        val before = getBeforeCursorInSurroundingWord()
+        val after = getAfterCursorInSurroundingWord()
+        Log.d(LOG_TAG, "isTheMiddleOfWord(): [$before][$after]")
+
+        return before.isNotEmpty() && after.isNotEmpty()
+    }
 
     companion object {
 
