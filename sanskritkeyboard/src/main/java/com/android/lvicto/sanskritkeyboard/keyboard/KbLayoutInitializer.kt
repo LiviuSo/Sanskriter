@@ -71,13 +71,13 @@ abstract class KbLayoutInitializer(val context: Context) {
         lateinit var keyView: View
 
         val runnable = Runnable {
-            while (actionDownFlag.get()) {
+            while (!actionDownFlag.get()) {
                 Log.d(LOG_TAG, "Touching Down")
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
                     Log.d(LOG_TAG, "Long tap")
                     keyView.post { updateKeyboard(keyView) }
                     longTap.set(true)
-                    actionDownFlag.set(false) // once long tap reached, end the thread
+                    actionDownFlag.set(true) // once long tap reached, end the thread
                 }
             }
             Log.d(LOG_TAG, "Not Touching")
@@ -87,14 +87,14 @@ abstract class KbLayoutInitializer(val context: Context) {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     actionTime = System.currentTimeMillis()
-                    actionDownFlag = AtomicBoolean(true)
+                    actionDownFlag = AtomicBoolean(false)
                     longTap = AtomicBoolean(false)
                     keyView = view
                     Thread(runnable).start() // todo investigate : stop the thread needed ?
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    actionDownFlag.set(false)
+                    actionDownFlag.set(true)
                     if (!longTap.get()) { // no tap; space key normal functionality
                         val output = " "
                         ic.commitText(output, 1)
@@ -174,7 +174,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     // todo investigate: what to do with the suggestions
-    private val actionOnTouchListener = View.OnTouchListener { view, motionEvent ->
+    private val actionOnTouchListener = View.OnTouchListener { _, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 val ei = currentInputEditorInfo
@@ -241,7 +241,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    fun isLastWord(): Boolean {
+    private fun isLastWord(): Boolean {
         val se = ic.getTextAfterCursor(MAX_INPUT_LEN, 0) ?: return true
         return se.isEmpty()
     }
@@ -625,7 +625,7 @@ abstract class KbLayoutInitializer(val context: Context) {
 
         private const val DELAY_HIDE_PREVIEW: Long = 160
         private const val DELAY_AUTOREPEAT: Long = 100
-        private val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
+        val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
 
     }
 }

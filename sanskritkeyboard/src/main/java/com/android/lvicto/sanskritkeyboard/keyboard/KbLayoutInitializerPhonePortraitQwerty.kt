@@ -2,6 +2,7 @@ package com.android.lvicto.sanskritkeyboard.keyboard
 
 import android.content.Context
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
@@ -9,6 +10,8 @@ import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.utils.button
 import com.android.lvicto.sanskritkeyboard.utils.getVal
 import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
+import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
         KbLayoutInitializer(context) {
@@ -16,16 +19,51 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
 
-    // todo convert to a touch listener
-    private val shiftOnClickListener: View.OnClickListener = View.OnClickListener {
-        Log.d(LOG_TAG, "shiftOnClickListener: $allCaps")
-        if (!allCaps) {
-            toggleAllCaps()
-        } else if (allCaps && !allCapsPersist) {
-            toggleAllCaps()
-        } else {
-            toggleAllCaps()
-            allCapsPersist = false
+    private val shiftTouchListener: View.OnTouchListener = object: View.OnTouchListener {
+        var actionTime = 0L
+        lateinit var actionDownFlag: AtomicBoolean
+        val runnable = Runnable {
+            while (!actionDownFlag.get()) {
+                Log.d(LOG_TAG, "shiftTouchListener: Touching Down")
+                if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
+                    Log.d(LOG_TAG, "shiftTouchListener: Long tap")
+                    allCapsPersist = if(!allCapsPersist) {
+                        true // toggle shift permanently
+                    } else {
+                        toggleAllCaps() // reset
+                        false
+                    }
+                    actionDownFlag.set(true) // once long tap reached, end the thread
+                }
+            }
+            Log.d(LOG_TAG, "Not Touching")
+        }
+
+        override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+            return when (motionEvent?.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    if (!allCaps) {
+                        toggleAllCaps()
+                    } else if (allCaps && !allCapsPersist) {
+                        toggleAllCaps()
+                    } else {
+                        toggleAllCaps()
+                        allCapsPersist = false
+                    }
+                    actionDownFlag = AtomicBoolean(false)
+                    actionTime = System.currentTimeMillis()
+                    Thread(runnable).start()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    actionDownFlag.set(true)
+                    view?.performClick()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
         }
     }
 
@@ -56,7 +94,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
             it.setOnTouchListener(getCommonTouchListener())
         }
 
-        val keysClickListenerOnlyAllCpas = arrayListOf(
+        val keysClickListenerOnlyAllCaps = arrayListOf(
                 view button R.id.keyQ
                 , view button R.id.keyW
                 , view button R.id.keyE
@@ -84,21 +122,13 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 , view button R.id.keyM
                 , view button R.id.keyC
         )
-        keysClickListenerOnlyAllCpas.forEach {
+        keysClickListenerOnlyAllCaps.forEach {
             it.setOnTouchListener(getCommonTouchListener())
             keysToAllCaps.add(it)
         }
 
         (view button R.id.keyShift).apply {
-            setOnClickListener(shiftOnClickListener)
-
-            setOnLongClickListener {
-                if (!allCaps) {
-                    toggleAllCaps()
-                    allCapsPersist = true
-                }
-                true
-            }
+            setOnTouchListener(shiftTouchListener)
         }
 
         initExtraKeys(view)
@@ -244,9 +274,9 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     private fun setCase(button: Button, allCaps: Boolean): String {
         val txt = button.text.toString()
         val newTxt = if (allCaps) {
-            txt.toUpperCase()
+            txt.toUpperCase(Locale.getDefault())
         } else {
-            txt.toLowerCase()
+            txt.toLowerCase(Locale.getDefault())
         }
         button.text = newTxt
         return newTxt
