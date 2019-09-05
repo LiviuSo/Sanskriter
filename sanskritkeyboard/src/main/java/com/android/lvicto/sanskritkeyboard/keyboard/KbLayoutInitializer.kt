@@ -12,6 +12,7 @@ import android.view.inputmethod.ExtractedText
 import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.MainThread
@@ -20,11 +21,8 @@ import com.android.lvicto.sanskritkeyboard.data.Suggestion
 import com.android.lvicto.sanskritkeyboard.service.*
 import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.ui.SettingsActivity
+import com.android.lvicto.sanskritkeyboard.utils.*
 import com.android.lvicto.sanskritkeyboard.utils.Constants.MAX_INPUT_LEN
-import com.android.lvicto.sanskritkeyboard.utils.button
-import com.android.lvicto.sanskritkeyboard.utils.createPopup
-import com.android.lvicto.sanskritkeyboard.utils.locateView
-import com.android.lvicto.sanskritkeyboard.utils.show
 import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -33,6 +31,9 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
 
+    private lateinit var mSep1: FrameLayout
+    private lateinit var mSep2: FrameLayout
+    private lateinit var mSep3: FrameLayout
     private val autoAddSpace: Boolean = true // todo make a setting
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
@@ -90,7 +91,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     actionDownFlag = AtomicBoolean(false)
                     longTap = AtomicBoolean(false)
                     keyView = view
-                    Thread(runnable).start() // todo investigate : stop the thread needed ?
+                    Thread(runnable).start()
                     true
                 }
                 MotionEvent.ACTION_UP -> {
@@ -138,7 +139,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     actionTime = System.currentTimeMillis()
                     ic.deleteSurroundingText(1, 0)
                     // update suggestions
-                    if (mTypedText.isNotEmpty()) { // todo consider cursor position
+                    if (mTypedText.isNotEmpty()) {
                         mTypedText.delete(mTypedText.length - 1, mTypedText.length)
                         Log.d(LOG_TAG, "mTypedText : $mTypedText")
                     }
@@ -173,7 +174,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    // todo investigate: what to do with the suggestions
     private val actionOnTouchListener = View.OnTouchListener { _, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -196,8 +196,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    // todo show system bar when hiding the suggs
-    // todo adjust number according to the length of the suggs
     private val suggestionOnTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -226,9 +224,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     }
                 }
                 mTypedText.delete(0, mTypedText.length)
-                mSugg1.visibility = View.GONE
-                mSugg2.visibility = View.GONE
-                mSugg3.visibility = View.GONE
+                showSuggestions()
                 true
             }
             MotionEvent.ACTION_UP -> {
@@ -374,16 +370,22 @@ abstract class KbLayoutInitializer(val context: Context) {
                 Log.d(LOG_TAG, it.message ?: "No exception")
             })
         } else { // hide the suggestions
-            // todo make a function
-            if (mSugg1.visibility != View.GONE) {
-                mSugg1.visibility = View.GONE
-            }
-            if (mSugg2.visibility != View.GONE) {
-                mSugg2.visibility = View.GONE
-            }
-            if (mSugg3.visibility != View.GONE) {
-                mSugg3.visibility = View.GONE
-            }
+            showSuggestions()
+        }
+    }
+
+    private fun showSuggestions(vis1: Int = View.GONE, vis2: Int = View.GONE, vis3: Int = View.GONE) {
+        if (mSugg1.visibility != vis1) {
+            mSugg1.visibility = vis1
+            mSep1.visibility = vis1
+        }
+        if (mSugg2.visibility != vis2) {
+            mSugg2.visibility = vis2
+            mSep2.visibility = vis2
+        }
+        if (mSugg3.visibility != vis3) {
+            mSugg3.visibility = vis3
+            mSep3.visibility = vis3
         }
     }
 
@@ -398,54 +400,26 @@ abstract class KbLayoutInitializer(val context: Context) {
                 Log.d(LOG_TAG, "found 0 suggs; $mTypedText")
                 if (mSugg1.visibility != View.VISIBLE && mTypedText.isNotEmpty()) {
                     mSugg1.visibility = View.VISIBLE
+                    mSep1.visibility = View.VISIBLE
                 }
-                if (mSugg2.visibility != View.GONE) {
-                    mSugg2.visibility = View.GONE
-                }
-                if (mSugg3.visibility != View.GONE) {
-                    mSugg3.visibility = View.GONE
-                }
+                showSuggestions(mSugg1.visibility)
                 mSugg1.text = mTypedText
                 mSugg1.tag = mTypedText
             }
             1 -> {
                 Log.d(LOG_TAG, "found 1 suggs; $mTypedText")
-                if (mSugg1.visibility != View.VISIBLE) {
-                    mSugg1.visibility = View.VISIBLE
-                }
-                if (mSugg2.visibility != View.GONE) {
-                    mSugg2.visibility = View.GONE
-                }
-                if (mSugg3.visibility != View.GONE) {
-                    mSugg3.visibility = View.GONE
-                }
+                showSuggestions(View.VISIBLE, View.GONE, View.GONE)
                 mSugg1.text = it[0].word
             }
             2 -> {
                 Log.d(LOG_TAG, "found 2 suggs; $mTypedText")
-                if (mSugg1.visibility != View.VISIBLE) {
-                    mSugg1.visibility = View.VISIBLE
-                }
-                if (mSugg2.visibility != View.VISIBLE) {
-                    mSugg2.visibility = View.VISIBLE
-                }
-                if (mSugg3.visibility != View.GONE) {
-                    mSugg3.visibility = View.GONE
-                }
+                showSuggestions(View.VISIBLE, View.VISIBLE, View.GONE)
                 mSugg1.text = it[0].word
                 mSugg2.text = it[1].word
             }
             else -> { // 3 or more
                 Log.d(LOG_TAG, "found 3+ suggs; $mTypedText")
-                if (mSugg1.visibility != View.VISIBLE) {
-                    mSugg1.visibility = View.VISIBLE
-                }
-                if (mSugg2.visibility != View.VISIBLE) {
-                    mSugg2.visibility = View.VISIBLE
-                }
-                if (mSugg3.visibility != View.VISIBLE) {
-                    mSugg3.visibility = View.VISIBLE
-                }
+                showSuggestions(View.VISIBLE, View.VISIBLE, View.VISIBLE)
                 mSugg1.text = it[0].word
                 mSugg2.text = it[1].word
                 mSugg3.text = it[2].word
@@ -473,49 +447,42 @@ abstract class KbLayoutInitializer(val context: Context) {
         // bind suggestions
         mSugg1 = (view button R.id.keySuggestion1).apply {
             setOnTouchListener(suggestionOnTouchListener)
-            visibility = View.GONE
         }
         mSugg2 = (view button R.id.keySuggestion2).apply {
             setOnTouchListener(suggestionOnTouchListener)
-            visibility = View.GONE
         }
         mSugg3 = (view button R.id.keySuggestion3).apply {
             setOnTouchListener(suggestionOnTouchListener)
-            visibility = View.GONE
         }
+        mSep1 = view frameLayout R.id.sep1
+        mSep2 = view frameLayout R.id.sep2
+        mSep3 = view frameLayout R.id.sep3
+        showSuggestions()
     }
 
     private fun getActionTypeString() = when (currentInputEditorInfo.imeOptions and EditorInfo.IME_MASK_ACTION) {
         EditorInfo.IME_ACTION_NONE -> {
-            Log.d(LOG_TAG, "IME_ACTION_NONE")
-            "AC" // todo add icons & remove logs
+            "AC" // todo add icons
         }
         EditorInfo.IME_ACTION_GO -> {
-            Log.d(LOG_TAG, "IME_ACTION_GO")
             "GO"
         }
         EditorInfo.IME_ACTION_SEARCH -> {
-            Log.d(LOG_TAG, "IME_ACTION_SEARCH")
             "SC"
         }
         EditorInfo.IME_ACTION_SEND -> {
-            Log.d(LOG_TAG, "IME_ACTION_SEND")
             "SE"
         }
         EditorInfo.IME_ACTION_NEXT -> {
-            Log.d(LOG_TAG, "IME_ACTION_NEXT")
             "->"
         }
         EditorInfo.IME_ACTION_DONE -> {
-            Log.d(LOG_TAG, "IME_ACTION_DONE")
             "OK"
         }
         EditorInfo.IME_ACTION_PREVIOUS -> {
-            Log.d(LOG_TAG, "IME_ACTION_PREVIOUS")
             "<-"
         }
         else -> {
-            Log.d(LOG_TAG, "Default ime")
             "AC"
         }
     }

@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.IdRes
@@ -60,3 +61,9 @@ fun PopupWindow.show(parent: View, rect: Rect) {
     this.showAtLocation(parent.rootView, Gravity.START or Gravity.TOP, rect.left, rect.top - height)
     this.update(width, height)
 }
+
+
+infix fun View.frameLayout(id: Int): FrameLayout {
+    return this.findViewById(id) as FrameLayout
+}
+
