@@ -19,7 +19,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
 
-    private val shiftTouchListener: View.OnTouchListener = object: View.OnTouchListener {
+    private val shiftTouchListener: View.OnTouchListener = object : View.OnTouchListener {
         var actionTime = 0L
         lateinit var actionDownFlag: AtomicBoolean
         val runnable = Runnable {
@@ -27,7 +27,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 Log.d(LOG_TAG, "shiftTouchListener: Touching Down")
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
                     Log.d(LOG_TAG, "shiftTouchListener: Long tap")
-                    allCapsPersist = if(!allCapsPersist) {
+                    allCapsPersist = if (!allCapsPersist) {
                         true // toggle shift permanently
                     } else {
                         toggleAllCaps() // reset
@@ -70,26 +70,29 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     override fun getView(): View =
             context.layoutInflater().inflate(R.layout.keyboard_phone_portrait_qwerty, null)
 
-    override fun bindKeys(view: View) {
-        super.bindKeys(view)
+    override fun bindKeys(view: View, showSymbolsOrDigits: Boolean) {
+        super.bindKeys(view, showSymbolsOrDigits)
         val keysClickListenerOnly = arrayListOf(
-                view button R.id.keyDigit1
-                , view button R.id.keyDigit2
-                , view button R.id.keyDigit3
-                , view button R.id.keyDigit4
-                , view button R.id.keyDigit5
-                , view button R.id.keyDigit6
-                , view button R.id.keyDigit7
-                , view button R.id.keyDigit8
-                , view button R.id.keyDigit9
-                , view button R.id.keyDigit0
-                , view button R.id.keyComma
+                view button R.id.keyComma
                 , view button R.id.keyQuestion
                 , view button R.id.keyExclamation
                 , view button R.id.keyPeriod
                 , view button R.id.keyHyphen
                 , view button R.id.keyAt
         )
+        if (showSymbolsOrDigits) {
+            keysClickListenerOnly.add(view button R.id.keyDigit1)
+            keysClickListenerOnly.add(view button R.id.keyDigit2)
+            keysClickListenerOnly.add(view button R.id.keyDigit3)
+            keysClickListenerOnly.add(view button R.id.keyDigit4)
+            keysClickListenerOnly.add(view button R.id.keyDigit5)
+            keysClickListenerOnly.add(view button R.id.keyDigit6)
+            keysClickListenerOnly.add(view button R.id.keyDigit7)
+            keysClickListenerOnly.add(view button R.id.keyDigit8)
+            keysClickListenerOnly.add(view button R.id.keyDigit9)
+            keysClickListenerOnly.add(view button R.id.keyDigit0)
+        }
+
         keysClickListenerOnly.forEach {
             it.setOnTouchListener(getCommonTouchListener())
         }
@@ -204,6 +207,13 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 res.getInteger(R.integer.key_code_letter_T_ro),
                 res.getInteger(R.integer.key_code_letter_T_sa)
         )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_d)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_d_sa)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_D)] = arrayListOf(
+                res.getInteger(R.integer.key_code_letter_D_sa)
+        )
+
         extraKeysCodesMap[R.integer.key_code_letter_d.getVal(context)] = arrayListOf(
                 R.integer.key_code_letter_d_sa.getVal(context)
         )
@@ -261,7 +271,7 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     }
 
     override fun toggleShiftBack() {
-        if(allCaps && !allCapsPersist) {
+        if (allCaps && !allCapsPersist) {
             toggleAllCaps()
         }
     }

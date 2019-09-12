@@ -112,7 +112,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    private val settingsOnTouchListener = View.OnTouchListener { view, motionEvent ->
+    private val settingsOnTouchListener = View.OnTouchListener { _, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
                 context.startActivity(SettingsActivity.intent(context))
@@ -219,7 +219,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     ic.commitText(text, 1)
 
                     // append space
-                    if(autoAddSpace && isLastWord()) {
+                    if (autoAddSpace && isLastWord()) {
                         ic.commitText(" ", 1)
                     }
                 }
@@ -229,6 +229,27 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
             MotionEvent.ACTION_UP -> {
                 justAddSugg = true // suggestion was just tapped
+                true
+            }
+            else -> {
+                false
+            }
+        }
+    }
+
+    // todo show digits in the extras bar and hide when showing extras then shown again
+    protected fun getSymbTouchListener(code: Int) = View.OnTouchListener { view, motionEvent ->
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                showSuggestions(View.GONE, View.GONE, View.GONE)
+                mTypedText.delete(0, mTypedText.length)
+
+                disableAllExtraKeys()
+                showExtraKeys(code)
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                view.performClick()
                 true
             }
             else -> {
@@ -276,7 +297,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         actionButton.text = getActionTypeString()
     }
 
-    protected fun getCommonTouchListener(text: String = "", extra: Boolean = false) = object : View.OnTouchListener {
+    protected fun getCommonTouchListener(text: String = "", isExtra: Boolean = false) = object : View.OnTouchListener {
         private var popup: PopupWindow? = null
         private var actionTime: Long = 0
         private lateinit var flagActionUp: AtomicBoolean
@@ -316,8 +337,8 @@ abstract class KbLayoutInitializer(val context: Context) {
 
                     Thread(runnable).start() // wait for long tap
 
-                    // show preview (if not extra)
-                    if (!extra) {
+                    // show preview (if not isExtra)
+                    if (!isExtra) {
                         val rect = view.locateView()
                         Log.d(LOG_TAG, "${rect.left} ${rect.right} ${rect.bottom} ${rect.top} ")
                         popup = view.createPopup(output)
@@ -337,8 +358,8 @@ abstract class KbLayoutInitializer(val context: Context) {
                         // show extras (and close the preview)
                         resetAndShowExtras()
                     }
-                    view.performClick()
                     justAddSugg = false
+                    view.performClick()
                     true
                 }
                 else -> false
@@ -348,7 +369,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         private fun resetAndShowExtras() {
             // show extra keys
             keyView.post { disableAllExtraKeys() }
-            if (!extra) {
+            if (!isExtra) {
                 keyView.post { showExtraKeys(output[0].toInt()) }
                 // close preview pop-up
                 keyView.postDelayed({
@@ -430,7 +451,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     /**
      * Set common keys
      */
-    protected open fun bindKeys(view: View) {
+    protected open fun bindKeys(view: View, showSymbolsOrDigits: Boolean = true) {
         (view button R.id.keySpace).apply {
             setOnTouchListener(getSpaceKeyTouchListener())
         }
@@ -528,7 +549,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         )
         extraKeys.forEach {
             it.isEnabled = false
-            it.setOnTouchListener(getCommonTouchListener(extra = true))
+            it.setOnTouchListener(getCommonTouchListener(isExtra = true))
         }
     }
 
@@ -570,7 +591,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     KbLayoutInitializerTabletLanscapeQwerty(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerPhoneLandscapeQwertyPhonePortraitQwerty(context)
+                    KbLayoutInitializerPhoneLandscapeQwerty(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
                     KbLayoutInitializerTabletPortraitSa(context)
@@ -582,7 +603,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     KbLayoutInitializerTabletLandscapeSa(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerPhoneLandscapeSaPhonePortraitSa(context)
+                    KbLayoutInitializerPhoneLandscapeSa(context)
                 }
                 else -> {
                     throw Exception("KbLayoutInitializer: Not a valid config")

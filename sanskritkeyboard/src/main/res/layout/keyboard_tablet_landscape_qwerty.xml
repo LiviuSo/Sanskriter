@@ -1,14 +1,623 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
 
-    <TextView
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/llSuggestions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="tablet lanscape qwerty" />
+        android:background="@color/keyboard_suggestion_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/keySuggestion1"
+            style="@style/CustomKeySuggestion"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="word1" />
+
+        <Button
+            android:id="@+id/keySuggestion2"
+            style="@style/CustomKeySuggestion"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="word2" />
+
+        <Button
+            android:id="@+id/keySuggestion3"
+            style="@style/CustomKeySuggestion"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="word3" />
+
+        <Button
+            android:id="@+id/keyIcon"
+            style="@style/CustomKeySettings"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="IC" />
+
+        <Button
+            android:id="@+id/keySettings"
+            style="@style/CustomKeySettings"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:text="Se" />
+
+        <include
+            android:id="@+id/sep3"
+            layout="@layout/separator_vertical" />
+
+        <include
+            android:id="@+id/sep2"
+            layout="@layout/separator_vertical" />
+
+        <include
+            android:id="@+id/sep1"
+            layout="@layout/separator_vertical" />
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/svExtra"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSuggestions">
+
+        <LinearLayout
+            android:id="@+id/llKeyExtra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/keyLetterExtra1"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra2"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra3"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra4"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra5"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra6"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra7"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra8"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra9"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra10"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra11"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra12"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra13"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra14"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra15"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra16"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra17"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+
+            <Button
+                android:id="@+id/keyLetterExtra18"
+                style="@style/CustomKeyExtraTablet"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/key_label_placeholder" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:id="@+id/llQwerty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/svExtra">
+
+        <Button
+            android:id="@+id/keyQ"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_q" />
+
+        <Button
+            android:id="@+id/keyW"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_w" />
+
+        <Button
+            android:id="@+id/keyE"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_e" />
+
+        <Button
+            android:id="@+id/keyR"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_r" />
+
+        <Button
+            android:id="@+id/keyT"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_t" />
+
+        <Button
+            android:id="@+id/keyY"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_y" />
+
+        <Button
+            android:id="@+id/keyU"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_u" />
+
+        <Button
+            android:id="@+id/keyI"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_i" />
+
+        <Button
+            android:id="@+id/keyO"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_o" />
+
+        <Button
+            android:id="@+id/keyP"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_p" />
+
+        <Button
+            android:id="@+id/keySaALong"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_a_long" />
+
+        <Button
+            android:id="@+id/keySaILong"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_i_long" />
+
+        <Button
+            android:id="@+id/keySaULong"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_u_long" />
+        <Button
+            android:id="@+id/keyDigit1"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_1" />
+
+        <Button
+            android:id="@+id/keyDigit2"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_2" />
+
+        <Button
+            android:id="@+id/keyDigit3"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_3" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSa2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llQwerty">
+
+        <Button
+            android:id="@+id/keyA"
+            style="@style/CustomKeyLetterTablet"
+            android:text="@string/key_label_letter_a" />
+
+        <Button
+            android:id="@+id/keyS"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_s" />
+
+        <Button
+            android:id="@+id/keyD"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_d" />
+
+        <Button
+            android:id="@+id/keyF"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_f" />
+
+        <Button
+            android:id="@+id/keyG"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_g" />
+
+        <Button
+            android:id="@+id/keyH"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_h" />
+
+        <Button
+            android:id="@+id/keyJ"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_j" />
+
+        <Button
+            android:id="@+id/keyK"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_k" />
+
+        <Button
+            android:id="@+id/keyL"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_l" />
+
+        <Button
+            android:id="@+id/keyDel"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Del" />
+
+        <Button
+            android:id="@+id/keySaR"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_r" />
+
+        <Button
+            android:id="@+id/keySaL"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_l" />
+
+        <Button
+            android:id="@+id/keySaT"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_t" />
+
+        <Button
+            android:id="@+id/keyDigit4"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_4" />
+
+        <Button
+            android:id="@+id/keyDigit5"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_5" />
+
+        <Button
+            android:id="@+id/keyDigit6"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_6" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSa3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSa2">
+
+        <Button
+            android:id="@+id/keyShift"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Sh" />
+
+        <Button
+            android:id="@+id/keyZ"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_z" />
+
+        <Button
+            android:id="@+id/keyX"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_x" />
+
+        <Button
+            android:id="@+id/keyC"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_c" />
+
+        <Button
+            android:id="@+id/keyV"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_v" />
+
+        <Button
+            android:id="@+id/keyB"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_b" />
+
+        <Button
+            android:id="@+id/keyN"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_n" />
+
+        <Button
+            android:id="@+id/keyM"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_letter_m" />
+
+        <Button
+            android:id="@+id/keyAction"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Ac" />
+
+        <Button
+            android:id="@+id/keySaD"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_d" />
+
+        <Button
+            android:id="@+id/keySaS1"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_s1" />
+
+        <Button
+            android:id="@+id/keySaS2"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_s2" />
+
+        <Button
+            android:id="@+id/keyDigit7"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_7" />
+
+        <Button
+            android:id="@+id/keyDigit8"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_8" />
+
+        <Button
+            android:id="@+id/keyDigit9"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_digit_9" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llSa5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSa3">
+
+        <Button
+            android:id="@+id/keyPeriod"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_period" />
+
+        <Button
+            android:id="@+id/keyComma"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_comma" />
+
+        <Button
+            android:id="@+id/keyQuestion"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_question_mark" />
+
+        <Button
+            android:id="@+id/keySpace"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/lang_label_qwerty" />
+
+        <Button
+            android:id="@+id/keyExclamation"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_exclamation_mark" />
+
+        <Button
+            android:id="@+id/keyHyphen"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_hyphen" />
+
+        <Button
+            android:id="@+id/keyAt"
+            style="@style/CustomKeyLetterTablet"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_at" />
+
+        <Button
+            android:id="@+id/keySaN1"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_n1" />
+
+        <Button
+            android:id="@+id/keySaN2"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_n2" />
+
+        <Button
+            android:id="@+id/keySaN3"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_n3" />
+
+        <Button
+            android:id="@+id/keySaM"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_m" />
+
+        <Button
+            android:id="@+id/keySaH"
+            style="@style/CustomKeyDigitTablet"
+            android:text="@string/key_label_iast_h" />
+
+        <Button
+            android:id="@+id/keyDigit0"
+            style="@style/CustomKeyDigitTablet"
+            android:layout_height="match_parent"
+            android:text="@string/key_label_digit_0" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

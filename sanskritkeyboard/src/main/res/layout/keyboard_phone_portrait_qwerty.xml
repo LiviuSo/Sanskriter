@@ -63,6 +63,108 @@
 
     </LinearLayout>
 
+    <HorizontalScrollView
+        android:id="@+id/svExtra"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llSuggestions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/llKeyExtra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/keyLetterExtra1"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra2"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra3"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra4"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra5"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra6"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra7"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra8"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra9"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra10"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra11"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra12"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra13"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+
+            <Button
+                android:id="@+id/keyLetterExtra14"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+            <Button
+                android:id="@+id/keyLetterExtra15"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+            <Button
+                android:id="@+id/keyLetterExtra16"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+            <Button
+                android:id="@+id/keyLetterExtra17"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+            <Button
+                android:id="@+id/keyLetterExtra18"
+                style="@style/CustomKeyExtra"
+                android:text="@string/key_label_placeholder"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <LinearLayout
         android:id="@+id/llDigits"
         android:layout_width="match_parent"
@@ -70,7 +172,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSuggestions">
+        app:layout_constraintTop_toBottomOf="@id/svExtra">
 
         <Button
             android:id="@+id/keyDigit1"
@@ -434,107 +536,5 @@
             android:layout_weight="1"
             android:text="@string/key_label_at" />
     </LinearLayout>
-
-    <HorizontalScrollView
-        android:id="@+id/svExtra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/llSa5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <LinearLayout
-            android:id="@+id/llKeyExtra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/keyLetterExtra1"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra2"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra3"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra4"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra5"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra6"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra7"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra8"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra9"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra10"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra11"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra12"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra13"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-
-            <Button
-                android:id="@+id/keyLetterExtra14"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-            <Button
-                android:id="@+id/keyLetterExtra15"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-            <Button
-                android:id="@+id/keyLetterExtra16"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-            <Button
-                android:id="@+id/keyLetterExtra17"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-            <Button
-                android:id="@+id/keyLetterExtra18"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder"/>
-        </LinearLayout>
-    </HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

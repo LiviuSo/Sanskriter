@@ -5,4 +5,8 @@
 
     <dimen name="key_height">40dp</dimen>
     <dimen name="key_width">40dp</dimen>
+
+    <dimen name="key_height_tablet">60dp</dimen>
+    <dimen name="key_width_tablet">60dp</dimen>
+
 </resources>

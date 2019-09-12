@@ -50,6 +50,21 @@
     <string name="key_label_hyphen">-</string>
     <string name="key_label_at">\@</string>
 
+    <string name="key_label_iast_a_long">\u0101</string>
+    <string name="key_label_iast_i_long">\u012B</string>
+    <string name="key_label_iast_u_long">\u016B</string>
+    <string name="key_label_iast_r">\u1E5B</string>
+    <string name="key_label_iast_l">\u1E37</string>
+    <string name="key_label_iast_t">\u1E6D</string>
+    <string name="key_label_iast_d">\u1E0D</string>
+    <string name="key_label_iast_n1">\u1E45</string>
+    <string name="key_label_iast_n2">\u00F1</string>
+    <string name="key_label_iast_n3">\u1E47</string>
+    <string name="key_label_iast_s1">\u015B</string>
+    <string name="key_label_iast_s2">\u1E63</string>
+    <string name="key_label_iast_m">\u1E43</string>
+    <string name="key_label_iast_h">\u1E25</string>
+
     <!-- १ २ ३ ४ ५ ६ ७ ८ ९ ० -->
     <string name="key_label_sa_digit_1">\u0967</string>
     <string name="key_label_sa_digit_2">\u0968</string>
@@ -145,4 +160,5 @@
     <string name="lang_label_sa">Sanskrit</string>
     <string name="lang_label_qwerty">Qwerty</string>
     <string name="keyboard_name">SanskritSimpleKeyboard</string>
+    <string name="key_label_dig">123...</string>
 </resources>
