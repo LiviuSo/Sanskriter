@@ -31,6 +31,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
 
+    private var isSticky: Boolean = false
     private lateinit var mSep1: FrameLayout
     private lateinit var mSep2: FrameLayout
     private lateinit var mSep3: FrameLayout
@@ -312,7 +313,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
                     flagActionUp.set(false)
                     longTap.set(true)
-                    resetAndShowExtras()
+                    resetAndShowExtras(true)
                 }
             }
         }
@@ -356,7 +357,11 @@ abstract class KbLayoutInitializer(val context: Context) {
                         // send text if not long tap
                         ic.commitText(output, 1)
                         // show extras (and close the preview)
-                        resetAndShowExtras()
+                        if (!isExtra) {
+                            resetAndShowExtras()
+                        } else if (!isSticky) {
+                            resetAndShowExtras()
+                        }
                     }
                     justAddSugg = false
                     view.performClick()
@@ -366,18 +371,21 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
         }
 
-        private fun resetAndShowExtras() {
-            // show extra keys
-            keyView.post { disableAllExtraKeys() }
+        private fun resetAndShowExtras(sticky: Boolean = false) {
+            if (!sticky) {
+                // show extra keys
+                keyView.post { disableAllExtraKeys() }
+            }
             if (!isExtra) {
                 keyView.post { showExtraKeys(output[0].toInt()) }
-                // close preview pop-up
-                keyView.postDelayed({
-                    popup?.dismiss()
-                }, DELAY_HIDE_PREVIEW)
             }
             // toggle shift back (if not in permanent state)
             toggleShiftBack()
+            // close preview pop-up
+            keyView.postDelayed({
+                popup?.dismiss()
+            }, DELAY_HIDE_PREVIEW)
+            isSticky = sticky
         }
     }
 
