@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".ui.AddModifyWordActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.AddModifyWordActivity">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editSa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:hint="@string/kbHintSanskrit"
+            android:imeActionLabel="@string/kbHintSanskrit" />
 
         <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editSa"
-                android:hint="@string/kbHintSanskrit"
-            android:imeActionLabel="@string/kbHintSanskrit"/>
+            android:id="@+id/editIAST"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/kbHintIAST"
+            android:imeActionLabel="@string/kbHintIAST" />
 
         <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editIAST"
-                android:hint="@string/kbHintIAST"
-            android:imeActionLabel="@string/kbHintIAST"/>
+            android:id="@+id/editEn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/kbHintEnglish"
+            android:imeActionLabel="@string/kbHintIAST" />
 
         <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editEn"
-                android:hint="@string/kbHintEnglish"
-            android:imeActionLabel="@string/kbHintEnglish"/>
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editRo"
-                android:hint="@string/kbHintRomanian"
-            android:imeActionLabel="@string/kbHintRomanian"/>
+            android:id="@+id/editRo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/kbHintRomanian"
+            android:imeActionLabel="@string/kbHintIAST" />
 
         <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btnSaveWord"
-                android:layout_marginTop="21dp"
-                android:text="@string/saveWord"/>
+            android:id="@+id/btnSaveWord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:text="@string/saveWord" />
     </LinearLayout>
 
 </ScrollView>

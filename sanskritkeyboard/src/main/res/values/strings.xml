@@ -49,6 +49,7 @@
     <string name="key_label_exclamation_mark">!</string>
     <string name="key_label_hyphen">-</string>
     <string name="key_label_at">\@</string>
+    <string name="key_label_sep">|</string>
 
     <string name="key_label_iast_a_long">\u0101</string>
     <string name="key_label_iast_i_long">\u012B</string>
@@ -89,7 +90,7 @@
 
     <!-- ् ऽ ।(॥) -->
     <string name="key_label_sa_red">\u094D</string>
-    <string name="key_label_sa_apostrophy">\u093D</string>
+    <string name="key_label_sa_apostrophe">\u093D</string>
     <string name="key_label_sa_sep">\u0964</string>
     <string name="key_label_sa_double_sep">\u0965</string>
 
@@ -157,8 +158,15 @@
     <string name="key_label_sa_extra_accent1">\u0951</string>
     <string name="key_label_sa_extra_accent2">\u0952</string>
 
-    <string name="lang_label_sa">Sanskrit</string>
+    <string name="lang_label_sa">संस्कृतम्</string>
     <string name="lang_label_qwerty">Qwerty</string>
     <string name="keyboard_name">SanskritSimpleKeyboard</string>
-    <string name="key_label_dig">123...</string>
+    <string name="key_label_apostrophe">\'</string>
+    <string name="key_label_punctuation">\' - ?</string>
+    <string name="key_label_paranthesis">( )</string>
+    <string name="key_label_symbols_qwerty">+ *</string>
+    <string name="key_action_description">Action key</string>
+    <string name="key_shift_description">Shift key</string>
+    <string name="key_backspace_description">Backspace key</string>
+    <string name="key_swap_to_digits_content_descr">Swap to digits</string>
 </resources>

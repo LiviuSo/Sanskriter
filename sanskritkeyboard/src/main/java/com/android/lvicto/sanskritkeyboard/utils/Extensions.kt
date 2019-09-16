@@ -3,13 +3,11 @@ package com.android.lvicto.sanskritkeyboard.utils
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Rect
+import android.media.Image
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.IdRes
 import com.android.lvicto.sanskritkeyboard.R
 
@@ -28,6 +26,8 @@ fun Context.layoutInflater(): LayoutInflater =
         this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
 infix fun View.button(@IdRes id: Int): Button = (this.findViewById(id) as Button)
+
+infix fun View.imageButton(@IdRes id: Int): ImageButton = (this.findViewById(id) as ImageButton)
 
 fun View.locateView(): Rect {
     val locInt = IntArray(2)
@@ -56,10 +56,14 @@ fun View.createPopup(text: String): PopupWindow {
 }
 
 fun PopupWindow.show(parent: View, rect: Rect) {
-    val width = rect.bottom - rect.top
-    val height = rect.right - rect.left
-    this.showAtLocation(parent.rootView, Gravity.START or Gravity.TOP, rect.left, rect.top - height)
-    this.update(width, height)
+    val height = rect.bottom - rect.top
+    val width = rect.right - rect.left
+    val previewVertDist = parent.context.resources.getDimension(R.dimen.key_margin).toInt() // use the distance between the rows
+
+    this.showAtLocation(parent.rootView, Gravity.START or Gravity.TOP,
+            rect.left - width / 4,
+            rect.top - height - height / 2 - previewVertDist)
+    this.update(width + width / 2, height + height / 2)
 }
 
 

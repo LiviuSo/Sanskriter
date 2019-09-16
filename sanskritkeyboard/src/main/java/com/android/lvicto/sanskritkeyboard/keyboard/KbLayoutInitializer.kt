@@ -3,6 +3,9 @@ package com.android.lvicto.sanskritkeyboard.keyboard
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -12,13 +15,14 @@ import android.view.inputmethod.ExtractedText
 import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import android.widget.Button
-import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.MainThread
+import androidx.core.content.ContextCompat
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.data.Suggestion
-import com.android.lvicto.sanskritkeyboard.service.*
+import com.android.lvicto.sanskritkeyboard.service.KeyboardSwitch
 import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.ui.SettingsActivity
 import com.android.lvicto.sanskritkeyboard.utils.*
@@ -26,33 +30,47 @@ import com.android.lvicto.sanskritkeyboard.utils.Constants.MAX_INPUT_LEN
 import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
 import java.util.concurrent.atomic.AtomicBoolean
 
+// todo convert layouts fully to ConstraintLayout
+// todo create custom view for keys
+// todo show digits when closing/opening the keyboard
+// todo capital letter of the beginning of the sentence (after . ! ? and a spaces)
+// todo create a component that manages the runnable (refactoring)
+// todo create a component that manages the suggestions (refactoring)
+// todo add toggle background
 abstract class KbLayoutInitializer(val context: Context) {
 
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
 
+    private var selectionStartOld: Int = 0
+    private var selectionEnd: Int = 0
+    private var selectionStart: Int = 0
+    private val isCapsFirstLetter: Boolean = true // todo get from settings
+    private lateinit var toggleDigitsKey: ImageButton
     private var isSticky: Boolean = false
-    private lateinit var mSep1: FrameLayout
-    private lateinit var mSep2: FrameLayout
-    private lateinit var mSep3: FrameLayout
     private val autoAddSpace: Boolean = true // todo make a setting
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
 
     lateinit var ic: InputConnection // todo set it through the interface (keyboardSwitch)
     lateinit var currentInputEditorInfo: EditorInfo
-    private lateinit var actionButton: Button
+    private lateinit var actionButton: ImageButton
     lateinit var keyboardSwitch: KeyboardSwitch
     private lateinit var mSugg1: Button
     private lateinit var mSugg2: Button
     private lateinit var mSugg3: Button
     private val suggViewModel = SuggestionViewModel()
     private val mTypedText = StringBuffer()
-    var justAddSugg: Boolean = true
+    var justAddSuggestions: Boolean = true
+    protected val longPressedKeysViews = arrayListOf<View>()
+    var typedText = StringBuffer()
+
 
     protected open fun toggleShiftBack() {
         // to override
     }
+
+    protected abstract fun getInstance(): KbLayoutInitializer
 
     @MainThread
     fun updateKeyboard(view: View) { // todo add animations to switching
@@ -73,37 +91,42 @@ abstract class KbLayoutInitializer(val context: Context) {
         lateinit var keyView: View
 
         val runnable = Runnable {
+            vibrateOnTap()
+            keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+            actionTime = System.currentTimeMillis()
+            actionDownFlag = AtomicBoolean(false)
+            longTap = AtomicBoolean(false)
             while (!actionDownFlag.get()) {
-                Log.d(LOG_TAG, "Touching Down")
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
-                    Log.d(LOG_TAG, "Long tap")
+                    vibrateOnTap(true)
                     keyView.post { updateKeyboard(keyView) }
                     longTap.set(true)
                     actionDownFlag.set(true) // once long tap reached, end the thread
                 }
             }
-            Log.d(LOG_TAG, "Not Touching")
         }
 
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    actionTime = System.currentTimeMillis()
-                    actionDownFlag = AtomicBoolean(false)
-                    longTap = AtomicBoolean(false)
                     keyView = view
                     Thread(runnable).start()
                     true
                 }
                 MotionEvent.ACTION_UP -> {
                     actionDownFlag.set(true)
-                    if (!longTap.get()) { // no tap; space key normal functionality
+                    if (!longTap.get()) { // no tap; space key key_normal functionality
                         val output = " "
                         ic.commitText(output, 1)
-                        disableAllExtraKeys()
-                        view.performClick()
+                        // check if toggle caps is required
+                        val isQwerty = getInstance() is KbLayoutInitPhoneQwertyPortrait
+                        if (isCapsFirstLetter && isQwerty && isStopExclamationQuestion()) {
+                            (getInstance() as KbLayoutInitPhoneQwertyPortrait).forceAllCaps(true)
+                        }
                     }
-                    justAddSugg = false
+                    justAddSuggestions = false
+                    view.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
+                    view.performClick()
                     true
                 }
                 else -> {
@@ -131,41 +154,56 @@ abstract class KbLayoutInitializer(val context: Context) {
     private val deleteOnTouchListener = object : View.OnTouchListener {
         lateinit var flagKeyDown: AtomicBoolean
         var actionTime = 0L
-        var keyView: View? = null
+        lateinit var keyView: View
 
         val runnable = Runnable {
+            vibrateOnTap()
+            resetLongPressedKeys()
+            keyView.post {
+                showDigits()
+            }
+            keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+            // delete the first char or the selected text
+            if (selectionEnd > selectionStart) {
+                ic.setComposingRegion(selectionStart, selectionEnd)
+                val newCursorPosition = if (selectionStartOld > 1) {
+                    selectionStartOld - 1
+                } else {
+                    0
+                }
+                ic.setComposingText("", newCursorPosition)
+            } else {
+                ic.deleteSurroundingText(1, 0)
+            }
+            toggleAllCapsFirstLetter()
+            flagKeyDown = AtomicBoolean(false)
+            actionTime = System.currentTimeMillis()
             while (!flagKeyDown.get()) {
                 if (System.currentTimeMillis() - actionTime > DELAY_AUTOREPEAT) {
-                    Log.d(LOG_TAG, "delete char")
-                    actionTime = System.currentTimeMillis()
+                    vibrateOnTap()
                     ic.deleteSurroundingText(1, 0)
-                    // update suggestions
+                    toggleAllCapsFirstLetter()
                     if (mTypedText.isNotEmpty()) {
                         mTypedText.delete(mTypedText.length - 1, mTypedText.length)
-                        Log.d(LOG_TAG, "mTypedText : $mTypedText")
                     }
+                    actionTime = System.currentTimeMillis()
                 }
             }
         }
 
-        override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-            return when (motionEvent?.action) {
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    disableAllExtraKeys()
-
-                    // delete the first char
-                    ic.deleteSurroundingText(1, 0)
-                    // start the thread
                     keyView = view
-                    flagKeyDown = AtomicBoolean(false)
-                    actionTime = System.currentTimeMillis()
+                    // start the thread
                     Thread(runnable).start()
                     true
                 }
                 MotionEvent.ACTION_UP -> {
                     flagKeyDown.set(true)
-                    view?.performClick()
-                    justAddSugg = false
+                    view.performClick()
+                    justAddSuggestions = false
+                    view.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
                     true
                 }
                 else -> {
@@ -175,9 +213,13 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    private val actionOnTouchListener = View.OnTouchListener { _, motionEvent ->
+    private val actionOnTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
+                vibrateOnTap()
+                resetLongPressedKeys()
+                showDigits()
+                view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
                 val ei = currentInputEditorInfo
                 if (ei.actionId != 0) {
                     ic.performEditorAction(ei.actionId)
@@ -188,7 +230,8 @@ abstract class KbLayoutInitializer(val context: Context) {
             }
             MotionEvent.ACTION_UP -> {
                 updateSuggestions("")
-                justAddSugg = true
+                justAddSuggestions = true
+                view.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
                 true
             }
             else -> {
@@ -200,13 +243,12 @@ abstract class KbLayoutInitializer(val context: Context) {
     private val suggestionOnTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                Log.d(LOG_TAG, "justAddSugg: $justAddSugg")
+                Log.d(LOG_TAG, "justAddSuggestions: $justAddSuggestions")
                 val text = "${(view as Button).text}"
-                if (text.isNotEmpty()) {  // todo create a component that manages the suggestions (refactoring)
-                    if (!justAddSugg) { // replace current word with suggestion
+                if (text.isNotEmpty()) {
+                    if (!justAddSuggestions) { // replace current word with suggestion
                         val lengthBefore = getBeforeCursorInSurroundingWord().length
                         val lengthAfter = getAfterCursorInSurroundingWord().length
-                        Log.d(LOG_TAG, "suggestionOnTouchListener: $lengthBefore $lengthAfter")
 
                         // replace surrounding word with suggestion
                         ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
@@ -229,7 +271,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                 true
             }
             MotionEvent.ACTION_UP -> {
-                justAddSugg = true // suggestion was just tapped
+                justAddSuggestions = true // suggestion was just tapped
                 true
             }
             else -> {
@@ -238,15 +280,12 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    // todo show digits in the extras bar and hide when showing extras then shown again
-    protected fun getSymbTouchListener(code: Int) = View.OnTouchListener { view, motionEvent ->
+    private val toggleDigitsTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
-                showSuggestions(View.GONE, View.GONE, View.GONE)
-                mTypedText.delete(0, mTypedText.length)
-
-                disableAllExtraKeys()
-                showExtraKeys(code)
+                vibrateOnTap()
+                resetLongPressedKeys()
+                showDigits()
                 true
             }
             MotionEvent.ACTION_UP -> {
@@ -256,6 +295,69 @@ abstract class KbLayoutInitializer(val context: Context) {
             else -> {
                 false
             }
+        }
+    }
+
+    protected fun getSymbolKeyTouchListener(code: Int) = object : View.OnTouchListener {
+
+        private var actionTime: Long = 0
+        private lateinit var flagActionUp: AtomicBoolean
+        lateinit var keyView: View
+
+        val runnable = Runnable {
+
+            keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+            flagActionUp = AtomicBoolean(false)
+            actionTime = System.currentTimeMillis()
+            while (!flagActionUp.get()) {
+                if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
+                    vibrateOnTap(true)
+                    flagActionUp.set(true)
+                    isSticky = true
+                    longPressedKeysViews.add(keyView)
+                }
+            }
+        }
+
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            return when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    keyView = view
+                    vibrateOnTap()
+                    // reset
+                    if (isSticky) {
+                        resetLongPressedKeys()
+                        showDigits()
+                    } else {
+                        showExtraKeys(code)
+                    }
+
+                    showSuggestions(View.GONE, View.GONE, View.GONE)
+                    mTypedText.delete(0, mTypedText.length)
+
+                    Thread(runnable).start()
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    flagActionUp.set(true)
+                    if (!isSticky) {
+                        view.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
+                    }
+                    view.performClick()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
+    protected fun resetLongPressedKeys() {
+        if (longPressedKeysViews.isNotEmpty()) {
+            longPressedKeysViews[0].background = ContextCompat.getDrawable(context, R.drawable.key_normal)
+            longPressedKeysViews.clear()
+            isSticky = false
         }
     }
 
@@ -295,7 +397,7 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     fun setActionType() {
         Log.d(LOG_TAG, "setActionType() $actionButton")
-        actionButton.text = getActionTypeString()
+        actionButton.setImageResource(getIconRes())
     }
 
     protected fun getCommonTouchListener(text: String = "", isExtra: Boolean = false) = object : View.OnTouchListener {
@@ -307,10 +409,15 @@ abstract class KbLayoutInitializer(val context: Context) {
         private lateinit var output: String
 
         val runnable = Runnable {
-            // todo make it more general - to be used in spaceKeyTouchListener as well
-            // show candidates
+            if (!isExtra) { // reset the background
+                keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+            } else {
+                keyView.background = ContextCompat.getDrawable(context, R.drawable.key_extra_pressed)
+            }
+            actionTime = System.currentTimeMillis()
             while (flagActionUp.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
+                    vibrateOnTap(true)
                     flagActionUp.set(false)
                     longTap.set(true)
                     resetAndShowExtras(true)
@@ -327,43 +434,40 @@ abstract class KbLayoutInitializer(val context: Context) {
 
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> { // todo key showing the preview till ACTION_DOWN (if no extras)
-                    Log.d(LOG_TAG, "Action was DOWN")
-
-                    flagActionUp = AtomicBoolean(true)
+                    vibrateOnTap()
                     longTap = AtomicBoolean(false)
-                    keyView = view
-
-                    actionTime = System.currentTimeMillis()
-                    Log.d(LOG_TAG, "DOWN: $actionTime")
-
-                    Thread(runnable).start() // wait for long tap
-
+                    flagActionUp = AtomicBoolean(true)
                     // show preview (if not isExtra)
                     if (!isExtra) {
+                        resetLongPressedKeys()
+                        showDigits()
                         val rect = view.locateView()
-                        Log.d(LOG_TAG, "${rect.left} ${rect.right} ${rect.bottom} ${rect.top} ")
                         popup = view.createPopup(output)
                         popup?.show(view, rect)
                     }
-
+                    keyView = view
+                    Thread(runnable).start() // wait for long tap
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    Log.d(LOG_TAG, "Action was UP")
                     flagActionUp.set(false)
 
                     if (!longTap.get()) {
-                        Log.d(LOG_TAG, "Normal tap")
                         // send text if not long tap
                         ic.commitText(output, 1)
                         // show extras (and close the preview)
                         if (!isExtra) {
                             resetAndShowExtras()
                         } else if (!isSticky) {
-                            resetAndShowExtras()
+                            showDigits()
                         }
                     }
-                    justAddSugg = false
+                    if (!isExtra) { // reset the background
+                        keyView.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
+                    } else {
+                        keyView.background = ContextCompat.getDrawable(context, R.drawable.key_extra_normal)
+                    }
+                    justAddSuggestions = false
                     view.performClick()
                     true
                 }
@@ -374,7 +478,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         private fun resetAndShowExtras(sticky: Boolean = false) {
             if (!sticky) {
                 // show extra keys
-                keyView.post { disableAllExtraKeys() }
+                keyView.post { showDigits() }
             }
             if (!isExtra) {
                 keyView.post { showExtraKeys(output[0].toInt()) }
@@ -406,15 +510,12 @@ abstract class KbLayoutInitializer(val context: Context) {
     private fun showSuggestions(vis1: Int = View.GONE, vis2: Int = View.GONE, vis3: Int = View.GONE) {
         if (mSugg1.visibility != vis1) {
             mSugg1.visibility = vis1
-            mSep1.visibility = vis1
         }
         if (mSugg2.visibility != vis2) {
             mSugg2.visibility = vis2
-            mSep2.visibility = vis2
         }
         if (mSugg3.visibility != vis3) {
             mSugg3.visibility = vis3
-            mSep3.visibility = vis3
         }
     }
 
@@ -426,28 +527,23 @@ abstract class KbLayoutInitializer(val context: Context) {
     private fun getSuggestions(it: List<Suggestion>) {
         when (it.size) {
             0 -> {
-                Log.d(LOG_TAG, "found 0 suggs; $mTypedText")
                 if (mSugg1.visibility != View.VISIBLE && mTypedText.isNotEmpty()) {
                     mSugg1.visibility = View.VISIBLE
-                    mSep1.visibility = View.VISIBLE
                 }
                 showSuggestions(mSugg1.visibility)
                 mSugg1.text = mTypedText
                 mSugg1.tag = mTypedText
             }
             1 -> {
-                Log.d(LOG_TAG, "found 1 suggs; $mTypedText")
                 showSuggestions(View.VISIBLE, View.GONE, View.GONE)
                 mSugg1.text = it[0].word
             }
             2 -> {
-                Log.d(LOG_TAG, "found 2 suggs; $mTypedText")
                 showSuggestions(View.VISIBLE, View.VISIBLE, View.GONE)
                 mSugg1.text = it[0].word
                 mSugg2.text = it[1].word
             }
             else -> { // 3 or more
-                Log.d(LOG_TAG, "found 3+ suggs; $mTypedText")
                 showSuggestions(View.VISIBLE, View.VISIBLE, View.VISIBLE)
                 mSugg1.text = it[0].word
                 mSugg2.text = it[1].word
@@ -459,14 +555,14 @@ abstract class KbLayoutInitializer(val context: Context) {
     /**
      * Set common keys
      */
-    protected open fun bindKeys(view: View, showSymbolsOrDigits: Boolean = true) {
+    protected open fun bindKeys(view: View) {
         (view button R.id.keySpace).apply {
             setOnTouchListener(getSpaceKeyTouchListener())
         }
-        view.findViewById<Button>(R.id.keyDel).apply {
+        view.findViewById<ImageButton>(R.id.keyDel).apply {
             setOnTouchListener(deleteOnTouchListener)
         }
-        (view button R.id.keyAction).apply {
+        (view imageButton R.id.keyAction).apply {
             actionButton = this
             setOnTouchListener(actionOnTouchListener)
         }
@@ -483,58 +579,59 @@ abstract class KbLayoutInitializer(val context: Context) {
         mSugg3 = (view button R.id.keySuggestion3).apply {
             setOnTouchListener(suggestionOnTouchListener)
         }
-        mSep1 = view frameLayout R.id.sep1
-        mSep2 = view frameLayout R.id.sep2
-        mSep3 = view frameLayout R.id.sep3
         showSuggestions()
     }
 
-    private fun getActionTypeString() = when (currentInputEditorInfo.imeOptions and EditorInfo.IME_MASK_ACTION) {
-        EditorInfo.IME_ACTION_NONE -> {
-            "AC" // todo add icons
-        }
-        EditorInfo.IME_ACTION_GO -> {
-            "GO"
-        }
-        EditorInfo.IME_ACTION_SEARCH -> {
-            "SC"
-        }
-        EditorInfo.IME_ACTION_SEND -> {
-            "SE"
-        }
-        EditorInfo.IME_ACTION_NEXT -> {
-            "->"
-        }
-        EditorInfo.IME_ACTION_DONE -> {
-            "OK"
-        }
-        EditorInfo.IME_ACTION_PREVIOUS -> {
-            "<-"
-        }
-        else -> {
-            "AC"
-        }
-    }
+    private fun getIconRes(): Int =
+            when (currentInputEditorInfo.imeOptions and EditorInfo.IME_MASK_ACTION) {
+                EditorInfo.IME_ACTION_NONE -> {
+                    R.drawable.ic_done_white_24dp
+                }
+                EditorInfo.IME_ACTION_GO -> {
+                    R.drawable.ic_send_white_24dp
+                }
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    R.drawable.ic_search_white_24dp
+                }
+                EditorInfo.IME_ACTION_SEND -> {
+                    R.drawable.ic_send_white_24dp
+                }
+                EditorInfo.IME_ACTION_NEXT -> {
+                    R.drawable.ic_navigate_next_white_24dp
+                }
+                EditorInfo.IME_ACTION_DONE -> {
+                    R.drawable.ic_search_white_24dp
+                }
+                EditorInfo.IME_ACTION_PREVIOUS -> {
+                    R.drawable.ic_navigate_before_white_24dp
+                }
+                else -> {
+                    R.drawable.ic_done_white_24dp
+                }
+            }
 
     protected fun showExtraKeys(code: Int) {
         val relatedChars = getRelatedCharsRes(code)
-        if (relatedChars != null) {
-            Log.d(LOG_TAG, "relatedChars.size: ${relatedChars.size}")
-            (0 until relatedChars.size).forEach { index ->
-                extraKeys[index].text = "${relatedChars[index].toChar()}"
-                extraKeys[index].isEnabled = true
+        if (relatedChars != null && relatedChars.size > 0) {
+            extraKeys.forEach {
+                it.text = context.resources.getString(R.string.key_label_placeholder)
+                it.isEnabled = false
             }
-        }
-    }
-
-    protected fun disableAllExtraKeys() {
-        extraKeys.forEach {
-            it.text = context.resources.getString(R.string.key_label_placeholder)
-            it.isEnabled = false
+            (0 until relatedChars.size).forEach { index ->
+                extraKeys[index].isEnabled = true
+                extraKeys[index].text = "${relatedChars[index].toChar()}"
+            }
+            // show "toggle to digits" if there are extras
+            toggleDigitsKey.visibility = View.VISIBLE
+        } else { // if no extras just show the digits // todo optimize logic
+            showDigits()
         }
     }
 
     protected fun initExtraKeys(view: View) {
+        toggleDigitsKey = (view imageButton R.id.keyToggleDigits).apply {
+            setOnTouchListener(toggleDigitsTouchListener)
+        }
         extraKeys.addAll(arrayListOf(
                 view button R.id.keyLetterExtra1
                 , view button R.id.keyLetterExtra2
@@ -545,19 +642,22 @@ abstract class KbLayoutInitializer(val context: Context) {
                 , view button R.id.keyLetterExtra7
                 , view button R.id.keyLetterExtra8
                 , view button R.id.keyLetterExtra9
-                , view button R.id.keyLetterExtra10
-                , view button R.id.keyLetterExtra11
-                , view button R.id.keyLetterExtra12
-                , view button R.id.keyLetterExtra13
-                , view button R.id.keyLetterExtra14
-                , view button R.id.keyLetterExtra15
-                , view button R.id.keyLetterExtra16
-                , view button R.id.keyLetterExtra17
-                , view button R.id.keyLetterExtra18)
-        )
+                , view button R.id.keyLetterExtra10))
         extraKeys.forEach {
-            it.isEnabled = false
             it.setOnTouchListener(getCommonTouchListener(isExtra = true))
+        }
+        view.post {
+            showDigits()
+        }
+    }
+
+    fun showDigits() {
+        if (toggleDigitsKey.visibility != View.GONE) {
+            toggleDigitsKey.visibility = View.GONE
+            (0..9).forEach {
+                extraKeys[it].isEnabled = true
+                extraKeys[it].text = extraKeysCodesMap[R.integer.key_code_digits.getVal(context)]?.get(it)?.toChar().toString()
+            }
         }
     }
 
@@ -568,16 +668,85 @@ abstract class KbLayoutInitializer(val context: Context) {
                 null
             }
 
-    fun resetTypedString(s: String = "") {
+    private fun resetTypedString(s: String = "") {
         mTypedText.replace(0, mTypedText.length, s)
     }
 
-    fun isTheMiddleOfWord(): Boolean {
+    private fun isTheMiddleOfWord(): Boolean {
         val before = getBeforeCursorInSurroundingWord()
         val after = getAfterCursorInSurroundingWord()
-        Log.d(LOG_TAG, "isTheMiddleOfWord(): [$before][$after]")
-
         return before.isNotEmpty() && after.isNotEmpty()
+    }
+
+    fun isTypedTextEmpty(): Boolean {
+        val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
+        val textAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0)
+        return textBefore.isNullOrEmpty() && textAfter.isNullOrEmpty()
+    }
+
+    fun isSpaceAfterStopExclamationQuestion(): Boolean {
+        val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
+        val len = textBefore.length
+        return len >= 2
+                && textBefore[len - 1] == ' '
+                && (textBefore[len - 2] == '?' || textBefore[len - 2] == '!' || textBefore[len - 2] == '.')
+    }
+
+    fun isStopExclamationQuestion(): Boolean {
+        val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
+        val len = textBefore.length
+        return len >= 2
+                && (textBefore[len - 2] == '?' || textBefore[len - 2] == '!' || textBefore[len - 2] == '.')
+    }
+
+    fun toggleAllCapsFirstLetter() {
+        if (getInstance() is KbLayoutInitPhoneQwertyPortrait) {
+            val isAllCaps = (getInstance() as KbLayoutInitPhoneQwertyPortrait).getAllCaps()
+            if (!isAllCaps && isCapsFirstLetter) {
+                val kbQwertyInit = getInstance() as KbLayoutInitPhoneQwertyPortrait
+                if (kbQwertyInit.isTypedTextEmpty()) {
+                    kbQwertyInit.forceAllCaps(true)
+                } else {
+                    if (kbQwertyInit.isSpaceAfterStopExclamationQuestion()) {
+                        kbQwertyInit.forceAllCaps(true)
+                    } else {
+                        kbQwertyInit.forceAllCaps(false)
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateSuggestionsOnSelection() {
+        val wordAfter = getAfterCursorInSurroundingWord()
+        val wordBefore = getBeforeCursorInSurroundingWord()
+        resetTypedString("$wordBefore$wordAfter")
+        updateSuggestions(wordBefore)
+        justAddSuggestions = !isTheMiddleOfWord()
+    }
+
+    fun setSelection(newSelStart: Int, newSelEnd: Int, oldStart: Int) {
+        selectionStart = newSelStart
+        selectionEnd = newSelEnd
+        selectionStartOld = oldStart
+    }
+
+    protected fun vibrateOnTap(isLongTap: Boolean = false) {
+        val vibratorService: Vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (!vibratorService.hasVibrator()) {
+            return
+        }
+
+        val length: Long = if (isLongTap) {
+            40
+        } else {
+            80
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibratorService.vibrate(VibrationEffect.createOneShot(length, 40))
+        } else {
+            vibratorService.vibrate(length)
+        }
     }
 
     companion object {
@@ -590,28 +759,28 @@ abstract class KbLayoutInitializer(val context: Context) {
 
             return when {
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerTabletPortraitQwerty(context)
+                    KbLayoutInitTabletQwertyPortrait(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerPhonePortraitQwerty(context)
+                    KbLayoutInitPhoneQwertyPortrait(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerTabletLanscapeQwerty(context)
+                    KbLayoutInitTabletQwertyLandscape(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerPhoneLandscapeQwerty(context)
+                    KbLayoutInitPhoneQwertyLandscape(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerTabletPortraitSa(context)
+                    KbLayoutInitTabletSanskritPortrait(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerPhonePortraitSa(context)
+                    KbLayoutInitPhoneSanskritPortrait(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerTabletLandscapeSa(context)
+                    KbLayoutInitTabletSanskritLandscape(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerPhoneLandscapeSa(context)
+                    KbLayoutInitPhoneSanskritLandscape(context)
                 }
                 else -> {
                     throw Exception("KbLayoutInitializer: Not a valid config")
@@ -620,8 +789,10 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
 
         private const val DELAY_HIDE_PREVIEW: Long = 160
-        private const val DELAY_AUTOREPEAT: Long = 100
+        private const val DELAY_AUTOREPEAT: Long = 160
         val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
 
     }
+
+    abstract fun getAllCaps(): Boolean
 }

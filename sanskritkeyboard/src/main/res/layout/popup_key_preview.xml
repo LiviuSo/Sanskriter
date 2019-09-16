@@ -5,15 +5,15 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/colorAccent"
+    android:background="@drawable/key_preview"
     android:gravity="center">
 
     <TextView
         android:id="@+id/tvPreview"
-        android:layout_width="@dimen/preview_width"
-        android:layout_height="@dimen/preview_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="24sp"
+        android:textSize="@dimen/key_preview_text_size"
         android:gravity="center"
         android:text=""/>
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="key_preview_text_size">40sp</dimen>
+    <dimen name="key_text_size">23sp</dimen>
+    <dimen name="text_size_label_symbols">17sp</dimen>
+
+
+    <dimen name="key_height">45dp</dimen>
+    <dimen name="key_margin">9dp</dimen>
+</resources>

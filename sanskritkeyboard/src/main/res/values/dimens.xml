@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="preview_width">50dp</dimen>
-    <dimen name="preview_height">50dp</dimen>
+
+    <dimen name="key_preview_text_size">28sp</dimen>
+    <dimen name="key_text_size">19sp</dimen>
+    <dimen name="text_size_label_symbols">13sp</dimen>
 
     <dimen name="key_height">40dp</dimen>
-    <dimen name="key_width">40dp</dimen>
+    <dimen name="key_margin">6dp</dimen>
 
-    <dimen name="key_height_tablet">60dp</dimen>
-    <dimen name="key_width_tablet">60dp</dimen>
+    <dimen name="key_settings_width">40dp</dimen>
 
 </resources>

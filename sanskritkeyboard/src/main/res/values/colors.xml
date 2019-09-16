@@ -4,14 +4,18 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="keyboard_background_color">#34495e</color>
     <color name="keyboard_divider">#2c3e50</color>
-    <color name="keyboard_key">#95a5af</color>
-    <color name="keyboard_key_extra">#719AAF</color>
-    <color name="keyboard_key_extra_text">#111111</color>
-
     <color name="keyboard_suggestion_background">#454545</color>
-    <color name="colorText1">#ECE5E5</color>
-    <color name="colorText2">#B89729</color>
+    <color name="key_label">#ECE5E5</color>
+    <color name="key_settings_label">#B89729</color>
+    <color name="color_keyboard_background">#05505F</color>
+    <color name="key_background">#123456</color>
+    <color name="key_stroke">#678906</color>
+    <color name="key_background_pressed">#08926A</color>
+    <color name="key_stroke_pressed">#911234</color>
+    <color name="key_extra_background">#e32a12</color>
+    <color name="key_extra_stroke">#5018de</color>
+    <color name="key_extra_background_pressed">#981eee</color>
+    <color name="key_extra_stroke_pressed">#91aede</color>
 
 </resources>

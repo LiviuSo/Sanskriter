@@ -5,180 +5,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="@color/color_keyboard_background"
+    android:paddingRight="@dimen/key_margin"
+    android:paddingEnd="@dimen/key_margin">
+
 
     <LinearLayout
-        android:id="@+id/llSuggestions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/keyboard_suggestion_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/keySuggestion1"
-            style="@style/CustomKeySuggestion"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="word1" />
-
-        <Button
-            android:id="@+id/keySuggestion2"
-            style="@style/CustomKeySuggestion"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="word2" />
-
-        <Button
-            android:id="@+id/keySuggestion3"
-            style="@style/CustomKeySuggestion"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="word3" />
-
-        <Button
-            android:id="@+id/keyIcon"
-            style="@style/CustomKeySettings"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="IC" />
-
-        <Button
-            android:id="@+id/keySettings"
-            style="@style/CustomKeySettings"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Se" />
-
-        <include
-            android:id="@+id/sep3"
-            layout="@layout/separator_vertical" />
-
-        <include
-            android:id="@+id/sep2"
-            layout="@layout/separator_vertical" />
-
-        <include
-            android:id="@+id/sep1"
-            layout="@layout/separator_vertical" />
-
-    </LinearLayout>
-
-    <HorizontalScrollView
-        android:id="@+id/svExtra"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSuggestions">
-
-        <LinearLayout
-            android:id="@+id/llKeyExtra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/keyLetterExtra1"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra2"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra3"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra4"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra5"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra6"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra7"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra8"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra9"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra10"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra11"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra12"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra13"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra14"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra15"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra16"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra17"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-
-            <Button
-                android:id="@+id/keyLetterExtra18"
-                style="@style/CustomKeyExtra"
-                android:text="@string/key_label_placeholder" />
-        </LinearLayout>
-    </HorizontalScrollView>
-
-    <LinearLayout
-        android:id="@+id/llQwerty"
+        android:id="@+id/llRow1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/svExtra">
+        app:layout_constraintTop_toBottomOf="@id/llExtra">
 
         <Button
             android:id="@+id/keyQ"
@@ -189,9 +29,9 @@
 
         <Button
             android:id="@+id/keyW"
+            style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            style="@style/CustomKeyLetter"
             android:text="@string/key_label_letter_w" />
 
         <Button
@@ -252,13 +92,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa2"
+        android:id="@+id/llRow2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llQwerty">
+        app:layout_constraintTop_toBottomOf="@id/llRow1">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight=".5" />
 
         <Button
             android:id="@+id/keyA"
@@ -323,29 +168,26 @@
             android:layout_weight="1"
             android:text="@string/key_label_letter_l" />
 
-        <Button
-            android:id="@+id/keyDel"
-            style="@style/CustomKeyLetter"
+        <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Del" />
+            android:layout_height="0dp"
+            android:layout_weight=".5" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa3"
+        android:id="@+id/llRow3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSa2">
+        app:layout_constraintTop_toBottomOf="@id/llRow2">
 
-        <Button
-            android:id="@+id/keyShift"
-            style="@style/CustomKeyLetter"
+        <View
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Sh" />
+            android:layout_height="0dp"
+            android:layout_weight=".5" />
 
         <Button
             android:id="@+id/keyZ"
@@ -396,78 +238,85 @@
             android:layout_weight="1"
             android:text="@string/key_label_letter_m" />
 
-        <Button
-            android:id="@+id/keyAction"
+        <ImageButton
+            android:id="@+id/keyDel"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Ac" />
+            android:layout_weight="2"
+            android:src="@drawable/ic_keyboard_backspace_white_24dp"
+            android:contentDescription="@string/key_backspace_description" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight=".5" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa5"
+        android:id="@+id/llRow4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSa3">
+        app:layout_constraintTop_toBottomOf="@id/llRow3">
+
+        <ImageButton
+            android:id="@+id/keyShift"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_arrow_upward_white_24dp"
+            android:contentDescription="@string/key_shift_description" />
 
         <Button
-            android:id="@+id/keyPeriod"
+            android:id="@+id/keyPunctuation"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_period" />
+            android:text="@string/key_label_punctuation"
+            android:textSize="@dimen/text_size_label_symbols" />
 
         <Button
-            android:id="@+id/keyComma"
+            android:id="@+id/keyBraces"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_comma" />
-
-        <Button
-            android:id="@+id/keyQuestion"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_question_mark" />
+            android:text="@string/key_label_paranthesis"
+            android:textSize="@dimen/text_size_label_symbols" />
 
         <Button
             android:id="@+id/keySpace"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:text="@string/lang_label_qwerty" />
 
         <Button
-            android:id="@+id/keyExclamation"
+            android:id="@+id/keySymbol"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_exclamation_mark" />
+            android:textSize="@dimen/text_size_label_symbols"
+            android:text="@string/key_label_symbols_qwerty" />
 
-        <Button
-            android:id="@+id/keyHyphen"
+        <ImageButton
+            android:id="@+id/keyAction"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_hyphen" />
+            android:layout_weight="1.5"
+            android:src="@drawable/ic_done_white_24dp"
+            android:contentDescription="@string/key_action_description" />
 
-        <Button
-            android:id="@+id/keyAt"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_at" />
-
-        <Button
-            android:id="@+id/keyDigits"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_dig" />
     </LinearLayout>
+
+    <include
+        android:id="@+id/llSuggestions"
+        layout="@layout/row_suggestions" />
+
+    <include
+        android:id="@+id/llExtra"
+        layout="@layout/row_extras" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

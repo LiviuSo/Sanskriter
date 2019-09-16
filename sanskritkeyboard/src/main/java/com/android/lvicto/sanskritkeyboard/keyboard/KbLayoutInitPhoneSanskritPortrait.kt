@@ -4,9 +4,13 @@ import android.content.Context
 import android.view.View
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.utils.button
+import com.android.lvicto.sanskritkeyboard.utils.getVal
 import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
 
-open class KbLayoutInitializerPhonePortraitSa(context: Context) : KbLayoutInitializer(context) {
+open class KbLayoutInitPhoneSanskritPortrait(context: Context) : KbLayoutInitializer(context) {
+    override fun getAllCaps(): Boolean = false
+
+    override fun getInstance(): KbLayoutInitializer = this
 
     override fun initExtraCodes() {
         val res = context.resources
@@ -47,32 +51,69 @@ open class KbLayoutInitializerPhonePortraitSa(context: Context) : KbLayoutInitia
         )
         codes.forEach {
             extraKeysCodesMap[it] = arrayListOf(
-                    res.getInteger(R.integer.key_code_extra_red)
-                    , res.getInteger(R.integer.key_code_extra_long_a)
+                    res.getInteger(R.integer.key_code_extra_long_a) // todo extras on the letter
                     , res.getInteger(R.integer.key_code_extra_i)
                     , res.getInteger(R.integer.key_code_extra_long_i)
                     , res.getInteger(R.integer.key_code_extra_u)
                     , res.getInteger(R.integer.key_code_extra_long_u)
                     , res.getInteger(R.integer.key_code_extra_ri)
-                    , res.getInteger(R.integer.key_code_extra_long_lri)
                     , res.getInteger(R.integer.key_code_extra_e)
                     , res.getInteger(R.integer.key_code_extra_ai)
                     , res.getInteger(R.integer.key_code_extra_o)
                     , res.getInteger(R.integer.key_code_extra_au)
-                    , res.getInteger(R.integer.key_code_extra_anushvara)
-                    , res.getInteger(R.integer.key_code_extra_visarga)
-                    , res.getInteger(R.integer.key_code_extra_omkara1)
-                    , res.getInteger(R.integer.key_code_extra_omkara2)
             )
         }
         extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_stop)] = arrayListOf(res.getInteger(R.integer.key_code_sa_double_stop))
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_symbols)] = arrayListOf(
+                res.getInteger(R.integer.key_code_extra_red)
+                , res.getInteger(R.integer.key_code_extra_anushvara)
+                , res.getInteger(R.integer.key_code_extra_visarga)
+                , res.getInteger(R.integer.key_code_extra_omkara1)
+                , res.getInteger(R.integer.key_code_extra_omkara2)
+                , res.getInteger(R.integer.key_code_extra_long_lri)
+                , res.getInteger(R.integer.key_code_extra_accent1)
+                , res.getInteger(R.integer.key_code_extra_accent2)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_a)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_long_a)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_i)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_long_i)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_u)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_long_u)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_ri)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_long_ri)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_lri)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_long_lri)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_e)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_ai)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_o)] = arrayListOf(
+                res.getInteger(R.integer.key_code_sa_au)
+        )
+        extraKeysCodesMap[R.integer.key_code_digits.getVal(context)] = arrayListOf(
+                R.integer.key_code_sa_digit_0.getVal(context),
+                R.integer.key_code_sa_digit_1.getVal(context),
+                R.integer.key_code_sa_digit_2.getVal(context),
+                R.integer.key_code_sa_digit_3.getVal(context),
+                R.integer.key_code_sa_digit_4.getVal(context),
+                R.integer.key_code_sa_digit_5.getVal(context),
+                R.integer.key_code_sa_digit_6.getVal(context),
+                R.integer.key_code_sa_digit_7.getVal(context),
+                R.integer.key_code_sa_digit_8.getVal(context),
+                R.integer.key_code_sa_digit_9.getVal(context)
+        )
     }
 
     override fun getView(): View =
-            context.layoutInflater().inflate(R.layout.keyboard_phone_portrait_sa, null)
+            context.layoutInflater().inflate(R.layout.keyboard_phone_sanskrit_portrait, null)
 
-    override fun bindKeys(view: View, showSymbolsOrDigits: Boolean) {
-        super.bindKeys(view, showSymbolsOrDigits)
+    override fun bindKeys(view: View) {
+        super.bindKeys(view)
         val keysClickListener = arrayListOf(
                 view button R.id.keySaA
                 , view button R.id.keySaI
@@ -114,27 +155,16 @@ open class KbLayoutInitializerPhonePortraitSa(context: Context) : KbLayoutInitia
                 , view button R.id.keySaLa
                 , view button R.id.keySaVa
                 , view button R.id.keySaHa
+                , view button R.id.keySaSep
+                , view button R.id.keySaApostrophy
         )
-        if(showSymbolsOrDigits) {
-            keysClickListener.add(view button R.id.keySaDigit1)
-            keysClickListener.add(view button R.id.keySaDigit2)
-            keysClickListener.add(view button R.id.keySaDigit3)
-            keysClickListener.add(view button R.id.keySaDigit4)
-            keysClickListener.add(view button R.id.keySaDigit5)
-            keysClickListener.add(view button R.id.keySaDigit6)
-            keysClickListener.add(view button R.id.keySaDigit7)
-            keysClickListener.add(view button R.id.keySaDigit8)
-            keysClickListener.add(view button R.id.keySaDigit9)
-            keysClickListener.add(view button R.id.keySaDigit0)
-
-            keysClickListener.add(view button R.id.keySaSep)
-            keysClickListener.add(view button R.id.keySaApostrophy)
-            keysClickListener.add(view button R.id.keySaAccent1)
-            keysClickListener.add(view button R.id.keySaAccent2)
-        }
 
         keysClickListener.forEach {
             it.setOnTouchListener(getCommonTouchListener())
+        }
+
+        (view button R.id.keySymbol).apply {
+            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols.getVal(context)))
         }
 
         initExtraKeys(view)

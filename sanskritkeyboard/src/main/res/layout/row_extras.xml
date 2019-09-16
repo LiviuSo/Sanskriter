@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/llKeyExtra"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/llSuggestions">
+
+    <ImageButton
+        android:id="@+id/keyToggleDigits"
+        style="@style/CustomKeyExtra"
+        android:layout_weight=".75"
+        android:width="0dp"
+        android:src="@drawable/ic_swap_horiz_white_24dp"
+        android:contentDescription="@string/key_swap_to_digits_content_descr" />
+
+    <Button
+        android:id="@+id/keyLetterExtra1"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra2"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra3"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra4"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra5"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra6"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra7"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra8"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra9"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+
+    <Button
+        android:id="@+id/keyLetterExtra10"
+        style="@style/CustomKeyExtra"
+        android:layout_weight="1"
+        android:width="0dp"
+        android:text="@string/key_label_placeholder" />
+</LinearLayout>
