@@ -104,6 +104,8 @@
 
     <integer name="key_code_letter_m_sa">7747</integer>
     <integer name="key_code_letter_M_sa">7746</integer>
+    <integer name="key_code_letter_m2_sa">7745</integer>
+    <integer name="key_code_letter_M2_sa">7744</integer>
 
     <integer name="key_code_letter_n_sa1">7749</integer>
     <integer name="key_code_letter_n_sa2">241</integer>
@@ -200,6 +202,8 @@
     <integer name="key_code_sa_lri">2316</integer>
     <integer name="key_code_sa_e">2319</integer>
     <integer name="key_code_sa_o">2323</integer>
+
+    <!--  ह -->
     <integer name="key_code_sa_h">2361</integer>
 
     <!-- क ख ग घ च छ ज झ ट ठ -->

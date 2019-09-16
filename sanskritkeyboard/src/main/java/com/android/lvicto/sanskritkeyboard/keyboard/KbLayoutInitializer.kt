@@ -239,6 +239,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     // todo show digits in the extras bar and hide when showing extras then shown again
+    // todo add long tap functionality
     protected fun getSymbTouchListener(code: Int) = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -590,28 +591,28 @@ abstract class KbLayoutInitializer(val context: Context) {
 
             return when {
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerTabletPortraitQwerty(context)
+                    KbLayoutInitTabletQwertyPortrait(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerPhonePortraitQwerty(context)
+                    KbLayoutInitPhoneQwertyPortrait(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerTabletLanscapeQwerty(context)
+                    KbLayoutInitTabletQwertyLandscape(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.QWERTY) -> {
-                    KbLayoutInitializerPhoneLandscapeQwerty(context)
+                    KbLayoutInitPhoneQwertyLandscape(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerTabletPortraitSa(context)
+                    KbLayoutInitTabletSanskritPortrait(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_PORTRAIT && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerPhonePortraitSa(context)
+                    KbLayoutInitPhoneSanskritPortrait(context)
                 }
                 (tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerTabletLandscapeSa(context)
+                    KbLayoutInitTabletSanskritLandscape(context)
                 }
                 (!tablet && orientation == Configuration.ORIENTATION_LANDSCAPE && keyboardType == KeyboardType.SA) -> {
-                    KbLayoutInitializerPhoneLandscapeSa(context)
+                    KbLayoutInitPhoneSanskritLandscape(context)
                 }
                 else -> {
                     throw Exception("KbLayoutInitializer: Not a valid config")

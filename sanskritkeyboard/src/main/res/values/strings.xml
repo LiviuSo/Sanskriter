@@ -49,6 +49,7 @@
     <string name="key_label_exclamation_mark">!</string>
     <string name="key_label_hyphen">-</string>
     <string name="key_label_at">\@</string>
+    <string name="key_label_sep">|</string>
 
     <string name="key_label_iast_a_long">\u0101</string>
     <string name="key_label_iast_i_long">\u012B</string>
@@ -89,7 +90,7 @@
 
     <!-- ् ऽ ।(॥) -->
     <string name="key_label_sa_red">\u094D</string>
-    <string name="key_label_sa_apostrophy">\u093D</string>
+    <string name="key_label_sa_apostrophe">\u093D</string>
     <string name="key_label_sa_sep">\u0964</string>
     <string name="key_label_sa_double_sep">\u0965</string>
 
@@ -161,4 +162,5 @@
     <string name="lang_label_qwerty">Qwerty</string>
     <string name="keyboard_name">SanskritSimpleKeyboard</string>
     <string name="key_label_dig">123...</string>
+    <string name="key_label_apostrophe">\'</string>
 </resources>

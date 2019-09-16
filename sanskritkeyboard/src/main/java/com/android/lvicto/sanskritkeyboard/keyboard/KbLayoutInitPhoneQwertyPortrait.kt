@@ -13,7 +13,7 @@ import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
-open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
+open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         KbLayoutInitializer(context) {
     private var allCaps: Boolean = false
     private var allCapsPersist: Boolean = false
@@ -68,17 +68,13 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
     }
 
     override fun getView(): View =
-            context.layoutInflater().inflate(R.layout.keyboard_phone_portrait_qwerty, null)
+            context.layoutInflater().inflate(R.layout.keyboard_phone_qwerty_portrait, null)
 
     override fun bindKeys(view: View, showSymbolsOrDigits: Boolean) {
         super.bindKeys(view, showSymbolsOrDigits)
         val keysClickListenerOnly = arrayListOf(
-                view button R.id.keyComma
-                , view button R.id.keyQuestion
-                , view button R.id.keyExclamation
-                , view button R.id.keyPeriod
-                , view button R.id.keyHyphen
-                , view button R.id.keyAt
+                view button R.id.keyApostrophe
+                , view button R.id.keySep
         )
         if (showSymbolsOrDigits) {
             keysClickListenerOnly.add(view button R.id.keyDigit1)
@@ -134,6 +130,10 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
             setOnTouchListener(shiftTouchListener)
         }
 
+        view.findViewById<Button>(R.id.keySymbol).apply {
+            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols.getVal(context)))
+        }
+
         initExtraKeys(view)
     }
 
@@ -142,104 +142,179 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_a)] = arrayListOf(
                 R.integer.key_code_letter_a_ro1.getVal(context),
                 res.getInteger(R.integer.key_code_letter_a_ro2),
-                res.getInteger(R.integer.key_code_letter_a_sa)
+                res.getInteger(R.integer.key_code_letter_a_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_A)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_A_ro1),
                 res.getInteger(R.integer.key_code_letter_A_ro2),
-                res.getInteger(R.integer.key_code_letter_A_sa)
+                res.getInteger(R.integer.key_code_letter_A_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_i)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_i_ro),
-                res.getInteger(R.integer.key_code_letter_i_sa)
+                res.getInteger(R.integer.key_code_letter_i_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_I)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_I_ro),
-                res.getInteger(R.integer.key_code_letter_I_sa)
+                res.getInteger(R.integer.key_code_letter_I_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_l)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_l_sa),
-                res.getInteger(R.integer.key_code_letter_l_sa_long)
+                res.getInteger(R.integer.key_code_letter_l_sa_long),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_L)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_L_sa),
-                res.getInteger(R.integer.key_code_letter_L_sa_long)
+                res.getInteger(R.integer.key_code_letter_L_sa_long),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_m)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_m_sa)
+                res.getInteger(R.integer.key_code_letter_m_sa),
+                res.getInteger(R.integer.key_code_letter_m2_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_M)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_M_sa)
+                res.getInteger(R.integer.key_code_letter_M_sa),
+                res.getInteger(R.integer.key_code_letter_M2_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_n)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_n_sa1),
                 res.getInteger(R.integer.key_code_letter_n_sa2),
-                res.getInteger(R.integer.key_code_letter_n_sa3)
+                res.getInteger(R.integer.key_code_letter_n_sa3),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_N)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_N_sa1),
                 res.getInteger(R.integer.key_code_letter_N_sa2),
-                res.getInteger(R.integer.key_code_letter_N_sa3)
+                res.getInteger(R.integer.key_code_letter_N_sa3),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_r)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_r_sa1),
-                res.getInteger(R.integer.key_code_letter_r_sa2)
+                res.getInteger(R.integer.key_code_letter_r_sa2),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_R)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_R_sa1),
-                res.getInteger(R.integer.key_code_letter_R_sa2)
+                res.getInteger(R.integer.key_code_letter_R_sa2),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_s)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_s_ro),
                 res.getInteger(R.integer.key_code_letter_s_sa1),
-                res.getInteger(R.integer.key_code_letter_s_sa2)
+                res.getInteger(R.integer.key_code_letter_s_sa2),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_S)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_S_ro),
                 res.getInteger(R.integer.key_code_letter_S_sa1),
-                res.getInteger(R.integer.key_code_letter_S_sa2)
+                res.getInteger(R.integer.key_code_letter_S_sa2),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_t)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_t_ro),
-                res.getInteger(R.integer.key_code_letter_t_sa)
+                res.getInteger(R.integer.key_code_letter_t_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_T)] = arrayListOf(
                 res.getInteger(R.integer.key_code_letter_T_ro),
-                res.getInteger(R.integer.key_code_letter_T_sa)
+                res.getInteger(R.integer.key_code_letter_T_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_d)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_d_sa)
+                res.getInteger(R.integer.key_code_letter_d_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_D)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_D_sa)
+                res.getInteger(R.integer.key_code_letter_D_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
 
-        extraKeysCodesMap[R.integer.key_code_letter_d.getVal(context)] = arrayListOf(
-                R.integer.key_code_letter_d_sa.getVal(context)
-        )
-        extraKeysCodesMap[R.integer.key_code_letter_D.getVal(context)] = arrayListOf(
-                R.integer.key_code_letter_D_sa.getVal(context)
-        )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_u)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_u_sa)
+                res.getInteger(R.integer.key_code_letter_u_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_U)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_U_sa)
+                res.getInteger(R.integer.key_code_letter_U_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_h)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_h_sa)
+                res.getInteger(R.integer.key_code_letter_h_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
         extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_H)] = arrayListOf(
-                res.getInteger(R.integer.key_code_letter_H_sa)
+                res.getInteger(R.integer.key_code_letter_H_sa),
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
-        extraKeysCodesMap[R.integer.key_code_period.getVal(context)] = arrayListOf(
-                R.integer.key_code_apostrophy.getVal(context),
-                R.integer.key_code_quote.getVal(context),
-                R.integer.key_code_semicolon.getVal(context),
-                R.integer.key_code_colon.getVal(context)
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_e)] = arrayListOf(
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_y)] = arrayListOf(
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
+        )
+        extraKeysCodesMap[res.getInteger(R.integer.key_code_letter_o)] = arrayListOf(
+                res.getInteger(R.integer.key_code_extra_accent1),
+                res.getInteger(R.integer.key_code_extra_accent2)
         )
 
-        extraKeysCodesMap[R.integer.key_code_hyphen.getVal(context)] = arrayListOf(
+        extraKeysCodesMap[R.integer.key_code_apostrophy.getVal(context)] = arrayListOf(
+                R.integer.key_code_period.getVal(context),
+                R.integer.key_code_comma.getVal(context),
+                R.integer.key_code_exclamation_mark.getVal(context),
+                R.integer.key_code_question_mark.getVal(context),
+                R.integer.key_code_quote.getVal(context),
+                R.integer.key_code_semicolon.getVal(context),
+                R.integer.key_code_colon.getVal(context),
+                R.integer.key_code_at.getVal(context),
+                R.integer.key_code_open_paranthesis.getVal(context),
+                R.integer.key_code_close_paranthesis.getVal(context)
+        )
+
+        extraKeysCodesMap[R.integer.key_code_pipe.getVal(context)] = arrayListOf(
+                R.integer.key_code_underscore.getVal(context),
+                R.integer.key_code_cent.getVal(context),
+                R.integer.key_code_dollar.getVal(context),
+                R.integer.key_code_pound.getVal(context),
+                R.integer.key_code_slash.getVal(context),
+                R.integer.key_code_backslash.getVal(context),
+                R.integer.key_code_open_square_paranthesis.getVal(context),
+                R.integer.key_code_close_square_paranthesis.getVal(context),
+                R.integer.key_code_open_curly_brace.getVal(context),
+                R.integer.key_code_close_curly_brace.getVal(context)
+        )
+
+        extraKeysCodesMap[R.integer.key_code_symbols.getVal(context)] = arrayListOf(
+                R.integer.key_code_hyphen.getVal(context),
                 R.integer.key_code_plus.getVal(context),
                 R.integer.key_code_multiplication.getVal(context),
                 R.integer.key_code_division.getVal(context),
@@ -249,24 +324,6 @@ open class KbLayoutInitializerPhonePortraitQwerty(context: Context) :
                 R.integer.key_code_xor.getVal(context),
                 R.integer.key_code_percent.getVal(context),
                 R.integer.key_code_tilda.getVal(context)
-        )
-
-        extraKeysCodesMap[R.integer.key_code_at.getVal(context)] = arrayListOf(
-                R.integer.key_code_underscore.getVal(context),
-                R.integer.key_code_slash.getVal(context),
-                R.integer.key_code_pipe.getVal(context),
-                R.integer.key_code_cent.getVal(context),
-                R.integer.key_code_back_apostrophe.getVal(context),
-                R.integer.key_code_dollar.getVal(context),
-                R.integer.key_code_pound.getVal(context),
-                R.integer.key_code_backslash.getVal(context),
-
-                R.integer.key_code_open_paranthesis.getVal(context),
-                R.integer.key_code_close_paranthesis.getVal(context),
-                R.integer.key_code_open_square_paranthesis.getVal(context),
-                R.integer.key_code_close_square_paranthesis.getVal(context),
-                R.integer.key_code_open_curly_brace.getVal(context),
-                R.integer.key_code_close_curly_brace.getVal(context)
         )
     }
 

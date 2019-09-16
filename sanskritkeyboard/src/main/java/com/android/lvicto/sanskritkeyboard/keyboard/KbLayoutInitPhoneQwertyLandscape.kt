@@ -7,7 +7,7 @@ import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.utils.getVal
 import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
 
-class KbLayoutInitializerPhoneLandscapeQwerty(context: Context) : KbLayoutInitializerPhonePortraitQwerty(context) {
+open class KbLayoutInitPhoneQwertyLandscape(context: Context) : KbLayoutInitPhoneQwertyPortrait(context) {
 
     override fun initExtraCodes() {
         super.initExtraCodes()
@@ -26,7 +26,7 @@ class KbLayoutInitializerPhoneLandscapeQwerty(context: Context) : KbLayoutInitia
     }
 
     override fun getView(): View =
-            context.layoutInflater().inflate(R.layout.keyboard_phone_landscape_qwerty, null)
+            context.layoutInflater().inflate(R.layout.keyboard_phone_qwerty_landscape, null)
 
     override fun bindKeys(view: View, showSymbolsOrDigits: Boolean) {
         super.bindKeys(view, false)

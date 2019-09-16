@@ -12,6 +12,17 @@ import android.view.inputmethod.EditorInfo
 @SuppressLint("Registered")
 open class StubbedInputMethodService : InputMethodService() {
 
+    override fun onEvaluateFullscreenMode(): Boolean {
+        val isFullScreen = super.onEvaluateFullscreenMode()
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onEvaluateFullscreenMode(): $isFullScreen")
+        return isFullScreen
+    }
+
+    override fun updateFullscreenMode() {
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "updateFullscreenMode()")
+        super.updateFullscreenMode()
+    }
+
     override fun onInitializeInterface() {
         Log.d(SanskritCustomKeyboard.LOG_TAG, "onInitializeInterface()")
     }
@@ -56,11 +67,6 @@ open class StubbedInputMethodService : InputMethodService() {
     override fun onLowMemory() {
         Log.d(SanskritCustomKeyboard.LOG_TAG, "onLowMemory()")
         super.onLowMemory()
-    }
-
-    override fun onStart(intent: Intent?, startId: Int) {
-        Log.d(SanskritCustomKeyboard.LOG_TAG, "onStart()")
-        super.onStart(intent, startId)
     }
 
     override fun onUnbind(intent: Intent?): Boolean {
