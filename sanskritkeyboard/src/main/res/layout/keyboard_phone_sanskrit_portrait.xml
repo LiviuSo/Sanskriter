@@ -4,93 +4,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/row_suggestions" android:id="@+id/llSuggestions"/>
 
-    <include layout="@layout/row_extras" android:id="@+id/svExtra"
-        app:layout_constraintTop_toBottomOf="@id/llSuggestions"/>
-
-    <LinearLayout
-        android:id="@+id/llDigits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/svExtra">
-
-        <Button
-            android:id="@+id/keySaDigit1"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_1" />
-
-        <Button
-            android:id="@+id/keySaDigit2"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_2" />
-
-        <Button
-            android:id="@+id/keySaDigit3"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_3" />
-
-        <Button
-            android:id="@+id/keySaDigit4"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_4" />
-
-        <Button
-            android:id="@+id/keySaDigit5"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_5" />
-
-        <Button
-            android:id="@+id/keySaDigit6"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_6" />
-
-        <Button
-            android:id="@+id/keySaDigit7"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_7" />
-
-        <Button
-            android:id="@+id/keySaDigit8"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_8" />
-
-        <Button
-            android:id="@+id/keySaDigit9"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_9" />
-
-        <Button
-            android:id="@+id/keySaDigit0"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_digit_0" />
-    </LinearLayout>
+    <include
+        android:id="@+id/llExtra"
+        layout="@layout/row_extras"
+        app:layout_constraintTop_toBottomOf="@id/llSuggestions"
+        tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
         android:id="@+id/llSa1"
@@ -99,7 +23,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llDigits">
+        app:layout_constraintTop_toBottomOf="@id/llExtra">
 
         <View
             android:layout_width="0dp"

@@ -92,13 +92,25 @@ open class KbLayoutInitPhoneSanskritPortrait(context: Context) : KbLayoutInitial
         extraKeysCodesMap[res.getInteger(R.integer.key_code_sa_o)] = arrayListOf(
                 res.getInteger(R.integer.key_code_sa_au)
         )
+        extraKeysCodesMap[R.integer.key_code_digits.getVal(context)] = arrayListOf(
+                R.integer.key_code_sa_digit_0.getVal(context),
+                R.integer.key_code_sa_digit_1.getVal(context),
+                R.integer.key_code_sa_digit_2.getVal(context),
+                R.integer.key_code_sa_digit_3.getVal(context),
+                R.integer.key_code_sa_digit_4.getVal(context),
+                R.integer.key_code_sa_digit_5.getVal(context),
+                R.integer.key_code_sa_digit_6.getVal(context),
+                R.integer.key_code_sa_digit_7.getVal(context),
+                R.integer.key_code_sa_digit_8.getVal(context),
+                R.integer.key_code_sa_digit_9.getVal(context)
+        )
     }
 
     override fun getView(): View =
             context.layoutInflater().inflate(R.layout.keyboard_phone_sanskrit_portrait, null)
 
-    override fun bindKeys(view: View, showSymbolsOrDigits: Boolean) {
-        super.bindKeys(view, showSymbolsOrDigits)
+    override fun bindKeys(view: View) {
+        super.bindKeys(view)
         val keysClickListener = arrayListOf(
                 view button R.id.keySaA
                 , view button R.id.keySaI
@@ -140,22 +152,9 @@ open class KbLayoutInitPhoneSanskritPortrait(context: Context) : KbLayoutInitial
                 , view button R.id.keySaLa
                 , view button R.id.keySaVa
                 , view button R.id.keySaHa
+                , view button R.id.keySaSep
+                , view button R.id.keySaApostrophy
         )
-        if (showSymbolsOrDigits) {
-            keysClickListener.add(view button R.id.keySaDigit1)
-            keysClickListener.add(view button R.id.keySaDigit2)
-            keysClickListener.add(view button R.id.keySaDigit3)
-            keysClickListener.add(view button R.id.keySaDigit4)
-            keysClickListener.add(view button R.id.keySaDigit5)
-            keysClickListener.add(view button R.id.keySaDigit6)
-            keysClickListener.add(view button R.id.keySaDigit7)
-            keysClickListener.add(view button R.id.keySaDigit8)
-            keysClickListener.add(view button R.id.keySaDigit9)
-            keysClickListener.add(view button R.id.keySaDigit0)
-
-            keysClickListener.add(view button R.id.keySaSep)
-            keysClickListener.add(view button R.id.keySaApostrophy)
-        }
 
         keysClickListener.forEach {
             it.setOnTouchListener(getCommonTouchListener())

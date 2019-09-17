@@ -183,16 +183,16 @@
     <integer name="key_code_cent">162</integer>
 
     <!-- १ २ ३ ४ ५ ६ ७ ८ ९ ० -->
-    <integer name="key_code_sa_1">2406</integer>
-    <integer name="key_code_sa_2">2407</integer>
-    <integer name="key_code_sa_3">2408</integer>
-    <integer name="key_code_sa_4">2409</integer>
-    <integer name="key_code_sa_5">2410</integer>
-    <integer name="key_code_sa_6">2411</integer>
-    <integer name="key_code_sa_7">2412</integer>
-    <integer name="key_code_sa_8">2413</integer>
-    <integer name="key_code_sa_9">2414</integer>
-    <integer name="key_code_sa_0">2415</integer>
+    <integer name="key_code_sa_digit_1">2406</integer>
+    <integer name="key_code_sa_digit_2">2407</integer>
+    <integer name="key_code_sa_digit_3">2408</integer>
+    <integer name="key_code_sa_digit_4">2409</integer>
+    <integer name="key_code_sa_digit_5">2410</integer>
+    <integer name="key_code_sa_digit_6">2411</integer>
+    <integer name="key_code_sa_digit_7">2412</integer>
+    <integer name="key_code_sa_digit_8">2413</integer>
+    <integer name="key_code_sa_digit_9">2414</integer>
+    <integer name="key_code_sa_digit_0">2415</integer>
 
     <!-- अ(आ) इ(ई) उ(ऊ) ऋ(ॠ) ऌ(ॡ) ए(ऐ) ओ(औ) ह -->
     <integer name="key_code_sa_a">2309</integer>

@@ -31,6 +31,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
 
+    private lateinit var toggleDigitsKey: Button
     private var isSticky: Boolean = false
     private lateinit var mSep2: FrameLayout
     private lateinit var mSep3: FrameLayout
@@ -237,6 +238,22 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
+    private val toogleDigitsTouchListener = View.OnTouchListener { view, motionEvent ->
+        when (motionEvent.action) {
+            MotionEvent.ACTION_DOWN -> {
+                showDigits()
+                true
+            }
+            MotionEvent.ACTION_UP -> {
+                view.performClick()
+                true
+            }
+            else -> {
+                false
+            }
+        }
+    }
+
     // todo show digits in the extras bar and hide when showing extras then shown again
     // todo add long tap functionality
     protected fun getSymbTouchListener(code: Int) = View.OnTouchListener { view, motionEvent ->
@@ -360,7 +377,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                         if (!isExtra) {
                             resetAndShowExtras()
                         } else if (!isSticky) {
-                            resetAndShowExtras()
+                            showDigits()
                         }
                     }
                     justAddSugg = false
@@ -457,7 +474,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     /**
      * Set common keys
      */
-    protected open fun bindKeys(view: View, showSymbolsOrDigits: Boolean = true) {
+    protected open fun bindKeys(view: View) {
         (view button R.id.keySpace).apply {
             setOnTouchListener(getSpaceKeyTouchListener())
         }
@@ -515,12 +532,16 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     protected fun showExtraKeys(code: Int) {
         val relatedChars = getRelatedCharsRes(code)
-        if (relatedChars != null) {
+        if (relatedChars != null && relatedChars.size > 0) {
             Log.d(LOG_TAG, "relatedChars.size: ${relatedChars.size}")
             (0 until relatedChars.size).forEach { index ->
                 extraKeys[index].text = "${relatedChars[index].toChar()}"
                 extraKeys[index].isEnabled = true
             }
+            // show "toggle to digits" if there are extras
+            toggleDigitsKey.visibility = View.VISIBLE
+        } else { // if no extras just show the digits // todo optimize logic
+            showDigits()
         }
     }
 
@@ -532,6 +553,9 @@ abstract class KbLayoutInitializer(val context: Context) {
     }
 
     protected fun initExtraKeys(view: View) {
+        toggleDigitsKey = (view button R.id.keyToggleDigits).apply {
+            setOnTouchListener(toogleDigitsTouchListener)
+        }
         extraKeys.addAll(arrayListOf(
                 view button R.id.keyLetterExtra1
                 , view button R.id.keyLetterExtra2
@@ -546,6 +570,14 @@ abstract class KbLayoutInitializer(val context: Context) {
         extraKeys.forEach {
             it.isEnabled = false
             it.setOnTouchListener(getCommonTouchListener(isExtra = true))
+        }
+        showDigits()
+    }
+
+    private fun showDigits() {
+        toggleDigitsKey.visibility = View.GONE
+        (0..9).forEach {
+            extraKeys[it].text = extraKeysCodesMap[R.integer.key_code_digits.getVal(context)]?.get(it)?.toChar().toString()
         }
     }
 

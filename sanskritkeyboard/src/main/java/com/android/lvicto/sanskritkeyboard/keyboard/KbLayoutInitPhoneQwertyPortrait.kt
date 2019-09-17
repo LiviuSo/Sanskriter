@@ -70,25 +70,12 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
     override fun getView(): View =
             context.layoutInflater().inflate(R.layout.keyboard_phone_qwerty_portrait, null)
 
-    override fun bindKeys(view: View, showSymbolsOrDigits: Boolean) {
-        super.bindKeys(view, showSymbolsOrDigits)
+    override fun bindKeys(view: View) {
+        super.bindKeys(view)
         val keysClickListenerOnly = arrayListOf(
                 view button R.id.keyApostrophe
                 , view button R.id.keySep
         )
-        if (showSymbolsOrDigits) {
-            keysClickListenerOnly.add(view button R.id.keyDigit1)
-            keysClickListenerOnly.add(view button R.id.keyDigit2)
-            keysClickListenerOnly.add(view button R.id.keyDigit3)
-            keysClickListenerOnly.add(view button R.id.keyDigit4)
-            keysClickListenerOnly.add(view button R.id.keyDigit5)
-            keysClickListenerOnly.add(view button R.id.keyDigit6)
-            keysClickListenerOnly.add(view button R.id.keyDigit7)
-            keysClickListenerOnly.add(view button R.id.keyDigit8)
-            keysClickListenerOnly.add(view button R.id.keyDigit9)
-            keysClickListenerOnly.add(view button R.id.keyDigit0)
-        }
-
         keysClickListenerOnly.forEach {
             it.setOnTouchListener(getCommonTouchListener())
         }
@@ -324,6 +311,18 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                 R.integer.key_code_xor.getVal(context),
                 R.integer.key_code_percent.getVal(context),
                 R.integer.key_code_tilda.getVal(context)
+        )
+        extraKeysCodesMap[R.integer.key_code_digits.getVal(context)] = arrayListOf(
+                R.integer.key_code_digit_0.getVal(context),
+                R.integer.key_code_digit_1.getVal(context),
+                R.integer.key_code_digit_2.getVal(context),
+                R.integer.key_code_digit_3.getVal(context),
+                R.integer.key_code_digit_4.getVal(context),
+                R.integer.key_code_digit_5.getVal(context),
+                R.integer.key_code_digit_6.getVal(context),
+                R.integer.key_code_digit_7.getVal(context),
+                R.integer.key_code_digit_8.getVal(context),
+                R.integer.key_code_digit_9.getVal(context)
         )
     }
 

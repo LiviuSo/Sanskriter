@@ -10,88 +10,8 @@
 
     <include layout="@layout/row_suggestions" android:id="@+id/llSuggestions"/>
 
-    <include layout="@layout/row_extras" android:id="@+id/svExtra"
+    <include layout="@layout/row_extras" android:id="@+id/llExtra"
         app:layout_constraintTop_toBottomOf="@id/llSuggestions"/>
-
-    <LinearLayout
-        android:id="@+id/llDigits"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/svExtra">
-
-        <Button
-            android:id="@+id/keyDigit1"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_1" />
-
-        <Button
-            android:id="@+id/keyDigit2"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_2" />
-
-        <Button
-            android:id="@+id/keyDigit3"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_3" />
-
-        <Button
-            android:id="@+id/keyDigit4"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_4" />
-
-        <Button
-            android:id="@+id/keyDigit5"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_5" />
-
-        <Button
-            android:id="@+id/keyDigit6"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_6" />
-
-        <Button
-            android:id="@+id/keyDigit7"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_7" />
-
-        <Button
-            android:id="@+id/keyDigit8"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_8" />
-
-        <Button
-            android:id="@+id/keyDigit9"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_9" />
-
-        <Button
-            android:id="@+id/keyDigit0"
-            style="@style/CustomKeyDigit"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_digit_0" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llQwerty"
@@ -100,7 +20,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llDigits">
+        app:layout_constraintTop_toBottomOf="@id/llExtra">
 
         <Button
             android:id="@+id/keyQ"

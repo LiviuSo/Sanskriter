@@ -10,7 +10,7 @@
     <include layout="@layout/row_suggestions" android:id="@+id/llSuggestions"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <include layout="@layout/row_extras" android:id="@+id/svExtra"
+    <include layout="@layout/row_extras" android:id="@+id/llExtra"
         app:layout_constraintTop_toBottomOf="@id/llSuggestions"/>
 
     <LinearLayout
@@ -20,7 +20,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/svExtra">
+        app:layout_constraintTop_toBottomOf="@id/llExtra">
 
         <View
             android:layout_width="0dp"
