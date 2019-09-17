@@ -31,6 +31,10 @@
         android:layout_weight="1"
         android:text="word3" />
 
+    <include
+        android:id="@+id/sep2"
+        layout="@layout/separator_vertical" />
+
     <Button
         android:id="@+id/keyIcon"
         style="@style/CustomKeySettings"
@@ -38,23 +42,15 @@
         android:layout_weight="1"
         android:text="IC" />
 
+    <include
+        android:id="@+id/sep3"
+        layout="@layout/separator_vertical" />
+
     <Button
         android:id="@+id/keySettings"
         style="@style/CustomKeySettings"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:text="Se" />
-
-    <include
-        android:id="@+id/sep3"
-        layout="@layout/separator_vertical" />
-
-    <include
-        android:id="@+id/sep2"
-        layout="@layout/separator_vertical" />
-
-    <include
-        android:id="@+id/sep1"
-        layout="@layout/separator_vertical" />
 
 </LinearLayout>

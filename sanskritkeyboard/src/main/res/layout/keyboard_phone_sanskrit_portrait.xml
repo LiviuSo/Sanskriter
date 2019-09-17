@@ -9,7 +9,8 @@
 
     <include layout="@layout/row_suggestions" android:id="@+id/llSuggestions"/>
 
-    <include layout="@layout/row_extras" android:id="@+id/svExtra"/>
+    <include layout="@layout/row_extras" android:id="@+id/svExtra"
+        app:layout_constraintTop_toBottomOf="@id/llSuggestions"/>
 
     <LinearLayout
         android:id="@+id/llDigits"

@@ -32,7 +32,6 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected abstract fun getView(): View
 
     private var isSticky: Boolean = false
-    private lateinit var mSep1: FrameLayout
     private lateinit var mSep2: FrameLayout
     private lateinit var mSep3: FrameLayout
     private val autoAddSpace: Boolean = true // todo make a setting
@@ -407,7 +406,6 @@ abstract class KbLayoutInitializer(val context: Context) {
     private fun showSuggestions(vis1: Int = View.GONE, vis2: Int = View.GONE, vis3: Int = View.GONE) {
         if (mSugg1.visibility != vis1) {
             mSugg1.visibility = vis1
-            mSep1.visibility = vis1
         }
         if (mSugg2.visibility != vis2) {
             mSugg2.visibility = vis2
@@ -430,7 +428,6 @@ abstract class KbLayoutInitializer(val context: Context) {
                 Log.d(LOG_TAG, "found 0 suggs; $mTypedText")
                 if (mSugg1.visibility != View.VISIBLE && mTypedText.isNotEmpty()) {
                     mSugg1.visibility = View.VISIBLE
-                    mSep1.visibility = View.VISIBLE
                 }
                 showSuggestions(mSugg1.visibility)
                 mSugg1.text = mTypedText
@@ -484,7 +481,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         mSugg3 = (view button R.id.keySuggestion3).apply {
             setOnTouchListener(suggestionOnTouchListener)
         }
-        mSep1 = view frameLayout R.id.sep1
         mSep2 = view frameLayout R.id.sep2
         mSep3 = view frameLayout R.id.sep3
         showSuggestions()
@@ -546,16 +542,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                 , view button R.id.keyLetterExtra7
                 , view button R.id.keyLetterExtra8
                 , view button R.id.keyLetterExtra9
-                , view button R.id.keyLetterExtra10
-                , view button R.id.keyLetterExtra11
-                , view button R.id.keyLetterExtra12
-                , view button R.id.keyLetterExtra13
-                , view button R.id.keyLetterExtra14
-                , view button R.id.keyLetterExtra15
-                , view button R.id.keyLetterExtra16
-                , view button R.id.keyLetterExtra17
-                , view button R.id.keyLetterExtra18)
-        )
+                , view button R.id.keyLetterExtra10))
         extraKeys.forEach {
             it.isEnabled = false
             it.setOnTouchListener(getCommonTouchListener(isExtra = true))
