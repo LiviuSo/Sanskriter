@@ -13,5 +13,6 @@
     <color name="keyboard_suggestion_background">#454545</color>
     <color name="colorText1">#ECE5E5</color>
     <color name="colorText2">#B89729</color>
+    <color name="colorBackground">#01343C</color>
 
 </resources>

@@ -13,9 +13,8 @@ import android.view.inputmethod.EditorInfo
 open class StubbedInputMethodService : InputMethodService() {
 
     override fun onEvaluateFullscreenMode(): Boolean {
-        val isFullScreen = super.onEvaluateFullscreenMode()
-        Log.d(SanskritCustomKeyboard.LOG_TAG, "onEvaluateFullscreenMode(): $isFullScreen")
-        return isFullScreen
+        Log.d(SanskritCustomKeyboard.LOG_TAG, "onEvaluateFullscreenMode()")
+        return false
     }
 
     override fun updateFullscreenMode() {
