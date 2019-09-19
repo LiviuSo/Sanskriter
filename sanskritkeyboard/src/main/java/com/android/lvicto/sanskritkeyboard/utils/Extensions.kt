@@ -56,10 +56,14 @@ fun View.createPopup(text: String): PopupWindow {
 }
 
 fun PopupWindow.show(parent: View, rect: Rect) {
-    val width = rect.bottom - rect.top
-    val height = rect.right - rect.left
-    this.showAtLocation(parent.rootView, Gravity.START or Gravity.TOP, rect.left, rect.top - height)
-    this.update(width, height)
+    val height = rect.bottom - rect.top
+    val width = rect.right - rect.left
+    val previewVertDist = parent.context.resources.getDimension(R.dimen.key_margin).toInt() // use the distance between the rows
+
+    this.showAtLocation(parent.rootView, Gravity.START or Gravity.TOP,
+            rect.left - width / 4,
+            rect.top - height - height / 2 - previewVertDist)
+    this.update(width + width / 2, height + height / 2)
 }
 
 

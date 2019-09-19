@@ -3,6 +3,7 @@ package com.android.lvicto.sanskritkeyboard.keyboard
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -26,6 +27,9 @@ import com.android.lvicto.sanskritkeyboard.utils.Constants.MAX_INPUT_LEN
 import com.android.lvicto.sanskritkeyboard.viewmodel.SuggestionViewModel
 import java.util.concurrent.atomic.AtomicBoolean
 
+// todo convert layouts fully to ConstraintLayout
+// todo create custom view for keys
+// todo add space to left and right of all all keys (at least half the width of the key)
 abstract class KbLayoutInitializer(val context: Context) {
 
     protected abstract fun initExtraCodes()
@@ -358,7 +362,7 @@ abstract class KbLayoutInitializer(val context: Context) {
                     // show preview (if not isExtra)
                     if (!isExtra) {
                         val rect = view.locateView()
-                        Log.d(LOG_TAG, "${rect.left} ${rect.right} ${rect.bottom} ${rect.top} ")
+                        Log.d(LOG_TAG, "keyRect: ${rect.left} ${rect.right} ${rect.bottom} ${rect.top} ") // todo erase
                         popup = view.createPopup(output)
                         popup?.show(view, rect)
                     }

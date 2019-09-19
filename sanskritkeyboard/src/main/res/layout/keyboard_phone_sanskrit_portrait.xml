@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <include layout="@layout/row_suggestions" android:id="@+id/llSuggestions"/>
-
-    <include
-        android:id="@+id/llExtra"
-        layout="@layout/row_extras"
-        app:layout_constraintTop_toBottomOf="@id/llSuggestions"
-        tools:layout_editor_absoluteX="0dp" />
-
     <LinearLayout
-        android:id="@+id/llSa1"
+        android:id="@+id/llRow1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -29,7 +20,7 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
         <Button
             android:id="@+id/keySaA"
@@ -97,18 +88,25 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa2"
+        android:id="@+id/llRow2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSa1">
+        app:layout_constraintTop_toBottomOf="@id/llRow1">
+
+        <Button
+            android:id="@+id/keySaJha"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_jha" />
 
         <Button
             android:id="@+id/keySaKa"
@@ -167,13 +165,6 @@
             android:text="@string/key_label_sa_letter_ja" />
 
         <Button
-            android:id="@+id/keySaJha"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_sa_letter_jha" />
-
-        <Button
             android:id="@+id/keySaNa2"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
@@ -182,13 +173,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa3"
+        android:id="@+id/llRow3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSa2">
+        app:layout_constraintTop_toBottomOf="@id/llRow2">
 
         <Button
             android:id="@+id/keySaTa2"
@@ -263,18 +254,18 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa4"
+        android:id="@+id/llRow4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSa3">
+        app:layout_constraintTop_toBottomOf="@id/llRow3">
 
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight=".25"/>
+            android:layout_weight=".25" />
 
         <Button
             android:id="@+id/keySaPa"
@@ -342,25 +333,25 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight=".25"/>
+            android:layout_weight=".25" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llSa5"
+        android:id="@+id/llRow5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSa4">
+        app:layout_constraintTop_toBottomOf="@id/llRow4">
 
-    <Button
-        android:id="@+id/keySaYa"
-        style="@style/CustomKeyLetter"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:text="@string/key_label_sa_letter_ya" />
+        <Button
+            android:id="@+id/keySaYa"
+            style="@style/CustomKeyLetter"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="@string/key_label_sa_letter_ya" />
 
         <Button
             android:id="@+id/keySaRa"
@@ -411,5 +402,15 @@
             android:layout_weight="1.5"
             android:text="Ac" />
     </LinearLayout>
+
+    <include
+        android:id="@+id/llExtra"
+        layout="@layout/row_extras"
+        app:layout_constraintTop_toBottomOf="@id/llSuggestions"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <include
+        android:id="@+id/llSuggestions"
+        layout="@layout/row_suggestions" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

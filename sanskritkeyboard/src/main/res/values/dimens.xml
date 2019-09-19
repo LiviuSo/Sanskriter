@@ -9,4 +9,6 @@
     <dimen name="key_height_tablet">60dp</dimen>
     <dimen name="key_width_tablet">60dp</dimen>
 
+    <dimen name="key_margin">4dp</dimen>
+
 </resources>
