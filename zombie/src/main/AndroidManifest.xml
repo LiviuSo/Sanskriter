@@ -10,14 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".CoroutineGuidesActivity">
+<!--            temporarily main-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PopUpAutoDismissActivity"></activity>
-        <activity android:name=".PopUpPositioningActivity"></activity>
+        <activity android:name=".TestKeyboardActivity"/>
+        <activity android:name=".PopUpAutoDismissActivity" />
+        <activity android:name=".PopUpPositioningActivity" />
     </application>
 
 </manifest>

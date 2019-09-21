@@ -1,28 +1,38 @@
 package com.android.lvicto.zombie
 
-import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.EditText
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val LOG_TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<EditText>(R.id.editSearch).setOnEditorActionListener { v, actionId, event ->
-            Log.d(LOG_TAG, "$actionId $event")
-            true
+        btnPopUpPositioning.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, PopUpPositioningActivity::class.java))
+            }
         }
 
-        val view = View(this)
-//        view.onCreateInputConnection()
-        val w = window
-//        w.addFlags()
-//        this.getSystemService()
+        btnPopUpAutoDismiss.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, PopUpAutoDismissActivity::class.java))
+            }
+        }
+
+        btnKeyboardTest.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, TestKeyboardActivity::class.java))
+            }
+        }
+
+        btnCoroutines.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, CoroutineGuidesActivity::class.java))
+            }
+        }
     }
 }

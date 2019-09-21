@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CoroutineGuidesActivity">
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="See results in the logcat (filter: Coroutines)"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvBasics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="--- Basics ---"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInfo" />
+
+        <Button
+            android:id="@+id/btnSample1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBasics" />
+
+        <Button
+            android:id="@+id/btnSample2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample1" />
+
+        <Button
+            android:id="@+id/btnSample3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample2" />
+
+        <Button
+            android:id="@+id/btnSample4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample3" />
+
+        <Button
+            android:id="@+id/btnSample5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample4" />
+
+        <TextView
+            android:id="@+id/tvCancellation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="--- Cancellations and Timeouts ---"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample5" />
+
+        <Button
+            android:id="@+id/btnSample6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvCancellation" />
+
+        <Button
+            android:id="@+id/btnSample7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample6" />
+
+        <Button
+            android:id="@+id/btnSample8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample7" />
+
+        <Button
+            android:id="@+id/btnSample9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample8" />
+
+        <Button
+            android:id="@+id/btnSample10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample9" />
+
+
+        <Button
+            android:id="@+id/btnSample11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample10" />
+
+        <TextView
+            android:id="@+id/tvComposing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="--- Composing Suspending Functions ---"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample11" />
+
+        <Button
+            android:id="@+id/btnSample12"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvComposing" />
+
+        <Button
+            android:id="@+id/btnSample13"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample12" />
+
+        <Button
+            android:id="@+id/btnSample14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample13" />
+
+        <Button
+            android:id="@+id/btnSample15"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample14" />
+
+        <Button
+            android:id="@+id/btnSample16"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample15" />
+
+        <Button
+            android:id="@+id/btnSample17"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample16" />
+
+        <TextView
+            android:id="@+id/tvDispatchers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="--- Coroutines Context and Dispatchers ---"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample17" />
+
+        <Button
+            android:id="@+id/btnSample18"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDispatchers" />
+
+        <Button
+            android:id="@+id/btnSample19"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample18" />
+
+        <Button
+            android:id="@+id/btnSample20"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample19" />
+
+        <Button
+            android:id="@+id/btnSample21"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample20" />
+
+        <Button
+            android:id="@+id/btnSample22"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample21" />
+
+        <Button
+            android:id="@+id/btnSample23"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample22" />
+
+        <Button
+            android:id="@+id/btnSample24"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample23" />
+
+        <Button
+            android:id="@+id/btnSample25"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample24" />
+
+        <Button
+            android:id="@+id/btnSample26"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="[button]"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSample25" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

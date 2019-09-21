@@ -30,6 +30,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 // todo convert layouts fully to ConstraintLayout
 // todo create custom view for keys
 // todo add space to left and right of all all keys (at least half the width of the key)
+// todo increase the delay to continous delete
+// todo restore digits on tapping action
 abstract class KbLayoutInitializer(val context: Context) {
 
     protected abstract fun initExtraCodes()
