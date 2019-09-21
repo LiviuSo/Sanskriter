@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,18 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <uses-library android:name="com.android.lvicto.dictionary" android:required="false"/>
+
         <activity
             android:name=".ui.activities.PagesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.BookTheme"/>
-        <activity
-            android:name=".ui.activities.DictionaryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.DictionaryTheme"/>
-        <activity
-            android:name=".ui.activities.AddModifyWordActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.DictionaryTheme"/>
         <activity
             android:name=".ui.activities.SetupActivity"
             android:screenOrientation="portrait">

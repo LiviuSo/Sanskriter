@@ -20,10 +20,4 @@
         <item name="windowActionBar">false</item>
     </style>
 
-    <style name="AppTheme.DictionaryTheme">
-        <item name="colorPrimary">@color/colorPrimaryDictionary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDarkDictionary</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
 </resources>

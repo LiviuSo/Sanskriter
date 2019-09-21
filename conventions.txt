@@ -1,0 +1,12 @@
+PACKAGE NAMING:
+~~~~~~~~~~~~~~~
+
+* adapter : all adapters
+* data: data models
+* db: data base
+* repo: repositories
+* service: services
+* viewmodel: ViewModel(s)
+* ui: activities, fragments
+* util: utils
+

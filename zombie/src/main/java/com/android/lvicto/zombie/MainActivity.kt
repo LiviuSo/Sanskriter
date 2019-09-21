@@ -1,11 +1,10 @@
 package com.android.lvicto.zombie
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
+import android.view.View
 import android.widget.EditText
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,5 +18,11 @@ class MainActivity : AppCompatActivity() {
             Log.d(LOG_TAG, "$actionId $event")
             true
         }
+
+        val view = View(this)
+//        view.onCreateInputConnection()
+        val w = window
+//        w.addFlags()
+//        this.getSystemService()
     }
 }

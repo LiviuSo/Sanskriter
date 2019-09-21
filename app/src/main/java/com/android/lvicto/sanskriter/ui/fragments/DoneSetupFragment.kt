@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.lvicto.sanskriter.utils.Constants
+import com.android.lvicto.sanskriter.util.Constants
 
 class DoneSetupFragment : SetupFragment(){
 

@@ -1,13 +1,13 @@
 package com.android.lvicto.sanskriter.ui.activities
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.fragments.BookPagesFragment
 import com.android.lvicto.sanskriter.ui.fragments.ZoomPageFragment
-import com.android.lvicto.sanskriter.utils.PreferenceHelper
+import com.android.lvicto.sanskriter.util.PreferenceHelper
 
 class PagesActivity : FragmentActivity(),
         BookPagesFragment.OnFragmentInteractionListener {

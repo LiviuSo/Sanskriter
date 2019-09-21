@@ -10,7 +10,7 @@
 
     <item android:bottom="2dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/keyboard_divider_color"/>
+            <solid android:color="@color/keyboard_key_extra_text"/>
         </shape>
     </item>
 </layer-list>
