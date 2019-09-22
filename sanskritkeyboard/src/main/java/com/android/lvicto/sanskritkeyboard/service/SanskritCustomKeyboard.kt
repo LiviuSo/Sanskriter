@@ -57,6 +57,8 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
             kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)
             kbLayoutInitializer.keyboardSwitch = this // because we need the inputConnection
             setInputView(kbLayoutInitializer.initKeyboardView())
+        } else {
+            kbLayoutInitializer.showDigits()
         }
         completeLayoutInit(info)
     }
@@ -68,12 +70,7 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
         Log.d(LOG_TAG, "onUpdateSelection(): [$wordBefore][$wordAfter]")
         kbLayoutInitializer.resetTypedString("$wordBefore$wordAfter")
         kbLayoutInitializer.updateSuggestions(wordBefore)
-        kbLayoutInitializer.justAddSugg = !kbLayoutInitializer.isTheMiddleOfWord()
-    }
-
-    override fun onViewClicked(focusChanged: Boolean) {
-//        kbLayoutInitializer.justAddSugg = !kbLayoutInitializer.isTheMiddleOfWord()
-//        Log.d(LOG_TAG, "onViewClicked(): justAddSugg=${kbLayoutInitializer.justAddSugg}")
+        kbLayoutInitializer.justAddSuggestions = !kbLayoutInitializer.isTheMiddleOfWord()
     }
 
     private fun completeLayoutInit(info: EditorInfo?) {

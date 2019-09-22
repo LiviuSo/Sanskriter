@@ -355,9 +355,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         }
 
         extraKeys.forEach {
-            if (it.isEnabled) {
-                setCase(it, allCaps)
-            }
+            setCase(it, allCaps)
         }
     }
 }
