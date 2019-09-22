@@ -3,11 +3,11 @@
 <LinearLayout android:id="@+id/llSuggestions"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:layout_constraintTop_toTopOf="parent" >
 
     <Button
         android:id="@+id/keySuggestion1"

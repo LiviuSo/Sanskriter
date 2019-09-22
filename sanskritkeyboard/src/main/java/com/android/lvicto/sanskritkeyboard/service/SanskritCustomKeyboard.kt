@@ -57,8 +57,6 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
             kbLayoutInitializer = KbLayoutInitializer.getLayoutInitializer(applicationContext, kbConfig)
             kbLayoutInitializer.keyboardSwitch = this // because we need the inputConnection
             setInputView(kbLayoutInitializer.initKeyboardView())
-        } else {
-            kbLayoutInitializer.showDigits()
         }
         completeLayoutInit(info)
     }

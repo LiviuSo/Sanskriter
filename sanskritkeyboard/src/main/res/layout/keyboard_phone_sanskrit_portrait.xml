@@ -409,7 +409,6 @@
     <include
         android:id="@+id/llExtra"
         layout="@layout/row_extras"
-        app:layout_constraintTop_toBottomOf="@id/llSuggestions"
         tools:layout_editor_absoluteX="0dp" />
 
     <include

@@ -12,13 +12,12 @@ import android.view.inputmethod.ExtractedText
 import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.annotation.MainThread
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.data.Suggestion
-import com.android.lvicto.sanskritkeyboard.service.*
+import com.android.lvicto.sanskritkeyboard.service.KeyboardSwitch
 import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.ui.SettingsActivity
 import com.android.lvicto.sanskritkeyboard.utils.*
@@ -28,7 +27,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 // todo convert layouts fully to ConstraintLayout
 // todo create custom view for keys
-// todo add space to left and right of all all keys (at least half the width of the key)
+// todo show digits when closing/opening the keyboard
+// todo capital letter of the beginning of the sentence (after . ! ? and a spaces)
+// todo create a component that manages the runnable (refactoring)
+// todo create a component that manages the suggestions (refactoring)
 abstract class KbLayoutInitializer(val context: Context) {
 
     protected abstract fun initExtraCodes()
@@ -204,7 +206,7 @@ abstract class KbLayoutInitializer(val context: Context) {
             MotionEvent.ACTION_DOWN -> {
                 Log.d(LOG_TAG, "justAddSuggestions: $justAddSuggestions")
                 val text = "${(view as Button).text}"
-                if (text.isNotEmpty()) {  // todo create a component that manages the suggestions (refactoring)
+                if (text.isNotEmpty()) {
                     if (!justAddSuggestions) { // replace current word with suggestion
                         val lengthBefore = getBeforeCursorInSurroundingWord().length
                         val lengthAfter = getAfterCursorInSurroundingWord().length
@@ -256,25 +258,43 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    // todo show digits in the extras bar and hide when showing extras then shown again
-    // todo add long tap functionality
-    protected fun getSymbTouchListener(code: Int) = View.OnTouchListener { view, motionEvent ->
-        when (motionEvent.action) {
-            MotionEvent.ACTION_DOWN -> {
-                showSuggestions(View.GONE, View.GONE, View.GONE)
-                mTypedText.delete(0, mTypedText.length)
+    protected fun getSymbTouchListener(code: Int) = object: View.OnTouchListener {
 
-                showExtraKeys(code)
-                true
-            }
-            MotionEvent.ACTION_UP -> {
-                view.performClick()
-                true
-            }
-            else -> {
-                false
+        private var actionTime: Long = 0
+        private lateinit var flagActionUp: AtomicBoolean
+
+        val runnable = Runnable {
+            isSticky = false
+            flagActionUp = AtomicBoolean(false)
+            actionTime = System.currentTimeMillis()
+            while (!flagActionUp.get()) {
+                if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
+                    flagActionUp.set(true)
+                    isSticky = true
+                }
             }
         }
+
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            return when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    showSuggestions(View.GONE, View.GONE, View.GONE)
+                    mTypedText.delete(0, mTypedText.length)
+                    Thread(runnable).start()
+                    showExtraKeys(code)
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    flagActionUp.set(true)
+                    view.performClick()
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+
     }
 
     private fun isLastWord(): Boolean {

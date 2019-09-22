@@ -4,5 +4,5 @@
     <dimen name="key_text_size">22sp</dimen>
 
     <dimen name="key_height">45dp</dimen>
-    <dimen name="key_margin">10dp</dimen>
+    <dimen name="key_margin">9dp</dimen>
 </resources>

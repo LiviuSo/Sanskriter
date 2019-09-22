@@ -300,7 +300,7 @@
             android:id="@+id/keySpace"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:text="@string/lang_label_qwerty" />
 
         <Button
@@ -309,13 +309,6 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:text="Sm" />
-
-        <Button
-            android:id="@+id/keyDigits"
-            style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="@string/key_label_dig" />
 
         <Button
             android:id="@+id/keyAction"

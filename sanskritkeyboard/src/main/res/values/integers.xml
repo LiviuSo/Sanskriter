@@ -9,6 +9,8 @@
     <integer name="key_code_keyboard_back">-12</integer>
     <integer name="key_code_digits">-13</integer>
     <integer name="key_code_symbols">-14</integer>
+    <integer name="key_code_symbols_punctuation">-15</integer>
+    <integer name="key_code_symbols_braces">-16</integer>
 
     <integer name="size_key_popup_height">100</integer>
     <integer name="size_key_popup_width">80</integer>

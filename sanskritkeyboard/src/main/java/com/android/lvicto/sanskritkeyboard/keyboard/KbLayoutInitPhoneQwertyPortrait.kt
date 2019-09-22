@@ -73,14 +73,6 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
 
     override fun bindKeys(view: View) {
         super.bindKeys(view)
-        val keysClickListenerOnly = arrayListOf(
-                view button R.id.keyApostrophe
-                , view button R.id.keySep
-        )
-        keysClickListenerOnly.forEach {
-            it.setOnTouchListener(getCommonTouchListener())
-        }
-
         val keysClickListenerOnlyAllCaps = arrayListOf(
                 view button R.id.keyQ
                 , view button R.id.keyW
@@ -118,10 +110,15 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
             setOnTouchListener(shiftTouchListener)
         }
 
+        view.findViewById<Button>(R.id.keyPunctuation).apply {
+            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols_punctuation.getVal(context)))
+        }
+        view.findViewById<Button>(R.id.keyBraces).apply {
+            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols_braces.getVal(context)))
+        }
         view.findViewById<Button>(R.id.keySymbol).apply {
             setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols.getVal(context)))
         }
-
         initExtraKeys(view)
     }
 
@@ -275,37 +272,37 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                 res.getInteger(R.integer.key_code_extra_accent2)
         )
 
-        extraKeysCodesMap[R.integer.key_code_apostrophy.getVal(context)] = arrayListOf(
+        extraKeysCodesMap[R.integer.key_code_symbols_punctuation.getVal(context)] = arrayListOf(
                 R.integer.key_code_period.getVal(context),
                 R.integer.key_code_comma.getVal(context),
-                R.integer.key_code_exclamation_mark.getVal(context),
                 R.integer.key_code_question_mark.getVal(context),
+                R.integer.key_code_exclamation_mark.getVal(context),
                 R.integer.key_code_quote.getVal(context),
                 R.integer.key_code_semicolon.getVal(context),
                 R.integer.key_code_colon.getVal(context),
-                R.integer.key_code_at.getVal(context),
-                R.integer.key_code_open_paranthesis.getVal(context),
-                R.integer.key_code_close_paranthesis.getVal(context)
+                R.integer.key_code_underscore.getVal(context),
+                R.integer.key_code_apostrophy.getVal(context),
+                R.integer.key_code_hyphen.getVal(context)
         )
 
-        extraKeysCodesMap[R.integer.key_code_pipe.getVal(context)] = arrayListOf(
-                R.integer.key_code_underscore.getVal(context),
-                R.integer.key_code_cent.getVal(context),
-                R.integer.key_code_dollar.getVal(context),
-                R.integer.key_code_pound.getVal(context),
-                R.integer.key_code_slash.getVal(context),
-                R.integer.key_code_backslash.getVal(context),
+        extraKeysCodesMap[R.integer.key_code_symbols_braces.getVal(context)] = arrayListOf(
+                R.integer.key_code_open_paranthesis.getVal(context),
+                R.integer.key_code_close_paranthesis.getVal(context),
                 R.integer.key_code_open_square_paranthesis.getVal(context),
                 R.integer.key_code_close_square_paranthesis.getVal(context),
                 R.integer.key_code_open_curly_brace.getVal(context),
-                R.integer.key_code_close_curly_brace.getVal(context)
+                R.integer.key_code_close_curly_brace.getVal(context),
+                R.integer.key_code_at.getVal(context),
+                R.integer.key_code_slash.getVal(context),
+                R.integer.key_code_backslash.getVal(context),
+                R.integer.key_code_dollar.getVal(context)
         )
 
         extraKeysCodesMap[R.integer.key_code_symbols.getVal(context)] = arrayListOf(
-                R.integer.key_code_hyphen.getVal(context),
                 R.integer.key_code_plus.getVal(context),
                 R.integer.key_code_multiplication.getVal(context),
                 R.integer.key_code_division.getVal(context),
+                R.integer.key_code_pipe.getVal(context),
                 R.integer.key_code_lt.getVal(context),
                 R.integer.key_code_gt.getVal(context),
                 R.integer.key_code_equal.getVal(context),
@@ -313,6 +310,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                 R.integer.key_code_percent.getVal(context),
                 R.integer.key_code_tilda.getVal(context)
         )
+
         extraKeysCodesMap[R.integer.key_code_digits.getVal(context)] = arrayListOf(
                 R.integer.key_code_digit_0.getVal(context),
                 R.integer.key_code_digit_1.getVal(context),

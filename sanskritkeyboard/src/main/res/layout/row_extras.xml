@@ -4,7 +4,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llKeyExtra"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     app:layout_constraintEnd_toEndOf="parent"
@@ -14,10 +14,9 @@
     <Button
         android:id="@+id/keyToggleDigits"
         style="@style/CustomKeyExtra"
-        android:layout_weight="1.25"
+        android:layout_weight=".5"
         android:width="0dp"
-        android:text="tg"
-        android:textSize="10sp"/>
+        android:text="t" />
 
     <Button
         android:id="@+id/keyLetterExtra1"

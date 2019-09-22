@@ -269,18 +269,18 @@
             android:text="Sh" />
 
         <Button
-            android:id="@+id/keyApostrophe"
+            android:id="@+id/keyPunctuation"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_apostrophe" />
+            android:text="Pc" />
 
         <Button
-            android:id="@+id/keySep"
+            android:id="@+id/keyBraces"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="@string/key_label_sep" />
+            android:text="Par" />
 
         <Button
             android:id="@+id/keySpace"
@@ -311,7 +311,6 @@
 
     <include
         android:id="@+id/llExtra"
-        layout="@layout/row_extras"
-        app:layout_constraintTop_toBottomOf="@id/llSuggestions" />
+        layout="@layout/row_extras" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
