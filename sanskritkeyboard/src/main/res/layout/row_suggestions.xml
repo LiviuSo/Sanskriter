@@ -3,7 +3,6 @@
 <LinearLayout android:id="@+id/llSuggestions"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/keyboard_suggestion_background"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -31,10 +30,6 @@
         android:layout_weight="1"
         android:text="word3" />
 
-    <include
-        android:id="@+id/sep2"
-        layout="@layout/separator_vertical" />
-
     <Button
         android:id="@+id/keyIcon"
         style="@style/CustomKeySettings"
@@ -42,15 +37,12 @@
         android:layout_weight="1"
         android:text="IC" />
 
-    <include
-        android:id="@+id/sep3"
-        layout="@layout/separator_vertical" />
-
     <Button
         android:id="@+id/keySettings"
         style="@style/CustomKeySettings"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:text="Se" />
+        android:text="Se"
+         />
 
 </LinearLayout>

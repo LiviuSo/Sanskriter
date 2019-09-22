@@ -51,8 +51,8 @@ class PopUpPositioningActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        val keyPreviewWidth = resources.getDimension(R.dimen.preview_width).toInt()
-        val keyPreviewHeight = resources.getDimension(R.dimen.preview_height).toInt()
+        val keyPreviewWidth = 50
+        val keyPreviewHeight = 50
         layout = findViewById(R.id.popUpPositioningParent)
 
         layout.rootView.setOnTouchListener { v, event ->

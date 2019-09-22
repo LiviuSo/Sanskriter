@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/color_keyboard_background"
+    android:paddingRight="@dimen/key_margin"
+    android:paddingEnd="@dimen/key_margin">
 
     <LinearLayout
         android:id="@+id/llRow1"
@@ -329,7 +333,8 @@
     <include
         android:id="@+id/llSuggestions"
         layout="@layout/row_suggestions"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
     <include
         android:id="@+id/llExtra"

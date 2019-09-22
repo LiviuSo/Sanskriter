@@ -16,7 +16,8 @@
         style="@style/CustomKeyExtra"
         android:layout_weight="1.25"
         android:width="0dp"
-        android:text="tg" />
+        android:text="tg"
+        android:textSize="10sp"/>
 
     <Button
         android:id="@+id/keyLetterExtra1"

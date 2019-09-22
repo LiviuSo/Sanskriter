@@ -36,8 +36,6 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     private lateinit var toggleDigitsKey: Button
     private var isSticky: Boolean = false
-    private lateinit var mSep2: FrameLayout
-    private lateinit var mSep3: FrameLayout
     private val autoAddSpace: Boolean = true // todo make a setting
     protected val extraKeys: ArrayList<Button> = arrayListOf()
     protected var extraKeysCodesMap = hashMapOf<Int, List<Int>>()
@@ -429,11 +427,9 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
         if (mSugg2.visibility != vis2) {
             mSugg2.visibility = vis2
-            mSep2.visibility = vis2
         }
         if (mSugg3.visibility != vis3) {
             mSugg3.visibility = vis3
-            mSep3.visibility = vis3
         }
     }
 
@@ -501,8 +497,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         mSugg3 = (view button R.id.keySuggestion3).apply {
             setOnTouchListener(suggestionOnTouchListener)
         }
-        mSep2 = view frameLayout R.id.sep2
-        mSep3 = view frameLayout R.id.sep3
         showSuggestions()
     }
 

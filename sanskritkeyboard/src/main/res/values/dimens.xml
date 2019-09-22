@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="preview_width">50dp</dimen>
-    <dimen name="preview_height">50dp</dimen>
 
-    <dimen name="key_height">40dp</dimen>
-    <dimen name="key_width">40dp</dimen>
+    <dimen name="key_preview_text_size">28sp</dimen>
+    <dimen name="key_text_size">18sp</dimen>
 
-    <dimen name="key_height_tablet">60dp</dimen>
-    <dimen name="key_width_tablet">60dp</dimen>
-
-    <dimen name="key_margin">4dp</dimen>
+    <dimen name="key_height">30dp</dimen>
+    <dimen name="key_margin">8dp</dimen>
 
 </resources>
