@@ -238,12 +238,13 @@
             android:layout_weight="1"
             android:text="@string/key_label_letter_m" />
 
-        <Button
+        <ImageButton
             android:id="@+id/keyDel"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:text="Del" />
+            android:src="@drawable/ic_keyboard_backspace_white_24dp"
+            android:contentDescription="@string/key_backspace_description" />
 
         <View
             android:layout_width="0dp"
@@ -261,26 +262,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llRow3">
 
-        <Button
+        <ImageButton
             android:id="@+id/keyShift"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1.5"
-            android:text="Sh" />
+            android:src="@drawable/ic_arrow_upward_white_24dp"
+            android:contentDescription="@string/key_shift_description" />
 
         <Button
             android:id="@+id/keyPunctuation"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Pc" />
+            android:text="@string/key_label_punctuation"
+            android:textSize="@dimen/text_size_label_symbols" />
 
         <Button
             android:id="@+id/keyBraces"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Par" />
+            android:textSize="@dimen/text_size_label_symbols"
+            android:text="@string/key_label_paranthesis" />
 
         <Button
             android:id="@+id/keySpace"
@@ -294,14 +298,16 @@
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Sb" />
+            android:textSize="@dimen/text_size_label_symbols"
+            android:text="@string/key_label_symbols_qwerty" />
 
-        <Button
+        <ImageButton
             android:id="@+id/keyAction"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1.5"
-            android:text="Ac" />
+            android:src="@drawable/ic_done_white_24dp"
+            android:contentDescription="@string/key_action_description" />
 
     </LinearLayout>
 

@@ -326,12 +326,13 @@
             android:layout_weight="1"
             android:text="@string/key_label_sa_letter_sa3" />
 
-        <Button
+        <ImageButton
             android:id="@+id/keyDel"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
-            android:layout_weight="1.5"
-            android:text="Del" />
+            android:layout_weight="2"
+            android:src="@drawable/ic_keyboard_backspace_white_24dp"
+            android:contentDescription="@string/key_backspace_description" />
 
         <View
             android:layout_width="0dp"
@@ -396,14 +397,16 @@
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Sm" />
+            android:textSize="@dimen/text_size_label_symbols"
+            android:text="@string/key_label_sa_extra_red" />
 
-        <Button
+        <ImageButton
             android:id="@+id/keyAction"
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1.5"
-            android:text="Ac" />
+            android:src="@drawable/ic_done_white_24dp"
+            android:contentDescription="@string/key_action_description" />
     </LinearLayout>
 
     <include

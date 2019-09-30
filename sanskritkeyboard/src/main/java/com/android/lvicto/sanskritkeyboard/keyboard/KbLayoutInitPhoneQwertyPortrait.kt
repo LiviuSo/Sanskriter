@@ -4,12 +4,14 @@ import android.content.Context
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import androidx.core.content.ContextCompat
 import com.android.lvicto.sanskritkeyboard.service.SanskritCustomKeyboard.Companion.LOG_TAG
 import com.android.lvicto.sanskritkeyboard.R
 import com.android.lvicto.sanskritkeyboard.utils.button
 import com.android.lvicto.sanskritkeyboard.utils.getVal
+import com.android.lvicto.sanskritkeyboard.utils.imageButton
 import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -19,15 +21,15 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
     private var allCaps: Boolean = false
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
+    private lateinit var shiftKeyView: ImageButton
 
     private val shiftTouchListener: View.OnTouchListener = object : View.OnTouchListener {
         var actionTime = 0L
         lateinit var actionDownFlag: AtomicBoolean
+        lateinit var keyView: View
         val runnable = Runnable {
             while (!actionDownFlag.get()) {
-                Log.d(LOG_TAG, "shiftTouchListener: Touching Down")
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
-                    Log.d(LOG_TAG, "shiftTouchListener: Long tap")
                     allCapsPersist = if (!allCapsPersist) {
                         true // toggle shift permanently
                     } else {
@@ -37,20 +39,20 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                     actionDownFlag.set(true) // once long tap reached, end the thread
                 }
             }
-            Log.d(LOG_TAG, "Not Touching")
         }
 
-        override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-            return when (motionEvent?.action) {
+        override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
+            return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    keyView = view
                     if (!allCaps) {
-                        toggleAllCaps()
-                    } else if (allCaps && !allCapsPersist) {
-                        toggleAllCaps()
-                    } else {
-                        toggleAllCaps()
+                        keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+                    } else if (allCaps && allCapsPersist) {
                         allCapsPersist = false
+                        keyView.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
                     }
+                    toggleAllCaps()
+
                     actionDownFlag = AtomicBoolean(false)
                     actionTime = System.currentTimeMillis()
                     Thread(runnable).start()
@@ -58,7 +60,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                 }
                 MotionEvent.ACTION_UP -> {
                     actionDownFlag.set(true)
-                    view?.performClick()
+                    view.performClick()
                     true
                 }
                 else -> {
@@ -106,18 +108,19 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
             keysToAllCaps.add(it)
         }
 
-        (view button R.id.keyShift).apply {
+        // todo different state for no sticky
+        shiftKeyView = (view imageButton R.id.keyShift).apply {
             setOnTouchListener(shiftTouchListener)
         }
 
         view.findViewById<Button>(R.id.keyPunctuation).apply {
-            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols_punctuation.getVal(context)))
+            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols_punctuation.getVal(context)))
         }
         view.findViewById<Button>(R.id.keyBraces).apply {
-            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols_braces.getVal(context)))
+            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols_braces.getVal(context)))
         }
         view.findViewById<Button>(R.id.keySymbol).apply {
-            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols.getVal(context)))
+            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols.getVal(context)))
         }
         initExtraKeys(view)
     }
@@ -273,6 +276,8 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         )
 
         extraKeysCodesMap[R.integer.key_code_symbols_punctuation.getVal(context)] = arrayListOf(
+                R.integer.key_code_hyphen.getVal(context),
+                R.integer.key_code_apostrophy.getVal(context),
                 R.integer.key_code_period.getVal(context),
                 R.integer.key_code_comma.getVal(context),
                 R.integer.key_code_question_mark.getVal(context),
@@ -280,34 +285,32 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                 R.integer.key_code_quote.getVal(context),
                 R.integer.key_code_semicolon.getVal(context),
                 R.integer.key_code_colon.getVal(context),
-                R.integer.key_code_underscore.getVal(context),
-                R.integer.key_code_apostrophy.getVal(context),
-                R.integer.key_code_hyphen.getVal(context)
+                R.integer.key_code_underscore.getVal(context)
         )
 
         extraKeysCodesMap[R.integer.key_code_symbols_braces.getVal(context)] = arrayListOf(
                 R.integer.key_code_open_paranthesis.getVal(context),
                 R.integer.key_code_close_paranthesis.getVal(context),
+                R.integer.key_code_at.getVal(context),
+                R.integer.key_code_slash.getVal(context),
+                R.integer.key_code_backslash.getVal(context),
                 R.integer.key_code_open_square_paranthesis.getVal(context),
                 R.integer.key_code_close_square_paranthesis.getVal(context),
                 R.integer.key_code_open_curly_brace.getVal(context),
                 R.integer.key_code_close_curly_brace.getVal(context),
-                R.integer.key_code_at.getVal(context),
-                R.integer.key_code_slash.getVal(context),
-                R.integer.key_code_backslash.getVal(context),
                 R.integer.key_code_dollar.getVal(context)
         )
 
         extraKeysCodesMap[R.integer.key_code_symbols.getVal(context)] = arrayListOf(
+                R.integer.key_code_pipe.getVal(context),
                 R.integer.key_code_plus.getVal(context),
                 R.integer.key_code_multiplication.getVal(context),
                 R.integer.key_code_division.getVal(context),
-                R.integer.key_code_pipe.getVal(context),
+                R.integer.key_code_percent.getVal(context),
+                R.integer.key_code_equal.getVal(context),
                 R.integer.key_code_lt.getVal(context),
                 R.integer.key_code_gt.getVal(context),
-                R.integer.key_code_equal.getVal(context),
                 R.integer.key_code_xor.getVal(context),
-                R.integer.key_code_percent.getVal(context),
                 R.integer.key_code_tilda.getVal(context)
         )
 
@@ -328,6 +331,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
     override fun toggleShiftBack() {
         if (allCaps && !allCapsPersist) {
             toggleAllCaps()
+            shiftKeyView.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
         }
     }
 

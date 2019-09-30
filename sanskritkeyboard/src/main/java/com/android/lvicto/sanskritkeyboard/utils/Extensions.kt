@@ -3,13 +3,11 @@ package com.android.lvicto.sanskritkeyboard.utils
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Rect
+import android.media.Image
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.PopupWindow
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.IdRes
 import com.android.lvicto.sanskritkeyboard.R
 
@@ -28,6 +26,8 @@ fun Context.layoutInflater(): LayoutInflater =
         this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
 infix fun View.button(@IdRes id: Int): Button = (this.findViewById(id) as Button)
+
+infix fun View.imageButton(@IdRes id: Int): ImageButton = (this.findViewById(id) as ImageButton)
 
 fun View.locateView(): Rect {
     val locInt = IntArray(2)

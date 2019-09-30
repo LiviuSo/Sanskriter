@@ -11,12 +11,13 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/llSuggestions">
 
-    <Button
+    <ImageButton
         android:id="@+id/keyToggleDigits"
         style="@style/CustomKeyExtra"
-        android:layout_weight=".5"
+        android:layout_weight=".75"
         android:width="0dp"
-        android:text="t" />
+        android:src="@drawable/ic_swap_horiz_white_24dp"
+        android:contentDescription="@string/key_swap_to_digits_content_descr" />
 
     <Button
         android:id="@+id/keyLetterExtra1"

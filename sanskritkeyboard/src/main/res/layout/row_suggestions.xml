@@ -10,6 +10,11 @@
     app:layout_constraintTop_toTopOf="parent" >
 
     <Button
+        android:id="@+id/keySettings"
+        style="@style/CustomKeySettings"
+        android:text="Se" />
+
+    <Button
         android:id="@+id/keySuggestion1"
         style="@style/CustomKeySuggestion"
         android:layout_width="0dp"
@@ -30,19 +35,5 @@
         android:layout_weight="1"
         android:text="word3" />
 
-    <Button
-        android:id="@+id/keyIcon"
-        style="@style/CustomKeySettings"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:text="IC" />
-
-    <Button
-        android:id="@+id/keySettings"
-        style="@style/CustomKeySettings"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:text="Se"
-         />
 
 </LinearLayout>

@@ -161,7 +161,7 @@ open class KbLayoutInitPhoneSanskritPortrait(context: Context) : KbLayoutInitial
         }
 
         (view button R.id.keySymbol).apply {
-            setOnTouchListener(getSymbTouchListener(R.integer.key_code_symbols.getVal(context)))
+            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols.getVal(context)))
         }
 
         initExtraKeys(view)
