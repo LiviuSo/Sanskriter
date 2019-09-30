@@ -9,6 +9,8 @@ import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
 
 open class KbLayoutInitPhoneSanskritPortrait(context: Context) : KbLayoutInitializer(context) {
 
+    override fun getInstance(): KbLayoutInitializer = this
+
     override fun initExtraCodes() {
         val res = context.resources
         val codes = arrayListOf(

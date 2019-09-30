@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.android.lvicto.sanskritkeyboard.R
+import com.android.lvicto.sanskritkeyboard.keyboard.KbLayoutInitPhoneQwertyPortrait
 import com.android.lvicto.sanskritkeyboard.keyboard.KbLayoutInitializer
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
@@ -12,6 +13,7 @@ import com.android.lvicto.sanskritkeyboard.utils.isTablet
 
 class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
+    private val settingCapsFirstLetter: Boolean = true
     private var mIsTablet = true
     private var mOrientation = Configuration.ORIENTATION_UNDEFINED
     private var mCurrentKbType = KeyboardType.QWERTY
@@ -75,6 +77,8 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
         if (currentInputConnection != null) {
             Log.d(LOG_TAG, "ic initialized")
             kbLayoutInitializer.ic = currentInputConnection
+            // set first letter allCaps
+            kbLayoutInitializer.toggleAllCapsFirstLetter()
         }
         if (info != null) {
             // simply update the action button

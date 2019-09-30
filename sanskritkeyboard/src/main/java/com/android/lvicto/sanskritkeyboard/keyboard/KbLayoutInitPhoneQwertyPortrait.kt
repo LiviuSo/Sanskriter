@@ -18,6 +18,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         KbLayoutInitializer(context) {
+
+    override fun getInstance(): KbLayoutInitializer = this
+
     private var allCaps: Boolean = false
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
@@ -337,6 +340,11 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
 
     private fun toggleAllCaps() {
         allCaps = !allCaps
+        setAllCaps(allCaps)
+    }
+
+    fun forceAllCaps(isUpper: Boolean) {
+        allCaps = isUpper
         setAllCaps(allCaps)
     }
 
