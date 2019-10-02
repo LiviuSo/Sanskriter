@@ -162,9 +162,9 @@
     <string name="lang_label_qwerty">Qwerty</string>
     <string name="keyboard_name">SanskritSimpleKeyboard</string>
     <string name="key_label_apostrophe">\'</string>
-    <string name="key_label_punctuation">\' - .</string>
-    <string name="key_label_paranthesis">( ) @</string>
-    <string name="key_label_symbols_qwerty">| + *</string>
+    <string name="key_label_punctuation">\' - ?</string>
+    <string name="key_label_paranthesis">( )</string>
+    <string name="key_label_symbols_qwerty">+ *</string>
     <string name="key_action_description">Action key</string>
     <string name="key_shift_description">Shift key</string>
     <string name="key_backspace_description">Backspace key</string>

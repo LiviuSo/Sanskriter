@@ -283,8 +283,8 @@
             style="@style/CustomKeyLetter"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textSize="@dimen/text_size_label_symbols"
-            android:text="@string/key_label_paranthesis" />
+            android:text="@string/key_label_paranthesis"
+            android:textSize="@dimen/text_size_label_symbols" />
 
         <Button
             android:id="@+id/keySpace"

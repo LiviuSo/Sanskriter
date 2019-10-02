@@ -8,6 +8,7 @@ import com.android.lvicto.sanskritkeyboard.utils.getVal
 import com.android.lvicto.sanskritkeyboard.utils.layoutInflater
 
 open class KbLayoutInitPhoneSanskritPortrait(context: Context) : KbLayoutInitializer(context) {
+    override fun getAllCaps(): Boolean = false
 
     override fun getInstance(): KbLayoutInitializer = this
 

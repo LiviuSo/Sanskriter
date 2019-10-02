@@ -20,8 +20,9 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         KbLayoutInitializer(context) {
 
     override fun getInstance(): KbLayoutInitializer = this
+    override fun getAllCaps(): Boolean = allCaps
 
-    private var allCaps: Boolean = false
+    private var allCaps = false
     private var allCapsPersist: Boolean = false
     private var keysToAllCaps = arrayListOf<Button>()
     private lateinit var shiftKeyView: ImageButton
@@ -30,7 +31,10 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         var actionTime = 0L
         lateinit var actionDownFlag: AtomicBoolean
         lateinit var keyView: View
+
         val runnable = Runnable {
+            actionDownFlag = AtomicBoolean(false)
+            actionTime = System.currentTimeMillis()
             while (!actionDownFlag.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
                     allCapsPersist = if (!allCapsPersist) {
@@ -48,16 +52,11 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     keyView = view
-                    if (!allCaps) {
-                        keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
-                    } else if (allCaps && allCapsPersist) {
+                    if (allCaps && allCapsPersist) {
                         allCapsPersist = false
-                        keyView.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
                     }
                     toggleAllCaps()
 
-                    actionDownFlag = AtomicBoolean(false)
-                    actionTime = System.currentTimeMillis()
                     Thread(runnable).start()
                     true
                 }
@@ -281,9 +280,9 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         extraKeysCodesMap[R.integer.key_code_symbols_punctuation.getVal(context)] = arrayListOf(
                 R.integer.key_code_hyphen.getVal(context),
                 R.integer.key_code_apostrophy.getVal(context),
+                R.integer.key_code_question_mark.getVal(context),
                 R.integer.key_code_period.getVal(context),
                 R.integer.key_code_comma.getVal(context),
-                R.integer.key_code_question_mark.getVal(context),
                 R.integer.key_code_exclamation_mark.getVal(context),
                 R.integer.key_code_quote.getVal(context),
                 R.integer.key_code_semicolon.getVal(context),
@@ -294,22 +293,22 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         extraKeysCodesMap[R.integer.key_code_symbols_braces.getVal(context)] = arrayListOf(
                 R.integer.key_code_open_paranthesis.getVal(context),
                 R.integer.key_code_close_paranthesis.getVal(context),
-                R.integer.key_code_at.getVal(context),
-                R.integer.key_code_slash.getVal(context),
-                R.integer.key_code_backslash.getVal(context),
                 R.integer.key_code_open_square_paranthesis.getVal(context),
                 R.integer.key_code_close_square_paranthesis.getVal(context),
                 R.integer.key_code_open_curly_brace.getVal(context),
                 R.integer.key_code_close_curly_brace.getVal(context),
+                R.integer.key_code_slash.getVal(context),
+                R.integer.key_code_backslash.getVal(context),
+                R.integer.key_code_pipe.getVal(context),
                 R.integer.key_code_dollar.getVal(context)
         )
 
         extraKeysCodesMap[R.integer.key_code_symbols.getVal(context)] = arrayListOf(
-                R.integer.key_code_pipe.getVal(context),
                 R.integer.key_code_plus.getVal(context),
                 R.integer.key_code_multiplication.getVal(context),
                 R.integer.key_code_division.getVal(context),
                 R.integer.key_code_percent.getVal(context),
+                R.integer.key_code_at.getVal(context),
                 R.integer.key_code_equal.getVal(context),
                 R.integer.key_code_lt.getVal(context),
                 R.integer.key_code_gt.getVal(context),
@@ -341,11 +340,21 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
     private fun toggleAllCaps() {
         allCaps = !allCaps
         setAllCaps(allCaps)
+        if(allCaps) {
+            shiftKeyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+        } else {
+            shiftKeyView.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
+        }
     }
 
     fun forceAllCaps(isUpper: Boolean) {
         allCaps = isUpper
         setAllCaps(allCaps)
+        if(allCaps) {
+            shiftKeyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+        } else {
+            shiftKeyView.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
+        }
     }
 
     private fun setCase(button: Button, allCaps: Boolean): String {

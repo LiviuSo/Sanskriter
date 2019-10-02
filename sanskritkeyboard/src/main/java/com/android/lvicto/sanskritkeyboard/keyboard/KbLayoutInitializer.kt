@@ -3,7 +3,6 @@ package com.android.lvicto.sanskritkeyboard.keyboard
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
-import android.media.Image
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -40,6 +39,9 @@ abstract class KbLayoutInitializer(val context: Context) {
     protected abstract fun initExtraCodes()
     protected abstract fun getView(): View
 
+    private var selectionStartOld: Int = 0
+    private var selectionEnd: Int = 0
+    private var selectionStart: Int = 0
     private val isCapsFirstLetter: Boolean = true // todo get from settings
     private lateinit var toggleDigitsKey: ImageButton
     private var isSticky: Boolean = false
@@ -86,6 +88,11 @@ abstract class KbLayoutInitializer(val context: Context) {
         lateinit var keyView: View
 
         val runnable = Runnable {
+            keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+            actionTime = System.currentTimeMillis()
+            actionDownFlag = AtomicBoolean(false)
+            longTap = AtomicBoolean(false)
+
             while (!actionDownFlag.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
                     keyView.post { updateKeyboard(keyView) }
@@ -98,10 +105,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
-                    actionTime = System.currentTimeMillis()
-                    actionDownFlag = AtomicBoolean(false)
-                    longTap = AtomicBoolean(false)
                     keyView = view
                     Thread(runnable).start()
                     true
@@ -113,10 +116,9 @@ abstract class KbLayoutInitializer(val context: Context) {
                         ic.commitText(output, 1)
                         // check if toggle caps is required
                         val isQwerty = getInstance() is KbLayoutInitPhoneQwertyPortrait
-                        if(isCapsFirstLetter && isQwerty && isStopExclamationQuestion()) {
+                        if (isCapsFirstLetter && isQwerty && isStopExclamationQuestion()) {
                             (getInstance() as KbLayoutInitPhoneQwertyPortrait).forceAllCaps(true)
                         }
-                        showDigits()
                     }
                     justAddSuggestions = false
                     view.background = ContextCompat.getDrawable(context, R.drawable.key_normal)
@@ -157,7 +159,6 @@ abstract class KbLayoutInitializer(val context: Context) {
                 if (System.currentTimeMillis() - actionTime > DELAY_AUTOREPEAT) {
                     ic.deleteSurroundingText(1, 0)
                     toggleAllCapsFirstLetter()
-                    // update suggestions
                     if (mTypedText.isNotEmpty()) {
                         mTypedText.delete(mTypedText.length - 1, mTypedText.length)
                     }
@@ -169,12 +170,23 @@ abstract class KbLayoutInitializer(val context: Context) {
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
+                    resetLongPressedKeys()
                     keyView = view
                     view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
                     showDigits()
 
-                    // delete the first char
-                    ic.deleteSurroundingText(1, 0)
+                    // delete the first char or the selected text
+                    if (selectionEnd > selectionStart) {
+                        ic.setComposingRegion(selectionStart, selectionEnd)
+                        val newCursorPosition = if(selectionStartOld > 1) {
+                            selectionStartOld - 1
+                        } else {
+                            0
+                        }
+                        ic.setComposingText("", newCursorPosition)
+                    } else {
+                        ic.deleteSurroundingText(1, 0)
+                    }
                     toggleAllCapsFirstLetter()
 
                     // start the thread
@@ -198,6 +210,7 @@ abstract class KbLayoutInitializer(val context: Context) {
     private val actionOnTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
+                resetLongPressedKeys()
                 view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
                 showDigits()
                 val ei = currentInputEditorInfo
@@ -229,7 +242,6 @@ abstract class KbLayoutInitializer(val context: Context) {
                     if (!justAddSuggestions) { // replace current word with suggestion
                         val lengthBefore = getBeforeCursorInSurroundingWord().length
                         val lengthAfter = getAfterCursorInSurroundingWord().length
-                        Log.d(LOG_TAG, "suggestionOnTouchListener: $lengthBefore $lengthAfter")
 
                         // replace surrounding word with suggestion
                         ic.deleteSurroundingText(lengthBefore, lengthAfter) // delete old word
@@ -642,11 +654,11 @@ abstract class KbLayoutInitializer(val context: Context) {
                 null
             }
 
-    fun resetTypedString(s: String = "") {
+    private fun resetTypedString(s: String = "") {
         mTypedText.replace(0, mTypedText.length, s)
     }
 
-    fun isTheMiddleOfWord(): Boolean {
+    private fun isTheMiddleOfWord(): Boolean {
         val before = getBeforeCursorInSurroundingWord()
         val after = getAfterCursorInSurroundingWord()
         Log.d(LOG_TAG, "isTheMiddleOfWord(): [$before][$after]")
@@ -657,36 +669,54 @@ abstract class KbLayoutInitializer(val context: Context) {
     fun isTypedTextEmpty(): Boolean {
         val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
         val textAfter = ic.getTextAfterCursor(MAX_INPUT_LEN, 0)
-        return textBefore.isEmpty() && textAfter.isEmpty()
+        return textBefore.isNullOrEmpty() && textAfter.isNullOrEmpty()
     }
 
     fun isSpaceAfterStopExclamationQuestion(): Boolean {
         val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
         val len = textBefore.length
-        return textBefore[len - 1] == ' '
+        return len >= 2
+                && textBefore[len - 1] == ' '
                 && (textBefore[len - 2] == '?' || textBefore[len - 2] == '!' || textBefore[len - 2] == '.')
     }
 
     fun isStopExclamationQuestion(): Boolean {
         val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
         val len = textBefore.length
-        return (textBefore[len - 2] == '?' || textBefore[len - 2] == '!' || textBefore[len - 2] == '.')
+        return len >= 2
+                && (textBefore[len - 2] == '?' || textBefore[len - 2] == '!' || textBefore[len - 2] == '.')
     }
 
     fun toggleAllCapsFirstLetter() {
-        if(isCapsFirstLetter && (getInstance() is KbLayoutInitPhoneQwertyPortrait)) {
-            val kbQwertyInit = getInstance() as KbLayoutInitPhoneQwertyPortrait
-            if(kbQwertyInit.isTypedTextEmpty()) {
-                kbQwertyInit.forceAllCaps(true)
-            } else {
-                if(kbQwertyInit.isSpaceAfterStopExclamationQuestion()) {
+        if (getInstance() is KbLayoutInitPhoneQwertyPortrait) {
+            val isAllCaps = (getInstance() as KbLayoutInitPhoneQwertyPortrait).getAllCaps()
+            if (!isAllCaps && isCapsFirstLetter) {
+                val kbQwertyInit = getInstance() as KbLayoutInitPhoneQwertyPortrait
+                if (kbQwertyInit.isTypedTextEmpty()) {
                     kbQwertyInit.forceAllCaps(true)
                 } else {
-                    kbQwertyInit.forceAllCaps(false)
+                    if (kbQwertyInit.isSpaceAfterStopExclamationQuestion()) {
+                        kbQwertyInit.forceAllCaps(true)
+                    } else {
+                        kbQwertyInit.forceAllCaps(false)
+                    }
                 }
             }
         }
+    }
 
+    fun updateSuggestionsOnSelection() {
+        val wordAfter = getAfterCursorInSurroundingWord()
+        val wordBefore = getBeforeCursorInSurroundingWord()
+        resetTypedString("$wordBefore$wordAfter")
+        updateSuggestions(wordBefore)
+        justAddSuggestions = !isTheMiddleOfWord()
+    }
+
+    fun setSelection(newSelStart: Int, newSelEnd: Int, oldStart: Int) {
+        selectionStart = newSelStart
+        selectionEnd = newSelEnd
+        selectionStartOld = oldStart
     }
 
     companion object {
@@ -733,4 +763,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         val LONG_PRESS_TIME = ViewConfiguration.getLongPressTimeout()
 
     }
+
+    abstract fun getAllCaps(): Boolean
 }

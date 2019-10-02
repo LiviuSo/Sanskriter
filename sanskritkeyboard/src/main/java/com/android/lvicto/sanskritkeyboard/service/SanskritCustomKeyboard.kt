@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.android.lvicto.sanskritkeyboard.R
-import com.android.lvicto.sanskritkeyboard.keyboard.KbLayoutInitPhoneQwertyPortrait
 import com.android.lvicto.sanskritkeyboard.keyboard.KbLayoutInitializer
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardConfig
 import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
@@ -13,7 +12,6 @@ import com.android.lvicto.sanskritkeyboard.utils.isTablet
 
 class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
-    private val settingCapsFirstLetter: Boolean = true
     private var mIsTablet = true
     private var mOrientation = Configuration.ORIENTATION_UNDEFINED
     private var mCurrentKbType = KeyboardType.QWERTY
@@ -65,12 +63,9 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     override fun onUpdateSelection(oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int, candidatesStart: Int, candidatesEnd: Int) {
         // update suggestions
-        val wordAfter = kbLayoutInitializer.getAfterCursorInSurroundingWord()
-        val wordBefore = kbLayoutInitializer.getBeforeCursorInSurroundingWord()
-        Log.d(LOG_TAG, "onUpdateSelection(): [$wordBefore][$wordAfter]")
-        kbLayoutInitializer.resetTypedString("$wordBefore$wordAfter")
-        kbLayoutInitializer.updateSuggestions(wordBefore)
-        kbLayoutInitializer.justAddSuggestions = !kbLayoutInitializer.isTheMiddleOfWord()
+        kbLayoutInitializer.updateSuggestionsOnSelection()
+        // set the selection
+        kbLayoutInitializer.setSelection(newSelStart, newSelEnd, oldSelStart)
     }
 
     private fun completeLayoutInit(info: EditorInfo?) {
