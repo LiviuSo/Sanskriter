@@ -33,10 +33,15 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         lateinit var keyView: View
 
         val runnable = Runnable {
-            actionDownFlag = AtomicBoolean(false)
+            vibrateOnTap()
+            toggleAllCaps()
+            if (allCaps && allCapsPersist) {
+                allCapsPersist = false
+            }
             actionTime = System.currentTimeMillis()
             while (!actionDownFlag.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
+                    vibrateOnTap(true)
                     allCapsPersist = if (!allCapsPersist) {
                         true // toggle shift permanently
                     } else {
@@ -52,11 +57,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     keyView = view
-                    if (allCaps && allCapsPersist) {
-                        allCapsPersist = false
-                    }
-                    toggleAllCaps()
-
+                    actionDownFlag = AtomicBoolean(false)
                     Thread(runnable).start()
                     true
                 }

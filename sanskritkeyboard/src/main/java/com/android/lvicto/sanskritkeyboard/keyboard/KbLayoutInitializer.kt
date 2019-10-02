@@ -3,6 +3,9 @@ package com.android.lvicto.sanskritkeyboard.keyboard
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -88,13 +91,14 @@ abstract class KbLayoutInitializer(val context: Context) {
         lateinit var keyView: View
 
         val runnable = Runnable {
+            vibrateOnTap()
             keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
             actionTime = System.currentTimeMillis()
             actionDownFlag = AtomicBoolean(false)
             longTap = AtomicBoolean(false)
-
             while (!actionDownFlag.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
+                    vibrateOnTap(true)
                     keyView.post { updateKeyboard(keyView) }
                     longTap.set(true)
                     actionDownFlag.set(true) // once long tap reached, end the thread
@@ -150,13 +154,33 @@ abstract class KbLayoutInitializer(val context: Context) {
     private val deleteOnTouchListener = object : View.OnTouchListener {
         lateinit var flagKeyDown: AtomicBoolean
         var actionTime = 0L
-        var keyView: View? = null
+        lateinit var keyView: View
 
         val runnable = Runnable {
+            vibrateOnTap()
+            resetLongPressedKeys()
+            keyView.post {
+                showDigits()
+            }
+            keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
+            // delete the first char or the selected text
+            if (selectionEnd > selectionStart) {
+                ic.setComposingRegion(selectionStart, selectionEnd)
+                val newCursorPosition = if (selectionStartOld > 1) {
+                    selectionStartOld - 1
+                } else {
+                    0
+                }
+                ic.setComposingText("", newCursorPosition)
+            } else {
+                ic.deleteSurroundingText(1, 0)
+            }
+            toggleAllCapsFirstLetter()
             flagKeyDown = AtomicBoolean(false)
             actionTime = System.currentTimeMillis()
             while (!flagKeyDown.get()) {
                 if (System.currentTimeMillis() - actionTime > DELAY_AUTOREPEAT) {
+                    vibrateOnTap()
                     ic.deleteSurroundingText(1, 0)
                     toggleAllCapsFirstLetter()
                     if (mTypedText.isNotEmpty()) {
@@ -170,25 +194,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    resetLongPressedKeys()
                     keyView = view
-                    view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
-                    showDigits()
-
-                    // delete the first char or the selected text
-                    if (selectionEnd > selectionStart) {
-                        ic.setComposingRegion(selectionStart, selectionEnd)
-                        val newCursorPosition = if(selectionStartOld > 1) {
-                            selectionStartOld - 1
-                        } else {
-                            0
-                        }
-                        ic.setComposingText("", newCursorPosition)
-                    } else {
-                        ic.deleteSurroundingText(1, 0)
-                    }
-                    toggleAllCapsFirstLetter()
-
                     // start the thread
                     Thread(runnable).start()
                     true
@@ -210,9 +216,10 @@ abstract class KbLayoutInitializer(val context: Context) {
     private val actionOnTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
+                vibrateOnTap()
                 resetLongPressedKeys()
-                view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
                 showDigits()
+                view.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
                 val ei = currentInputEditorInfo
                 if (ei.actionId != 0) {
                     ic.performEditorAction(ei.actionId)
@@ -273,9 +280,10 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
     }
 
-    private val toogleDigitsTouchListener = View.OnTouchListener { view, motionEvent ->
+    private val toggleDigitsTouchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
+                vibrateOnTap()
                 resetLongPressedKeys()
                 showDigits()
                 true
@@ -297,13 +305,13 @@ abstract class KbLayoutInitializer(val context: Context) {
         lateinit var keyView: View
 
         val runnable = Runnable {
-            // reset any potentially long pressed key
-            resetLongPressedKeys()
+
             keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
             flagActionUp = AtomicBoolean(false)
             actionTime = System.currentTimeMillis()
             while (!flagActionUp.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
+                    vibrateOnTap(true)
                     flagActionUp.set(true)
                     isSticky = true
                     longPressedKeysViews.add(keyView)
@@ -315,11 +323,19 @@ abstract class KbLayoutInitializer(val context: Context) {
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     keyView = view
+                    vibrateOnTap()
+                    // reset
+                    if (isSticky) {
+                        resetLongPressedKeys()
+                        showDigits()
+                    } else {
+                        showExtraKeys(code)
+                    }
+
                     showSuggestions(View.GONE, View.GONE, View.GONE)
                     mTypedText.delete(0, mTypedText.length)
 
                     Thread(runnable).start()
-                    showExtraKeys(code)
                     true
                 }
                 MotionEvent.ACTION_UP -> {
@@ -393,8 +409,6 @@ abstract class KbLayoutInitializer(val context: Context) {
         private lateinit var output: String
 
         val runnable = Runnable {
-            longTap = AtomicBoolean(false)
-            flagActionUp = AtomicBoolean(true)
             if (!isExtra) { // reset the background
                 keyView.background = ContextCompat.getDrawable(context, R.drawable.key_pressed)
             } else {
@@ -403,6 +417,7 @@ abstract class KbLayoutInitializer(val context: Context) {
             actionTime = System.currentTimeMillis()
             while (flagActionUp.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) { // got a long tap
+                    vibrateOnTap(true)
                     flagActionUp.set(false)
                     longTap.set(true)
                     resetAndShowExtras(true)
@@ -419,9 +434,13 @@ abstract class KbLayoutInitializer(val context: Context) {
 
             return when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> { // todo key showing the preview till ACTION_DOWN (if no extras)
+                    vibrateOnTap()
+                    longTap = AtomicBoolean(false)
+                    flagActionUp = AtomicBoolean(true)
                     // show preview (if not isExtra)
                     if (!isExtra) {
                         resetLongPressedKeys()
+                        showDigits()
                         val rect = view.locateView()
                         popup = view.createPopup(output)
                         popup?.show(view, rect)
@@ -431,11 +450,9 @@ abstract class KbLayoutInitializer(val context: Context) {
                     true
                 }
                 MotionEvent.ACTION_UP -> {
-                    Log.d(LOG_TAG, "Action was UP")
                     flagActionUp.set(false)
 
                     if (!longTap.get()) {
-                        Log.d(LOG_TAG, "Normal tap")
                         // send text if not long tap
                         ic.commitText(output, 1)
                         // show extras (and close the preview)
@@ -510,7 +527,6 @@ abstract class KbLayoutInitializer(val context: Context) {
     private fun getSuggestions(it: List<Suggestion>) {
         when (it.size) {
             0 -> {
-                Log.d(LOG_TAG, "found 0 suggs; $mTypedText")
                 if (mSugg1.visibility != View.VISIBLE && mTypedText.isNotEmpty()) {
                     mSugg1.visibility = View.VISIBLE
                 }
@@ -519,18 +535,15 @@ abstract class KbLayoutInitializer(val context: Context) {
                 mSugg1.tag = mTypedText
             }
             1 -> {
-                Log.d(LOG_TAG, "found 1 suggs; $mTypedText")
                 showSuggestions(View.VISIBLE, View.GONE, View.GONE)
                 mSugg1.text = it[0].word
             }
             2 -> {
-                Log.d(LOG_TAG, "found 2 suggs; $mTypedText")
                 showSuggestions(View.VISIBLE, View.VISIBLE, View.GONE)
                 mSugg1.text = it[0].word
                 mSugg2.text = it[1].word
             }
             else -> { // 3 or more
-                Log.d(LOG_TAG, "found 3+ suggs; $mTypedText")
                 showSuggestions(View.VISIBLE, View.VISIBLE, View.VISIBLE)
                 mSugg1.text = it[0].word
                 mSugg2.text = it[1].word
@@ -604,7 +617,6 @@ abstract class KbLayoutInitializer(val context: Context) {
                 it.text = context.resources.getString(R.string.key_label_placeholder)
                 it.isEnabled = false
             }
-            Log.d(LOG_TAG, "relatedChars.size: ${relatedChars.size}")
             (0 until relatedChars.size).forEach { index ->
                 extraKeys[index].isEnabled = true
                 extraKeys[index].text = "${relatedChars[index].toChar()}"
@@ -618,7 +630,7 @@ abstract class KbLayoutInitializer(val context: Context) {
 
     protected fun initExtraKeys(view: View) {
         toggleDigitsKey = (view imageButton R.id.keyToggleDigits).apply {
-            setOnTouchListener(toogleDigitsTouchListener)
+            setOnTouchListener(toggleDigitsTouchListener)
         }
         extraKeys.addAll(arrayListOf(
                 view button R.id.keyLetterExtra1
@@ -634,7 +646,9 @@ abstract class KbLayoutInitializer(val context: Context) {
         extraKeys.forEach {
             it.setOnTouchListener(getCommonTouchListener(isExtra = true))
         }
-        showDigits()
+        view.post {
+            showDigits()
+        }
     }
 
     fun showDigits() {
@@ -661,8 +675,6 @@ abstract class KbLayoutInitializer(val context: Context) {
     private fun isTheMiddleOfWord(): Boolean {
         val before = getBeforeCursorInSurroundingWord()
         val after = getAfterCursorInSurroundingWord()
-        Log.d(LOG_TAG, "isTheMiddleOfWord(): [$before][$after]")
-
         return before.isNotEmpty() && after.isNotEmpty()
     }
 
@@ -717,6 +729,24 @@ abstract class KbLayoutInitializer(val context: Context) {
         selectionStart = newSelStart
         selectionEnd = newSelEnd
         selectionStartOld = oldStart
+    }
+
+    protected fun vibrateOnTap(isLongTap: Boolean = false) {
+        val vibratorService: Vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (!vibratorService.hasVibrator()) {
+            return
+        }
+
+        val length: Long = if (isLongTap) {
+            40
+        } else {
+            80
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibratorService.vibrate(VibrationEffect.createOneShot(length, 40))
+        } else {
+            vibratorService.vibrate(length)
+        }
     }
 
     companion object {
