@@ -33,7 +33,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         lateinit var keyView: View
 
         val runnable = Runnable {
-            vibrateOnTap()
+            touchListners.vibrateOnTap()
             toggleAllCaps()
             if (allCaps && allCapsPersist) {
                 allCapsPersist = false
@@ -41,7 +41,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
             actionTime = System.currentTimeMillis()
             while (!actionDownFlag.get()) {
                 if (System.currentTimeMillis() - actionTime > LONG_PRESS_TIME) {
-                    vibrateOnTap(true)
+                    touchListners.vibrateOnTap(true)
                     allCapsPersist = if (!allCapsPersist) {
                         true // toggle shift permanently
                     } else {
@@ -107,7 +107,7 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
                 , view button R.id.keyC
         )
         keysClickListenerOnlyAllCaps.forEach {
-            it.setOnTouchListener(getCommonTouchListener())
+            it.setOnTouchListener(touchListners.getCommonTouchListener())
             keysToAllCaps.add(it)
         }
 
@@ -117,13 +117,13 @@ open class KbLayoutInitPhoneQwertyPortrait(context: Context) :
         }
 
         view.findViewById<Button>(R.id.keyPunctuation).apply {
-            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols_punctuation.getVal(context)))
+            setOnTouchListener(touchListners.getSymbolKeyTouchListener(R.integer.key_code_symbols_punctuation.getVal(context)))
         }
         view.findViewById<Button>(R.id.keyBraces).apply {
-            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols_braces.getVal(context)))
+            setOnTouchListener(touchListners.getSymbolKeyTouchListener(R.integer.key_code_symbols_braces.getVal(context)))
         }
         view.findViewById<Button>(R.id.keySymbol).apply {
-            setOnTouchListener(getSymbolKeyTouchListener(R.integer.key_code_symbols.getVal(context)))
+            setOnTouchListener(touchListners.getSymbolKeyTouchListener(R.integer.key_code_symbols.getVal(context)))
         }
         initExtraKeys(view)
     }
