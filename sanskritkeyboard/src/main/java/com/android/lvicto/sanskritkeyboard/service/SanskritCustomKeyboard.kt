@@ -1,6 +1,7 @@
 package com.android.lvicto.sanskritkeyboard.service
 
 import android.content.res.Configuration
+import android.inputmethodservice.InputMethodService
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.android.lvicto.sanskritkeyboard.R
@@ -10,7 +11,7 @@ import com.android.lvicto.sanskritkeyboard.keyboard.KeyboardType
 import com.android.lvicto.sanskritkeyboard.utils.getOrientation
 import com.android.lvicto.sanskritkeyboard.utils.isTablet
 
-class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
+class SanskritCustomKeyboard : InputMethodService(), KeyboardSwitch {
 
     private var mIsTablet = true
     private var mOrientation = Configuration.ORIENTATION_UNDEFINED
@@ -34,8 +35,39 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     private lateinit var kbLayoutInitializer: KbLayoutInitializer
 
+
+    override fun onCreateInputMethodSessionInterface(): AbstractInputMethodSessionImpl {
+        Log.d(LOG_TAG, "onCreateInputMethodSessionInterface()")
+        return super.onCreateInputMethodSessionInterface()
+    }
+
     override fun onStartInput(attribute: EditorInfo?, restarting: Boolean) {
-        Log.d(LOG_TAG, "onStartInputView($attribute $restarting)")
+        Log.d(LOG_TAG, "onStartInput()")
+    }
+
+    override fun onExtractedSelectionChanged(start: Int, end: Int) {
+        Log.d(LOG_TAG, "onExtractedSelectionChanged()")
+        super.onExtractedSelectionChanged(start, end)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        Log.d(LOG_TAG, "onConfigurationChanged()")
+        super.onConfigurationChanged(newConfig)
+    }
+
+    override fun onBindInput() {
+        Log.d(LOG_TAG, "onBindInput()")
+        super.onBindInput()
+    }
+
+    override fun onUnbindInput() {
+        Log.d(LOG_TAG, "onUnbindInput()")
+        super.onUnbindInput()
+    }
+
+    override fun onFinishInput() {
+        Log.d(LOG_TAG, "onFinishInput()")
+        super.onFinishInput()
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
@@ -70,7 +102,6 @@ class SanskritCustomKeyboard : StubbedInputMethodService(), KeyboardSwitch {
 
     private fun completeLayoutInit(info: EditorInfo?) {
         if (currentInputConnection != null) {
-            Log.d(LOG_TAG, "ic initialized")
             kbLayoutInitializer.ic = currentInputConnection
             // set first letter allCaps
             kbLayoutInitializer.toggleAllCapsFirstLetter()

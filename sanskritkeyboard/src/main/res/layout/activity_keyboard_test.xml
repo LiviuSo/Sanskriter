@@ -49,7 +49,7 @@
             android:inputType="text"
             android:singleLine="false"
             tools:layout_editor_absoluteX="0dp"
-            android:imeActionLabel="@string/kbHintEnglish"/>
+            android:imeActionLabel="@string/kbHintIAST"/>
 
         <EditText
             android:id="@+id/editTextRo"
@@ -61,7 +61,8 @@
             android:hint="@string/kbHintRomanian"
             android:imeOptions="actionSearch"
             android:singleLine="false"
-            tools:layout_editor_absoluteX="0dp"/>
+            tools:layout_editor_absoluteX="0dp"
+            android:imeActionLabel="@string/kbHintIAST"/>
 
         <EditText
             android:id="@+id/editTextElse"
@@ -74,7 +75,7 @@
             android:imeOptions="actionSend"
             android:singleLine="false"
             tools:layout_editor_absoluteX="0dp"
-            android:imeActionLabel="Else"/>
+            android:imeActionLabel="@string/kbHintIAST"/>
 
         <FrameLayout
             android:layout_width="match_parent"

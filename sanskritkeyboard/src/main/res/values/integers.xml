@@ -11,6 +11,9 @@
     <integer name="key_code_symbols">-14</integer>
     <integer name="key_code_symbols_punctuation">-15</integer>
     <integer name="key_code_symbols_braces">-16</integer>
+    <integer name="key_code_action">-17</integer>
+    <integer name="key_code_settings">-18</integer>
+    <integer name="key_code_space">32</integer>
 
     <integer name="size_key_popup_height">100</integer>
     <integer name="size_key_popup_width">80</integer>
@@ -299,5 +302,12 @@
     <integer name="key_code_extra_au">2380</integer>
     <integer name="key_code_extra_accent1">2385</integer>
     <integer name="key_code_extra_accent2">2386</integer>
+
+    <integer name="key_code_sap_sep">2404</integer>
+
+    <integer name="key_code_suggestion1">-20</integer>
+    <integer name="key_code_suggestion2">-21</integer>
+    <integer name="key_code_suggestion3">-22</integer>
+    <integer name="key_code_toggle_digits">-30</integer>
 
 </resources>

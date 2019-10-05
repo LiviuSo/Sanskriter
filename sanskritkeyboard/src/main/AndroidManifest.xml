@@ -27,6 +27,19 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".newkeyboard.CustomSanskritKeyboard"
+            android:label="@string/keyboard_name_new"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".ui.TestKeyboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

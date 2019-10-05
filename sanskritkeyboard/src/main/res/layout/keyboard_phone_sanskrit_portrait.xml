@@ -388,7 +388,7 @@
         <Button
             android:id="@+id/keySaSep"
             style="@style/CustomKeyLetter"
-            android:layout_width="0dp"
+            android:layout_width="30dp"
             android:layout_weight="1"
             android:text="@string/key_label_sa_sep" />
 
