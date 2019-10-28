@@ -160,7 +160,6 @@
 
     <string name="lang_label_sa">संस्कृतम्</string>
     <string name="lang_label_qwerty">Qwerty</string>
-    <string name="keyboard_name">SanskritSimpleKeyboard</string>
     <string name="key_label_apostrophe">\'</string>
     <string name="key_label_punctuation">\' - ?</string>
     <string name="key_label_paranthesis">( )</string>
@@ -169,4 +168,8 @@
     <string name="key_shift_description">Shift key</string>
     <string name="key_backspace_description">Backspace key</string>
     <string name="key_swap_to_digits_content_descr">Swap to digits</string>
+
+    <string name="keyboard_name">SimpleSanskritKeyboard</string>
+    <string name="keyboard_name_new">NewSanskritKeyboard</string>
+
 </resources>

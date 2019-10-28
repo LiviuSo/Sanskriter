@@ -582,7 +582,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         (view button R.id.keySettings).apply {
             setOnTouchListener(touchListners.settingsOnTouchListener)
         }
-        // bind suggestions
+        // bindIms suggestions
         mSugg1 = (view button R.id.keySuggestion1).apply {
             setOnTouchListener(touchListners.suggestionOnTouchListener)
         }

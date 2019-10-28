@@ -4,12 +4,17 @@ import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.media.Image
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.annotation.IdRes
 import com.android.lvicto.sanskritkeyboard.R
+import com.android.lvicto.sanskritkeyboard.utils.Constants.VIBRATION_LONG
+import com.android.lvicto.sanskritkeyboard.utils.Constants.VIBRATION_SHORT
 
 
 fun Context.getOrientation(): Int = this.resources?.configuration?.orientation!!
@@ -22,8 +27,28 @@ fun Context.isTablet(): Boolean {
 
 infix fun Int.getVal(context: Context): Int = context.resources.getInteger(this)
 
+infix fun Int.getString(context: Context): String = context.resources.getString(this)
+
 fun Context.layoutInflater(): LayoutInflater =
         this.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+fun Context.vibrate(long: Boolean = false) {
+    val vibratorService: Vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    if (!vibratorService.hasVibrator()) {
+        return
+    }
+
+    val length: Long = if (long) {
+        VIBRATION_LONG
+    } else {
+        VIBRATION_SHORT
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vibratorService.vibrate(VibrationEffect.createOneShot(length, 40))
+    } else {
+        vibratorService.vibrate(length)
+    }
+}
 
 infix fun View.button(@IdRes id: Int): Button = (this.findViewById(id) as Button)
 
