@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.sanskriter.*
 import com.android.lvicto.ui.DictionaryActivity
-import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
 import com.google.gson.Gson
@@ -32,6 +32,22 @@ class MainActivity : AppCompatActivity() {
 
         btnTestBook2.setOnClickListener {
             startActivity(Intent(this@MainActivity, BookActivity::class.java))
+        }
+
+        btnDeclension.setOnClickListener {
+            startActivity(Intent(this@MainActivity, DeclensionActivity::class.java))
+        }
+
+        btnVerbs.setOnClickListener {
+            startActivity(Intent(this@MainActivity, VerbsActivity::class.java))
+        }
+
+        btnPronouns.setOnClickListener {
+            startActivity(Intent(this@MainActivity, PronounsActivity::class.java))
+        }
+
+        btnTexts.setOnClickListener {
+            startActivity(Intent(this@MainActivity, TextsActivity::class.java))
         }
 
         // debug

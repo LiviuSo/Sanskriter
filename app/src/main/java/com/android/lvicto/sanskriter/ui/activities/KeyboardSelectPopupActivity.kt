@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.sanskriter.R
 
-class KeyboardSelectPopup : AppCompatActivity() {
+class KeyboardSelectPopupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -14,6 +14,8 @@ object Constants {
         const val EXTRA_PAGE_TITLE = "page_title"
         const val EXTRA_PAGE_ASSET = "page_asset"
         const val EXTRA_ZOOM_BUNDLE = "extra_zoom_bundle"
+
+        const val LOG_TAG = "overall_log"
     }
 
     enum class SetupStep {
