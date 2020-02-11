@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Zombie</string>
+
+    <string name="key_label_space">\Space</string>
+    <string name="key_label_placeholder">°</string>
+    <string name="key_label_period">.</string>
+    <string name="key_label_comma">,</string>
+    <string name="key_label_question_mark">\?</string>
+    <string name="key_label_exclamation_mark">!</string>
+    <string name="key_label_hyphen">-</string>
+    <string name="key_label_at">\@</string>
+    <string name="key_label_sep">|</string>
+
+    <string name="key_label_sa_letter_da2">\u0921</string>
+    <string name="key_label_sa_letter_dha2">\u0922</string>
+    <string name="key_label_sa_letter_ta">\u0924</string>
+    <string name="key_label_sa_letter_tha">\u0925</string>
+
+    <string name="key_label_sa_digit_1">\u0967</string>
+    <string name="key_label_sa_digit_2">\u0968</string>
+    <string name="key_label_sa_digit_3">\u0969</string>
+
 </resources>

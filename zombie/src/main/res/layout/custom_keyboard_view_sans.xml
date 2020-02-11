@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.android.lvicto.zombie.keyboard.view.keyboard.SanskritKeyboardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/keyboard_bkgrd"
+    android:id="@+id/customKeyboardViewSans">
+
+    <com.android.lvicto.zombie.keyboard.view.key.BaseKeyView
+        android:id="@+id/keyToggleDigits"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="To"
+        app:code="@integer/key_code_digits"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/key0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.ExtraKeyView
+        android:id="@+id/key0"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_digit_1"
+        app:label="@string/key_label_sa_digit_1"
+        app:layout_constraintEnd_toStartOf="@+id/key1"
+        app:layout_constraintStart_toEndOf="@id/keyToggleDigits"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.ExtraKeyView
+        android:id="@+id/key1"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_digit_2"
+        app:label="@string/key_label_sa_digit_2"
+        app:layout_constraintEnd_toStartOf="@+id/key2"
+        app:layout_constraintStart_toEndOf="@id/key0"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.ExtraKeyView
+        android:id="@+id/key2"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_digit_3"
+        app:label="@string/key_label_sa_digit_3"
+        app:layout_constraintEnd_toStartOf="@id/keySettings"
+        app:layout_constraintStart_toEndOf="@id/key1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.BaseKeyView
+        android:id="@+id/keySettings"
+        style="@style/KeyStyleRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set"
+        app:code="@integer/key_code_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/key2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.ToggleKeyView
+        android:id="@+id/keySym"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sym"
+        app:code="@integer/key_code_symbols"
+        app:candidates="@array/sym_candidates_sans"
+        app:layout_constraintEnd_toStartOf="@+id/keyDa2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key0" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.SanskritKeyView
+        android:id="@+id/keyDa2"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_da2"
+        app:label="@string/key_label_sa_letter_da2"
+        app:candidates="@array/q_candidates"
+        app:layout_constraintEnd_toStartOf="@+id/keyDha2"
+        app:layout_constraintStart_toEndOf="@id/keySym"
+        app:layout_constraintTop_toBottomOf="@id/key1" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.SanskritKeyView
+        android:id="@+id/keyDha2"
+        style="@style/KeyStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_dha2"
+        app:label="@string/key_label_sa_letter_dha2"
+        app:layout_constraintEnd_toStartOf="@id/keyBcksp"
+        app:layout_constraintStart_toEndOf="@id/keyDa2"
+        app:layout_constraintTop_toBottomOf="@id/key2" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.BaseKeyView
+        android:id="@+id/keyBcksp"
+        style="@style/KeyStyleRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bks"
+        app:code="@integer/key_code_backspace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/keyDha2"
+        app:layout_constraintTop_toBottomOf="@id/key2"/>
+
+    <com.android.lvicto.zombie.keyboard.view.key.ToggleKeyView
+        android:id="@+id/keyShift"
+        style="@style/KeyStyleBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Th"
+        app:code="@integer/key_code_toggle_h"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/keySpace"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/keySym" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.BaseKeyView
+        android:id="@+id/keySpace"
+        style="@style/KeyStyleBottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Space"
+        app:code="@integer/key_code_space"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/keyAction"
+        app:layout_constraintStart_toEndOf="@id/keyShift"
+        app:layout_constraintTop_toBottomOf="@id/keyDha2" />
+
+    <com.android.lvicto.zombie.keyboard.view.key.BaseKeyView
+        android:id="@+id/keyAction"
+        style="@style/KeyStyleRightBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ac"
+        app:code="@integer/key_code_ac"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/keySpace"
+        app:layout_constraintTop_toBottomOf="@id/keyBcksp" />
+
+
+</com.android.lvicto.zombie.keyboard.view.keyboard.SanskritKeyboardView>

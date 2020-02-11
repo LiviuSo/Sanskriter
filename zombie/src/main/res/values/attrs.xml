@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <declare-styleable name="BaseKeyView">
+        <attr name="backgroundNormal" format="reference"/>
+        <attr name="backgroundPressed" format="reference"/>
+        <attr name="icon" format="reference"/>
+        <attr name="code" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="CandidatesKeyView">
+        <attr name="candidates" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="TypableKeyView">
+        <attr name="label" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="ToggleKeyView">
+        <attr name="backgroundToggled" format="reference"/>
+    </declare-styleable>
+
+</resources>

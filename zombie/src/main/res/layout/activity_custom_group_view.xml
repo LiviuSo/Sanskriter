@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CustomGroupViewActivity">
+
+    <com.android.lvicto.zombie.TagLayout
+        android:id="@+id/tagLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#490FA5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="#AADD6969"
+                android:padding="10dp"
+                android:text="#tag25"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="#AA79C06C"
+                android:padding="10dp"
+                android:text="#tag26"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="#AA79C06C"
+                android:padding="10dp"
+                android:text="#tag27"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+    </com.android.lvicto.zombie.TagLayout>
+
+</RelativeLayout>

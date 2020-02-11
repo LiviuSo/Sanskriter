@@ -1,22 +1,71 @@
 package com.android.lvicto.zombie
 
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations
+import com.android.lvicto.zombie.keyboard.activity.CustomKeyboardViewActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val LOG_TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<EditText>(R.id.editSearch).setOnEditorActionListener { v, actionId, event ->
-            Log.d(LOG_TAG, "$actionId $event")
-            true
+        btnPopUpPositioning.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, PopUpPositioningActivity::class.java))
+            }
+        }
+
+        btnPopUpAutoDismiss.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, PopUpAutoDismissActivity::class.java))
+            }
+        }
+
+        btnKeyboardTest.apply {
+            setOnClickListener {
+            }
+        }
+
+        btnCoroutines.apply {
+            setOnClickListener {
+            }
+        }
+
+        btnCustomGroupView.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, CustomGroupViewActivity::class.java))
+            }
+        }
+
+        btnCustomKeyboardView.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, CustomKeyboardViewActivity::class.java))
+            }
+        }
+
+        val liveData = MutableLiveData<String>()
+        liveData.value = null
+        val transLiveData = Transformations.map(liveData) {
+            it?.length
+        }
+        transLiveData.observe(this, Observer {
+            Log.d("livedata", "$it")
+        })
+
+        val attr = intArrayOf()
+        theme.obtainStyledAttributes(attr).apply {
+            try {
+                Log.d("attr", "${this.length()}")
+            } finally {
+                recycle()
+            }
         }
     }
 }

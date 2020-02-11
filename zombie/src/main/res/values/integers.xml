@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <integer name="key_code_space">32</integer>
+
+    <integer name="key_code_shift">-1</integer>
+    <integer name="key_code_ac">-4</integer>
+    <integer name="key_code_backspace">-5</integer>
+    <integer name="key_code_sa_dg">-9</integer>
+    <integer name="key_code_switch">-11</integer>
+    <integer name="key_code_keyboard_back">-12</integer>
+    <integer name="key_code_digits">-13</integer>
+    <integer name="key_code_symbols">-14</integer>
+    <integer name="key_code_symbols_punctuation">-15</integer>
+    <integer name="key_code_symbols_braces">-16</integer>
+    <integer name="key_code_action">-17</integer>
+    <integer name="key_code_settings">-18</integer>
+    <integer name="key_code_toggle_h">-55</integer>
+
+</resources>

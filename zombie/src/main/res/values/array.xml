@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string-array name="sym_candidates">
+        <item>@string/key_label_exclamation_mark</item>
+        <item>@string/key_label_comma</item>
+        <item>@string/key_label_period</item>
+    </string-array>
+
+    <string-array name="q_candidates">
+        <item>@string/key_label_hyphen</item>
+        <item>@string/key_label_at</item>
+    </string-array>
+
+        <string-array name="sym_candidates_sans">
+        <item>@string/key_label_exclamation_mark</item>
+        <item>@string/key_label_comma</item>
+        <item>@string/key_label_period</item>
+    </string-array>
+
+</resources>
