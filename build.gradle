@@ -2,9 +2,9 @@
 
 buildscript {
     // versions
-    ext.kotlinVersion = '1.3.60'
+    ext.kotlinVersion = '1.3.72'
     ext.supportVersion = '28.0.0'
-    ext.gradleVersion = '3.5.2'
+    ext.gradleVersion = '3.6.3'
     ext.appcompatVersion = '1.1.0'
     ext.junitVersion = '4.13-beta-3'
     ext.testRunnerVersion = '1.2.0'
@@ -23,6 +23,8 @@ buildscript {
     ext.preference='1.1.0'
     ext.roomCompiler='2.1.0'
     ext.multidex_version="2.0.1"
+    ext.coroutines_core="1.3.5"
+    ext.coroutines_android="1.3.4"
 
     repositories {
         google()
