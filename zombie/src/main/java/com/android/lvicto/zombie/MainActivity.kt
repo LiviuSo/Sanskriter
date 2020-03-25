@@ -7,7 +7,11 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
+import com.android.lvicto.zombie.customview.CustomGroupViewActivity
 import com.android.lvicto.zombie.keyboard.activity.CustomKeyboardViewActivity
+import com.android.lvicto.zombie.livedata.LiveDataTransActivity
+import com.android.lvicto.zombie.popup.PopUpAutoDismissActivity
+import com.android.lvicto.zombie.popup.PopUpPositioningActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         btnCustomKeyboardView.apply {
             setOnClickListener {
                 startActivity(Intent(this@MainActivity, CustomKeyboardViewActivity::class.java))
+            }
+        }
+
+        btnLiveDataTransformations.apply {
+            setOnClickListener {
+                startActivity(Intent(this@MainActivity, LiveDataTransActivity::class.java))
             }
         }
 

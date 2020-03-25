@@ -1,4 +1,4 @@
-package com.android.lvicto.zombie
+package com.android.lvicto.zombie.customview
 
 import android.content.Context
 import android.graphics.Point

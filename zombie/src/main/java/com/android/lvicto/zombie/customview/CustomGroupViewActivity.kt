@@ -1,9 +1,10 @@
-package com.android.lvicto.zombie
+package com.android.lvicto.zombie.customview
 
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.zombie.R
 
 
 class CustomGroupViewActivity : AppCompatActivity() {
