@@ -15,6 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        multiDexEnabled true
+
     }
 
     buildTypes {
@@ -45,4 +47,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_core"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android"
+
+    implementation "com.android.support:multidex:$multidex_version"
 }

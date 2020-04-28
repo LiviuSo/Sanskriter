@@ -4,13 +4,14 @@
 
     <application
         android:name=".keyboard.ZombieApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".livedata.LiveDataTransActivity"></activity>
+        <activity android:name=".coroutines.CoroutinesActivity" />
+        <activity android:name=".livedata.LiveDataTransActivity" />
         <activity android:name=".customview.CustomGroupViewActivity" />
         <activity android:name=".keyboard.activity.CustomKeyboardViewActivity" />
         <activity android:name=".MainActivity">

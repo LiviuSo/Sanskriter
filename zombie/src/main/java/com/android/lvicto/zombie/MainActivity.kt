@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.Transformations
+import com.android.lvicto.zombie.coroutines.CoroutinesActivity
 import com.android.lvicto.zombie.customview.CustomGroupViewActivity
 import com.android.lvicto.zombie.keyboard.activity.CustomKeyboardViewActivity
 import com.android.lvicto.zombie.livedata.LiveDataTransActivity
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         btnCoroutines.apply {
             setOnClickListener {
+                startActivity(Intent(this@MainActivity, CoroutinesActivity::class.java))
             }
         }
 
@@ -57,24 +59,6 @@ class MainActivity : AppCompatActivity() {
         btnLiveDataTransformations.apply {
             setOnClickListener {
                 startActivity(Intent(this@MainActivity, LiveDataTransActivity::class.java))
-            }
-        }
-
-        val liveData = MutableLiveData<String>()
-        liveData.value = null
-        val transLiveData = Transformations.map(liveData) {
-            it?.length
-        }
-        transLiveData.observe(this, Observer {
-            Log.d("livedata", "$it")
-        })
-
-        val attr = intArrayOf()
-        theme.obtainStyledAttributes(attr).apply {
-            try {
-                Log.d("attr", "${this.length()}")
-            } finally {
-                recycle()
             }
         }
     }
