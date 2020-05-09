@@ -6,17 +6,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".keyboard.activity.CustomKeyboardViewActivity">
+    tools:context=".keyboard.mock.activity.CustomKeyboardMockActivity">
+
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextSanskrit"
-        android:hint="Sanskrit"
+        android:id="@+id/editTextQwerty"
+        android:hint="English"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:imeActionLabel="sanskrit"/>
+        android:imeActionLabel="english"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -25,18 +26,19 @@
         android:hint="Iast"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSanskrit"
+        app:layout_constraintTop_toBottomOf="@+id/editTextQwerty"
         android:imeActionLabel="iast"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextEnglish"
-        android:hint="English"
+        android:id="@+id/editTextSanskrit"
+        android:hint="Sanskrit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextIast"
-        android:imeActionLabel="english"/>
+        android:imeActionLabel="sanskrit"/>
+
 
     <FrameLayout
         android:id="@+id/keyboardViewHolderIast"
@@ -44,7 +46,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEnglish"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSanskrit"
         android:layout_marginTop="20dp"/>
 
     <FrameLayout
@@ -55,5 +57,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/keyboardViewHolderIast"
         android:layout_marginTop="20dp"/>
+
+    <FrameLayout
+        android:id="@+id/keyboardViewHolderQwerty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keyboardViewHolderSans"
+        android:layout_marginTop="20dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

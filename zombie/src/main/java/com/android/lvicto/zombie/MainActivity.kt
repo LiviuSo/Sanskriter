@@ -6,7 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.zombie.coroutines.CoroutinesActivity
 import com.android.lvicto.zombie.customview.CustomGroupViewActivity
-import com.android.lvicto.zombie.keyboard.activity.CustomKeyboardViewActivity
+import com.android.lvicto.zombie.keyboard.CustomKeyboardMainActivity
 import com.android.lvicto.zombie.knuth.Expression
 import com.android.lvicto.zombie.knuth.Symbol
 import com.android.lvicto.zombie.knuth.multiplyPerm
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         btnCustomKeyboardView.apply {
             setOnClickListener {
-                startActivity(Intent(this@MainActivity, CustomKeyboardViewActivity::class.java))
+                startActivity(Intent(this@MainActivity, CustomKeyboardMainActivity::class.java))
             }
         }
 

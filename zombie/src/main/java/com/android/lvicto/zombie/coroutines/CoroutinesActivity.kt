@@ -6,13 +6,11 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.arch.core.executor.DefaultTaskExecutor
 import com.android.lvicto.zombie.R
 import com.android.lvicto.zombie.coroutines.retailxsimu.StlResultsActivity
-import com.android.lvicto.zombie.keyboard.view.keyboard.CustomKeyboardView
+import com.android.lvicto.zombie.keyboard.ims.view.keyboard.CustomKeyboardView
 import kotlinx.android.synthetic.main.activity_coroutines.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.produce
@@ -25,7 +23,6 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.coroutines.*
 import kotlin.system.measureTimeMillis
-import kotlinx.coroutines.channels.onReceiveOrNull
 
 class CoroutinesActivity : AppCompatActivity() {
 

@@ -12,32 +12,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".coroutines.CoroutinesActivity">
-        </activity>
-
-        <activity android:name=".livedata.LiveDataTransActivity" />
-
-        <activity android:name=".customview.CustomGroupViewActivity" />
-
-        <activity android:name=".keyboard.activity.CustomKeyboardViewActivity">
-        </activity>
-
-        <activity android:name=".MainActivity">
+        <activity android:name=".keyboard.CustomKeyboardMainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".coroutines.CoroutinesActivity" />
+        <activity android:name=".livedata.LiveDataTransActivity" />
+        <activity android:name=".customview.CustomGroupViewActivity" />
 
+        <!-- custom keyboard -->
+        <activity android:name=".keyboard.mock.activity.CustomKeyboardMockActivity">
+        </activity>
+
+        <activity android:name="com.android.lvicto.zombie.keyboard.ims.activity.SettingsActivity" />
+
+        <activity android:name="com.android.lvicto.zombie.keyboard.ims.activity.CustomKeyboardImsActivity">
+        </activity>
+
+        <service
+            android:name="com.android.lvicto.zombie.keyboard.ims.service.ZombieCustomKeyboardIms"
+            android:label="@string/keyboard_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method" />
+
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+        </service>
+        <!-- end custom keyboard -->
+        <activity android:name=".MainActivity" >
+        </activity>
         <activity android:name=".popup.PopUpAutoDismissActivity" />
-
         <activity android:name=".popup.PopUpPositioningActivity" />
-
-        <activity android:name=".keyboard.activity.SettingsActivity" />
-
         <activity android:name=".coroutines.retailxsimu.StlResultsActivity" />
-
     </application>
 
 </manifest>
