@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.arch.core.executor.DefaultTaskExecutor
 import com.android.lvicto.zombie.R
 import com.android.lvicto.zombie.keyboard.view.keyboard.CustomKeyboardView
 import kotlinx.android.synthetic.main.activity_coroutines.*
@@ -30,12 +31,162 @@ class CoroutinesActivity : AppCompatActivity() {
         const val LOG_INLINE = "inlines"
     }
 
+    @ExperimentalStdlibApi
     @ExperimentalCoroutinesApi
     @InternalCoroutinesApi
     @ObsoleteCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coroutines)
+
+        // region Baeldung - intro to kotlin coroutines
+        // https://www.baeldung.com/kotlin-coroutines
+        val fibonacciSeq = sequence {
+            var a = 0
+            var b = 1
+
+            yield(1)
+
+            while (true) {
+                yield(a + b)
+
+                val tmp = a + b
+                a = b
+                b = tmp
+            }
+        }
+
+        suspend fun longComp(res: MutableList<String>) {
+            log("longComp - before delay()")
+            delay(1200L)
+            log("longComp - before log")
+            res.add(", world!")
+        }
+
+        suspend fun longComp(delay: Long)  {
+            delay(delay)
+        }
+
+        buttonBaeldungIntroKCoroutines.setOnClickListener {
+            // sequence
+//            val res = fibonacciSeq
+//                    .take(5)
+//                    .toList()
+//            repeat(res.size) {
+//                log("${res[it]}")
+//            }
+
+            // launch
+//            val res2 = mutableListOf<String>()
+//            runBlocking {
+//                val promise = launch {
+//                    longComp(res2)
+//                }
+//                res2.add("Hello")
+//                promise.join()
+//            }
+//            repeat(res2.size) {
+//                log(res2[it])
+//            }
+
+            // coroutine are light-weighted
+//            runBlocking<Unit> {
+//                // given
+//                val counter = AtomicInteger(0)
+//                val numberOfCoroutines = 100_000
+//
+//                // when
+//                val jobs = List(numberOfCoroutines) {
+//                    launch(Dispatchers.Default) {
+//                        delay(1000L)
+//                        counter.incrementAndGet()
+//                    }
+//                }
+//                jobs.forEach { it.join() }
+//
+//                // then
+//                log("${counter.get()}")
+
+            // cancellation
+//            runBlocking<Unit> {
+//                // given
+//                val job = launch(Dispatchers.Default) {
+//                    while (isActive) {
+//                        log("is working")
+//                    }
+//                }
+//                delay(1300L)
+//                // when
+//                job.cancel()
+//                // then cancel successfully
+//                log("cancelled")
+//            }
+
+            // timeout
+//            runBlocking {
+//                try {
+//                    withTimeout(1300L) {
+//                        repeat(1000) { i ->
+//                            log("Some expensive computation $i ...")
+//                            delay(500L)
+//                        }
+//                    }
+//                } catch (e: TimeoutCancellationException) {
+//                    log("timeout-ed")
+//                }
+//            }
+
+            // asynch
+            runBlocking<Unit> {
+                val delay = 1000L
+                val time = measureTimeMillis {
+                    // given
+                    val one = async(Dispatchers.Default) {
+                        longComp(delay)
+                    }
+                    val two = async(Dispatchers.Default) {
+                        longComp(delay)
+                    }
+
+                    // when
+                    runBlocking {
+                        one.await()
+                        two.await()
+                    }
+                }
+
+                // then
+                log("$time < $delay * 2")
+            }
+
+            // asynch LAZY
+            runBlocking<Unit> {
+                val delay = 1000L
+                val time = measureTimeMillis {
+                    // given
+                    val one = async(Dispatchers.Default, CoroutineStart.LAZY) {
+                        longComp(delay)
+                    }
+                    val two = async(Dispatchers.Default, CoroutineStart.LAZY) {
+                        longComp(delay)
+                    }
+
+                    // when
+                    runBlocking {
+                        one.await()
+                        two.await()
+                    }
+                }
+
+                // then
+                log("$time < $delay * 2")
+            }
+
+            // end
+            log("done!")
+        }
+
+        // endregion
 
         // region example inline, noinline, crossinline
         val res = higherOrderFunction({
@@ -85,14 +236,14 @@ class CoroutinesActivity : AppCompatActivity() {
                 Log.d(LOG_COR, "doOnLongTap()")
             }
 
-            override fun doOnNormalTapOnly() {
-                Log.d(LOG_COR, "doOnNormalTapOnly()")
-            }
+                    override fun doOnNormalTapOnly() {
+                        Log.d(LOG_COR, "doOnNormalTapOnly()")
+                    }
 
-            override fun doOnActionDown() {
-                Log.d(LOG_COR, "doOnActionDown()")
-            }
-        })
+                    override fun doOnActionDown() {
+                        Log.d(LOG_COR, "doOnActionDown()")
+                    }
+                })
         // endregion
 
         // region "Composing suspending functions"
@@ -162,7 +313,7 @@ class CoroutinesActivity : AppCompatActivity() {
         }
         // endregion
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
     // region "Select Expression"
     @ObsoleteCoroutinesApi
@@ -171,7 +322,8 @@ class CoroutinesActivity : AppCompatActivity() {
         val a = produce<String> {
             repeat(4) {
                 delay(10)
-                send("Hello $it") }
+                send("Hello $it")
+            }
         }
         val b = produce<String> {
             repeat(4) { send("World $it") }
@@ -235,9 +387,9 @@ class CoroutinesActivity : AppCompatActivity() {
             send("Buzz!")
         }
     }
-    // endregion
+// endregion
 
-    // region "Shared mutable state and concurrency"
+// region "Shared mutable state and concurrency"
 
     var continuation: Continuation<String>? = null
 
@@ -385,10 +537,10 @@ class CoroutinesActivity : AppCompatActivity() {
             }
         }
     }
-    // endregion
+// endregion
 
-    // region "Exception Handling"
-    // endregion
+// region "Exception Handling"
+// endregion
 
     // region "Channels"
     private fun main33() = runBlocking {
