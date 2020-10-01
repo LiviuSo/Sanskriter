@@ -1,5 +1,6 @@
 package com.android.lvicto.zombie.coroutines
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
@@ -7,9 +8,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.arch.core.executor.DefaultTaskExecutor
 import com.android.lvicto.zombie.R
+import com.android.lvicto.zombie.coroutines.retailxsimu.StlResultsActivity
 import com.android.lvicto.zombie.keyboard.view.keyboard.CustomKeyboardView
 import kotlinx.android.synthetic.main.activity_coroutines.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope.coroutineContext
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.produce
@@ -39,6 +42,15 @@ class CoroutinesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coroutines)
 
+        // region retailx simu
+        // retailx (flows) simu with coroutines
+        // may develop into a stand-alone app (or be integrated in retailx)
+        buttonCoroutineAdHoc.setOnClickListener {
+            log("Retailx simu")
+            startActivity(Intent(this, StlResultsActivity::class.java))
+        }
+        // endregion
+
         // region Baeldung - intro to kotlin coroutines
         // https://www.baeldung.com/kotlin-coroutines
         val fibonacciSeq = sequence {
@@ -63,7 +75,7 @@ class CoroutinesActivity : AppCompatActivity() {
             res.add(", world!")
         }
 
-        suspend fun longComp(delay: Long)  {
+        suspend fun longComp(delay: Long) {
             delay(delay)
         }
 
@@ -236,14 +248,14 @@ class CoroutinesActivity : AppCompatActivity() {
                 Log.d(LOG_COR, "doOnLongTap()")
             }
 
-                    override fun doOnNormalTapOnly() {
-                        Log.d(LOG_COR, "doOnNormalTapOnly()")
-                    }
+            override fun doOnNormalTapOnly() {
+                Log.d(LOG_COR, "doOnNormalTapOnly()")
+            }
 
-                    override fun doOnActionDown() {
-                        Log.d(LOG_COR, "doOnActionDown()")
-                    }
-                })
+            override fun doOnActionDown() {
+                Log.d(LOG_COR, "doOnActionDown()")
+            }
+        })
         // endregion
 
         // region "Composing suspending functions"

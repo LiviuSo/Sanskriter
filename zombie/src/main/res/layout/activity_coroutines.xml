@@ -138,6 +138,12 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="720dp" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="780dp" />
 
         <!-- buttons -->
         <Button
@@ -252,6 +258,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline20" />
+
+        <Button
+            android:id="@+id/buttonCoroutineAdHoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coroutines Ad-Hoc"
+            app:layout_constraintBottom_toTopOf="@+id/guideline22"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline21" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

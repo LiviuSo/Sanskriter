@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.lvicto.zombie">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".keyboard.ZombieApplication"
         android:allowBackup="false"
@@ -10,20 +12,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".coroutines.CoroutinesActivity" />
+
+        <activity android:name=".coroutines.CoroutinesActivity">
+        </activity>
+
         <activity android:name=".livedata.LiveDataTransActivity" />
+
         <activity android:name=".customview.CustomGroupViewActivity" />
-        <activity android:name=".keyboard.activity.CustomKeyboardViewActivity" />
+
+        <activity android:name=".keyboard.activity.CustomKeyboardViewActivity">
+        </activity>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".popup.PopUpAutoDismissActivity" />
+
         <activity android:name=".popup.PopUpPositioningActivity" />
+
         <activity android:name=".keyboard.activity.SettingsActivity" />
+
+        <activity android:name=".coroutines.retailxsimu.StlResultsActivity" />
+
     </application>
 
 </manifest>
