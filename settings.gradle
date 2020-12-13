@@ -1,3 +1,2 @@
 include ':skeyboard'
-include ':learngradle'
-include ':app', ':sanskritkeyboard', ':commons', ':zombie', ':dictionary'
+include ':app', ':sanskritkeyboard', ':commons', ':dictionary'
