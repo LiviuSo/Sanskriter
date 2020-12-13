@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- IAST candidates (OLD) -->
+    <string-array name="r_candidates">
+        <item>@string/key_label_iast_r</item>
+        <item>@string/key_label_iast_long_r</item>
+    </string-array>
+
+    <string-array name="t_candidates">
+        <item>@string/key_label_iast_t</item>
+    </string-array>
+
+    <string-array name="u_candidates">
+        <item>@string/key_label_iast_long_u</item>
+    </string-array>
+
+    <string-array name="i_candidates">
+        <item>@string/key_label_iast_long_i</item>
+    </string-array>
+
+    <string-array name="a_candidates">
+        <item>@string/key_label_iast_long_a</item>
+    </string-array>
+
+    <string-array name="s_candidates">
+        <item>@string/key_label_iast_s1</item>
+        <item>@string/key_label_iast_s2</item>
+    </string-array>
+
+    <string-array name="d_candidates">
+        <item>@string/key_label_iast_d</item>
+    </string-array>
+
+    <string-array name="h_candidates">
+        <item>@string/key_label_iast_h</item>
+    </string-array>
+
+    <string-array name="l_candidates">
+        <item>@string/key_label_iast_l</item>
+        <item>@string/key_label_iast_long_l</item>
+    </string-array>
+
+    <string-array name="n_candidates">
+        <item>@string/key_label_iast_n1</item>
+        <item>@string/key_label_iast_n2</item>
+        <item>@string/key_label_iast_n3</item>
+    </string-array>
+
+    <string-array name="m_candidates">
+        <item>@string/key_label_iast_m</item>
+    </string-array>
+
+    <!-- QWERTY -->
+    <string-array name="qwerty_candidates_common">
+        <item>@string/key_label_period</item>
+        <item>@string/key_label_question_mark</item>
+        <item>@string/key_label_comma</item>
+        <item>@string/key_label_exclamation_mark</item>
+        <item>@string/key_label_full_colon</item>
+        <item>@string/key_label_semi_colon</item>
+        <item>@string/key_label_minus</item>
+        <item>@string/key_label_apostrophe</item>
+        <item>@string/key_label_quotes</item>
+        <item>@string/key_label_left_apostrophe</item>
+    </string-array>
+
+    <string-array name="qwerty_candidates_braces">
+        <item>@string/key_label_open_parenthesis</item>
+        <item>@string/key_label_closed_parenthesis</item>
+        <item>@string/key_label_open_square_brace</item>
+        <item>@string/key_label_closed_square_brace</item>
+        <item>@string/key_label_open_curly_brace</item>
+        <item>@string/key_label_closed_curly_brace</item>
+        <item>@string/key_label_lt</item>
+        <item>@string/key_label_gt</item>
+        <item>@string/key_label_slash</item>
+        <item>@string/key_label_backslash</item>
+    </string-array>
+
+    <string-array name="qwerty_candidates_math">
+        <item>@string/key_label_star</item>
+        <item>@string/key_label_equal</item>
+        <item>@string/key_label_hash</item>
+        <item>@string/key_label_circumflex_accent</item>
+        <item>@string/key_label_percent</item>
+        <item>@string/key_label_plus</item>
+        <item>@string/key_label_minus</item>
+        <item>@string/key_label_division</item>
+        <item>@string/key_label_tilda</item>
+        <item>@string/key_label_slash</item>
+    </string-array>
+
+    <string-array name="qwerty_candidates_misc">
+        <item>@string/key_label_sep</item>
+        <item>@string/key_label_ampersand</item>
+        <item>@string/key_label_dollar</item>
+        <item>@string/key_label_underscore</item>
+        <item>@string/key_label_pound</item>
+        <item>@string/key_label_cent</item>
+        <item>@string/key_label_euro</item>
+        <item>@string/key_label_placeholder</item>
+        <item>@string/key_label_spanish_exclamation</item>
+        <item>@string/key_label_spanish_interrogation</item>
+
+    </string-array>
+
+    <!-- IAST -->
+    <string-array name="sym_candidates_iast">
+        <item>@string/key_label_iast_long_i</item>
+        <item>@string/key_label_iast_long_u</item>
+        <item>@string/key_label_iast_r</item>
+        <item>@string/key_label_iast_long_r</item>
+        <item>@string/key_label_iast_l</item>
+        <item>@string/key_label_iast_long_l</item>
+        <item>@string/key_label_apostrophe</item>
+        <item>@string/key_label_sep</item>
+        <item>@string/key_label_sa_extra_accent1</item>
+        <item>@string/key_label_sa_extra_accent2</item>
+    </string-array>
+
+    <!-- sanskrit -->
+    <string-array name="sym_candidates_sans_short_vowels">
+        <item>@string/key_label_sa_letter_a</item>
+        <item>@string/key_label_sa_letter_i</item>
+        <item>@string/key_label_sa_letter_u</item>
+        <item>@string/key_label_sa_letter_ri</item>
+        <item>@string/key_label_sa_letter_li</item>
+        <item>@string/key_label_sa_letter_e</item>
+        <item>@string/key_label_sa_letter_o</item>
+        <item>@string/key_label_sa_apostrophe</item>
+        <item>@string/key_label_sa_extra_accent1</item>
+        <item>@string/key_label_sa_extra_accent2</item>
+    </string-array>
+
+    <string-array name="sym_candidates_sans_long_vowels">
+        <item>@string/key_label_sa_letter_long_a</item>
+        <item>@string/key_label_sa_letter_long_i</item>
+        <item>@string/key_label_sa_letter_long_u</item>
+        <item>@string/key_label_sa_letter_long_ri</item>
+        <item>@string/key_label_sa_letter_long_lri</item>
+        <item>@string/key_label_sa_letter_ai</item>
+        <item>@string/key_label_sa_letter_au</item>
+        <item>@string/key_label_sa_apostrophe</item>
+        <item>@string/key_label_sa_extra_accent1</item>
+        <item>@string/key_label_sa_extra_accent2</item>
+    </string-array>
+
+    <string-array name="sym_candidates_sans_short_diphtongs">
+        <item>@string/key_ttnya</item>
+        <item>@string/key_label_sa_extra_i_short</item>
+        <item>@string/key_label_sa_extra_u_short</item>
+        <item>@string/key_label_sa_extra_ri</item>
+        <item>@string/key_label_sa_extra_lri</item>
+        <item>@string/key_label_sa_extra_e</item>
+        <item>@string/key_label_sa_extra_o</item>
+        <item>@string/key_label_sa_apostrophe</item>
+        <item>@string/key_label_sa_extra_accent1</item>
+        <item>@string/key_label_sa_extra_accent2</item>
+    </string-array>
+
+    <string-array name="sym_candidates_sans_long_diphtongs">
+        <item>@string/key_label_sa_extra_a_long</item>
+        <item>@string/key_label_sa_extra_i_long</item>
+        <item>@string/key_label_sa_extra_u_long</item>
+        <item>@string/key_label_sa_extra_ri_long</item>
+        <item>@string/key_label_sa_extra_lri_long</item>
+        <item>@string/key_label_sa_extra_ai</item>
+        <item>@string/key_label_sa_extra_au</item>
+        <item>@string/key_label_sa_apostrophe</item>
+        <item>@string/key_label_sa_extra_accent1</item>
+        <item>@string/key_label_sa_extra_accent2</item>
+    </string-array>
+
+</resources>

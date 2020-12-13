@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <integer name="key_code_space">32</integer>
+
+    <integer name="key_code_shift">-2</integer>
+    <integer name="key_code_ac">-4</integer>
+    <integer name="key_code_backspace">-5</integer>
+    <integer name="key_code_sa_dg">-9</integer>
+    <integer name="key_code_switch">-11</integer>
+    <integer name="key_code_keyboard_back">-12</integer>
+
+    <integer name="key_code_iast_symbols">-130</integer>
+
+    <integer name="key_code_qwerty_symbols1">-140</integer>
+    <integer name="key_code_sans_symbols_short_vowels">-141</integer>
+
+    <integer name="key_code_qwerty_symbols2">-150</integer>
+    <integer name="key_code_sans_symbols_long_vowel">-151</integer>
+
+    <integer name="key_code_qwerty_symbols3">-160</integer>
+    <integer name="key_code_sans_symbols_short_diphtongs">-161</integer>
+
+    <integer name="key_code_qwerty_symbols4">-170</integer>
+    <integer name="key_code_sans_symbols_long_diphtongs">-171</integer>
+
+    <integer name="key_code_symbols_punctuation">-15</integer>
+    <integer name="key_code_symbols_braces">-16</integer>
+    <integer name="key_code_action">-17</integer>
+    <integer name="key_code_settings">-18</integer>
+    <integer name="key_code_toggle_h">-55</integer>
+    <integer name="key_code_toggle_sys">-56</integer>
+
+</resources>
