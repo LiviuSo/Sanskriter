@@ -37,12 +37,12 @@ class AddModifyWordActivity : AppCompatActivity() {
         buttonSave = findViewById(R.id.btnSaveWord)
 
         if (intent.hasExtra(EXTRA_WORD)) {
-            val word: Word = intent.getParcelableExtra("EXTRA_WORD")
-            id = word.id
-            editWord.setText(word.word)
-            editWordIAST.setText(word.wordIAST)
-            editWordRo.setText(word.meaningRo)
-            editWordEn.setText(word.meaningEn)
+            val word: Word? = intent.getParcelableExtra("EXTRA_WORD")
+            id = word?.id
+            editWord.setText(word?.word)
+            editWordIAST.setText(word?.wordIAST)
+            editWordRo.setText(word?.meaningRo)
+            editWordEn.setText(word?.meaningEn)
         }
         buttonSave.setOnClickListener(this::onClickAdd)
     }

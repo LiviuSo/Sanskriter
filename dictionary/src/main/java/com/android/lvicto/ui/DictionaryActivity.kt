@@ -72,7 +72,7 @@ class DictionaryActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item!!.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
@@ -110,22 +110,24 @@ class DictionaryActivity : AppCompatActivity() {
                     val wordEn = data.getStringExtra(EXTRA_WORD_WORD_EN)
                     val wordSa = data.getStringExtra(EXTRA_WORD_SA)
                     val wordIAST = data.getStringExtra(EXTRA_WORD_IAST)
-                    val word = Word(word = wordSa, wordIAST = wordIAST, meaningEn = wordEn, meaningRo = wordRo)
+                    val word = wordSa?.let { wordIAST?.let { it1 -> wordEn?.let { it2 -> wordRo?.let { it3 -> Word(word = it, wordIAST = it1, meaningEn = it2, meaningRo = it3) } } } }
                     if (data.hasExtra(EXTRA_WORD_ID)) {
-                        word.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
+                        word?.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
                     }
 
                     if (requestCode == REQUEST_CODE_ADD_WORD) {
-                        viewModel.insert(word).observe(this, Observer<List<Word>> {
-                            if (llSearch.visibility != View.VISIBLE) { // show all words
-                                wordsAdapter.words = it
-                            } else { // filter
-                                viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
-                                        Observer<List<Word>> { fw ->
-                                            wordsAdapter.words = fw
-                                        })
-                            }
-                        })
+                        if (word != null) {
+                            viewModel.insert(word).observe(this, Observer<List<Word>> {
+                                if (llSearch.visibility != View.VISIBLE) { // show all words
+                                    wordsAdapter.words = it
+                                } else { // filter
+                                    viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
+                                            Observer<List<Word>> { fw ->
+                                                wordsAdapter.words = fw
+                                            })
+                                }
+                            })
+                        }
                     }
                 }
                 else -> {
