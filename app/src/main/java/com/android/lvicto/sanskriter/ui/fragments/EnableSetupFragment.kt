@@ -31,7 +31,12 @@ class EnableSetupFragment : SetupFragment() {
 
     override fun getOnClickSetupListener(): View.OnClickListener = View.OnClickListener {
         if(!canContinue()) {
-            KeyboardHelper.showInputMethodsManager(SetupFragment@this.activity)
+            val activity = this.activity
+            if(activity != null) {
+                KeyboardHelper.showInputMethodsManager(activity)
+            } else {
+                // do smth - log or error dialog
+            }
             btnSetupNext.isEnabled = true
         } else {
             btnSetup.isEnabled = false

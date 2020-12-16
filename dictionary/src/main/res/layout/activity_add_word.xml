@@ -16,28 +16,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kbHintSanskrit"
-            android:imeActionLabel="@string/kbHintSanskrit" />
+            android:imeActionLabel="@string/kbImeActionSanskrit" />
 
         <EditText
             android:id="@+id/editIAST"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kbHintIAST"
-            android:imeActionLabel="@string/kbHintIAST" />
+            android:imeActionLabel="@string/kbImeActionIAST" />
 
         <EditText
             android:id="@+id/editEn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kbHintEnglish"
-            android:imeActionLabel="@string/kbHintIAST" />
+            android:imeActionLabel="@string/kbImeActionEnglish" />
 
         <EditText
             android:id="@+id/editRo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kbHintRomanian"
-            android:imeActionLabel="@string/kbHintIAST" />
+            android:imeActionLabel="@string/kbImeActionRomanian" />
 
         <Button
             android:id="@+id/btnSaveWord"

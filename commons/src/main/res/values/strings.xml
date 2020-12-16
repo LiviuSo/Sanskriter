@@ -1,6 +1,12 @@
 <resources>
-    <string name="kbHintSanskrit">San</string>
+
+    <string name="kbImeActionSanskrit">sanskrit</string>
+    <string name="kbImeActionIAST">iast</string>
+    <string name="kbImeActionEnglish">english</string>
+    <string name="kbImeActionRomanian">english</string>
+
+    <string name="kbHintSanskrit">Sanskrit</string>
     <string name="kbHintIAST">IAST</string>
-    <string name="kbHintEnglish">Eng</string>
-    <string name="kbHintRomanian">Rom</string>
+    <string name="kbHintEnglish">English</string>
+    <string name="kbHintRomanian">Romanian</string>
 </resources>

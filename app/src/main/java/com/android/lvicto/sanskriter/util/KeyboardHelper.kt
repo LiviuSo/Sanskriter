@@ -26,10 +26,10 @@ object KeyboardHelper {
 
     fun isSoftInputEnabled(name: String): Boolean {
         val enabledMethods = inputManager.enabledInputMethodList
-        return enabledMethods.filter {
-            Log.d(LOG_TAG, "installed: ${it.serviceInfo.name}\n")
+        return enabledMethods.any {
+            Log.d(LOG_TAG, "skeyboard: ${it.serviceInfo.name}\n")
             it.serviceInfo.name.contains(name)
-        }.isNotEmpty()
+        }
     }
 
     fun showSoftInputMethodsSelector() {
@@ -43,7 +43,7 @@ object KeyboardHelper {
         val pkgAppsList = pm.getInstalledApplications(PackageManager.GET_META_DATA)
 
         return pkgAppsList.any {
-            Log.d(LOG_TAG, it.packageName)
+            Log.d(LOG_TAG, "name=${it.name} package=${it.packageName}")
             it.packageName == packageName
         }
     }

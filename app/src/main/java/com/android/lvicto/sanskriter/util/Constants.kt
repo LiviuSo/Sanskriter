@@ -3,11 +3,8 @@ package com.android.lvicto.sanskriter.util
 object Constants {
 
     object Keyboard {
-        const val SANSKRIT_KEYS_NAME_1 = "CustomKeyboard"
-        const val SANSKRIT_KEYS_PACKAGE_PACKAGE_NAME_1 = "com.android.lvicto.sanskritkeyboard"
-
-        const val SANSKRIT_KEYS_NAME_2 = "SimpleIMEServiceSky"
-        const val SANSKRIT_KEYS_PACKAGE_PACKAGE_NAME_2 = "sky.sanskrit.myphotokeyboard"
+        const val SANSKRIT_KEYS_NAME_1 = "SanskritKeyboardIms"
+        const val SANSKRIT_KEYS_PACKAGE_PACKAGE_NAME_1 = "com.lvicto.skeyboard.service"
 
         const val EXTRA_SECTION = "section"
         const val EXTRA_CONTENT = "book_content"
