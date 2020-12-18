@@ -49,7 +49,8 @@ class DictionaryActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var llImport: LinearLayout
     private lateinit var llSearch: LinearLayout
-    private lateinit var editSearchDic: EditText
+    private lateinit var editSearchEnDic: EditText
+    private lateinit var editSearchIastDic: EditText
     private lateinit var ibSearchClose: ImageButton
     private lateinit var fab: FloatingActionButton
 
@@ -73,7 +74,7 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item!!.itemId) {
+        return when (item.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
                 llImport.visibility = View.VISIBLE
@@ -121,7 +122,7 @@ class DictionaryActivity : AppCompatActivity() {
                                 if (llSearch.visibility != View.VISIBLE) { // show all words
                                     wordsAdapter.words = it
                                 } else { // filter
-                                    viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
+                                    viewModel.filterWordsIast(editSearchEnDic.text.toString()).observe(this@DictionaryActivity,
                                             Observer<List<Word>> { fw ->
                                                 wordsAdapter.words = fw
                                             })
@@ -147,29 +148,87 @@ class DictionaryActivity : AppCompatActivity() {
 
         // search bar
         llSearch = findViewById(R.id.llSearchBar)
-        editSearchDic = findViewById(R.id.editSearch)
+        editSearchEnDic = findViewById(R.id.editSearch)
+        editSearchIastDic = findViewById(R.id.editSearchIast)
         ibSearchClose = findViewById(R.id.btnCloseSearchBar)
 
-        editSearchDic.addTextChangedListener(object : TextWatcher {
+        editSearchIastDic.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.d(LOG_TAG, "afterTextChanged: ${s.toString()}")
+                Log.d(LOG_TAG, "[iast] afterTextChanged: ${s.toString()}")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(LOG_TAG, "beforeTextChanged: ${s.toString()}")
+                Log.d(LOG_TAG, "[iast] beforeTextChanged: ${s.toString()}")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(LOG_TAG, "onTextChanged: ${s.toString()} start=$start before=$before count=$count")
-                viewModel.filterWords(s.toString()).observe(this@DictionaryActivity, Observer<List<Word>> {
+                Log.d(LOG_TAG, "[iast] onTextChanged: ${s.toString()} start=$start before=$before count=$count")
+                // todo create a helper
+                viewModel.filterWordsIast(s.toString()).observe(this@DictionaryActivity, {
                     wordsAdapter.words = it
                 })
             }
         })
 
+        editSearchEnDic.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                val text = (v as EditText).text
+                Log.d(LOG_TAG, " [en] setOnFocusChangeListener: $text")
+                // todo create a helper
+                viewModel.filterWordsEn(text.toString()).observe(this@DictionaryActivity, {
+                    wordsAdapter.words = it
+                })
+            }
+        }
+
+        editSearchEnDic.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                Log.d(LOG_TAG, "[en] afterTextChanged: ${s.toString()}")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d(LOG_TAG, "[en] beforeTextChanged: ${s.toString()}")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(LOG_TAG, " [en] onTextChanged: ${s.toString()} start=$start before=$before count=$count")
+                viewModel.filterWordsEn(s.toString()).observe(this@DictionaryActivity, {
+                    wordsAdapter.words = it
+                })
+            }
+        })
+
+        editSearchIastDic.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                val text = (v as EditText).text
+                Log.d(LOG_TAG, " [iast] setOnFocusChangeListener: $text")
+                viewModel.filterWordsIast(text.toString()).observe(this@DictionaryActivity, {
+                    wordsAdapter.words = it
+                })
+            }
+        }
+
+        editSearchIastDic.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                Log.d(LOG_TAG, "[iast] afterTextChanged: ${s.toString()}")
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                Log.d(LOG_TAG, "[iast] beforeTextChanged: ${s.toString()}")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.d(LOG_TAG, "[iast] onTextChanged: ${s.toString()} start=$start before=$before count=$count")
+                viewModel.filterWordsIast(s.toString()).observe(this@DictionaryActivity, {
+                    wordsAdapter.words = it
+                })
+            }
+        })
+
+
         ibSearchClose.setOnClickListener {
             // todo clear search
-            editSearchDic.text.clear()
+            editSearchEnDic.text.clear()
             llSearch.visibility = View.GONE
             // close the keyboard
             hideSoftKeyboard(this@DictionaryActivity)
@@ -227,15 +286,14 @@ class DictionaryActivity : AppCompatActivity() {
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove())
-                .observe(this@DictionaryActivity, Observer<List<Word>> {
+                .observe(this@DictionaryActivity, {
                     adapter.unselectRemoveSelected()
                     if (llSearch.visibility != View.VISIBLE) { // show all words
                         wordsAdapter.words = it
                     } else { // filter
-                        viewModel.filterWords(editSearchDic.text.toString()).observe(this@DictionaryActivity,
-                                Observer<List<Word>> { fw ->
-                                    wordsAdapter.words = fw
-                                })
+                        viewModel.filterWordsIast(editSearchEnDic.text.toString()).observe(this@DictionaryActivity, { fw ->
+                            wordsAdapter.words = fw
+                        })
                     }
                 })
     }

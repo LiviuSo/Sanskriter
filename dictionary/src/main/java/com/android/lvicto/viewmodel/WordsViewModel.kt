@@ -19,7 +19,7 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     private val repo: WordsRepository = WordsRepository(application = app)
 
     @SuppressLint("CheckResult")
-    fun getAllWords() : LiveData<List<Word>> {
+    fun getAllWords(): LiveData<List<Word>> {
         val allWords: MutableLiveData<List<Word>> = MutableLiveData()
         repo.allWords.subscribe {
             allWords.postValue(it)
@@ -31,7 +31,7 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     fun insert(word: Word): LiveData<List<Word>> {
         val allWords: MutableLiveData<List<Word>> = MutableLiveData()
         repo.insertWordRx(word).subscribe {
-            repo.allWords.subscribe {lw ->
+            repo.allWords.subscribe { lw ->
                 allWords.postValue(lw)
             }
         }
@@ -80,7 +80,7 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     @SuppressLint("CheckResult")
-    fun filterWords(substring: String): LiveData<List<Word>> { // todo improve
+    fun filterWordsIast(substring: String): LiveData<List<Word>> { // todo improve
         val filteredWords = MutableLiveData<List<Word>>()
         repo.allWords
                 .flatMap { words ->
@@ -89,11 +89,29 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
                 .filter {
                     val len = substring.length
                     val iast = it.wordIAST
-                    if(iast.length >= len) {
+                    if (iast.length >= len) {
                         it.wordIAST.substring(0, len) == substring
                     } else {
                         false
                     }
+                }
+                .toList()
+                .toObservable()
+                .subscribe {
+                    filteredWords.postValue(it)
+                }
+        return filteredWords
+    }
+
+    @SuppressLint("CheckResult")
+    fun filterWordsEn(substring: String): LiveData<List<Word>> {
+        val filteredWords = MutableLiveData<List<Word>>()
+        repo.allWords
+                .flatMap { words ->
+                    Observable.fromIterable(words)
+                }
+                .filter {
+                    it.meaningEn.contains(substring)
                 }
                 .toList()
                 .toObservable()

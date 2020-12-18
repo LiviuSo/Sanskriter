@@ -2,7 +2,8 @@
     <string name="app_name">dictionary</string>
     <string name="saveWord">Save</string>
     <string name="dictionary">Dictionary</string>
-    <string name="dic_search_hint">Start typing</string>
+    <string name="dic_en_search_hint">Search (English)</string>
+    <string name="dic_iast_search_hint">Search (IAST)</string>
     <string name="string_menu">Import</string>
     <string name="string_export">Export</string>
     <string name="string_find">Find</string>
