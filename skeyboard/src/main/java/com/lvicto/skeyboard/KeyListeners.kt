@@ -168,7 +168,7 @@ object KeyListeners {
             // update suggestions
             ims.updateSuggestions()
             // reset symbols key
-            ims.resetSymbolToggle()
+//            ims.resetSymbolToggle() // todo make an option (1)
         }
     }
 
@@ -184,7 +184,7 @@ object KeyListeners {
 
             ims = Injector.getInstance(keyboardApplication).ims
             // show extras
-            ims.updateCandidates(keyView as CandidatesKeyView)
+            ims.updateCandidates(keyView as CandidatesKeyView) // todo make an option (2)
             // show digits and reset any toggle
             val defaultSymbolKey = ims.keyboardView.getSymbolToggleByCandidates((keyView as TypableKeyView).candidatesResId)
             ims.keyboardView.setSymbolTogglePressed(true, defaultSymbolKey)
@@ -210,6 +210,7 @@ object KeyListeners {
 
     fun getKeySymbolTouchListener() = object : BaseTouchListener() {
 
+        // todo make part of the option 2
         override fun doOnLongTap() {
             (keyView as ToggleKeyView).apply {
                 if (!this.isPressedUI()) {

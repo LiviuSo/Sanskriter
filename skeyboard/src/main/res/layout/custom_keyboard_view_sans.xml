@@ -374,10 +374,10 @@
         android:text="H"
         app:code="@integer/key_code_toggle_h"
         app:candidates="@array/sym_candidates_iast"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintEnd_toStartOf="@id/keyYSans"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyYSans"

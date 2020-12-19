@@ -230,8 +230,7 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
                 keyboardView.shiftKeyView?.setPressedUI(true)
                 setCapsOn()
             } else {
-                keyboardView.shiftKeyView?.setPressedUI(false)
-                setCapsOff()
+                setCapsOffIfNotToggled()
             }
         }
     }
@@ -254,6 +253,7 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
 
     fun setCapsOffIfNotToggled() {
         val shiftKeyView = keyboardView.shiftKeyView
+        Log.d(LOG_TAG, "setCapsOffIfNotToggled: ${shiftKeyView?.isPersistent}")
         if (shiftKeyView?.isPressedUI() == true && !shiftKeyView.isPersistent) {
             setCapsOff()
             shiftKeyView.setPressedUI(false)

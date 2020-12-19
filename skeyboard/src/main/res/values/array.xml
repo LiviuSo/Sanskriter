@@ -2,56 +2,6 @@
 
 <resources>
 
-    <!-- IAST candidates (OLD) -->
-    <string-array name="r_candidates">
-        <item>@string/key_label_iast_r</item>
-        <item>@string/key_label_iast_long_r</item>
-    </string-array>
-
-    <string-array name="t_candidates">
-        <item>@string/key_label_iast_t</item>
-    </string-array>
-
-    <string-array name="u_candidates">
-        <item>@string/key_label_iast_long_u</item>
-    </string-array>
-
-    <string-array name="i_candidates">
-        <item>@string/key_label_iast_long_i</item>
-    </string-array>
-
-    <string-array name="a_candidates">
-        <item>@string/key_label_iast_long_a</item>
-    </string-array>
-
-    <string-array name="s_candidates">
-        <item>@string/key_label_iast_s1</item>
-        <item>@string/key_label_iast_s2</item>
-    </string-array>
-
-    <string-array name="d_candidates">
-        <item>@string/key_label_iast_d</item>
-    </string-array>
-
-    <string-array name="h_candidates">
-        <item>@string/key_label_iast_h</item>
-    </string-array>
-
-    <string-array name="l_candidates">
-        <item>@string/key_label_iast_l</item>
-        <item>@string/key_label_iast_long_l</item>
-    </string-array>
-
-    <string-array name="n_candidates">
-        <item>@string/key_label_iast_n1</item>
-        <item>@string/key_label_iast_n2</item>
-        <item>@string/key_label_iast_n3</item>
-    </string-array>
-
-    <string-array name="m_candidates">
-        <item>@string/key_label_iast_m</item>
-    </string-array>
-
     <!-- QWERTY -->
     <string-array name="qwerty_candidates_common">
         <item>@string/key_label_period</item>
@@ -97,12 +47,13 @@
         <item>@string/key_label_ampersand</item>
         <item>@string/key_label_dollar</item>
         <item>@string/key_label_underscore</item>
-        <item>@string/key_label_pound</item>
-        <item>@string/key_label_cent</item>
-        <item>@string/key_label_euro</item>
-        <item>@string/key_label_placeholder</item>
-        <item>@string/key_label_spanish_exclamation</item>
-        <item>@string/key_label_spanish_interrogation</item>
+
+        <item>@string/key_label_at</item>
+        <item>@string/key_label_romania_a1</item>
+        <item>@string/key_label_romania_a2</item>
+        <item>@string/key_label_romania_i1</item>
+        <item>@string/key_label_romania_s</item>
+        <item>@string/key_label_romania_t</item>
 
     </string-array>
 

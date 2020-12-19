@@ -226,6 +226,13 @@
     <string name="key_label_spanish_exclamation">..</string>
     <string name="key_label_spanish_interrogation">..</string>
 
+    <!-- ă  -->
+    <string name="key_label_romania_a1">\u0103</string>
+    <string name="key_label_romania_a2">\u00E2</string>
+    <string name="key_label_romania_i1">\u00EE</string>
+    <string name="key_label_romania_t">\u021B</string>
+    <string name="key_label_romania_s">\u0219</string>
+
     <string name="key_ttnya">&#2340;&#2381;&#2340;&#2381;&#2351;</string>
 
 </resources>
