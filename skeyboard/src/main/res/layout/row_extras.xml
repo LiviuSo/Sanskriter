@@ -7,15 +7,6 @@
     android:orientation="horizontal">
 
     <com.lvicto.skeyboard.view.key.ExtraKeyView
-        android:id="@+id/key0"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/key_label_digit_0"
-        app:label="@string/key_label_digit_0" />
-
-    <com.lvicto.skeyboard.view.key.ExtraKeyView
         android:id="@+id/key1"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -95,5 +86,14 @@
         android:layout_weight="1"
         android:text="@string/key_label_digit_9"
         app:label="@string/key_label_digit_9" />
+
+    <com.lvicto.skeyboard.view.key.ExtraKeyView
+        android:id="@+id/key0"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/key_label_digit_0"
+        app:label="@string/key_label_digit_0" />
 
 </LinearLayout>
