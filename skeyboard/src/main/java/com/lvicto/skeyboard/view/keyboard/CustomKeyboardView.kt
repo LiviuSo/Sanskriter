@@ -14,7 +14,7 @@ import com.lvicto.skeyboard.KeyListeners
 import com.lvicto.skeyboard.data.Suggestion
 import com.lvicto.skeyboard.data.SuggestionsAdapter
 import com.lvicto.skeyboard.view.key.*
-import kotlinx.android.synthetic.main.custom_keyboard_view_qwerty.view.*
+import kotlinx.android.synthetic.main.custom_keyboard_view_portrait_qwerty.view.*
 import kotlinx.android.synthetic.main.row_suggestions.view.*
 
 abstract class CustomKeyboardView(context: Context, attr: AttributeSet) : ConstraintLayout(context, attr) {

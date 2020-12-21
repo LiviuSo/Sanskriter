@@ -1,6 +1,7 @@
 package com.lvicto.skeyboard
 
 import android.app.Application
+import android.content.res.Configuration
 
 class KeyboardApplication : Application() {
 
@@ -14,3 +15,5 @@ class KeyboardApplication : Application() {
     }
 
 }
+
+fun Application.isPortrait(): Boolean = this.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT

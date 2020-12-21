@@ -9,7 +9,7 @@
     android:layout_marginStart="2dp"
     android:layout_marginTop="1dp"
     android:layout_marginEnd="2dp"
-    android:background="@color/keyboard_bkgrd">
+    android:background="@color/keyboard_portrait_bkgrd">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSystem"

@@ -17,6 +17,7 @@ import com.lvicto.skeyboard.Injector
 import com.lvicto.skeyboard.KeyboardApplication.Companion.keyboardApplication
 import com.lvicto.skeyboard.KeyboardType
 import com.lvicto.skeyboard.activity.SettingsActivity
+import com.lvicto.skeyboard.isPortrait
 import com.lvicto.skeyboard.view.key.CandidatesKeyView
 import com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
 import com.lvicto.skeyboard.view.keyboard.CustomKeyboardView
@@ -37,9 +38,12 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
 
     // region keyboard view
     lateinit var keyboardView: CustomKeyboardView
-    private lateinit var qwertyKeyboardView: QwertyKeyboardView
-    private lateinit var sansKeyboardView: SanskritKeyboardView
-    private lateinit var iastKeyboardView: IastKeyboardView
+    private lateinit var qwertyPortraitKeyboardView: QwertyKeyboardView
+    private lateinit var qwertyLandscapeKeyboardView: QwertyKeyboardView
+    private lateinit var sansPortraitKeyboardView: SanskritKeyboardView
+    private lateinit var sansLandscapeKeyboardView: SanskritKeyboardView
+    private lateinit var iastPortraitKeyboardView: IastKeyboardView
+    private lateinit var iastLandscapeKeyboardView: IastKeyboardView
     // endregion
 
     // region keyboard type
@@ -65,13 +69,25 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
 
     private fun getKeyboardViewForType(keyboardType: KeyboardType) = when (keyboardType) {
         KeyboardType.QWERTY -> {
-            qwertyKeyboardView
+            if(application.isPortrait()) {
+                qwertyPortraitKeyboardView
+            } else {
+                qwertyLandscapeKeyboardView
+            }
         }
         KeyboardType.IAST -> {
-            iastKeyboardView
+            if(application.isPortrait()) {
+                iastPortraitKeyboardView
+            } else {
+                iastLandscapeKeyboardView
+            }
         }
         KeyboardType.SA -> {
-            sansKeyboardView
+            if(application.isPortrait()) {
+                sansPortraitKeyboardView
+            } else {
+                sansLandscapeKeyboardView
+            }
         }
     }
 
@@ -155,14 +171,23 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
 
         val context = keyboardApplication
 
-        qwertyKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_qwerty, null) as QwertyKeyboardView
-        qwertyKeyboardView.isSuggestionsOn = showsSuggestionsQwerty
+        qwertyPortraitKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_portrait_qwerty, null) as QwertyKeyboardView
+        qwertyPortraitKeyboardView.isSuggestionsOn = showsSuggestionsQwerty
 
-        iastKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_iast, null) as IastKeyboardView
-        iastKeyboardView.isSuggestionsOn = showsSuggestionsIast
+        iastPortraitKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_portrait_iast, null) as IastKeyboardView
+        iastPortraitKeyboardView.isSuggestionsOn = showsSuggestionsIast
 
-        sansKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_sans, null) as SanskritKeyboardView
-        sansKeyboardView.isSuggestionsOn = showsSuggestionsSans
+        sansPortraitKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_portait_sans, null) as SanskritKeyboardView
+        sansPortraitKeyboardView.isSuggestionsOn = showsSuggestionsSans
+
+        qwertyLandscapeKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_landscape_qwerty, null) as QwertyKeyboardView
+        qwertyLandscapeKeyboardView.isSuggestionsOn = showsSuggestionsQwerty
+
+        iastLandscapeKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_landscape_iast, null) as IastKeyboardView
+        iastLandscapeKeyboardView.isSuggestionsOn = showsSuggestionsIast
+
+        sansLandscapeKeyboardView = View.inflate(context, R.layout.custom_keyboard_view_landscape_sans, null) as SanskritKeyboardView
+        sansLandscapeKeyboardView.isSuggestionsOn = showsSuggestionsSans
 
         liveDataShowSuggestions.observe(this, Observer {
             keyboardView.isSuggestionsOn = it
@@ -215,7 +240,8 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         Log.d(LOG_TAG, "onConfigurationChanged()")
-        // todo
+        keyboardView = getKeyboardViewForType(keyboardType)
+        setInputView(keyboardView)
     }
 
     override fun getLifecycle(): Lifecycle {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.lvicto.skeyboard.view.keyboard.IastKeyboardView
+<com.lvicto.skeyboard.view.keyboard.QwertyKeyboardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/customKeyboardViewIast"
@@ -9,7 +9,7 @@
     android:layout_marginStart="2dp"
     android:layout_marginTop="1dp"
     android:layout_marginEnd="2dp"
-    android:background="@color/keyboard_bkgrd">
+    android:background="@color/keyboard_landscape_bkgrd">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSystem"
@@ -40,7 +40,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guidelineSuggestions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineSystem"
-        app:code="@integer/key_code_settings" />
+        app:code="@integer/key_code_settings"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSuggestions"
@@ -51,9 +51,8 @@
         app:layout_constraintGuide_begin="@dimen/height_guideline_suggestions" />
 
     <!-- extras -->
-    <include
-        android:id="@+id/llExtras"
-        layout="@layout/row_extras_iast"
+    <include android:id="@+id/llExtras"
+        layout="@layout/row_extras"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/guidelineExtras"
@@ -68,145 +67,145 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/height_guideline_extras" />
 
-    <!-- k g ṅ c j ñ ṭ ḍ ṇ | -->
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyK"
+    <!-- q w e r t y u i o p -->
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyQ"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_k"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_k"
+        android:text="@string/key_label_letter_q"
+        app:label="@string/key_label_letter_q"
+        app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/keyG"
+        app:layout_constraintEnd_toStartOf="@+id/keyW"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyG"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyW"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_g"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_g"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyN1Iast"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyK"
+        android:text="@string/key_label_letter_w"
+        app:label="@string/key_label_letter_w"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyE"
+        app:layout_constraintStart_toEndOf="@id/keyQ"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyN1Iast"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyE"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_n1"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_n1"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyC"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyG"
+        android:text="@string/key_label_letter_e"
+        app:label="@string/key_label_letter_e"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyR"
+        app:layout_constraintStart_toEndOf="@id/keyW"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyC"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyR"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_c"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_c"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/keyJ"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyN1Iast"
+        android:text="@string/key_label_letter_r"
+        app:label="@string/key_label_letter_r"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyT"
+        app:layout_constraintStart_toEndOf="@id/keyE"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyJ"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyT"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_j"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_j"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyN2Iast"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyC"
+        android:text="@string/key_label_letter_t"
+        app:label="@string/key_label_letter_t"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyY"
+        app:layout_constraintStart_toEndOf="@id/keyR"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyN2Iast"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyY"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_n2"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_n2"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyTIast"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyJ"
+        android:text="@string/key_label_letter_y"
+        app:label="@string/key_label_letter_y"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyU"
+        app:layout_constraintStart_toEndOf="@id/keyT"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyTIast"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyU"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_t"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_t"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyDIast"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyN2Iast"
+        android:text="@string/key_label_letter_u"
+        app:label="@string/key_label_letter_u"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyI"
+        app:layout_constraintStart_toEndOf="@id/keyY"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyDIast"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyI"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_d"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_d"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyN3Iast"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyTIast"
+        android:text="@string/key_label_letter_i"
+        app:label="@string/key_label_letter_i"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyO"
+        app:layout_constraintStart_toEndOf="@id/keyU"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyN3Iast"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyO"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_n3"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_n3"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyIastAnushvara"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyDIast"
+        android:text="@string/key_label_letter_o"
+        app:label="@string/key_label_letter_o"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyP"
+        app:layout_constraintStart_toEndOf="@id/keyI"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyIastAnushvara"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyP"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_m"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_m"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_p"
+        app:label="@string/key_label_letter_p"
+        app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintBottom_toTopOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyN3Iast"
+        app:layout_constraintStart_toEndOf="@id/keyO"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -216,151 +215,151 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/height_guideline_1" />
 
-    <!-- t d n a h ā p b m -->
+    <!-- a s d f g h j k l -->
     <View
-        android:id="@+id/start1"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyT"
+        android:id="@+id/startAsdfg"
         app:layout_constraintHorizontal_weight=".5"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline1" />
-
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyT"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_t"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_t"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyD"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/start1"
-        app:layout_constraintTop_toBottomOf="@id/guideline1" />
-
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyD"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_d"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_d"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyN"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyT"
-        app:layout_constraintTop_toBottomOf="@id/guideline1" />
-
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyN"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_n"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_n"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toStartOf="@id/keyA"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyD"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
         android:id="@+id/keyA"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_a"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_a"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyH"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyN"
+        android:text="@string/key_label_letter_a"
+        app:label="@string/key_label_letter_a"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyS"
+        app:layout_constraintStart_toEndOf="@id/startAsdfg"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyS"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_s"
+        app:label="@string/key_label_letter_s"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyD"
+        app:layout_constraintStart_toEndOf="@id/keyA"
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyD"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_d"
+        app:label="@string/key_label_letter_d"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyF"
+        app:layout_constraintStart_toEndOf="@id/keyS"
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyF"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_f"
+        app:label="@string/key_label_letter_f"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyG"
+        app:layout_constraintStart_toEndOf="@id/keyD"
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyG"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_g"
+        app:label="@string/key_label_letter_g"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyH"
+        app:layout_constraintStart_toEndOf="@id/keyF"
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
         android:id="@+id/keyH"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_h"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_h"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyLongAIast"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyA"
+        android:text="@string/key_label_letter_h"
+        app:label="@string/key_label_letter_h"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyJ"
+        app:layout_constraintStart_toEndOf="@id/keyG"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyLongAIast"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyJ"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_long_a"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_long_a"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyP"
         app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_j"
+        app:label="@string/key_label_letter_j"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyK"
         app:layout_constraintStart_toEndOf="@id/keyH"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyP"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyK"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_p"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_p"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyB"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyLongAIast"
+        android:text="@string/key_label_letter_k"
+        app:label="@string/key_label_letter_k"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyL"
+        app:layout_constraintStart_toEndOf="@id/keyJ"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyB"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyL"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_b"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_b"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyM"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyP"
-        app:layout_constraintTop_toBottomOf="@id/guideline1" />
-
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyM"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_m"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_m"
+        android:text="@string/key_label_letter_l"
+        app:label="@string/key_label_letter_l"
+        app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/end1"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyB"
+        app:layout_constraintEnd_toStartOf="@id/endAsdfg"
+        app:layout_constraintStart_toEndOf="@id/keyK"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <View
-        android:id="@+id/end1"
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:id="@+id/endAsdfg"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight=".5"
-        app:layout_constraintStart_toEndOf="@id/keyM"
+        app:layout_constraintStart_toEndOf="@id/keyL"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -370,7 +369,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/height_guideline_2" />
 
-    <!-- y r l v s ḥ i u Bksp -->
+    <!-- z x c v b n m -->
     <com.lvicto.skeyboard.view.key.ToggleKeyView
         android:id="@+id/keyShift"
         style="@style/KeyStyle"
@@ -381,119 +380,120 @@
         app:code="@integer/key_code_shift"
         app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyY"
+        app:layout_constraintEnd_toStartOf="@id/keyZ"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyY"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyZ"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_y"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_y"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyR"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/keyShift"
+        android:text="@string/key_label_letter_z"
+        app:label="@string/key_label_letter_z"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@id/keyX"
+        app:layout_constraintStart_toEndOf="@id/keyShift"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyR"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyX"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_r"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_r"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyL"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyY"
+        android:text="@string/key_label_letter_x"
+        app:label="@string/key_label_letter_x"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@id/keyC"
+        app:layout_constraintStart_toEndOf="@id/keyZ"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyL"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyC"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_l"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_l"
+        app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_c"
+        app:label="@string/key_label_letter_c"
+        app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintEnd_toStartOf="@id/keyV"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyR"
+        app:layout_constraintStart_toEndOf="@id/keyX"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
         android:id="@+id/keyV"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_v"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_v"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyIastVisarga"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyL"
+        android:text="@string/key_label_letter_v"
+        app:label="@string/key_label_letter_v"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@id/keyB"
+        app:layout_constraintStart_toEndOf="@id/keyC"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyIastVisarga"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyB"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_h"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_h"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyI"
         app:layout_constraintHorizontal_weight="1"
+        android:text="@string/key_label_letter_b"
+        app:label="@string/key_label_letter_b"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@id/keyN"
         app:layout_constraintStart_toEndOf="@id/keyV"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyI"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyN"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_i"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_i"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyU"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyIastVisarga"
+        android:text="@string/key_label_letter_n"
+        app:label="@string/key_label_letter_n"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@id/keyM"
+        app:layout_constraintStart_toEndOf="@id/keyB"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyU"
+    <com.lvicto.skeyboard.view.key.QwertyShiftKeyView
+        android:id="@+id/keyM"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_u"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_u"
-        app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyBcksp"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyI"
+        android:text="@string/key_label_letter_m"
+        app:label="@string/key_label_letter_m"
+        app:candidates="@array/qwerty_candidates_common"
+        app:layout_constraintBottom_toTopOf="@id/guideline3"
+        app:layout_constraintEnd_toStartOf="@id/keyBks"
+        app:layout_constraintStart_toEndOf="@id/keyN"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.BaseKeyView
-        android:id="@+id/keyBcksp"
+        android:id="@+id/keyBks"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1.5"
         android:text="Bks"
         app:code="@integer/key_code_backspace"
+        app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="1.5"
-        app:layout_constraintStart_toEndOf="@id/keyU"
+        app:layout_constraintStart_toEndOf="@id/keyM"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -503,72 +503,58 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/height_guideline_3" />
 
-    <!-- Sym ṣ s space e o Action -->
+    <!-- space -->
     <View
         android:id="@+id/start2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toStartOf="@id/keySym"
         app:layout_constraintHorizontal_weight=".25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.ToggleKeyView
         android:id="@+id/keySym"
         style="@style/KeyStyleBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Sy"
-        app:candidates="@array/sym_candidates_iast"
-        app:code="@integer/key_code_iast_symbols"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/keyS1Iast"
+        android:text="S1"
+        app:candidates="@array/qwerty_candidates_common"
         app:layout_constraintHorizontal_weight="1"
+        app:code="@integer/key_code_qwerty_symbols1"
+        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
+        app:layout_constraintEnd_toStartOf="@+id/keySym2"
         app:layout_constraintStart_toEndOf="@id/start2"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyS1Iast"
+    <com.lvicto.skeyboard.view.key.ToggleKeyView
+        android:id="@+id/keySym2"
         style="@style/KeyStyleBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_s1"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_s1"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
-        app:layout_constraintEnd_toStartOf="@+id/keyS2Iast"
+        android:text="S2"
         app:layout_constraintHorizontal_weight="1"
+        app:code="@integer/key_code_qwerty_symbols2"
+        app:candidates="@array/qwerty_candidates_braces"
+        app:layout_constraintEnd_toStartOf="@+id/keySym3"
         app:layout_constraintStart_toEndOf="@id/keySym"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        app:layout_constraintTop_toBottomOf="@id/guideline3"
+        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"/>
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyS2Iast"
+    <com.lvicto.skeyboard.view.key.ToggleKeyView
+        android:id="@+id/keySym3"
         style="@style/KeyStyleBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_iast_s2"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_iast_s2"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
-        app:layout_constraintEnd_toStartOf="@id/keyS"
+        android:text="S3"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyS1Iast"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
-
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyS"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_s"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_s"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
-        app:layout_constraintEnd_toStartOf="@id/keySpace"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyS2Iast"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        app:code="@integer/key_code_qwerty_symbols3"
+        app:candidates="@array/qwerty_candidates_math"
+        app:layout_constraintEnd_toStartOf="@+id/keySpace"
+        app:layout_constraintStart_toEndOf="@id/keySym2"
+        app:layout_constraintTop_toBottomOf="@id/guideline3"
+        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"/>
 
     <com.lvicto.skeyboard.view.key.BaseKeyView
         android:id="@+id/keySpace"
@@ -576,40 +562,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Space"
+        app:layout_constraintHorizontal_weight="4"
         app:code="@integer/key_code_space"
         app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
-        app:layout_constraintEnd_toStartOf="@id/keyE"
-        app:layout_constraintHorizontal_weight="2.75"
-        app:layout_constraintStart_toEndOf="@id/keyS"
+        app:layout_constraintEnd_toStartOf="@id/keyPeriod"
+        app:layout_constraintStart_toEndOf="@id/keySym3"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyE"
+    <com.lvicto.skeyboard.view.key.ToggleKeyView
+        android:id="@+id/keyPeriod"
         style="@style/KeyStyleBottom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_e"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_e"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
-        app:layout_constraintEnd_toStartOf="@+id/keyO"
+        android:text="S4"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keySpace"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
-
-    <com.lvicto.skeyboard.view.key.IastShiftKeyView
-        android:id="@+id/keyO"
-        style="@style/KeyStyleBottom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_letter_o"
-        app:candidates="@array/sym_candidates_iast"
-        app:label="@string/key_label_letter_o"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
+        app:code="@integer/key_code_qwerty_symbols4"
+        app:candidates="@array/qwerty_candidates_misc"
         app:layout_constraintEnd_toStartOf="@+id/keyAction"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyE"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        app:layout_constraintStart_toEndOf="@id/keySpace"
+        app:layout_constraintTop_toBottomOf="@id/guideline3"
+        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"/>
 
     <com.lvicto.skeyboard.view.key.BaseKeyView
         android:id="@+id/keyAction"
@@ -617,23 +589,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Ac"
+        app:layout_constraintHorizontal_weight="1.50"
         app:code="@integer/key_code_ac"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
         app:layout_constraintEnd_toStartOf="@id/end2"
-        app:layout_constraintHorizontal_weight="1.25"
-        app:layout_constraintStart_toEndOf="@id/keyO"
+        app:layout_constraintStart_toEndOf="@id/keyPeriod"
         app:layout_constraintTop_toBottomOf="@id/guideline3" />
 
     <View
         android:id="@+id/end2"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        app:layout_constraintBottom_toTopOf="@id/guidelineSpace"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight=".25"
         app:layout_constraintStart_toEndOf="@id/keyAction"
-        app:layout_constraintTop_toBottomOf="@id/guideline3" />
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineSpace"
@@ -642,4 +614,4 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/height_guideline_space" />
 
-</com.lvicto.skeyboard.view.keyboard.IastKeyboardView>
+</com.lvicto.skeyboard.view.keyboard.QwertyKeyboardView>
