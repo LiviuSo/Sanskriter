@@ -13,4 +13,8 @@
     <dimen name="height_guideline_2">172dp</dimen>
     <dimen name="height_guideline_3">215dp</dimen>
     <dimen name="height_guideline_space">258dp</dimen>
+
+    <dimen name="key_margin">6dp</dimen>
+    <dimen name="key_preview_text_size">28sp</dimen>
+
 </resources>

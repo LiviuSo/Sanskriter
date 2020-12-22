@@ -7,4 +7,8 @@
     <color name="keyboard_landscape_bkgrd">#ADB3AA</color>
     <color name="lightRed">#CA7F7F</color>
 
+    <color name="key_stroke">#678906</color>
+    <color name="key_background_pressed">#08926A</color>
+    <color name="key_stroke_pressed">#911234</color>
+
 </resources>
