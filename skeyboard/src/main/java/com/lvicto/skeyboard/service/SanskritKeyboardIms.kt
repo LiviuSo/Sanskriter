@@ -18,6 +18,7 @@ import com.lvicto.skeyboard.KeyboardApplication.Companion.keyboardApplication
 import com.lvicto.skeyboard.KeyboardType
 import com.lvicto.skeyboard.activity.SettingsActivity
 import com.lvicto.skeyboard.isPortrait
+import com.lvicto.skeyboard.vibrateOnTap
 import com.lvicto.skeyboard.view.key.CandidatesKeyView
 import com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
 import com.lvicto.skeyboard.view.keyboard.CustomKeyboardView
@@ -400,6 +401,14 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
     fun deleteCurrentSelection() {
         inputConnectionWrapper?.deleteCurrentSelection()
     }
+
+
+    fun vibrate(long: Boolean = false) {
+        if(isVibrateOnTap) {
+            keyboardApplication.vibrateOnTap(long)
+        }
+    }
+
     // endregion
 
     companion object {
@@ -411,6 +420,9 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
         var showsSuggestionsSans = true // todo idem
 
         var autoCapsOnFirstLetter = true // todo idem
+
+
+        var isVibrateOnTap  = true // todo idem
         // endregion
 
         // log tags

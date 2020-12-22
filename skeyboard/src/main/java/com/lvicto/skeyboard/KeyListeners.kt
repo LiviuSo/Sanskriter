@@ -21,6 +21,8 @@ object KeyListeners {
         keyView.setPressedUI(true)
 
         ims = Injector.getInstance(keyboardApplication).ims
+        // vibrate
+        ims.vibrate()
         // add suggestion to text
         val suggestion = (keyView as TypableKeyView).getKeyLabel()
         ims.completeText(suggestion)
@@ -31,6 +33,8 @@ object KeyListeners {
     fun getKeyToggleSystemBar() = object : BaseTouchListener() {
         override fun doOnActionDown() {
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate
+            ims.vibrate()
             ims.removeSuggestions()
         }
     }
@@ -39,6 +43,8 @@ object KeyListeners {
 
         override fun doOnActionDown() {
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate
+            ims.vibrate()
             // start settings activity
             ims.goToSettings()
         }
@@ -48,9 +54,10 @@ object KeyListeners {
 
         override fun doOnActionDown() {
             keyView.setPressedUI(true)
-            // vibrate on press (short)
-            vibrate()
+
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate on press (short)
+            ims.vibrate()
             // remove suggestions
             ims.removeSuggestions()
             // perform action
@@ -68,6 +75,8 @@ object KeyListeners {
             }
             // switch keyboard
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate
+            ims.vibrate(true)
             ims.switchKeyBoard()
         }
 
@@ -78,6 +87,8 @@ object KeyListeners {
 
         override fun doOnNormalTapOnly() {
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate
+            ims.vibrate()
             // type a space
             ims.commitText(" ")
         }
@@ -87,6 +98,8 @@ object KeyListeners {
 
         override fun doOnLongTap() {
             (keyView as ToggleKeyView).apply {
+                // vibrate
+                ims.vibrate(true)
                 if (!this.isPressedUI()) {
                     ims = Injector.getInstance(keyboardApplication).ims
                     ims.setCapsOn()
@@ -100,6 +113,8 @@ object KeyListeners {
         override fun doOnNormalTapOnly() {
             (keyView as ToggleKeyView).apply {
                 ims = Injector.getInstance(keyboardApplication).ims
+                // vibrate
+                ims.vibrate()
                 if (!(this.isPressedUI() || this.isPersistent)) {
                     this.setPressedUI(true)
                     ims.setCapsOn()
@@ -125,11 +140,11 @@ object KeyListeners {
             runnable = {
                 val actionTime = AtomicLong()
                 var isTimeToRepeat = true
+                ims = Injector.getInstance(keyboardApplication).ims
                 while (!actionUpFlag.get()) {
                     if (isTimeToRepeat) {
                         // vibrate short
-                        vibrate()
-                        ims = Injector.getInstance(keyboardApplication).ims
+                        ims.vibrate(true)
                         // delete selection and set the cursor after previous selection
                         ims.deleteCurrentSelection()
                         // update suggestions
@@ -161,6 +176,8 @@ object KeyListeners {
             // set background pressed
             keyView.setPressedUI(true)
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate short
+            ims.vibrate()
             // type char
             val text = keyView.text.toString()
             ims.commitText(text)
@@ -177,12 +194,12 @@ object KeyListeners {
         override fun doOnActionDown() {
             // set pressed backgrd
             keyView.setPressedUI(true)
-            // vibrate short
-            vibrate()
-            // show preview
-            (keyView as TypableKeyView).showPreview()
 
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate short
+            ims.vibrate()
+            // show preview
+            (keyView as TypableKeyView).showPreview()
             // show extras
             ims.updateCandidates(keyView as CandidatesKeyView) // todo make an option (2)
             // show digits and reset any toggle
@@ -213,6 +230,8 @@ object KeyListeners {
         // todo make part of the option 2
         override fun doOnLongTap() {
             (keyView as ToggleKeyView).apply {
+                // vibrate
+                ims.vibrate(true)
                 if (!this.isPressedUI()) {
                     ims.updateCandidates(this)
                 }
@@ -226,6 +245,8 @@ object KeyListeners {
         override fun doOnNormalTapOnly() {
 
             ims = Injector.getInstance(keyboardApplication).ims
+            // vibrate
+            ims.vibrate()
             (keyView as ToggleKeyView).apply {
                 if (!(this.isPressedUI() || this.isPersistent)) { // its symbols are not shown
                     ims.keyboardView.setSymbolTogglePressed(true, this)
@@ -298,10 +319,6 @@ object KeyListeners {
             else -> {
                 false
             }
-        }
-
-        protected fun vibrate(long: Boolean = false) {
-            // todo
         }
 
         @Override
