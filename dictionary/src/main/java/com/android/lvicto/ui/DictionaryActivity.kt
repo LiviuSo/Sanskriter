@@ -229,6 +229,7 @@ class DictionaryActivity : AppCompatActivity() {
         ibSearchClose.setOnClickListener {
             // todo clear search
             editSearchEnDic.text.clear()
+            editSearchIastDic.text.clear()
             llSearch.visibility = View.GONE
             // close the keyboard
             hideSoftKeyboard(this@DictionaryActivity)
