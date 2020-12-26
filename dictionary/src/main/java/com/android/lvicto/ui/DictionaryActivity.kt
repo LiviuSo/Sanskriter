@@ -38,6 +38,7 @@ import com.android.lvicto.data.Words
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_all_words.*
+import kotlinx.android.synthetic.main.search_bar.*
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -117,16 +118,12 @@ class DictionaryActivity : AppCompatActivity() {
                     }
 
                     if (requestCode == REQUEST_CODE_ADD_WORD) {
-                        if (word != null) {
-                            viewModel.insert(word).observe(this, Observer<List<Word>> {
-                                if (llSearch.visibility != View.VISIBLE) { // show all words
-                                    wordsAdapter.words = it
-                                } else { // filter
-                                    viewModel.filterWordsIast(editSearchEnDic.text.toString()).observe(this@DictionaryActivity,
-                                            Observer<List<Word>> { fw ->
-                                                wordsAdapter.words = fw
-                                            })
+                        if (word != null) { // todo restore updated search results list
+                            viewModel.insert(word).observe(this, {
+                                if (llSearch.visibility == View.VISIBLE) {
+                                    clearSearch()
                                 }
+                                wordsAdapter.words = it // show all words for now
                             })
                         }
                     }
@@ -227,10 +224,7 @@ class DictionaryActivity : AppCompatActivity() {
 
 
         ibSearchClose.setOnClickListener {
-            // todo clear search
-            editSearchEnDic.text.clear()
-            editSearchIastDic.text.clear()
-            llSearch.visibility = View.GONE
+            clearSearch()
             // close the keyboard
             hideSoftKeyboard(this@DictionaryActivity)
         }
@@ -271,11 +265,22 @@ class DictionaryActivity : AppCompatActivity() {
         btnClearSelections.setOnClickListener(this::unselectAll)
 
         // add fab
-        fab = findViewById<FloatingActionButton>(R.id.fabDictionary)
+        fab = findViewById(R.id.fabDictionary)
         fab.setOnClickListener {
             val intent = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
+            val word = Word(word = "",
+                    wordIAST = editSearchIast.text.toString(),
+                    meaningEn = editSearchEnDic.text.toString(),
+                    meaningRo = "")
+            intent.putExtra(EXTRA_WORD, word)
             startActivityForResult(intent, REQUEST_CODE_ADD_WORD)
         }
+    }
+
+    private fun clearSearch() {
+        editSearchEnDic.text.clear()
+        editSearchIastDic.text.clear()
+        llSearch.visibility = View.GONE
     }
 
     private fun unselectAll(v: View) {
