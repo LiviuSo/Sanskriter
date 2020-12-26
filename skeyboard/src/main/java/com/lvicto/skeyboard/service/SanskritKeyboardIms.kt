@@ -419,7 +419,7 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
         var showsSuggestionsIast = false // todo idem
         var showsSuggestionsSans = true // todo idem
 
-        var autoCapsOnFirstLetter = true // todo idem
+        var autoCapsOnFirstLetter = false // todo idem
 
 
         var isVibrateOnTap  = true // todo idem
