@@ -338,7 +338,13 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
-        Toast.makeText(this, "${it.tag}", Toast.LENGTH_SHORT).show()
+        val word = it.tag as Word
+        Toast.makeText(this,
+                "${word.word}\n" +
+                        "${word.wordIAST}\n" +
+                        "EN: ${word.meaningEn}\n" +
+                        "RO: ${word.meaningRo}\n",
+                Toast.LENGTH_LONG).show()
     }
 
     private val itemEditClickListener = View.OnClickListener {
