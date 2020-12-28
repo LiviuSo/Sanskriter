@@ -8,8 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
     tools:showIn="@layout/activity_dictionary">
 
     <LinearLayout
@@ -59,6 +57,5 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_words"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp" />
+        android:layout_height="match_parent"/>
 </LinearLayout>
