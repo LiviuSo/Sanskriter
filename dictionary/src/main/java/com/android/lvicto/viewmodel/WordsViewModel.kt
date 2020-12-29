@@ -28,14 +28,12 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     @SuppressLint("CheckResult")
-    fun insert(word: Word): LiveData<List<Word>> {
-        val allWords: MutableLiveData<List<Word>> = MutableLiveData()
+    fun insert(word: Word): LiveData<Boolean> {
+        val success: MutableLiveData<Boolean> = MutableLiveData()
         repo.insertWordRx(word).subscribe {
-            repo.allWords.subscribe { lw ->
-                allWords.postValue(lw)
+                success.postValue(true)
             }
-        }
-        return allWords
+        return success
     }
 
     // todo use when implement FileProvider

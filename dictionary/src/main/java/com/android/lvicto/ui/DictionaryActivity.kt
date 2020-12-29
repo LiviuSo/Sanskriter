@@ -118,12 +118,19 @@ class DictionaryActivity : AppCompatActivity() {
                     }
 
                     if (requestCode == REQUEST_CODE_ADD_WORD) {
-                        if (word != null) { // todo restore updated search results list
+                        if (word != null) {
                             viewModel.insert(word).observe(this, {
-                                if (llSearch.visibility == View.VISIBLE) {
-                                    clearSearch()
+                                if (llSearch.visibility == View.VISIBLE) { // the insertion was made from search
+                                    val filterEn = editSearchEnDic.text.toString()
+                                    val filterIast = editSearchIastDic.text.toString()
+                                    viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
+                                        wordsAdapter.words = filteredWords
+                                    })
+                                } else {
+                                    viewModel.getAllWords().observe(this@DictionaryActivity, {
+                                        wordsAdapter.words = it // show all words for now
+                                    })
                                 }
-                                wordsAdapter.words = it // show all words for now
                             })
                         }
                     }
