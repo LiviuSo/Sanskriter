@@ -26,4 +26,19 @@ class WordsRepository  internal constructor(val application: Application) {
     fun deleteWords(words: List<Word>): Observable<Int> {
         return Observable.fromCallable { wordsDao.deleteWords(words) }
     }
+
+    fun filter(key: String): Observable<List<Word>> {
+        return Observable.fromCallable {
+            val filter = "%$key%"
+            wordsDao.getWords(filter)
+        }.subscribeOn(Schedulers.io())
+    }
+
+    fun filter(filterEn: String, filterIast: String): Observable<List<Word>> {
+        return Observable.fromCallable {
+            val filter1 = "%$filterEn%"
+            val filter2 = "%$filterIast%"
+            wordsDao.getWords(filter1, filter2)
+        }.subscribeOn(Schedulers.io())
+    }
 }

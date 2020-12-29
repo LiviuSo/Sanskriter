@@ -149,35 +149,6 @@ class DictionaryActivity : AppCompatActivity() {
         editSearchIastDic = findViewById(R.id.editSearchIast)
         ibSearchClose = findViewById(R.id.btnCloseSearchBar)
 
-        editSearchIastDic.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                Log.d(LOG_TAG, "[iast] afterTextChanged: ${s.toString()}")
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(LOG_TAG, "[iast] beforeTextChanged: ${s.toString()}")
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(LOG_TAG, "[iast] onTextChanged: ${s.toString()} start=$start before=$before count=$count")
-                // todo create a helper
-                viewModel.filterWordsIast(s.toString()).observe(this@DictionaryActivity, {
-                    wordsAdapter.words = it
-                })
-            }
-        })
-
-        editSearchEnDic.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                val text = (v as EditText).text
-                Log.d(LOG_TAG, " [en] setOnFocusChangeListener: $text")
-                // todo create a helper
-                viewModel.filterWordsEn(text.toString()).observe(this@DictionaryActivity, {
-                    wordsAdapter.words = it
-                })
-            }
-        }
-
         editSearchEnDic.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 Log.d(LOG_TAG, "[en] afterTextChanged: ${s.toString()}")
@@ -189,17 +160,19 @@ class DictionaryActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 Log.d(LOG_TAG, " [en] onTextChanged: ${s.toString()} start=$start before=$before count=$count")
-                viewModel.filterWordsEn(s.toString()).observe(this@DictionaryActivity, {
+                val filterEn = s.toString()
+                val filterIast = editSearchIastDic.text.toString()
+                viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, {
                     wordsAdapter.words = it
                 })
             }
         })
 
-        editSearchIastDic.setOnFocusChangeListener { v, hasFocus ->
+        editSearchEnDic.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                val text = (v as EditText).text
-                Log.d(LOG_TAG, " [iast] setOnFocusChangeListener: $text")
-                viewModel.filterWordsIast(text.toString()).observe(this@DictionaryActivity, {
+                val filterEn = (v as EditText).text.toString()
+                val filterIast = editSearchIast.text.toString()
+                viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, {
                     wordsAdapter.words = it
                 })
             }
@@ -215,13 +188,23 @@ class DictionaryActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(LOG_TAG, "[iast] onTextChanged: ${s.toString()} start=$start before=$before count=$count")
-                viewModel.filterWordsIast(s.toString()).observe(this@DictionaryActivity, {
+                val filterEn = editSearchEnDic.text.toString()
+                val filterIast = s.toString()
+                viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, {
                     wordsAdapter.words = it
                 })
             }
         })
 
+        editSearchIastDic.setOnFocusChangeListener{ v, hasFocus ->
+            if (hasFocus) {
+                val filterEn = editSearchEnDic.text.toString()
+                val filterIast = (v as EditText).text.toString()
+                viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, {
+                    wordsAdapter.words = it
+                })
+            }
+        }
 
         ibSearchClose.setOnClickListener {
             clearSearch()
@@ -297,7 +280,7 @@ class DictionaryActivity : AppCompatActivity() {
                     if (llSearch.visibility != View.VISIBLE) { // show all words
                         wordsAdapter.words = it
                     } else { // filter
-                        viewModel.filterWordsIast(editSearchEnDic.text.toString()).observe(this@DictionaryActivity, { fw ->
+                        viewModel.filter(editSearchEnDic.text.toString()).observe(this@DictionaryActivity, { fw ->
                             wordsAdapter.words = fw
                         })
                     }

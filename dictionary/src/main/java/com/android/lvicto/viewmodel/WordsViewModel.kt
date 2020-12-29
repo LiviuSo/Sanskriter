@@ -80,9 +80,9 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     @SuppressLint("CheckResult")
-    fun filterWordsIast(substring: String): LiveData<List<Word>> { // todo improve
+    fun filterWordsIast(list: Observable<List<Word>>, substring: String): LiveData<List<Word>> { // todo improve
         val filteredWords = MutableLiveData<List<Word>>()
-        repo.allWords
+        list
                 .flatMap { words ->
                     Observable.fromIterable(words)
                 }
@@ -120,4 +120,27 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
                 }
         return filteredWords
     }
+
+    @SuppressLint("CheckResult")
+    fun filter(filter: String): LiveData<List<Word>> {
+        val filteredWords = MutableLiveData<List<Word>>()
+        if(filter.isNotBlank() && filter.isNotEmpty()) {
+            repo.filter(filter)
+        } else {
+            repo.allWords
+        }.subscribe {
+            filteredWords.postValue(it)
+        }
+        return filteredWords
+    }
+
+    @SuppressLint("CheckResult")
+    fun filter(filterEn: String, filterIast: String): LiveData<List<Word>> {
+        val filteredWords = MutableLiveData<List<Word>>()
+        repo.filter(filterEn, filterIast).subscribe {
+            filteredWords.postValue(it)
+        }
+        return filteredWords
+    }
+
 }
