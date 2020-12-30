@@ -65,7 +65,6 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     fun deleteWords(words: List<Word>): LiveData<List<Word>> {
         val allWords: MutableLiveData<List<Word>> = MutableLiveData()
         repo.deleteWords(words = words)
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if (it > 0) {
@@ -78,45 +77,12 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     }
 
     @SuppressLint("CheckResult")
-    fun filterWordsIast(list: Observable<List<Word>>, substring: String): LiveData<List<Word>> { // todo improve
-        val filteredWords = MutableLiveData<List<Word>>()
-        list
-                .flatMap { words ->
-                    Observable.fromIterable(words)
-                }
-                .filter {
-                    val len = substring.length
-                    val iast = it.wordIAST
-                    if (iast.length >= len) {
-                        it.wordIAST.substring(0, len) == substring
-                    } else {
-                        false
-                    }
-                }
-                .toList()
-                .toObservable()
-                .subscribe {
-                    filteredWords.postValue(it)
-                }
-        return filteredWords
-    }
-
-    @SuppressLint("CheckResult")
-    fun filterWordsEn(substring: String): LiveData<List<Word>> {
-        val filteredWords = MutableLiveData<List<Word>>()
-        repo.allWords
-                .flatMap { words ->
-                    Observable.fromIterable(words)
-                }
-                .filter {
-                    it.meaningEn.contains(substring)
-                }
-                .toList()
-                .toObservable()
-                .subscribe {
-                    filteredWords.postValue(it)
-                }
-        return filteredWords
+    fun update(id: Long, sans: String, iast: String, meaningEn: String, meaningRo: String): LiveData<Boolean> {
+        val result: MutableLiveData<Boolean> = MutableLiveData()
+        repo.update(id, sans, iast, meaningEn, meaningRo).subscribe {
+            result.postValue(true)
+        }
+        return result
     }
 
     @SuppressLint("CheckResult")

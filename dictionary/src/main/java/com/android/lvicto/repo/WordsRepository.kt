@@ -23,8 +23,16 @@ class WordsRepository  internal constructor(val application: Application) {
         }.subscribeOn(Schedulers.io())
     }
 
+    fun update(id: Long, sans: String, iast: String, meaningEn: String, meaningRo: String): Observable<Unit> {
+        return Observable.fromCallable {
+            wordsDao.update(Word(id, sans, iast, meaningEn, meaningRo))
+        }.subscribeOn(Schedulers.io())
+    }
+
     fun deleteWords(words: List<Word>): Observable<Int> {
-        return Observable.fromCallable { wordsDao.deleteWords(words) }
+        return Observable.fromCallable {
+            wordsDao.deleteWords(words)
+        }.subscribeOn(Schedulers.io())
     }
 
     fun filter(key: String): Observable<List<Word>> {

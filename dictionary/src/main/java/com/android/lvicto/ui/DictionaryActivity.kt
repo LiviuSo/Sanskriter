@@ -133,6 +133,26 @@ class DictionaryActivity : AppCompatActivity() {
                                 }
                             })
                         }
+                    } else if(requestCode == REQUEST_CODE_EDIT_WORD) {
+                        if(word != null) {
+                            viewModel.update(word.id, word.word, word.wordIAST, word.meaningEn, word.meaningRo).observe(this@DictionaryActivity, {
+                                if (llSearch.visibility == View.VISIBLE) { // the update was made from search
+                                    Log.d(LOG_TAG, "llSearch.visibility == View.VISIBLE")
+                                    val filterEn = editSearchEnDic.text.toString()
+                                    val filterIast = editSearchIastDic.text.toString()
+                                    viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
+                                        wordsAdapter.words = filteredWords
+                                    })
+                                } else {
+                                    Log.d(LOG_TAG, "no llSearch.visibility == View.VISIBLE")
+                                    viewModel.getAllWords().observe(this@DictionaryActivity, {
+                                        wordsAdapter.words = it // show all words for now
+                                    })
+                                }
+                            })
+                        }
+                    } else {
+                        Log.e(LOG_TAG, "success unknown code")
                     }
                 }
                 else -> {

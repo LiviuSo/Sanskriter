@@ -6,14 +6,14 @@ import com.android.lvicto.db.entity.Word
 @Dao
 interface WordDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(word: Word) // also updates
 
     @Query("DELETE FROM word_table")
     fun deleteAll()
 
-//    @Query("SELECT * from word_table ORDER BY word ASC")
-//    fun getAllWords(): LiveData<List<Word>>
+    @Update
+    fun update(word: Word)
 
     @Query("SELECT * from word_table ORDER BY wordIast ASC") // todo spike keep RX or LiveData
     fun getAllWords(): List<Word>
