@@ -2,17 +2,22 @@ package com.android.lvicto.viewmodel
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.data.Words
+import com.android.lvicto.db.entity.Word
 import com.android.lvicto.repo.FileRepository
 import com.android.lvicto.repo.WordsRepository
+import com.android.lvicto.util.Constants
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 class WordsViewModel(val app: Application) : AndroidViewModel(app) {
 
@@ -31,18 +36,24 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     fun insert(word: Word): LiveData<Boolean> {
         val success: MutableLiveData<Boolean> = MutableLiveData()
         repo.insertWordRx(word).subscribe {
-                success.postValue(true)
-            }
+            success.postValue(true)
+        }
         return success
     }
 
-    // todo use when implement FileProvider
-    fun loadFromPrivateFile(): LiveData<String> =
-            FileRepository.loadFromPrivateFile(app.applicationContext)
+    fun readFromfiles(fileName: String): LiveData<List<Word>> {
+        return loadFromString(FileRepository.readData(context = app.applicationContext, fileName = fileName))
+    }
 
     // todo use when implement FileProvider
-    fun saveToPrivateFile(words: Words): LiveData<() -> Unit> =
-            FileRepository.saveToPrivateFile(context = app.applicationContext, json = Gson().toJson(words))
+    fun writeToFiles(words: Words, fileName: String): LiveData<Boolean> {
+        val result = MutableLiveData<Boolean>()
+        result.postValue(
+                FileRepository.writeData(context = app.applicationContext,
+                        data = Gson().toJson(words),
+                        fileName = fileName))
+        return result
+    }
 
     @SuppressLint("CheckResult")
     fun loadFromString(json: String): LiveData<List<Word>> {
@@ -59,6 +70,25 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
                     allWords.value = it
                 }
         return allWords
+    }
+
+    fun export(context: Context, filename: String) {
+        val file = File(FileRepository.getStorageDir(context, filename))
+//        val path: Uri = Uri.fromFile(file)
+        val path = FileProvider.getUriForFile(context,
+                context.applicationContext.packageName + ".provider",
+                file)
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        // set the type to 'email'
+        emailIntent.type = "vnd.android.cursor.dir/email"
+        val to = arrayOf(Constants.Dictionary.EMAIL_RECIPIENT)
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to)
+        // the attachment
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path)
+        // the mail subject
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, Constants.Dictionary.EMAIL_SUBJECT)
+        context.startActivity(Intent.createChooser(emailIntent, Constants.Dictionary.EMAIL_TITLE))
     }
 
     @SuppressLint("CheckResult")
@@ -88,7 +118,7 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     @SuppressLint("CheckResult")
     fun filter(filter: String): LiveData<List<Word>> {
         val filteredWords = MutableLiveData<List<Word>>()
-        if(filter.isNotBlank() && filter.isNotEmpty()) {
+        if (filter.isNotBlank() && filter.isNotEmpty()) {
             repo.filter(filter)
         } else {
             repo.allWords

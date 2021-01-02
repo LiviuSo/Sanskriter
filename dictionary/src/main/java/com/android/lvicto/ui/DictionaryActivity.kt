@@ -18,25 +18,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_IAST
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_ID
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_RO
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_SA
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_WORD_EN
-import com.android.lvicto.util.Constants.Dictonary.REQUEST_CODE_ADD_WORD
-import com.android.lvicto.util.Constants.Dictonary.REQUEST_CODE_EDIT_WORD
 import com.android.lvicto.R
-import com.android.lvicto.util.Utils.hideSoftKeyboard
 import com.android.lvicto.adapter.WordsAdapter
-import com.android.lvicto.viewmodel.WordsViewModel
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.data.Words
+import com.android.lvicto.db.entity.Word
+import com.android.lvicto.util.Constants
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_WORD_EN
+import com.android.lvicto.util.Constants.Dictionary.REQUEST_CODE_ADD_WORD
+import com.android.lvicto.util.Constants.Dictionary.REQUEST_CODE_EDIT_WORD
+import com.android.lvicto.util.Utils.hideSoftKeyboard
+import com.android.lvicto.viewmodel.WordsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.layout_all_words.*
 import kotlinx.android.synthetic.main.search_bar.*
 
@@ -48,7 +47,6 @@ class DictionaryActivity : AppCompatActivity() {
 
     private lateinit var llRemoveCancel: LinearLayout
     private lateinit var recyclerView: RecyclerView
-    private lateinit var llImport: LinearLayout
     private lateinit var llSearch: LinearLayout
     private lateinit var editSearchEnDic: EditText
     private lateinit var editSearchIastDic: EditText
@@ -78,8 +76,7 @@ class DictionaryActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
-                llImport.visibility = View.VISIBLE
-                viewModel.loadFromPrivateFile().observe(this@DictionaryActivity, importObserver)
+                viewModel.readFromfiles(Constants.Dictionary.FILENAME_WORDS).observe(this@DictionaryActivity, importObserver)
                 true
             }
             R.id.menuItemExport -> {
@@ -133,8 +130,8 @@ class DictionaryActivity : AppCompatActivity() {
                                 }
                             })
                         }
-                    } else if(requestCode == REQUEST_CODE_EDIT_WORD) {
-                        if(word != null) {
+                    } else if (requestCode == REQUEST_CODE_EDIT_WORD) {
+                        if (word != null) {
                             viewModel.update(word.id, word.word, word.wordIAST, word.meaningEn, word.meaningRo).observe(this@DictionaryActivity, {
                                 if (llSearch.visibility == View.VISIBLE) { // the update was made from search
                                     Log.d(LOG_TAG, "llSearch.visibility == View.VISIBLE")
@@ -241,15 +238,6 @@ class DictionaryActivity : AppCompatActivity() {
 
         // import/export
         viewModel = ViewModelProviders.of(this@DictionaryActivity).get(WordsViewModel::class.java)
-        llImport = findViewById(R.id.llJsonImport)
-        val edit = findViewById<EditText>(R.id.editJson)
-        btnLoadJson.setOnClickListener {
-            viewModel.loadFromString(edit.text.toString())
-                    .observe(this@DictionaryActivity, Observer<List<Word>> { lw ->
-                        llImport.visibility = View.GONE
-                        wordsAdapter.words = lw
-                    })
-        }
 
         // words recycleview
         recyclerView = findViewById(R.id.rv_words)
@@ -325,31 +313,17 @@ class DictionaryActivity : AppCompatActivity() {
         private val LOG_TAG = DictionaryActivity::class.java.simpleName
     }
 
-//    private val saveToFileObserver = Observer<List<Word>> { it ->
-//        if (it != null) {
-    // save on private file
-//            viewModel.saveToPrivateFile(Words(it)).observe(this@DictionaryActivity, Observer<()->Unit> {
-//                it?.invoke() // todo make it return json string
-    // todo launch share intent
-//            })
-//        }
-//    }
-
-    private fun export(words: List<Word>) {
-        val jsonString = Gson().toJson(Words(words))
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Sanskrit dic as json (String)")
-        intent.putExtra(Intent.EXTRA_TEXT, jsonString)
-        startActivity(Intent.createChooser(intent, "Share using")) // todo make a string resource
+    private val exportObserver = Observer<List<Word>> { words ->
+        val filename = "words.json" // todo make a constant for now
+        if(words != null) {
+            viewModel.writeToFiles(Words(words), filename).observe(this@DictionaryActivity, {
+                viewModel.export(this@DictionaryActivity, filename = filename)
+            })
+        }
     }
 
-    private val exportObserver = Observer<List<Word>> {
-        export(it!!)
-    }
-
-    private val importObserver = Observer<String> {
-        // todo
+    private val importObserver = Observer<List<Word>> {
+        wordsAdapter.words = it
     }
 
     private val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
@@ -390,17 +364,11 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        when {
-            llImport.visibility == View.VISIBLE -> {
-                llImport.visibility = View.GONE
-            }
-            llRemoveCancel.visibility == View.VISIBLE -> {
-                cancelRemoveSelected()
-                supportActionBar?.setDisplayHomeAsUpEnabled(false)
-            }
-            else -> {
-                super.onBackPressed()
-            }
+        if (llRemoveCancel.visibility == View.VISIBLE) {
+            cancelRemoveSelected()
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        } else {
+            super.onBackPressed()
         }
     }
 }

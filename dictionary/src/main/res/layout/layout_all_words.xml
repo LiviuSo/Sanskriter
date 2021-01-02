@@ -11,28 +11,6 @@
     tools:showIn="@layout/activity_dictionary">
 
     <LinearLayout
-        android:id="@+id/llJsonImport"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <EditText
-            android:id="@+id/editJson"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:hint="Paste json here"
-            android:maxLines="4"
-            android:minLines="4" />
-
-        <Button
-            android:id="@+id/btnLoadJson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Load Json" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/llRemoveCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -8,12 +8,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_IAST
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_ID
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_RO
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_SA
-import com.android.lvicto.util.Constants.Dictonary.EXTRA_WORD_WORD_EN
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_WORD_EN
 import com.android.lvicto.R
 import com.android.lvicto.db.entity.Word
 
