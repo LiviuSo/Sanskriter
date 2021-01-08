@@ -63,8 +63,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_core"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_android"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
     // RxJava & RxAndroid
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"

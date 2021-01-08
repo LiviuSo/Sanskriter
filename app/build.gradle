@@ -62,5 +62,5 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
 
-    implementation "androidx.multidex:multidex:$multidex_version"
+    implementation "androidx.multidex:multidex:$multidexVersion"
 }

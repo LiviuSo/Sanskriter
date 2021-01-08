@@ -9,10 +9,10 @@ buildscript {
     ext.junitVersion = '4.13.1'
     ext.testRunnerVersion = '1.3.0'
     ext.espressoCoreVersion = '3.3.0'
-    ext.constraintLayoutVersion = '2.1.0-alpha1'
-    ext.materialVersion = '1.3.0-alpha04'
+    ext.constraintLayoutVersion = '2.1.0-alpha2'
+    ext.materialVersion = '1.3.0-beta01'
     ext.archLifecycleVersion = '2.2.0'
-    ext.roomVersion = '2.2.5'
+    ext.roomVersion = '2.2.6'
     ext.zoomImageVersion = '1.1.0'
     ext.gsonVersionVersion = '2.8.6'
     ext.recViewVersion = '1.1.0'
@@ -21,10 +21,10 @@ buildscript {
     ext.kotlinReflectVersion = '1.4.21'
     ext.testCore = '1.3.1-alpha02'
     ext.preference='1.1.1'
-    ext.roomCompiler='2.1.0'
-    ext.multidex_version="2.0.1"
-    ext.coroutines_core="1.3.7"
-    ext.coroutines_android="1.3.4"
+    ext.roomCompilerVersion='2.1.0'
+    ext.multidexVersion="2.0.1"
+    ext.coroutinesCoreVersion="1.3.7"
+    ext.coroutinesVersion="1.3.9"
 
     repositories {
         google()
