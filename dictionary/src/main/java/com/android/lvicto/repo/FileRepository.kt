@@ -3,39 +3,60 @@ package com.android.lvicto.repo
 import android.content.Context
 import android.os.Environment
 import android.util.Log
+import com.android.lvicto.data.Words
+import com.android.lvicto.db.entity.Word
+import com.android.lvicto.util.getStorageDir
+import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import java.io.*
 
 
-object FileRepository {
+class FileRepository(val context: Context) {
 
-    private val LOG_TAG = FileRepository::class.simpleName
-    private const val FILENAME: String = "sanskrit_dic.json"
+    companion object {
+        private val LOG_TAG = FileRepository::class.simpleName
+    }
+
+    suspend fun loadWordsFromFile(fileName: String): List<Word> = coroutineScope {
+        withContext(Dispatchers.IO) {
+            val json = readData(context = context, fileName = fileName)
+            val words = Gson().fromJson(json, Words::class.java)
+            words.list
+        }
+    }
 
     //write data to file
-    fun writeData(context: Context, data: String, fileName: String): Boolean { // todo make async
-        var result = true
-        try {
-            val filePath = getStorageDir(context, fileName)
-            Log.d("readwrite", filePath)
-            val fileOutputStream = FileOutputStream(filePath)
-            fileOutputStream.write(data.toByteArray())
-            fileOutputStream.close()
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-            result = false
-        } catch (e: IOException) {
-            e.printStackTrace()
-            result = false
-        } finally {
-            return result
+    suspend fun writeWordsToFile(context: Context, data: String, fileName: String): Boolean { // todo make async
+        return coroutineScope {
+            withContext(Dispatchers.IO) {
+                var fileOutputStream: FileOutputStream? = null
+                try {
+                    val filePath = context.getStorageDir(fileName)
+                    Log.d("readwrite", filePath)
+                    fileOutputStream = FileOutputStream(filePath)
+                    fileOutputStream.write(data.toByteArray())
+                    true
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                    false
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    false
+                } finally {
+                    fileOutputStream?.close()
+                }
+            }
         }
     }
 
     //read data from the file
-    fun readData(context: Context, fileName: String): String {
+    private fun readData(context: Context, fileName: String): String {
         val stringBuilder = StringBuilder()
         try {
-            val filePath = getStorageDir(context = context, fileName = fileName)
+            val filePath = context.getStorageDir(fileName)
             val fileInputStream = FileInputStream(filePath)
             val inputStreamReader = InputStreamReader(fileInputStream)
             val reader = BufferedReader(inputStreamReader)
@@ -61,16 +82,5 @@ object FileRepository {
     fun isExternalStorageReadable(): Boolean {
         val state = Environment.getExternalStorageState()
         return Environment.MEDIA_MOUNTED_READ_ONLY == state
-    }
-
-    fun getStorageDir(context: Context, fileName: String): String {
-        //create folder
-        val dir = File(context.getExternalFilesDir("external"), "words/")
-        if (!dir.mkdirs()) {
-            dir.mkdirs()
-        }
-        val file = File(dir.absolutePath + File.separator.toString(), fileName)
-        file.createNewFile()
-        return file.absolutePath
     }
 }

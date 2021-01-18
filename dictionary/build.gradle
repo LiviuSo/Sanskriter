@@ -46,11 +46,6 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomCompilerVersion"
 
-    // RxJava & RxAndroid
-    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
-    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
-
     implementation "androidx.recyclerview:recyclerview:$recViewVersion"
 
     implementation "com.google.android.material:material:$materialVersion"

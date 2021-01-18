@@ -18,8 +18,8 @@ interface WordDao {
     @Query("SELECT * from word_table ORDER BY wordIast ASC") // todo spike keep RX or LiveData
     fun getAllWords(): List<Word>
 
-    @Query("SELECT * from word_table WHERE wordIAST LIKE :filter ORDER BY wordIAST ASC")
-    fun getWords(filter: String): List<Word>
+    @Query("SELECT * from word_table WHERE wordIAST LIKE :filterIast ORDER BY wordIAST ASC")
+    fun getWords(filterIast: String): List<Word>
 
     @Query("SELECT * from word_table WHERE (meaningEn LIKE :filterEn) AND (wordIAST LIKE :filterIast) ORDER BY wordIAST ASC")
     fun getWords(filterEn: String, filterIast: String): List<Word>

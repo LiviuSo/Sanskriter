@@ -2,6 +2,7 @@ package com.android.lvicto.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,8 +17,9 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
@@ -31,13 +33,16 @@ import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_WORD_EN
+import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
 import com.android.lvicto.util.Constants.Dictionary.REQUEST_CODE_ADD_WORD
 import com.android.lvicto.util.Constants.Dictionary.REQUEST_CODE_EDIT_WORD
 import com.android.lvicto.util.Utils.hideSoftKeyboard
+import com.android.lvicto.util.getStorageDir
 import com.android.lvicto.viewmodel.WordsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.layout_all_words.*
 import kotlinx.android.synthetic.main.search_bar.*
+import java.io.File
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -76,12 +81,12 @@ class DictionaryActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
-                viewModel.readFromfiles(Constants.Dictionary.FILENAME_WORDS).observe(this@DictionaryActivity, importObserver)
+                viewModel.readFromFiles(Constants.Dictionary.FILENAME_WORDS).observe(this@DictionaryActivity, importObserver)
                 true
             }
             R.id.menuItemExport -> {
                 Log.d(LOG_TAG, "R.id.menuItemExport")
-                viewModel.getAllWords().observe(this, exportObserver)
+                viewModel.getAllWordsCor().observe(this, exportObserver)
                 true
             }
             R.id.menuItemFind -> {
@@ -124,7 +129,7 @@ class DictionaryActivity : AppCompatActivity() {
                                         wordsAdapter.words = filteredWords
                                     })
                                 } else {
-                                    viewModel.getAllWords().observe(this@DictionaryActivity, {
+                                    viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
                                         wordsAdapter.words = it // show all words for now
                                     })
                                 }
@@ -134,15 +139,13 @@ class DictionaryActivity : AppCompatActivity() {
                         if (word != null) {
                             viewModel.update(word.id, word.word, word.wordIAST, word.meaningEn, word.meaningRo).observe(this@DictionaryActivity, {
                                 if (llSearch.visibility == View.VISIBLE) { // the update was made from search
-                                    Log.d(LOG_TAG, "llSearch.visibility == View.VISIBLE")
                                     val filterEn = editSearchEnDic.text.toString()
                                     val filterIast = editSearchIastDic.text.toString()
                                     viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
                                         wordsAdapter.words = filteredWords
                                     })
                                 } else {
-                                    Log.d(LOG_TAG, "no llSearch.visibility == View.VISIBLE")
-                                    viewModel.getAllWords().observe(this@DictionaryActivity, {
+                                    viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
                                         wordsAdapter.words = it // show all words for now
                                     })
                                 }
@@ -237,7 +240,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
 
         // import/export
-        viewModel = ViewModelProviders.of(this@DictionaryActivity).get(WordsViewModel::class.java)
+        viewModel = ViewModelProvider(this@DictionaryActivity).get(WordsViewModel::class.java)
 
         // words recycleview
         recyclerView = findViewById(R.id.rv_words)
@@ -253,7 +256,7 @@ class DictionaryActivity : AppCompatActivity() {
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = wordsAdapter
-        viewModel.getAllWords().observe(this, Observer<List<Word>> {
+        viewModel.getAllWordsCor().observe(this, Observer<List<Word>> {
             wordsAdapter.words = it
         })
 
@@ -314,12 +317,30 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private val exportObserver = Observer<List<Word>> { words ->
-        val filename = "words.json" // todo make a constant for now
+        val filename = FILENAME_WORDS // todo make a constant for now
         if(words != null) {
             viewModel.writeToFiles(Words(words), filename).observe(this@DictionaryActivity, {
-                viewModel.export(this@DictionaryActivity, filename = filename)
+                export(this@DictionaryActivity, filename = filename)
             })
         }
+    }
+
+    private fun export(context: Context, filename: String) {
+        val file = File(context.getStorageDir(filename))
+        val path = FileProvider.getUriForFile(context,
+                context.applicationContext.packageName + ".provider",
+                file)
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        // set the type to 'email'
+        emailIntent.type = "vnd.android.cursor.dir/email"
+        val to = arrayOf(Constants.Dictionary.EMAIL_RECIPIENT)
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, to)
+        // the attachment
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path)
+        // the mail subject
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, Constants.Dictionary.EMAIL_SUBJECT)
+        context.startActivity(Intent.createChooser(emailIntent, Constants.Dictionary.EMAIL_TITLE))
     }
 
     private val importObserver = Observer<List<Word>> {

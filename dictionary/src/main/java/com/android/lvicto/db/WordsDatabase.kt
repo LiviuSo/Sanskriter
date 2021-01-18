@@ -16,11 +16,11 @@ abstract class WordsDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: WordsDatabase? = null
 
-        fun getInstance(context: Context): WordsDatabase? {
+        fun getInstance(context: Context): WordsDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(context.applicationContext, WordsDatabase::class.java, "my_database.db").build()
             }
-            return INSTANCE
+            return INSTANCE as WordsDatabase
         }
 
         fun destroyInstance() {
