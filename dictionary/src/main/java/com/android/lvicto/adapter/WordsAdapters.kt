@@ -47,9 +47,9 @@ class WordsAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-        if (words != null) {
-            holder.bindData(words!![position], getItemViewType(position), position)
-        } else {
+        words?.let {
+            holder.bindData(it[position], getItemViewType(position), position)
+        } ?: run {
             Log.e(LOG_TAG, "Empty or null data")
         }
     }
@@ -80,6 +80,8 @@ class WordsAdapter(private val context: Context,
             view.findViewById<TextView>(R.id.tvItemWordSa).text = word.word
             when (type) {
                 TYPE_NON_REMOVABLE -> {
+                    view.findViewById<TextView>(R.id.tvItemDefEn).text = word.meaningEn
+                    view.findViewById<TextView>(R.id.tvItemDefRo).text = word.meaningRo
                     view.apply {
                         tag = word
                         setOnClickListener(clickListenerDefinition)
