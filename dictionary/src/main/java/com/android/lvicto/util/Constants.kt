@@ -10,10 +10,11 @@ class Constants {
         const val EXTRA_WORD_RO = "word_ro"
         const val EXTRA_WORD_ID = "word_id"
         const val EXTRA_WORD = "EXTRA_WORD"
+        const val EXTRA_REQUEST_CODE = "EXTRA_REQUEST_CODE"
 
         // add word
-        const val REQUEST_CODE_ADD_WORD = 111
-        const val REQUEST_CODE_EDIT_WORD = 112
+        const val CODE_REQUEST_ADD_WORD = 111
+        const val CODE_REQUEST_EDIT_WORD = 112
 
         // share
         const val FILENAME_WORDS = "words.json"

@@ -34,8 +34,9 @@ import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_WORD_EN
 import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
-import com.android.lvicto.util.Constants.Dictionary.REQUEST_CODE_ADD_WORD
-import com.android.lvicto.util.Constants.Dictionary.REQUEST_CODE_EDIT_WORD
+import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
+import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_REQUEST_CODE
 import com.android.lvicto.util.Utils.hideSoftKeyboard
 import com.android.lvicto.util.getStorageDir
 import com.android.lvicto.viewmodel.WordsViewModel
@@ -109,7 +110,7 @@ class DictionaryActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                REQUEST_CODE_ADD_WORD, REQUEST_CODE_EDIT_WORD -> {
+                CODE_REQUEST_ADD_WORD, CODE_REQUEST_EDIT_WORD -> {
                     val wordRo = data!!.getStringExtra(EXTRA_WORD_RO)
                     val wordEn = data.getStringExtra(EXTRA_WORD_WORD_EN)
                     val wordSa = data.getStringExtra(EXTRA_WORD_SA)
@@ -119,36 +120,28 @@ class DictionaryActivity : AppCompatActivity() {
                         word?.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
                     }
 
-                    if (requestCode == REQUEST_CODE_ADD_WORD) {
-                        if (word != null) {
-                            viewModel.insert(word).observe(this, {
-                                if (llSearch.visibility == View.VISIBLE) { // the insertion was made from search
-                                    val filterEn = editSearchEnDic.text.toString()
-                                    val filterIast = editSearchIastDic.text.toString()
-                                    viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
-                                        wordsAdapter.words = filteredWords
-                                    })
-                                } else {
-                                    viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
-                                        wordsAdapter.words = it // show all words for now
-                                    })
-                                }
+                    if (requestCode == CODE_REQUEST_ADD_WORD) {
+                        if (llSearch.visibility == View.VISIBLE) { // the insertion was made from search
+                            val filterEn = editSearchEnDic.text.toString()
+                            val filterIast = editSearchIastDic.text.toString()
+                            viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
+                                wordsAdapter.words = filteredWords
+                            })
+                        } else {
+                            viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
+                                wordsAdapter.words = it // show all words for now
                             })
                         }
-                    } else if (requestCode == REQUEST_CODE_EDIT_WORD) {
-                        if (word != null) {
-                            viewModel.update(word.id, word.word, word.wordIAST, word.meaningEn, word.meaningRo).observe(this@DictionaryActivity, {
-                                if (llSearch.visibility == View.VISIBLE) { // the update was made from search
-                                    val filterEn = editSearchEnDic.text.toString()
-                                    val filterIast = editSearchIastDic.text.toString()
-                                    viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
-                                        wordsAdapter.words = filteredWords
-                                    })
-                                } else {
-                                    viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
-                                        wordsAdapter.words = it // show all words for now
-                                    })
-                                }
+                    } else if (requestCode == CODE_REQUEST_EDIT_WORD) {
+                        if (llSearch.visibility == View.VISIBLE) { // the update was made from search
+                            val filterEn = editSearchEnDic.text.toString()
+                            val filterIast = editSearchIastDic.text.toString()
+                            viewModel.filter(filterEn, filterIast).observe(this@DictionaryActivity, { filteredWords ->
+                                wordsAdapter.words = filteredWords
+                            })
+                        } else {
+                            viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
+                                wordsAdapter.words = it // show all words for now
                             })
                         }
                     } else {
@@ -223,7 +216,7 @@ class DictionaryActivity : AppCompatActivity() {
             }
         })
 
-        editSearchIastDic.setOnFocusChangeListener{ v, hasFocus ->
+        editSearchIastDic.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 val filterEn = editSearchEnDic.text.toString()
                 val filterIast = (v as EditText).text.toString()
@@ -239,7 +232,7 @@ class DictionaryActivity : AppCompatActivity() {
             hideSoftKeyboard(this@DictionaryActivity)
         }
 
-        // import/export
+        // TODO injection
         viewModel = ViewModelProvider(this@DictionaryActivity).get(WordsViewModel::class.java)
 
         // words recycleview
@@ -274,7 +267,8 @@ class DictionaryActivity : AppCompatActivity() {
                     meaningEn = editSearchEnDic.text.toString(),
                     meaningRo = "")
             intent.putExtra(EXTRA_WORD, word)
-            startActivityForResult(intent, REQUEST_CODE_ADD_WORD)
+            intent.putExtra(EXTRA_REQUEST_CODE, CODE_REQUEST_ADD_WORD)
+            startActivityForResult(intent, CODE_REQUEST_ADD_WORD)
         }
     }
 
@@ -318,7 +312,7 @@ class DictionaryActivity : AppCompatActivity() {
 
     private val exportObserver = Observer<List<Word>> { words ->
         val filename = FILENAME_WORDS // todo make a constant for now
-        if(words != null) {
+        if (words != null) {
             viewModel.writeToFiles(Words(words), filename).observe(this@DictionaryActivity, {
                 export(this@DictionaryActivity, filename = filename)
             })
@@ -359,8 +353,9 @@ class DictionaryActivity : AppCompatActivity() {
 
     private val itemEditClickListener = View.OnClickListener {
         val intentEdit = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
-        intentEdit.putExtra(EXTRA_WORD, it!!.tag as Word)
-        this@DictionaryActivity.startActivityForResult(intentEdit, REQUEST_CODE_EDIT_WORD)
+        intentEdit.putExtra(EXTRA_WORD, it.tag as Word)
+        intentEdit.putExtra(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
+        this@DictionaryActivity.startActivityForResult(intentEdit, CODE_REQUEST_EDIT_WORD)
     }
 
     @SuppressLint("RestrictedApi")
