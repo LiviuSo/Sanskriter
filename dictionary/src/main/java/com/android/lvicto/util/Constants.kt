@@ -6,7 +6,7 @@ class Constants {
         // extras
         const val EXTRA_WORD_SA = "word_sa"
         const val EXTRA_WORD_IAST = "word_iast"
-        const val EXTRA_WORD_WORD_EN = "word_en"
+        const val EXTRA_WORD_EN = "word_en"
         const val EXTRA_WORD_RO = "word_ro"
         const val EXTRA_WORD_ID = "word_id"
         const val EXTRA_WORD = "EXTRA_WORD"

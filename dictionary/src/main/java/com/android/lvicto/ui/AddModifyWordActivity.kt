@@ -15,7 +15,7 @@ import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_WORD_EN
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_EN
 import com.android.lvicto.R
 import com.android.lvicto.db.entity.Word
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_REQUEST_CODE
@@ -96,7 +96,7 @@ class AddModifyWordActivity : AppCompatActivity() {
             }
             replyIntent.putExtra(EXTRA_WORD_SA, wordSa)
             replyIntent.putExtra(EXTRA_WORD_IAST, wordIAST)
-            replyIntent.putExtra(EXTRA_WORD_WORD_EN, wordEn)
+            replyIntent.putExtra(EXTRA_WORD_EN, wordEn)
             replyIntent.putExtra(EXTRA_WORD_RO, wordRo)
             setResult(Activity.RESULT_OK, replyIntent)
         }

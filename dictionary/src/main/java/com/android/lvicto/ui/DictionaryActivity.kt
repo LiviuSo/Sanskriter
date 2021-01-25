@@ -32,7 +32,7 @@ import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_WORD_EN
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_EN
 import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
 import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
@@ -63,13 +63,6 @@ class DictionaryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dictionary)
-
-        // todo remove (for testing only)
-//        val db = WordsDatabase.getInstance(this)!!
-//        db.popupateDbForTesting()
-
-        // todo 0-state screen
-
         initUI()
     }
 
@@ -112,7 +105,7 @@ class DictionaryActivity : AppCompatActivity() {
             when (requestCode) {
                 CODE_REQUEST_ADD_WORD, CODE_REQUEST_EDIT_WORD -> {
                     val wordRo = data!!.getStringExtra(EXTRA_WORD_RO)
-                    val wordEn = data.getStringExtra(EXTRA_WORD_WORD_EN)
+                    val wordEn = data.getStringExtra(EXTRA_WORD_EN)
                     val wordSa = data.getStringExtra(EXTRA_WORD_SA)
                     val wordIAST = data.getStringExtra(EXTRA_WORD_IAST)
                     val word = wordSa?.let { wordIAST?.let { it1 -> wordEn?.let { it2 -> wordRo?.let { it3 -> Word(word = it, wordIAST = it1, meaningEn = it2, meaningRo = it3) } } } }
@@ -156,6 +149,9 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
+
+        // TODO injection
+        viewModel = ViewModelProvider(this@DictionaryActivity).get(WordsViewModel::class.java)
 
         // toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -232,8 +228,32 @@ class DictionaryActivity : AppCompatActivity() {
             hideSoftKeyboard(this@DictionaryActivity)
         }
 
-        // TODO injection
-        viewModel = ViewModelProvider(this@DictionaryActivity).get(WordsViewModel::class.java)
+        // get data from intent
+        val searchIast = intent.getStringExtra(EXTRA_WORD_IAST)
+        val searchEn = intent.getStringExtra(EXTRA_WORD_EN)
+        if (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) {
+            if (llSearch.visibility != View.VISIBLE) {
+                // show edit with close button
+                llSearch.visibility = View.VISIBLE
+                if (!searchIast.isNullOrEmpty()) {
+                    editSearchIastDic.setText(searchIast)
+                }
+                if (!searchEn.isNullOrEmpty()) {
+                    editSearchEnDic.setText(searchEn)
+                }
+                if (searchIast != null) {
+                    viewModel.filter(searchIast).observe(this@DictionaryActivity, { words1 ->
+                        if (searchEn != null) {
+                            viewModel.filter(searchEn, searchIast).observe(this@DictionaryActivity, { words2 ->
+                                wordsAdapter.words = words2
+                            })
+                        } else {
+                            wordsAdapter.words = words1
+                        }
+                    })
+                }
+            }
+        }
 
         // words recycleview
         recyclerView = findViewById(R.id.rv_words)
