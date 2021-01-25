@@ -1,7 +1,6 @@
 package com.android.lvicto.sanskriter.ui.fragments
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,8 @@ import com.android.lvicto.sanskriter.util.AssetsHelper
 import com.android.lvicto.ui.AddModifyWordActivity
 import com.android.lvicto.util.Constants
 import kotlinx.android.synthetic.main.fragment_zoom_page.*
-import kotlinx.android.synthetic.main.fragment_zoom_page.btnAddDic
 import kotlinx.android.synthetic.main.fragment_zoom_page.view.*
-import kotlinx.android.synthetic.main.search_bar.*
-import kotlinx.android.synthetic.main.view_add_words.*
 import kotlinx.android.synthetic.main.view_add_words.view.*
-import java.util.zip.Inflater
 
 class ZoomPageFragment : Fragment() {
 
@@ -32,8 +27,8 @@ class ZoomPageFragment : Fragment() {
         AssetsHelper.loadAsset(viewParent.findViewById(R.id.zoomablePage), asset)
 
         viewSearchDic = inflater.inflate(R.layout.view_add_words, container, false)
-
-        viewSearchDic.btnAddWord.setOnClickListener {
+        viewSearchDic.btnAddWord.setOnClickListener { view ->
+            // move to dictionary flow
             val intent = Intent(activity, AddModifyWordActivity::class.java)
             val word = Word(word = "",
                     wordIAST = viewSearchDic.edWordIast.text.toString(),
@@ -42,6 +37,10 @@ class ZoomPageFragment : Fragment() {
             intent.putExtra(Constants.Dictionary.EXTRA_WORD, word)
             intent.putExtra(Constants.Dictionary.EXTRA_REQUEST_CODE, Constants.Dictionary.CODE_REQUEST_ADD_WORD)
             startActivity(intent)
+
+            // update UI
+            viewSearchDic.edWordIast.text.clear()
+            viewSearchDic.edWordEn.text.clear()
             bottomHolder.removeView(viewSearchDic)
             llBottomToolbar.visibility = View.VISIBLE
         }
