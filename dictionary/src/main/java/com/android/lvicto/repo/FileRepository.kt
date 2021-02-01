@@ -1,6 +1,7 @@
 package com.android.lvicto.repo
 
 import android.content.Context
+import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import com.android.lvicto.data.Words
@@ -20,9 +21,9 @@ class FileRepository(val context: Context) {
         private val LOG_TAG = FileRepository::class.simpleName
     }
 
-    suspend fun loadWordsFromFile(fileName: String): List<Word> = coroutineScope {
+    suspend fun loadWordsFromFile(uri: Uri): List<Word> = coroutineScope {
         withContext(Dispatchers.IO) {
-            val json = readData(context = context, fileName = fileName)
+            val json = readData(context = context, uri = uri)
             val words = Gson().fromJson(json, Words::class.java)
             words.list
         }
@@ -53,11 +54,10 @@ class FileRepository(val context: Context) {
     }
 
     //read data from the file
-    private fun readData(context: Context, fileName: String): String {
+    private fun readData(context: Context, uri: Uri): String {
         val stringBuilder = StringBuilder()
         try {
-            val filePath = context.getStorageDir(fileName)
-            val fileInputStream = FileInputStream(filePath)
+            val fileInputStream = context.contentResolver.openInputStream(uri)
             val inputStreamReader = InputStreamReader(fileInputStream)
             val reader = BufferedReader(inputStreamReader)
             var temp: String?

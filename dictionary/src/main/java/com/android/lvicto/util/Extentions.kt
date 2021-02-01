@@ -6,7 +6,8 @@ import java.io.File
 
 fun Context.getStorageDir(fileName: String): String {
     // create folder
-    val dir = File(this.getExternalFilesDir("external"), "words/")
+//    val dir = File(this.getExternalFilesDir("external"), "words/")
+    val dir = File(this.getExternalFilesDir(null), "words/")
     if (!dir.mkdirs()) {
         dir.mkdirs()
     }

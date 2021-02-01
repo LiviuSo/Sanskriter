@@ -27,16 +27,16 @@ import com.android.lvicto.adapter.WordsAdapter
 import com.android.lvicto.data.Words
 import com.android.lvicto.db.entity.Word
 import com.android.lvicto.util.Constants
+import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
+import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_REQUEST_CODE
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_EN
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_EN
 import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
-import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
-import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_REQUEST_CODE
 import com.android.lvicto.util.Utils.hideSoftKeyboard
 import com.android.lvicto.util.getStorageDir
 import com.android.lvicto.viewmodel.WordsViewModel
@@ -48,6 +48,7 @@ import java.io.File
 
 class DictionaryActivity : AppCompatActivity() {
 
+    private val PICKFILE_RESULT_CODE: Int = 2
     private lateinit var viewModel: WordsViewModel
     private lateinit var wordsAdapter: WordsAdapter
 
@@ -75,7 +76,7 @@ class DictionaryActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
-                viewModel.readFromFiles(Constants.Dictionary.FILENAME_WORDS).observe(this@DictionaryActivity, importObserver)
+                openFilePicker()
                 true
             }
             R.id.menuItemExport -> {
@@ -91,12 +92,21 @@ class DictionaryActivity : AppCompatActivity() {
                     // pop-up IAST keyboard for now
                     // as typing, filter
                     true
+
                 } else {
                     false
                 }
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun openFilePicker() {
+        var chooseFile = Intent()
+        chooseFile.action = Intent.ACTION_GET_CONTENT
+        chooseFile.type = "*/*"
+        chooseFile = Intent.createChooser(chooseFile, "Choose a file")
+        startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -141,7 +151,15 @@ class DictionaryActivity : AppCompatActivity() {
                         Log.e(LOG_TAG, "success unknown code")
                     }
                 }
-                else -> {
+                PICKFILE_RESULT_CODE -> {
+                    val uri = data?.data
+                    Log.d(LOG_TAG, uri?.path.toString())
+                    if(uri != null) {
+                        viewModel.readFromFiles(uri).observe(this@DictionaryActivity, importObserver)
+                    } else {
+                        Log.d(LOG_TAG, "path is null")
+                    }
+                } else -> {
                     Log.e(LOG_TAG, "Unknown code on DictionaryActivity.onActivityResult()")
                 }
             }

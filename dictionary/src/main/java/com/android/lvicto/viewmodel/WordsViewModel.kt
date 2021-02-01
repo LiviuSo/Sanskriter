@@ -1,6 +1,7 @@
 package com.android.lvicto.viewmodel
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -32,10 +33,10 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
         return success
     }
 
-    fun readFromFiles(fileName: String): LiveData<List<Word>> {
+    fun readFromFiles(uri: Uri): LiveData<List<Word>> {
         return MutableLiveData<List<Word>>().also {
             GlobalScope.launch {
-                val words = repoFile.loadWordsFromFile(fileName)
+                val words = repoFile.loadWordsFromFile(uri)
                 words.forEach {
                     repoWords.insertWord(it)
                 }
