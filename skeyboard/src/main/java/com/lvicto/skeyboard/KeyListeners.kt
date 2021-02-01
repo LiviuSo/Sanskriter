@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong
 object KeyListeners {
 
     // todo use injection
-    lateinit var ims: SanskritKeyboardIms
+    lateinit var ims: SanskritKeyboardIms // todo fix bug late initialize
 
     fun getKeySuggestionClickListener() = View.OnClickListener { v ->
         val keyView = v as BaseKeyView
