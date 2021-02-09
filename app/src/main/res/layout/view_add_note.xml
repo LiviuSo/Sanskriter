@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/addNoteContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editNote"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="4dp"
+            android:background="@color/colorNoteBckgrd"
+            android:gravity="start"
+            android:hint="Note"
+            android:inputType="textMultiLine|text"
+            android:imeOptions="actionNone"
+            android:imeActionLabel="@string/kbImeActionIAST"
+            android:padding="3dp"
+            android:scrollbarFadeDuration="@android:integer/config_mediumAnimTime" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom|end">
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="Save"
+                android:textAllCaps="false"
+                android:layout_marginRight="5dp"/>
+
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="60dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="Quit"
+                android:textAllCaps="false"
+                android:layout_marginRight="5dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</ScrollView>

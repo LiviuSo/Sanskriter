@@ -63,4 +63,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinReflectVersion"
 
     implementation "androidx.multidex:multidex:$multidexVersion"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$archLifecycleVersion"
 }

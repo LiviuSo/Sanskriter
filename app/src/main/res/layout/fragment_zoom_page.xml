@@ -12,10 +12,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         app:zoomage_animateOnReset="true"
-        app:zoomage_autoCenter="true"
+        app:zoomage_doubleTapToZoom="true"
+        app:zoomage_autoCenter="false"
         app:zoomage_autoResetMode="UNDER"
-        app:zoomage_maxScale="8"
-        app:zoomage_minScale="0.6"
+        app:zoomage_maxScale="10"
+        app:zoomage_minScale="1"
         app:zoomage_restrictBounds="false"
         app:zoomage_translatable="true"
         app:zoomage_zoomable="true" />
@@ -36,14 +37,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Search" />
+            android:text="Dic" />
 
         <Button
-            android:id="@+id/btnAddDic"
+            android:id="@+id/btnAddNote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add" />
+            android:text="Note" />
     </LinearLayout>
 
 </LinearLayout>
