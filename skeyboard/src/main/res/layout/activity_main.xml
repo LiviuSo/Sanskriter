@@ -71,6 +71,19 @@
         android:imeActionLabel="sanskrit"
         android:imeOptions="actionSend" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextIast3"
+        android:hint="Sanskrit [actionNone]"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSanskrit2"
+        android:imeActionLabel="iast"
+        android:imeOptions="actionNone"
+        android:inputType="textImeMultiLine|textMultiLine"/>
+
+
     <Button
         android:id="@+id/buttonEnableKeyboard"
         android:layout_width="wrap_content"

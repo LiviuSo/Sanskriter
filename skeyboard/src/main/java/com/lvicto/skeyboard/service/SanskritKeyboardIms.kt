@@ -7,6 +7,7 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -349,10 +350,13 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
     // region action
     fun performAction() {
         val ei = inputConnectionWrapper?.ei
+        Log.d("saiast", "ei?.actionId=${ei?.actionId}")
         if (ei?.actionId != 0) {
             inputConnectionWrapper?.ic?.performEditorAction(ei?.actionId ?: 0)
         } else if (ei.imeOptions and EditorInfo.IME_MASK_ACTION != EditorInfo.IME_ACTION_NONE) {
             inputConnectionWrapper?.ic?.performEditorAction(ei.imeOptions and EditorInfo.IME_MASK_ACTION)
+        }  else if (ei.imeOptions and EditorInfo.IME_MASK_ACTION == EditorInfo.IME_ACTION_NONE) {
+            inputConnectionWrapper?.ic?.commitText("\r\n", 1)
         }
     }
 

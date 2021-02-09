@@ -32,7 +32,7 @@ abstract class CustomKeyboardView(context: Context, attr: AttributeSet) : Constr
                 "IME_ACTION_DONE" -> "Dn"
                 "IME_ACTION_NEXT" -> "Nx"
                 "IME_ACTION_PREVIOUS" -> "Pr"
-                else -> "N"
+                else -> "Nl" // new line
             }
         }
 
