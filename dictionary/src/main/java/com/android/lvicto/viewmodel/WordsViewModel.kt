@@ -52,10 +52,7 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
     fun writeToFiles(words: Words, fileName: String): LiveData<Boolean> {
         return MutableLiveData<Boolean>().also {
             viewModelScope.launch {
-                it.postValue(
-                        repoFile.writeWordsToFile(context = app.applicationContext,
-                                data = Gson().toJson(words),
-                                fileName = fileName))
+                it.postValue(repoFile.writeWordsToFile(data = Gson().toJson(words), fileName = fileName))
             }
         }
     }
