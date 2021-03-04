@@ -14,25 +14,49 @@
 
         <EditText
             android:id="@+id/edWordIast"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Search Iast"
             android:imeActionLabel="@string/kbImeActionIAST"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imClearIast"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/edWordEn"
+            />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/imClearIast"
+            android:background="@drawable/ic_close_24dp"
+            app:layout_constraintLeft_toRightOf="@+id/edWordIast"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/edWordEn"/>
 
         <EditText
             android:id="@+id/edWordEn"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Search En"
             android:imeActionLabel="@string/kbImeActionEnglish"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/imClearEn"
+            app:layout_constraintTop_toBottomOf="@id/edWordIast"
+            app:layout_constraintBottom_toTopOf="@+id/buttonContainer"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/imClearEn"
+            android:background="@drawable/ic_close_24dp"
+            app:layout_constraintLeft_toRightOf="@+id/edWordEn"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/edWordIast" />
+            app:layout_constraintTop_toBottomOf="@+id/imClearIast"
+            app:layout_constraintBottom_toTopOf="@+id/buttonContainer"/>
 
         <LinearLayout
+            android:id="@+id/buttonContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -54,6 +78,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancel" />
+
+            <Button
+                android:id="@+id/btnClearAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear All" />
 
         </LinearLayout>
 

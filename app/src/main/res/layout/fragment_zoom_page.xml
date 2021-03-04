@@ -12,9 +12,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         app:zoomage_animateOnReset="true"
-        app:zoomage_doubleTapToZoom="true"
         app:zoomage_autoCenter="false"
         app:zoomage_autoResetMode="UNDER"
+        app:zoomage_doubleTapToZoom="true"
         app:zoomage_maxScale="10"
         app:zoomage_minScale="1"
         app:zoomage_restrictBounds="false"
@@ -27,10 +27,17 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
+        android:id="@+id/llBottomToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/llBottomToolbar">
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSandhi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sandhi" />
 
         <Button
             android:id="@+id/btnSearchDic"
