@@ -8,4 +8,8 @@
     <color name="sectionTitleColor">#f2dada</color>
     <color name="sectionSelectedTitleColor">#edbbbb</color>
     <color name="chapterTitleColor">#eca0ac</color>
+
+    <color name="colorSandhiSuggestion">#FFEB3B</color>
+    <color name="colorSandhiOption">#8BC34A</color>
+    <color name="colorSandhiSuggestionToRemove">#E10719</color>
 </resources>

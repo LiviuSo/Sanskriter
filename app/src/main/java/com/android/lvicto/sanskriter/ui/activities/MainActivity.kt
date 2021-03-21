@@ -34,6 +34,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, BookActivity::class.java))
         }
 
+        btnTestSanshi.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SandhiActivity::class.java))
+        }
+
         // debug
         Log.d(LOG_TAG, writeBookContents(this))
     }

@@ -29,4 +29,11 @@
         android:id="@+id/btnTestBook2"
         android:textAllCaps="false"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Sandhi decompose"
+        android:id="@+id/btnTestSanshi"
+        android:textAllCaps="false"/>
+
 </LinearLayout>

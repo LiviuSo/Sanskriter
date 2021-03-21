@@ -1,33 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sandhi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sandhi"
         android:background="@color/chapterTitleColor">
 
         <com.android.lvicto.sanskriter.ui.view.CursorEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="composite"
             android:id="@+id/edComposite"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            />
+            android:hint="composite"
+            android:text="saiveyam"
+            app:layout_constraintBottom_toTopOf="@+id/barrier"
+            app:layout_constraintEnd_toStartOf="@id/ibSaveOptions"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <ImageButton
+            android:id="@+id/ibSaveOptions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_baseline_save_24"
+            app:layout_constraintBottom_toTopOf="@+id/barrier"
+            app:layout_constraintEnd_toStartOf="@+id/ibClearText"
+            app:layout_constraintStart_toEndOf="@+id/edComposite"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"/>
+
+        <ImageButton
+            android:id="@+id/ibClearText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/ic_close_24dp"
+            app:layout_constraintBottom_toTopOf="@+id/barrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/barrier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tvSeparate"
-            app:layout_constraintTop_toBottomOf="@+id/edComposite"
-            android:text="line1\nline2\nline3\nline4"
-            android:layout_margin="5dp"/>
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="60dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rvPotentials"
+            app:layout_constraintTop_toBottomOf="@id/barrier"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>
