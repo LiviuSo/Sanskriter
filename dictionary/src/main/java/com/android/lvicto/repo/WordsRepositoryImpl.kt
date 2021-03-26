@@ -1,6 +1,7 @@
 package com.android.lvicto.repo
 
 import android.app.Application
+import android.net.IpPrefix
 import com.android.lvicto.db.WordsDatabase
 import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.entity.Word
@@ -38,16 +39,21 @@ class WordsRepositoryImpl internal constructor(val application: Application) : W
         }
     }
 
-    override suspend fun filter(key: String): List<Word> = coroutineScope {
+    override suspend fun filter(key: String, isPrefix: Boolean): List<Word> = coroutineScope {
         withContext(Dispatchers.IO) {
-            wordsDao.getWords(key)
+            val filter = if(isPrefix) {
+                "$key%"
+            } else {
+                "%$key%"
+            }
+            wordsDao.getWords(filter)
         }
     }
 
-    override suspend fun filter(filterEn: String, filterIast: String): List<Word> = coroutineScope {
+    override suspend fun filter2(filterEn: String, filterIast: String): List<Word> = coroutineScope {
         withContext(Dispatchers.IO) {
             val filter1 = "%$filterEn%"
-            val filter2 = "%$filterIast%"
+            val filter2 = "$filterIast%" // use prefix
             wordsDao.getWords(filter1, filter2)
         }
     }

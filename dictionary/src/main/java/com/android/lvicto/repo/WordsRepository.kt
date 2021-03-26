@@ -11,8 +11,8 @@ interface WordsRepository {
     suspend fun update(id: Long, sans: String, iast: String, meaningEn: String, meaningRo: String) : Boolean
     suspend fun deleteWords(words: List<Word>): Int
 
-    suspend fun filter(key: String): List<Word>
+    suspend fun filter(key: String, isPrefix: Boolean = false): List<Word>
 
-    suspend fun filter(filterEn: String, filterIast: String): List<Word>
+    suspend fun filter2(filterEn: String, filterIast: String): List<Word>
 
 }

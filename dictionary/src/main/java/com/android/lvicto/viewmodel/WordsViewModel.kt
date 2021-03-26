@@ -12,7 +12,6 @@ import com.android.lvicto.repo.FileRepository
 import com.android.lvicto.repo.WordsRepositoryImpl
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class WordsViewModel(val app: Application) : AndroidViewModel(app) {
@@ -72,20 +71,20 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
                 }
             }
 
-    fun filter(filter: String): LiveData<List<Word>> = MutableLiveData<List<Word>>().also {
+    fun filter(filter: String, isPrefix: Boolean): LiveData<List<Word>> = MutableLiveData<List<Word>>().also {
         viewModelScope.launch {
             it.postValue(if (filter.isNotBlank() && filter.isNotEmpty()) {
-                repoWords.filter(filter)
+                repoWords.filter(filter, isPrefix)
             } else {
                 repoWords.getWords()
             })
         }
     }
 
-    fun filter(filterEn: String, filterIast: String): LiveData<List<Word>> =
+    fun filter2(filterEn: String, filterIast: String): LiveData<List<Word>> =
             MutableLiveData<List<Word>>().also {
                 viewModelScope.launch {
-                    it.postValue(repoWords.filter(filterEn, filterIast))
+                    it.postValue(repoWords.filter2(filterEn, filterIast))
                 }
             }
 }
