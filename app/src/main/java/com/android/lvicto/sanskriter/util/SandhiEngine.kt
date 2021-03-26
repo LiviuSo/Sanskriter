@@ -11,27 +11,27 @@ object SandhiEngine {
     private val sandhiMapDecompose = mapOf(
         // table 2.1 vowels
         // line 1
-        "ā" to arrayListOf("a a", "ā a"),
+        "ā" to arrayListOf("a a", "ā a", "a ā", "ā ā"),
         "ya" to arrayListOf("i a", "ī a"),
-        "va" to arrayListOf("u a", "ū a"),
-        "ra" to arrayListOf("ṛ a"),
-        "e" to arrayListOf("e a"),
-        "ā a" to arrayListOf("ai a"),
-        "o" to arrayListOf("o a"),
-        "āva" to arrayListOf("au a"),
+        "va" to arrayListOf("u a", "ū a", "u ā", "ū ā"),
+        "ra" to arrayListOf("ṛ a", "ṛ ā"),
+        "e" to arrayListOf("e a", "e ā", "a i", "ā i", "ā ī", "ā ī"),
+        "ā a" to arrayListOf("ai a", "ai ā", "āḥ a"),
+        "o" to arrayListOf("o a", "o ā", "a u", "ā u", "a ū", "ā ū"),
+        "āva" to arrayListOf("au a", "au ā"),
 
         // line 2
-        "ā" to arrayListOf("a ā", "ā ā"),
+//        "ā" to arrayListOf("a ā", "ā ā"), // moved to line 1
         "yā" to arrayListOf("i ā", "ī ā"),
-        "va" to arrayListOf("u ā", "ū ā"),
-        "ra" to arrayListOf("ṛ ā"),
-        "e" to arrayListOf("e ā"),
-        "ā a" to arrayListOf("ai ā"),
-        "o" to arrayListOf("o ā"),
-        "āva" to arrayListOf("au ā"),
+//        "va" to arrayListOf("u ā", "ū ā"), // moved to line 1
+//        "ra" to arrayListOf("ṛ ā"), // moved to line 1
+//        "e" to arrayListOf("e ā"), // moved to line 1
+//        "ā a" to arrayListOf("ai ā"), // moved to line 1
+//        "o" to arrayListOf("o ā"), // moved to line 1
+//        "āva" to arrayListOf("au ā"), // moved to line 1
 
         // line 3
-        "e" to arrayListOf("a i", "ā i", "ā ī", "ā ī"),
+//        "e" to arrayListOf("a i", "ā i", "ā ī", "ā ī"), // moved to line 1 
         "ī" to arrayListOf("ī ī", "ī ī", "i i", "ī i"),
         "vi" to arrayListOf("u i", "ū i"),
         "vī" to arrayListOf("u ī", "ū ī"),
@@ -42,18 +42,18 @@ object SandhiEngine {
         "āvi" to arrayListOf("au i"),
 
         // line 4
-        "o" to arrayListOf("a u", "ā u", "a ū", "ā ū"),
+//        "o" to arrayListOf("a u", "ā u", "a ū", "ā ū"), // moved to line 1
         "yu" to arrayListOf("i u", "ī u"),
         "yū" to arrayListOf("i ū", "ī ū"),
         "ū" to arrayListOf("u u", "u ū", "ū u", "ū ū"),
         "ṛu" to arrayListOf("ṛ u"),
         "ṛū" to arrayListOf("ṛ ū"),
-        "a u" to arrayListOf("e u"),
-        "a ū" to arrayListOf("e ū"),
+        "a u" to arrayListOf("e u", "o u"),
+        "a ū" to arrayListOf("e ū", "o ū"),
         "ā u" to arrayListOf("ai u"),
         "ā ū" to arrayListOf("ai ū"),
-        "a u" to arrayListOf("o u"),
-        "a ū" to arrayListOf("o ū"),
+//        "a u" to arrayListOf("o u"), // moved up
+//        "a ū" to arrayListOf("o ū"), // moved up
         "āvu" to arrayListOf("au u"),
         "āvū" to arrayListOf("au ū"),
 
@@ -62,12 +62,12 @@ object SandhiEngine {
         "yṛ" to arrayListOf("i ṛ", "ī ṛ"),
         "vṛ" to arrayListOf("u ṛ", "ū ṛ"),
         "ṝ" to arrayListOf("ṛ ṛ"),
-        "a ṛ" to arrayListOf("e ṛ", "o ṛ"),
-        "ā ṛ" to arrayListOf("ai ṛ"),
+        "a ṛ" to arrayListOf("e ṛ", "o ṛ", "aḥ ṛ"),
+        "ā ṛ" to arrayListOf("ai ṛ", "āḥ ṛ"),
         "āvṛ" to arrayListOf("au ṛ"),
 
         // line 6
-        "ai" to arrayListOf("a e", "ā e"),
+        "ai" to arrayListOf("a e", "ā e", "a ai", "ā ai", "aḥ i"),
         "ye" to arrayListOf("i e", "ī e"),
         "ve" to arrayListOf("u e", "ū e"),
         "re" to arrayListOf("ṛ e"),
@@ -76,7 +76,7 @@ object SandhiEngine {
         "āve" to arrayListOf("au e"),
 
         // line 7
-        "ai" to arrayListOf("a ai", "ā ai"),
+//        "ai" to arrayListOf("a ai", "ā ai"), // moved to line 6
         "yai" to arrayListOf("i ai", "ī ai"),
         "vai" to arrayListOf("u ai", "ū ai"),
         "rai" to arrayListOf("ṛ ai"),
@@ -85,16 +85,16 @@ object SandhiEngine {
         "āvai" to arrayListOf("au ai"),
 
         // line 8
-        "au" to arrayListOf("a o", "ā o"),
+        "au" to arrayListOf("a o", "ā o", "aḥ u", "a au", "ā au"),
         "yo" to arrayListOf("i o", "ī o"),
         "vo" to arrayListOf("u o", "ū o"),
         "ro" to arrayListOf("ṛ o"),
-        "a o" to arrayListOf("e o", "o o"),
-        "ā o" to arrayListOf("ai o"),
+        "a o" to arrayListOf("e o", "o o", "aḥ o"),
+        "ā o" to arrayListOf("ai o", "āḥ o"),
         "āvo" to arrayListOf("au o"),
 
         // line 9
-        "au" to arrayListOf("a au", "ā au"),
+//        "au" to arrayListOf("a au", "ā au"), // moved to line 8
         "yau" to arrayListOf("i au", "ī au"),
         "vau" to arrayListOf("u au", "ū au"),
         "rau" to arrayListOf("ṛ au"),
@@ -126,7 +126,7 @@ object SandhiEngine {
         "aḥ k" to arrayListOf("aḥ k", "ār k"), "aḥ kh" to arrayListOf("aḥ kh", "ar kh"),
 
         // line 2 (g/gh)
-        "gg" to arrayListOf("k g"), "ggh" to arrayListOf("k gh"),
+        "gg" to arrayListOf("k g"), "ggh" to arrayListOf("k gh", "k h"),
         "ḍg" to arrayListOf("ṭ g"), "ḍkh" to arrayListOf("ṭ gh"),
         "dg" to arrayListOf("t g"), "tgh" to arrayListOf("d gh"),
         "bg" to arrayListOf("p g"), "bgh" to arrayListOf("p gh"),
@@ -189,7 +189,7 @@ object SandhiEngine {
         "ḷrj" to arrayListOf("ḷḥ j", "ḷr j"), "ḷrjh" to arrayListOf("ḷḥ jh", "ḷr jh"),
         "ḹrj" to arrayListOf("ḹḥ j", "ḷr j"), "ḹrjh" to arrayListOf("ḹḥ jh", "ḹr jh"),
         "ā j" to arrayListOf("āḥ j"), "ā jh" to arrayListOf("āḥ jh"),
-        "o j" to arrayListOf("a j"), "o jh" to arrayListOf("a jh"),
+        "o j" to arrayListOf("aḥ j"), "o jh" to arrayListOf("aḥ jh"),
 
         // line 5 (ṭ/ṭh)
         "kṭ" to arrayListOf("k ṭ"), "kṭh" to arrayListOf("k ṭh"),
@@ -259,8 +259,8 @@ object SandhiEngine {
 
         // line 8 (d/dh)
         "gd" to arrayListOf("k d"), "gdh" to arrayListOf("k dh"),
-        "dḍ" to arrayListOf("ṭ d"), "ddh" to arrayListOf("ṭ dh"),
-        "dd" to arrayListOf("t d"), "ddh" to arrayListOf("d dh"),
+        "ḍḍ" to arrayListOf("ṭ d"), "ḍdh" to arrayListOf("ṭ dh", "ṭ h"),
+        "dd" to arrayListOf("t d"), "ddh" to arrayListOf("d dh", "t h"),
         "bd" to arrayListOf("p d"), "bdh" to arrayListOf("p dh"),
         "ṅd" to arrayListOf("ṅ d"), "ṅdh" to arrayListOf("ṅ dh"),
         "ṇd" to arrayListOf("n d"), "ṇdh" to arrayListOf("n dh"),
@@ -302,26 +302,26 @@ object SandhiEngine {
         "aḥ p" to arrayListOf("aḥ p"), "aḥ ph" to arrayListOf("aḥ ph"),
 
         // line 10 (b/bh)
-        "gp" to arrayListOf("k p"), "gph" to arrayListOf("k ph"),
-        "ḍp" to arrayListOf("ṭ p"), "ḍph" to arrayListOf("ṭ ph"),
-        "dp" to arrayListOf("t p"), "dph" to arrayListOf("t ph"),
-        "bp" to arrayListOf("p p"), "bph" to arrayListOf("p ph"),
-        "ṅp" to arrayListOf("ṅ p"), "ṅph" to arrayListOf("ṅ ph"),
-        "np" to arrayListOf("n p"), "np" to arrayListOf("n ph"),
-        "ṃp" to arrayListOf("m p"), "ṃph" to arrayListOf("m ph"),
-        "irp" to arrayListOf("iḥ p", "ir p"), "irph" to arrayListOf("iḥ ph", "ir ph"),
-        "īrp" to arrayListOf("īḥ p", "īr p"), "īrph" to arrayListOf("īḥ ph", "īr ph"),
-        "urp" to arrayListOf("uḥ p", "ur p"), "urph" to arrayListOf("uḥ ph", "uḥ ph"),
-        "ūrp" to arrayListOf("ūḥ p", "ūr p"), "ūrph" to arrayListOf("ūḥ ph", "ūr ph"),
-        "erp" to arrayListOf("eḥ p", "er p"), "erph" to arrayListOf("eḥ ph", "er ph"),
-        "orp" to arrayListOf("oḥ p"), "orph" to arrayListOf("oḥ ph"),
-        "orp" to arrayListOf("or p"), "orph" to arrayListOf("or ph"),
+        "gb" to arrayListOf("k b"), "gbh" to arrayListOf("k bh"),
+        "ḍb" to arrayListOf("ṭ b"), "ḍbh" to arrayListOf("ṭ bh"),
+        "db" to arrayListOf("t b"), "dbh" to arrayListOf("t bh"),
+        "bb" to arrayListOf("p b"), "bbh" to arrayListOf("p bh", "p h"),
+        "ṅb" to arrayListOf("ṅ b"), "ṅbh" to arrayListOf("ṅ bh"),
+        "nb" to arrayListOf("n b"), "nbh" to arrayListOf("n bh"),
+        "ṃb" to arrayListOf("m b"), "ṃbh" to arrayListOf("m bh"),
+        "irb" to arrayListOf("iḥ b", "ir b"), "irbh" to arrayListOf("iḥ bh", "ir bh"),
+        "īrb" to arrayListOf("īḥ b", "īr b"), "īrbh" to arrayListOf("īḥ bh", "īr bh"),
+        "urb" to arrayListOf("uḥ b", "ur b"), "urbh" to arrayListOf("uḥ bh", "uḥ bh"),
+        "ūrb" to arrayListOf("ūḥ b", "ūr b"), "ūrbh" to arrayListOf("ūḥ bh", "ūr bh"),
+        "erb" to arrayListOf("eḥ b", "er b"), "erbh" to arrayListOf("eḥ bh", "er bh"),
+        "orb" to arrayListOf("oḥ b"), "orbh" to arrayListOf("oḥ bh"),
+        "orb" to arrayListOf("or b"), "orbh" to arrayListOf("or bh"),
         "ṛrb" to arrayListOf("ṛḥ b", "ṛr b"), "ṛrbh" to arrayListOf("ṛḥ bh", "ṛr bh"),
         "ṝrb" to arrayListOf("ṝḥ b", "ṝr b"), "ṝrbh" to arrayListOf("ṝḥ bh", "ṝr bh"),
         "ḷrb" to arrayListOf("ḷḥ b", "ḷr b"), "ḷrbh" to arrayListOf("ḷḥ bh", "ḷr bh"),
         "ḹrb" to arrayListOf("ḹḥ b", "ḷr b"), "ḹrbh" to arrayListOf("ḹḥ bh", "ḹr bh"),
-        "ā p" to arrayListOf("āḥ p"), "ā ph" to arrayListOf("āḥ ph"),
-        "o p" to arrayListOf("aḥ p"), "o ph" to arrayListOf("aḥ ph"),
+        "ā b" to arrayListOf("āḥ b"), "ā bh" to arrayListOf("āḥ bh"),
+        "o b" to arrayListOf("aḥ b"), "o bh" to arrayListOf("aḥ bh"),
 
         // line 11 (n/m)
         "ṅn" to arrayListOf("k n"), "ṅm" to arrayListOf("k m"),
@@ -378,7 +378,7 @@ object SandhiEngine {
         "ī r" to arrayListOf("iḥ r", "ir r", "īḥ r", "īr r"),
         "ū r" to arrayListOf("uḥ r", "ur r", "ūḥ r", "ūr r"),
         "e r" to arrayListOf("eḥ r", "er r"),
-        "o r" to arrayListOf("oḥ r", "or r", "āḥ r"),
+        "o r" to arrayListOf("oḥ r", "or r"),
         "ṛ r" to arrayListOf("ṛḥ r", "ṛr r"),
         "ṝ r" to arrayListOf("ṝḥ r", "ṝr r"),
         "ḷ r" to arrayListOf("ḷḥ r", "ḷr r"),
@@ -452,10 +452,10 @@ object SandhiEngine {
         "aḥ ṣ" to arrayListOf("aḥ ṣ"), "aḥ s" to arrayListOf("aḥ s"),
 
         // line 17 (h)
-        "ggh" to arrayListOf("k h"),
-        "ḍdh" to arrayListOf("ṭ h"),
-        "ddh" to arrayListOf("t h"),
-        "bbh" to arrayListOf("p h"),
+//        "ggh" to arrayListOf("k h"), // moved to line 2
+//        "ḍdh" to arrayListOf("ṭ h"), // moved to line 8
+//        "ddh" to arrayListOf("t h"), // moved to line 8
+//        "bbh" to arrayListOf("p h"), // moved to line 8
         "ṅh" to arrayListOf("ṅ h"),
         "nh" to arrayListOf("n h"),
         "ṃh" to arrayListOf("m h"),
@@ -473,12 +473,12 @@ object SandhiEngine {
         "a h" to arrayListOf("aḥ h"),
 
         // line 18 (vowels)
+        // a
         "ga" to arrayListOf("k a"),
         "ḍa" to arrayListOf("ṭ a"),
         "da" to arrayListOf("t a"),
         "ba" to arrayListOf("p a"),
         "ṅa" to arrayListOf("ṅ a"),
-        "ga" to arrayListOf("k a"),
         "ṅṅa" to arrayListOf("ṅ a"),
         "na" to arrayListOf("n a"),
         "nna" to arrayListOf("n a"),
@@ -493,15 +493,16 @@ object SandhiEngine {
         "ṝra" to arrayListOf("ṝḥ a", "ṝr a"),
         "ḷra" to arrayListOf("ḷḥ a", "ḷr a"),
         "ḹra" to arrayListOf("ḹḥ a", "ḹr a"),
-        "ā a" to arrayListOf("āḥ a"),
+        "āa" to arrayListOf("āḥ a"), // a space between ā and a is implied
+//        "ā a" to arrayListOf("āḥ a"),
         "'s" to arrayListOf("aḥ a"),
 
+        // ā
         "gā" to arrayListOf("k ā"),
         "ḍā" to arrayListOf("ṭ ā"),
         "dā" to arrayListOf("t ā"),
         "bā" to arrayListOf("p ā"),
         "ṅā" to arrayListOf("ṅ ā"),
-        "gā" to arrayListOf("k ā"),
         "ṅṅā" to arrayListOf("ṅ ā"),
         "nā" to arrayListOf("n ā"),
         "nnā" to arrayListOf("n ā"),
@@ -516,15 +517,17 @@ object SandhiEngine {
         "ṝrā" to arrayListOf("ṝḥ ā", "ṝr ā"),
         "ḷrā" to arrayListOf("ḷḥ ā", "ḷr ā"),
         "ḹrā" to arrayListOf("ḹḥ ā", "ḹr ā"),
-        "ā ā" to arrayListOf("āḥ ā"),
-        "o ā" to arrayListOf("aḥ ā"),
+        "āā" to arrayListOf("āḥ ā"), // space implied
+        "ā ā" to arrayListOf("āḥ ā"), // space implied
+        "aā" to arrayListOf("aḥ ā"), // space implied
+        "a ā" to arrayListOf("aḥ ā"), // space implied
 
+        // i
         "gi" to arrayListOf("k i"),
         "ḍi" to arrayListOf("ṭ i"),
         "di" to arrayListOf("t i"),
         "bi" to arrayListOf("p i"),
         "ṅi" to arrayListOf("ṅ i"),
-        "gi" to arrayListOf("k i"),
         "ṅṅi" to arrayListOf("ṅ i"),
         "ni" to arrayListOf("n i"),
         "nni" to arrayListOf("n i"),
@@ -539,9 +542,11 @@ object SandhiEngine {
         "ṝri" to arrayListOf("ṝḥ i", "ṝr i"),
         "ḷri" to arrayListOf("ḷḥ i", "ḷr i"),
         "ḹri" to arrayListOf("ḹḥ i", "ḹr i"),
-        "ā i" to arrayListOf("āḥ i"),
-        "o i" to arrayListOf("aḥ i"),
+        "āi" to arrayListOf("āḥ i"), // space implied
+        "ā i" to arrayListOf("āḥ i"), // space implied
+//        "ai" to arrayListOf("aḥ i"), // space implied ; moved to line 6 (table 2.1)
 
+        // ī
         "gī" to arrayListOf("k ī"),
         "ḍī" to arrayListOf("ṭ ī"),
         "dī" to arrayListOf("t ī"),
@@ -562,15 +567,17 @@ object SandhiEngine {
         "ṝrī" to arrayListOf("ṝḥ ī", "ṝr ī"),
         "ḷrī" to arrayListOf("ḷḥ ī", "ḷr ī"),
         "ḹrī" to arrayListOf("ḹḥ ī", "ḹr ī"),
-        "ā ī" to arrayListOf("āḥ ī"),
-        "o ī" to arrayListOf("aḥ ī"),
+        "āī" to arrayListOf("āḥ ī"), // space implied
+        "ā ī" to arrayListOf("āḥ ī"), // space implied
+        "aī" to arrayListOf("aḥ ī"), // space implied
+        "a ī" to arrayListOf("aḥ ī"), // space implied
 
+        // u
         "gu" to arrayListOf("k u"),
         "ḍu" to arrayListOf("ṭ u"),
         "du" to arrayListOf("t u"),
         "bu" to arrayListOf("p u"),
         "ṅu" to arrayListOf("ṅ u"),
-        "gu" to arrayListOf("k u"),
         "ṅṅu" to arrayListOf("ṅ u"),
         "nu" to arrayListOf("n u"),
         "nnu" to arrayListOf("n u"),
@@ -585,9 +592,12 @@ object SandhiEngine {
         "ṝru" to arrayListOf("ṝḥ u", "ṝr u"),
         "ḷru" to arrayListOf("ḷḥ u", "ḷr u"),
         "ḹru" to arrayListOf("ḹḥ u", "ḹr u"),
-        "ā u" to arrayListOf("āḥ u"),
-        "o u" to arrayListOf("aḥ u"),
+        "āu" to arrayListOf("āḥ u"), // space implied
+        "ā u" to arrayListOf("āḥ u"), // space implied
+//        "au" to arrayListOf("aḥ u"), // space implied; moved to line 8
+        "a u" to arrayListOf("aḥ u"),
 
+        // ū
         "gū" to arrayListOf("k ū"),
         "ḍū" to arrayListOf("ṭ ū"),
         "dū" to arrayListOf("t ū"),
@@ -608,14 +618,18 @@ object SandhiEngine {
         "ṝrū" to arrayListOf("ṝḥ ū", "ṝr ū"),
         "ḷrū" to arrayListOf("ḷḥ ū", "ḷr ū"),
         "ḹrū" to arrayListOf("ḹḥ ū", "ḹr ū"),
+        "āū" to arrayListOf("āḥ ū"), // space implied
         "ā ū" to arrayListOf("āḥ ū"),
-        "o ū" to arrayListOf("aḥ ū"),
+        "aū" to arrayListOf("aḥ ū"), // space implied
+        "a ū" to arrayListOf("aḥ ū"),
 
+        // e
         "ge" to arrayListOf("k e"),
         "ḍe" to arrayListOf("ṭ e"),
         "de" to arrayListOf("t e"),
         "be" to arrayListOf("p e"),
         "ṅe" to arrayListOf("ṅ e"),
+        "ge" to arrayListOf("k e"),
         "ge" to arrayListOf("k e"),
         "ṅṅe" to arrayListOf("ṅ e"),
         "ne" to arrayListOf("n e"),
@@ -631,9 +645,12 @@ object SandhiEngine {
         "ṝre" to arrayListOf("ṝḥ e", "ṝr e"),
         "ḷre" to arrayListOf("ḷḥ e", "ḷr e"),
         "ḹre" to arrayListOf("ḹḥ e", "ḹr e"),
+        "āe" to arrayListOf("āḥ e"), // space implied
         "ā e" to arrayListOf("āḥ e"),
-        "o e" to arrayListOf("aḥ e"),
+        "ae" to arrayListOf("aḥ e"), // space implied
+        "a e" to arrayListOf("aḥ e"),
 
+        // o
         "go" to arrayListOf("k o"),
         "ḍo" to arrayListOf("ṭ o"),
         "do" to arrayListOf("t o"),
@@ -654,32 +671,24 @@ object SandhiEngine {
         "ṝro" to arrayListOf("ṝḥ o", "ṝr o"),
         "ḷro" to arrayListOf("ḷḥ o", "ḷr o"),
         "ḹro" to arrayListOf("ḹḥ o", "ḹr o"),
-        "ā o" to arrayListOf("āḥ o"),
-        "o o" to arrayListOf("aḥ o"),
+        "āo" to arrayListOf("āḥ o"), // space implied
+//        "ā o" to arrayListOf("āḥ o"), // moved to line 8 (vowels)
+        "ao" to arrayListOf("aḥ o"), // space implied
+//        "a o" to arrayListOf("aḥ o"), // moved to line 8
 
-        "gṛ" to arrayListOf("k ṛ"),
-        "ḍṛ" to arrayListOf("ṭ ṛ"),
-        "dṛ" to arrayListOf("t ṛ"),
-        "bṛ" to arrayListOf("p ṛ"),
-        "ṅṛ" to arrayListOf("ṅ ṛ"),
-        "gṛ" to arrayListOf("k ṛ"),
-        "ṅṅṛ" to arrayListOf("ṅ ṛ"),
-        "nṛ" to arrayListOf("n ṛ"),
-        "nnṛ" to arrayListOf("n ṛ"),
-        "mṛ" to arrayListOf("m ṛ"),
-        "irṛ" to arrayListOf("iḥ ṛ", "ir ṛ"),
-        "īrṛ" to arrayListOf("īḥ ṛ", "īr ṛ"),
-        "ūrṛ" to arrayListOf("uḥ ṛ", "ur ṛ"),
-        "ūrṛ" to arrayListOf("ūḥ ṛ", "ūr ṛ"),
-        "erṛ" to arrayListOf("eḥ ṛ", "er ṛ"),
-        "orṛ" to arrayListOf("oḥ ṛ", "or ṛ"),
-        "ṛrṛ" to arrayListOf("ṛḥ ṛ", "ṛr ṛ"),
-        "ṝrṛ" to arrayListOf("ṝḥ ṛ", "ṝr ṛ"),
-        "ḷrṛ" to arrayListOf("ḷḥ ṛ", "ḷr ṛ"),
-        "ḹrṛ" to arrayListOf("ḹḥ ṛ", "ḹr ṛ"),
-        "ā ṛ" to arrayListOf("āḥ ṛ"),
-        "o ṛ" to arrayListOf("aḥ ṛ"),
+        // ṛ
+        "gṛ" to arrayListOf("k ṛ"), "ḍṛ" to arrayListOf("ṭ ṛ"), "dṛ" to arrayListOf("t ṛ"), "bṛ" to arrayListOf("p ṛ"),
+        "ṅṛ" to arrayListOf("ṅ ṛ"), "gṛ" to arrayListOf("k ṛ"), "ṅṅṛ" to arrayListOf("ṅ ṛ"), "nṛ" to arrayListOf("n ṛ"),
+        "nnṛ" to arrayListOf("n ṛ"), "mṛ" to arrayListOf("m ṛ"), "irṛ" to arrayListOf("iḥ ṛ", "ir ṛ"), "īrṛ" to arrayListOf("īḥ ṛ", "īr ṛ"),
+        "ūrṛ" to arrayListOf("uḥ ṛ", "ur ṛ"), "ūrṛ" to arrayListOf("ūḥ ṛ", "ūr ṛ"), "erṛ" to arrayListOf("eḥ ṛ", "er ṛ"),
+        "orṛ" to arrayListOf("oḥ ṛ", "or ṛ"), "ṛrṛ" to arrayListOf("ṛḥ ṛ", "ṛr ṛ"), "ṝrṛ" to arrayListOf("ṝḥ ṛ", "ṝr ṛ"),
+        "ḷrṛ" to arrayListOf("ḷḥ ṛ", "ḷr ṛ"), "ḹrṛ" to arrayListOf("ḹḥ ṛ", "ḹr ṛ"),
+        "āṛ" to arrayListOf("āḥ ṛ"), // space implied
+//        "ā ṛ" to arrayListOf("āḥ ṛ"), moved to line 5
+        "aṛ" to arrayListOf("aḥ ṛ"), // space implied
+//        "a ṛ" to arrayListOf("aḥ ṛ",), // moved to line 3
 
+        // ṝ
         "gṝ" to arrayListOf("k ṝ"),
         "ḍṝ" to arrayListOf("ṭ ṝ"),
         "dṝ" to arrayListOf("t ṝ"),
@@ -700,9 +709,12 @@ object SandhiEngine {
         "ṝrṝ" to arrayListOf("ṝḥ ṝ", "ṝr ṝ"),
         "ḷrṝ" to arrayListOf("ḷḥ ṝ", "ḷr ṝ"),
         "ḹrṝ" to arrayListOf("ḹḥ ṝ", "ḹr ṝ"),
+        "āṝ" to arrayListOf("āḥ ṝ"), // space implied
         "ā ṝ" to arrayListOf("āḥ ṝ"),
-        "o ṝ" to arrayListOf("aḥ ṝ"),
+        "aṝ" to arrayListOf("aḥ ṝ"), // space implied
+        "a ṝ" to arrayListOf("aḥ ṝ"),
 
+        // ḷ
         "gḷ" to arrayListOf("k ḷ"),
         "ḍḷ" to arrayListOf("ṭ ḷ"),
         "dḷ" to arrayListOf("t ḷ"),
@@ -723,9 +735,12 @@ object SandhiEngine {
         "ṝrḷ" to arrayListOf("ṝḥ ḷ", "ṝr ḷ"),
         "ḷrḷ" to arrayListOf("ḷḥ ḷ", "ḷr ḷ"),
         "ḹrḷ" to arrayListOf("ḹḥ ḷ", "ḹr ḷ"),
+        "āḷ" to arrayListOf("āḥ ḷ"), // space implied
         "ā ḷ" to arrayListOf("āḥ ḷ"),
-        "o ḷ" to arrayListOf("aḥ ḷ"),
+        "aḷ" to arrayListOf("aḥ ḷ"), // space implied
+        "a ḷ" to arrayListOf("aḥ ḷ"),
 
+        // ḹ
         "gḹ" to arrayListOf("k ḹ"),
         "ḍḹ" to arrayListOf("ṭ ḹ"),
         "dḹ" to arrayListOf("t ḹ"),
@@ -746,30 +761,32 @@ object SandhiEngine {
         "ṝrḹ" to arrayListOf("ṝḥ ḹ", "ṝr ḹ"),
         "ḷrḹ" to arrayListOf("ḷḥ ḹ", "ḷr ḹ"),
         "ḹrḹ" to arrayListOf("ḹḥ ḹ", "ḹr ḹ"),
+        "āḹ" to arrayListOf("āḥ ḹ"), // space implied
         "ā ḹ" to arrayListOf("āḥ ḹ"),
-        "o ḹ" to arrayListOf("aḥ ḹ"),
+        "aḹ" to arrayListOf("aḥ ḹ"), // space implied
+        "a ḹ" to arrayListOf("aḥ ḹ"),
 
         // line 19 (zero)
-        "k " to arrayListOf("k  "),
-        "ṭ " to arrayListOf("ṭ  "),
-        "cch" to arrayListOf("t  "),    // ch
-        "bp" to arrayListOf("p  "),
-        "ṅ " to arrayListOf("ṅ  "),
-        "ñ " to arrayListOf("n  "),
-        "ñch" to arrayListOf("n  "),
-        "ṃ " to arrayListOf("m  "),
-        "iḥ  " to arrayListOf("iḥ  ", "ir  "),
-        "īḥ  " to arrayListOf("īḥ  ", "īr  "),
-        "ūḥ  " to arrayListOf("uḥ  ", "ur  "),
-        "ūḥ  " to arrayListOf("ūḥ  ", "ūr  "),
-        "eḥ  " to arrayListOf("eḥ  ", "er  "),
-        "oḥ  " to arrayListOf("oḥ  ", "or  "),
+        "k " to arrayListOf("k "),
+        "ṭ " to arrayListOf("ṭ "),
+        "cch" to arrayListOf("t "),    // ch
+        "bp" to arrayListOf("p "),
+        "ṅ " to arrayListOf("ṅ "),
+        "ñ " to arrayListOf("n "),
+        "ñch" to arrayListOf("n "),
+        "ṃ " to arrayListOf("m "),
+        "iḥ " to arrayListOf("iḥ ", "ir "),
+        "īḥ " to arrayListOf("īḥ ", "īr "),
+        "ūḥ " to arrayListOf("uḥ ", "ur "),
+        "ūḥ " to arrayListOf("ūḥ ", "ūr "),
+        "eḥ " to arrayListOf("eḥ ", "er "),
+        "oḥ " to arrayListOf("oḥ ", "or "),
         "ṛḥ " to arrayListOf("ṛḥ ", "ṛr "),
         "ṝḥ " to arrayListOf("ṝḥ ", "ṝr "),
         "ḷḥ " to arrayListOf("ḷḥ ", "ḷr "),
         "ḹḥ " to arrayListOf("ḹḥ ", "ḹr "),
-        "āḥ  " to arrayListOf("āḥ  "),
-        "aḥ  " to arrayListOf("aḥ  ")
+        "āḥ " to arrayListOf("āḥ  "),
+        "aḥ " to arrayListOf("aḥ  ")
     )
     // end table 2.1 consonants
     // ā ī ū ṛ ṝ ḷ ḹ ṭ ḍ ṅ ñ ṇ ś ṣ ṃ ḥ
