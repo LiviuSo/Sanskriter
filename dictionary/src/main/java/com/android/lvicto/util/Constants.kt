@@ -19,7 +19,10 @@ class Constants {
         // share
         const val FILENAME_WORDS = "words.json"
         const val EMAIL_RECIPIENT = "Lsocolovici1979@gmail.com"
-        const val EMAIL_SUBJECT = "Lsocolovici1979@gmail.com"
         const val EMAIL_TITLE = "Lsocolovici1979@gmail.com"
+        const val FILENAME_DECLENSION: String = "declensions.json"
+
+        val PICKFILE_RESULT_CODE: Int = 2
+
     }
 }

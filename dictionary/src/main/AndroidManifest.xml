@@ -3,11 +3,11 @@
     package="com.android.lvicto">
 
     <application>
+        <activity android:name=".ui.AddDeclensionActivity"></activity>
         <activity
             android:name=".ui.DictionaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
-
         <activity
             android:name=".ui.AddModifyWordActivity"
             android:screenOrientation="portrait"
@@ -22,7 +22,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

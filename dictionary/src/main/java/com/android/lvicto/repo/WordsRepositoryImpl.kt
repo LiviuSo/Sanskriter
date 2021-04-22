@@ -2,6 +2,7 @@ package com.android.lvicto.repo
 
 import android.app.Application
 import android.net.IpPrefix
+import android.util.Log
 import com.android.lvicto.db.WordsDatabase
 import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.entity.Word

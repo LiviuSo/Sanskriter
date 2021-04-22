@@ -37,7 +37,9 @@ import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
 import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
+import com.android.lvicto.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.util.Utils.hideSoftKeyboard
+import com.android.lvicto.util.export
 import com.android.lvicto.util.getStorageDir
 import com.android.lvicto.viewmodel.WordsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -48,7 +50,6 @@ import java.io.File
 
 class DictionaryActivity : AppCompatActivity() {
 
-    private val PICKFILE_RESULT_CODE: Int = 2
     private lateinit var viewModel: WordsViewModel
     private lateinit var wordsAdapter: WordsAdapter
 
@@ -379,29 +380,9 @@ class DictionaryActivity : AppCompatActivity() {
         val filename = FILENAME_WORDS // todo make a constant for now
         if (words != null) {
             viewModel.writeToFiles(Words(words), filename).observe(this@DictionaryActivity, {
-                export(this@DictionaryActivity, filename = filename)
+                this.export(filename = filename)
             })
         }
-    }
-
-    private fun export(context: Context, filename: String) {
-        val file = File(context.getStorageDir(filename))
-        val path = FileProvider.getUriForFile(
-            context,
-            context.applicationContext.packageName + ".provider",
-            file
-        )
-        val emailIntent = Intent(Intent.ACTION_SEND)
-        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        // set the type to 'email'
-        emailIntent.type = "vnd.android.cursor.dir/email"
-        val to = arrayOf(Constants.Dictionary.EMAIL_RECIPIENT)
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, to)
-        // the attachment
-        emailIntent.putExtra(Intent.EXTRA_STREAM, path)
-        // the mail subject
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, Constants.Dictionary.EMAIL_SUBJECT)
-        context.startActivity(Intent.createChooser(emailIntent, Constants.Dictionary.EMAIL_TITLE))
     }
 
     private val importObserver = Observer<List<Word>> {

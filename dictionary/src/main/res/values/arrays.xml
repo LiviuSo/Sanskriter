@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="sanskrit_cases_array">
+        <item>Nom.</item>
+        <item>Acc.</item>
+        <item>Ins.</item>
+        <item>Dat.</item>
+        <item>Abl.</item>
+        <item>Gen.</item>
+        <item>Loc.</item>
+        <item>Voc.</item>
+
+    </string-array>
+
+    <string-array name="sanskrit_numbers_array">
+        <item>sg.</item>
+        <item>du.</item>
+        <item>pl.</item>
+    </string-array>
+
+    <string-array name="sanskrit_gender_array">
+        <item>M.</item>
+        <item>F.</item>
+        <item>N.</item>
+    </string-array>
+
+    <string-array name="filter_sanskrit_cases_array">
+        <item>n/a</item>
+        <item>Nom.</item>
+        <item>Acc.</item>
+        <item>Ins.</item>
+        <item>Dat.</item>
+        <item>Abl.</item>
+        <item>Gen.</item>
+        <item>Loc.</item>
+        <item>Voc.</item>
+    </string-array>
+
+    <string-array name="filter_sanskrit_numbers_array">
+        <item>n/a</item>
+        <item>sg.</item>
+        <item>du.</item>
+        <item>pl.</item>
+    </string-array>
+
+    <string-array name="filter_sanskrit_gender_array">
+        <item>n/a</item>
+        <item>M.</item>
+        <item>F.</item>
+        <item>N.</item>
+    </string-array>
+
+</resources>

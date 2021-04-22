@@ -5,14 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.ui.DictionaryActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
+import com.android.lvicto.ui.AddDeclensionActivity
+import com.android.lvicto.ui.DictionaryActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStreamReader
-import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +36,10 @@ class MainActivity : AppCompatActivity() {
 
         btnTestSanshi.setOnClickListener {
             startActivity(Intent(this@MainActivity, SandhiActivity::class.java))
+        }
+
+        btnDeclensionConstruction.setOnClickListener {
+            startActivity(Intent(this, AddDeclensionActivity::class.java))
         }
 
         // debug

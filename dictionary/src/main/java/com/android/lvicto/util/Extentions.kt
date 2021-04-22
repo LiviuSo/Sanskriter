@@ -1,9 +1,11 @@
 package com.android.lvicto.util
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import androidx.core.content.FileProvider
 import java.io.*
 
 
@@ -21,7 +23,7 @@ fun Context.getStorageDir(fileName: String): String {
 
 
 //write data to file
-fun Context.writeWordsToFile(data: String, fileName: String): Boolean { // todo make async
+fun Context.writeDataToFile(data: String, fileName: String): Boolean { // todo make async
     var fileOutputStream: FileOutputStream? = null
     var res = false
     try {
@@ -89,6 +91,28 @@ fun Context.readData(fileName: String): String {
     }
     return stringBuilder.toString()
 }
+
+
+fun Context.export(filename: String) {
+    val file = File(this.getStorageDir(filename))
+    val path = FileProvider.getUriForFile(
+        this,
+        this.applicationContext.packageName + ".provider",
+        file
+    )
+    val emailIntent = Intent(Intent.ACTION_SEND)
+    emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    // set the type to 'email'
+    emailIntent.type = "vnd.android.cursor.dir/email"
+    val to = arrayOf(Constants.Dictionary.EMAIL_RECIPIENT)
+    emailIntent.putExtra(Intent.EXTRA_EMAIL, to)
+    // the attachment
+    emailIntent.putExtra(Intent.EXTRA_STREAM, path)
+    // the mail subject
+    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "words: todo add the current date")
+    this.startActivity(Intent.createChooser(emailIntent, Constants.Dictionary.EMAIL_TITLE))
+}
+
 
 // todo use them
 //checks if external storage is available for read and write
