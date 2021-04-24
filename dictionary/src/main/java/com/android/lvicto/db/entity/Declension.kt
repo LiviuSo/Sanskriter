@@ -2,16 +2,14 @@ package com.android.lvicto.db.entity
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.db.Converters
-import com.android.lvicto.db.GramaticalCase
-import com.android.lvicto.db.GramaticalGender
-import com.android.lvicto.db.GramaticalNumber
-import com.android.lvicto.db.entity.Declension.CREATOR.converters
+import com.android.lvicto.data.GramaticalCase
+import com.android.lvicto.data.GramaticalGender
+import com.android.lvicto.data.GramaticalNumber
 import java.util.*
 
 @Entity(tableName = "declension_table")

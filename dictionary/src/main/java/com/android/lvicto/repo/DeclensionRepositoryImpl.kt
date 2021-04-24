@@ -3,9 +3,9 @@ package com.android.lvicto.repo
 import android.app.Application
 import android.util.Log
 import com.android.lvicto.db.DeclensionDatabase
-import com.android.lvicto.db.GramaticalCase
-import com.android.lvicto.db.GramaticalGender
-import com.android.lvicto.db.GramaticalNumber
+import com.android.lvicto.data.GramaticalCase
+import com.android.lvicto.data.GramaticalGender
+import com.android.lvicto.data.GramaticalNumber
 import com.android.lvicto.db.entity.Declension
 
 class DeclensionRepositoryImpl internal constructor(val application: Application) :

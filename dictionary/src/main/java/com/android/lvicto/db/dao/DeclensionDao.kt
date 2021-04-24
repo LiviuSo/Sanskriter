@@ -18,7 +18,15 @@ interface DeclensionDao {
     @Query("SELECT * from declension_table ORDER BY paradigm ASC")
     fun getAll(): List<Declension>
 
-    @Query("SELECT * from declension_table WHERE (paradigm LIKE :paradigm) AND (paradigmEnding LIKE :paradigmEnding) AND (suffix LIKE :suffix) AND (gCase LIKE :gCase) AND (gNumber LIKE :gNumber) AND (gGender LIKE :gGender) ORDER BY paradigm ASC")
+    @Query("""
+        SELECT * from declension_table 
+        WHERE (paradigm LIKE :paradigm) 
+            AND (paradigmEnding LIKE :paradigmEnding) 
+            AND (suffix LIKE :suffix) 
+            AND (gCase LIKE :gCase) 
+            AND (gNumber LIKE :gNumber) 
+            AND (gGender LIKE :gGender) 
+        ORDER BY paradigm ASC""")
     fun getDeclensions(
         paradigm: String,
         paradigmEnding: String,

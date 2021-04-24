@@ -1,6 +1,7 @@
 package com.android.lvicto.db
 
 import androidx.room.TypeConverter
+import com.android.lvicto.data.*
 
 class Converters {
 
@@ -21,4 +22,16 @@ class Converters {
 
     @TypeConverter
     fun fromGramaticalGender(value: GramaticalGender) = value.abbr
+
+    @TypeConverter
+    fun fromGramaticalType(value: GramaticalType) = value.denom
+
+    @TypeConverter
+    fun toGramaticalType(string: String): GramaticalType = GramaticalType.getValueFromDenom(string)
+
+    @TypeConverter
+    fun fromVerbClass(clas: VerbClass) = clas.clas
+
+    @TypeConverter
+    fun toVerbClass(int: Int) = VerbClass.getValueFromClass(int)
 }

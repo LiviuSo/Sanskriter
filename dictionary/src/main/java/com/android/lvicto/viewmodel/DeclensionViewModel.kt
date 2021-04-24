@@ -2,24 +2,17 @@ package com.android.lvicto.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.android.lvicto.data.Declensions
-import com.android.lvicto.data.Words
-import com.android.lvicto.db.GramaticalCase
-import com.android.lvicto.db.GramaticalGender
-import com.android.lvicto.db.GramaticalNumber
 import com.android.lvicto.db.entity.Declension
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.repo.DeclensionRepositoryImpl
 import com.android.lvicto.repo.FileRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class DeclensionViewModel(application: Application) : AndroidViewModel(application) {
 
