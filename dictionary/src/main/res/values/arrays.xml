@@ -51,4 +51,29 @@
         <item>N.</item>
     </string-array>
 
+    <string-array name="grammatical_types">
+        <item>noun</item>
+        <item>adjective</item>
+        <item>pronoun</item>
+        <item>verb</item>
+        <item>interjection</item>
+        <item>preposition</item>
+        <item>suffix</item>
+        <item>prefix</item>
+        <item>other</item>
+    </string-array>
+
+    <string-array name="verb_class">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
 </resources>

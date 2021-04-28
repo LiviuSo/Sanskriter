@@ -7,17 +7,17 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.db.Converters
-import com.android.lvicto.data.GramaticalCase
-import com.android.lvicto.data.GramaticalGender
-import com.android.lvicto.data.GramaticalNumber
+import com.android.lvicto.data.GrammaticalCase
+import com.android.lvicto.data.GrammaticalGender
+import com.android.lvicto.data.GrammaticalNumber
 import java.util.*
 
 @Entity(tableName = "declension_table")
 data class Declension(
     @field:PrimaryKey(autoGenerate = true) @field:ColumnInfo(name = "id") var id: Long = 0,
-    @field:ColumnInfo(name = "gCase") val gCase: GramaticalCase,
-    @field:ColumnInfo(name = "gNumber") val gNumber: GramaticalNumber,
-    @field:ColumnInfo(name = "gGender") val gGender: GramaticalGender,
+    @field:ColumnInfo(name = "gCase") val gCase: GrammaticalCase,
+    @field:ColumnInfo(name = "gNumber") val gNumber: GrammaticalNumber,
+    @field:ColumnInfo(name = "gGender") val gGender: GrammaticalGender,
     @field:ColumnInfo(name = "paradigm") val paradigm: String,                      // eg, kanta
     @field:ColumnInfo(name = "paradigmEnding") val paradigmEnding: String,          // eg, -a
     @field:ColumnInfo(name = "suffix") val suffix: String,                          // eg, -asya

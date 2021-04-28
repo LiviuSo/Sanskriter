@@ -2,7 +2,6 @@ package com.android.lvicto.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -14,10 +13,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,7 +23,6 @@ import com.android.lvicto.R
 import com.android.lvicto.adapter.WordsAdapter
 import com.android.lvicto.data.Words
 import com.android.lvicto.db.entity.Word
-import com.android.lvicto.util.Constants
 import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_REQUEST_CODE
@@ -34,18 +30,17 @@ import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_EN
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
+import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RESULT
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
 import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
 import com.android.lvicto.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.util.Utils.hideSoftKeyboard
 import com.android.lvicto.util.export
-import com.android.lvicto.util.getStorageDir
 import com.android.lvicto.viewmodel.WordsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.layout_all_words.*
 import kotlinx.android.synthetic.main.search_bar.*
-import java.io.File
 
 
 class DictionaryActivity : AppCompatActivity() {
@@ -115,27 +110,7 @@ class DictionaryActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 CODE_REQUEST_ADD_WORD, CODE_REQUEST_EDIT_WORD -> {
-                    val wordRo = data!!.getStringExtra(EXTRA_WORD_RO)
-                    val wordEn = data.getStringExtra(EXTRA_WORD_EN)
-                    val wordSa = data.getStringExtra(EXTRA_WORD_SA)
-                    val wordIAST = data.getStringExtra(EXTRA_WORD_IAST)
-                    val word = wordSa?.let {
-                        wordIAST?.let { it1 ->
-                            wordEn?.let { it2 ->
-                                wordRo?.let { it3 ->
-                                    Word(
-                                        word = it,
-                                        wordIAST = it1,
-                                        meaningEn = it2,
-                                        meaningRo = it3
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    if (data.hasExtra(EXTRA_WORD_ID)) {
-                        word?.id = data.getLongExtra(EXTRA_WORD_ID, -1L)
-                    }
+                    val word = data?.getParcelableExtra<Word>(EXTRA_WORD_RESULT)
 
                     if (requestCode == CODE_REQUEST_ADD_WORD) {
                         if (llSearch.visibility == View.VISIBLE) { // the insertion was made from search
@@ -391,14 +366,7 @@ class DictionaryActivity : AppCompatActivity() {
 
     private val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
         val word = it.tag as Word
-        Toast.makeText(
-            this,
-            "${word.word}\n" +
-                    "${word.wordIAST}\n" +
-                    "EN: ${word.meaningEn}\n" +
-                    "RO: ${word.meaningRo}\n",
-            Toast.LENGTH_LONG
-        ).show()
+        WordDialog(this, word).showDialog()
     }
 
     private val itemEditClickListener = View.OnClickListener {
@@ -420,7 +388,6 @@ class DictionaryActivity : AppCompatActivity() {
         val adapter: WordsAdapter = recyclerView.adapter as WordsAdapter
         adapter.type = type
         adapter.notifyDataSetChanged()
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

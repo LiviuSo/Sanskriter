@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.android.lvicto.data.GrammaticalType
+import com.android.lvicto.data.VerbClass
 import com.android.lvicto.data.Words
 import com.android.lvicto.db.entity.Word
 import com.android.lvicto.repo.FileRepository
@@ -63,10 +65,19 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun update(id: Long, sans: String, iast: String, meaningEn: String, meaningRo: String): LiveData<Boolean> =
+    fun update(
+        id: Long,
+        sans: String,
+        iast: String,
+        meaningEn: String,
+        meaningRo: String,
+        gType: GrammaticalType,
+        paradigm: String,
+        verbClass: VerbClass
+    ): LiveData<Boolean> =
             MutableLiveData<Boolean>().also {
                 viewModelScope.launch {
-                    val successful: Boolean = repoWords.update(id, sans, iast, meaningEn, meaningRo)
+                    val successful: Boolean = repoWords.update(id, sans, iast, meaningEn, meaningRo, gType, paradigm, verbClass)
                     it.postValue(successful)
                 }
             }

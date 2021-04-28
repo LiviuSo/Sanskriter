@@ -8,5 +8,7 @@
     <string name="string_export">Export</string>
     <string name="string_find">Find</string>
     <string name="close_search_bar_descr">Close search bar</string>
+    <string name="fire">Okay</string>
+    <string name="edit">Edit</string>
 
 </resources>

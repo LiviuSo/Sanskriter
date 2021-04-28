@@ -39,6 +39,28 @@
             android:hint="@string/kbHintRomanian"
             android:imeActionLabel="@string/kbImeActionRomanian" />
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerType"
+            android:layout_marginTop="10dp"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/spinnerVerbCase"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/editParadigm"
+            android:hint="paradigm"
+            android:layout_marginTop="10dp"
+            android:imeActionLabel="@string/kbImeActionIAST" />
+
         <Button
             android:id="@+id/btnSaveWord"
             android:layout_width="match_parent"

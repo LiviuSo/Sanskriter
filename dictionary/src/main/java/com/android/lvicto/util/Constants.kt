@@ -11,6 +11,7 @@ class Constants {
         const val EXTRA_WORD_ID = "word_id"
         const val EXTRA_WORD = "EXTRA_WORD"
         const val EXTRA_REQUEST_CODE = "EXTRA_REQUEST_CODE"
+        const val EXTRA_WORD_RESULT = "EXTRA_WORD_RESULT"
 
         // add word
         const val CODE_REQUEST_ADD_WORD = 111

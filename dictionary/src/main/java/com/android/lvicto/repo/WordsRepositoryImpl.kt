@@ -1,8 +1,8 @@
 package com.android.lvicto.repo
 
 import android.app.Application
-import android.net.IpPrefix
-import android.util.Log
+import com.android.lvicto.data.GrammaticalType
+import com.android.lvicto.data.VerbClass
 import com.android.lvicto.db.WordsDatabase
 import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.entity.Word
@@ -27,10 +27,19 @@ class WordsRepositoryImpl internal constructor(val application: Application) : W
         }
     }
 
-    override suspend fun update(id: Long, sans: String, iast: String, meaningEn: String, meaningRo: String) = coroutineScope {
+    override suspend fun update(
+        id: Long,
+        sans: String,
+        iast: String,
+        meaningEn: String,
+        meaningRo: String,
+        gType: GrammaticalType,
+        paradigm: String,
+        verbClass: VerbClass
+    ) = coroutineScope {
         withContext(Dispatchers.IO) {
-            wordsDao.update(Word(id, sans, iast, meaningEn, meaningRo))
-            true // todo add
+            wordsDao.update(Word(id, sans, iast, meaningEn, meaningRo, gType, paradigm, verbClass))
+            true
         }
     }
 

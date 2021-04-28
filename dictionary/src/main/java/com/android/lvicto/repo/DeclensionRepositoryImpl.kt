@@ -3,9 +3,9 @@ package com.android.lvicto.repo
 import android.app.Application
 import android.util.Log
 import com.android.lvicto.db.DeclensionDatabase
-import com.android.lvicto.data.GramaticalCase
-import com.android.lvicto.data.GramaticalGender
-import com.android.lvicto.data.GramaticalNumber
+import com.android.lvicto.data.GrammaticalCase
+import com.android.lvicto.data.GrammaticalGender
+import com.android.lvicto.data.GrammaticalNumber
 import com.android.lvicto.db.entity.Declension
 
 class DeclensionRepositoryImpl internal constructor(val application: Application) :
@@ -40,17 +40,17 @@ class DeclensionRepositoryImpl internal constructor(val application: Application
             } else {
                 "%"
             }
-            , if (declension.gCase.abbr != GramaticalCase.NONE.abbr) {
+            , if (declension.gCase.abbr != GrammaticalCase.NONE.abbr) {
                 declension.gCase.abbr
             } else {
                 "%%"
             }
-            , if (declension.gNumber.abbr != GramaticalNumber.NONE.abbr) {
+            , if (declension.gNumber.abbr != GrammaticalNumber.NONE.abbr) {
                 declension.gNumber.abbr
             } else {
                 "%%"
             }
-            , if (declension.gGender.abbr != GramaticalGender.NONE.abbr) {
+            , if (declension.gGender.abbr != GrammaticalGender.NONE.abbr) {
                 declension.gGender.abbr
             } else {
                 "%%"
@@ -91,7 +91,7 @@ class DeclensionRepositoryImpl internal constructor(val application: Application
         )
         stringBuffer.append(" ")
         stringBuffer.append(
-            if (declension.gCase.abbr == GramaticalCase.NONE.abbr) {
+            if (declension.gCase.abbr == GrammaticalCase.NONE.abbr) {
                 declension.gCase.abbr
             } else {
                 "[no case]"
@@ -99,7 +99,7 @@ class DeclensionRepositoryImpl internal constructor(val application: Application
         )
         stringBuffer.append(" ")
         stringBuffer.append(
-            if (declension.gNumber.abbr == GramaticalNumber.NONE.abbr) {
+            if (declension.gNumber.abbr == GrammaticalNumber.NONE.abbr) {
                 declension.gNumber.abbr
             } else {
                 "[no number]"
@@ -107,7 +107,7 @@ class DeclensionRepositoryImpl internal constructor(val application: Application
         )
         stringBuffer.append(" ")
         stringBuffer.append(
-            if (declension.gGender.abbr == GramaticalGender.NONE.abbr) {
+            if (declension.gGender.abbr == GrammaticalGender.NONE.abbr) {
                 declension.gGender.abbr
             } else {
                 "[no gender]"

@@ -1,5 +1,7 @@
 package com.android.lvicto.repo
 
+import com.android.lvicto.data.GrammaticalType
+import com.android.lvicto.data.VerbClass
 import com.android.lvicto.db.entity.Word
 
 interface WordsRepository {
@@ -8,7 +10,16 @@ interface WordsRepository {
 
     suspend fun insertWord(word: Word): Int
 
-    suspend fun update(id: Long, sans: String, iast: String, meaningEn: String, meaningRo: String) : Boolean
+    suspend fun update(
+        id: Long,
+        sans: String,
+        iast: String,
+        meaningEn: String,
+        meaningRo: String,
+        gType: GrammaticalType,
+        paradigm: String,
+        verbClass: VerbClass
+    ) : Boolean
     suspend fun deleteWords(words: List<Word>): Int
 
     suspend fun filter(key: String, isPrefix: Boolean = false): List<Word>
