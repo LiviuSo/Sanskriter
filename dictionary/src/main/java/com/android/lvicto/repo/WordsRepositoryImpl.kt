@@ -60,6 +60,17 @@ class WordsRepositoryImpl internal constructor(val application: Application) : W
         }
     }
 
+    override suspend fun filterNounsAndAdjectives(root: String, paradigm: String, prefix: Boolean): List<Word> = coroutineScope {
+        withContext(Dispatchers.IO) {
+            val filter = if(prefix) {
+                "$root%"
+            } else {
+                "%$root%"
+            }
+            wordsDao.getNounsAndAdjectives(filter, paradigm)
+        }
+    }
+
     override suspend fun filter2(filterEn: String, filterIast: String): List<Word> = coroutineScope {
         withContext(Dispatchers.IO) {
             val filter1 = "%$filterEn%"

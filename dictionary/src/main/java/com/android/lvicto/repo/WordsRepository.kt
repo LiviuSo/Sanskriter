@@ -26,4 +26,6 @@ interface WordsRepository {
 
     suspend fun filter2(filterEn: String, filterIast: String): List<Word>
 
+    suspend fun filterNounsAndAdjectives(root: String, paradigm: String, prefix: Boolean): List<Word>
+
 }

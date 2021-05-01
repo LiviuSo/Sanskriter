@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD
 import com.android.lvicto.R
+import com.android.lvicto.data.GrammaticalGender
 import com.android.lvicto.data.GrammaticalType
 import com.android.lvicto.data.VerbClass
 import com.android.lvicto.db.Converters
@@ -19,6 +20,7 @@ import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RESULT
 import com.android.lvicto.viewmodel.WordsViewModel
+import kotlinx.android.synthetic.main.activity_add_declension.*
 import kotlinx.android.synthetic.main.activity_add_word.*
 
 class AddModifyWordActivity : AppCompatActivity() {
@@ -82,6 +84,29 @@ class AddModifyWordActivity : AppCompatActivity() {
         }
         spinnerType.setSelection(GrammaticalType.getPosition(word?.gType))
 
+        spinnerWordGender.apply {
+            adapter = ArrayAdapter.createFromResource(this@AddModifyWordActivity,
+            R.array.filter_sanskrit_gender_array,
+                android.R.layout.simple_spinner_item
+            )
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    word?.gender = converters.toGramaticalGender(parent?.getItemAtPosition(position).toString())
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    word?.gender = GrammaticalGender.NONE
+                }
+
+            }
+        }
+        spinnerWordGender.setSelection(GrammaticalGender.getPosition(word?.gender))
+
         spinnerVerbCase.apply {
             adapter = ArrayAdapter.createFromResource(
                 context,
@@ -95,12 +120,10 @@ class AddModifyWordActivity : AppCompatActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    word?.verbClass = converters.toVerbClass(parent?.getItemAtPosition(position).toString().toInt())
-                    showHideField(word)
+                    word?.verbClass = VerbClass.toVerbClassFromName(parent?.getItemAtPosition(position).toString())
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     word?.verbClass = VerbClass.NONE
-                    showHideField(word)
                 }
             }
         }
@@ -112,17 +135,27 @@ class AddModifyWordActivity : AppCompatActivity() {
     }
 
     private fun showHideField(word: Word?) {
-        if ((word?.gType == GrammaticalType.NOUN || word?.gType == GrammaticalType.ADJECTIVE) && word.gType != GrammaticalType.VERB) {
-            editParadigm.visibility = View.VISIBLE
-            // todo add gender (needed for the endomg)
-        } else {
-            editParadigm.visibility = View.GONE
-            // todo add gender
-        }
-        if ((word?.gType != GrammaticalType.NOUN && word?.gType != GrammaticalType.ADJECTIVE) && word?.gType == GrammaticalType.VERB) {
-            spinnerVerbCase.visibility = View.VISIBLE
-        } else {
-            spinnerVerbCase.visibility = View.GONE
+        when(word?.gType) {
+            GrammaticalType.PROPER_NOUN -> {
+                editParadigm.visibility = View.VISIBLE
+                spinnerWordGender.visibility = View.GONE
+                spinnerVerbCase.visibility = View.GONE
+            }
+            GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> {
+                editParadigm.visibility = View.VISIBLE
+                spinnerWordGender.visibility = View.VISIBLE
+                spinnerVerbCase.visibility = View.GONE
+            }
+            GrammaticalType.VERB -> {
+                editParadigm.visibility = View.GONE
+                spinnerWordGender.visibility = View.GONE
+                spinnerVerbCase.visibility = View.VISIBLE
+            }
+            else -> {
+                editParadigm.visibility = View.GONE
+                spinnerWordGender.visibility = View.GONE
+                spinnerVerbCase.visibility = View.GONE
+            }
         }
     }
 
@@ -133,7 +166,7 @@ class AddModifyWordActivity : AppCompatActivity() {
         val wordRo = editRo.text.toString()
         val gType = converters.toGramaticalType(spinnerType.selectedItem.toString())
         val paradigm = editParadigm.text.toString()
-        val verbClass = converters.toVerbClass(spinnerVerbCase.selectedItem.toString().toInt())
+        val verbClass = VerbClass.toVerbClassFromName(spinnerVerbCase.selectedItem.toString())
 
         val word = Word(id = id,
             word = wordSa,
@@ -180,11 +213,6 @@ class AddModifyWordActivity : AppCompatActivity() {
             // don't do anything
         } else {
             replyIntent.putExtra(EXTRA_WORD_RESULT, word)
-//            replyIntent.putExtra(EXTRA_WORD_SA, wordSa)
-//            replyIntent.putExtra(EXTRA_WORD_IAST, wordIAST)
-//            replyIntent.putExtra(EXTRA_WORD_EN, wordEn)
-//            replyIntent.putExtra(EXTRA_WORD_RO, wordRo)
-
             setResult(Activity.RESULT_OK, replyIntent)
         }
         finish()

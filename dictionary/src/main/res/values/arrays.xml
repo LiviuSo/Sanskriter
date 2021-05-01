@@ -53,7 +53,9 @@
 
     <string-array name="grammatical_types">
         <item>noun</item>
+        <item>proper noun</item>
         <item>adjective</item>
+        <item>adverb</item>
         <item>pronoun</item>
         <item>verb</item>
         <item>interjection</item>
@@ -64,16 +66,16 @@
     </string-array>
 
     <string-array name="verb_class">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
+        <item>NONE</item>
+        <item>I</item>
+        <item>II</item>
+        <item>III</item>
+        <item>IV</item>
+        <item>V</item>
+        <item>VI</item>
+        <item>VII</item>
+        <item>VIII</item>
+        <item>IX</item>
+        <item>X</item>
     </string-array>
 </resources>

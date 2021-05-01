@@ -15,6 +15,17 @@ enum class GrammaticalGender(val abbr: String) {
                 else -> NONE
             }
         }
+
+        fun getPosition(gender: GrammaticalGender?): Int {
+            return gender?.let {
+                when (it) {
+                    MASCULIN -> 0
+                    FEMININ -> 1
+                    NEUTER -> 2
+                    NONE -> 3
+                }
+            } ?: 3
+        }
     }
 }
 
@@ -48,8 +59,8 @@ enum class GrammaticalCase(val abbr: String) {
     VOCATIV("Voc.");
 
     companion object {
-        fun getValueFromAbbr(abbr: String) : GrammaticalCase {
-            return  when(abbr) {
+        fun getValueFromAbbr(abbr: String): GrammaticalCase {
+            return when (abbr) {
                 NOMINATIV.abbr -> NOMINATIV
                 ACCUSATIV.abbr -> ACCUSATIV
                 INSTRUMENTAL.abbr -> INSTRUMENTAL
@@ -66,7 +77,9 @@ enum class GrammaticalCase(val abbr: String) {
 
 enum class GrammaticalType(val denom: String) {
     NOUN("noun"),
+    PROPER_NOUN("proper noun"),
     ADJECTIVE("adjective"),
+    ADVERB("adverb"),
     PRONOUN("pronoun"),
     VERB("verb"),
     INTERJECTION("interjection"),
@@ -79,7 +92,9 @@ enum class GrammaticalType(val denom: String) {
         fun getValueFromDenom(denomination: String): GrammaticalType {
             return when (denomination) {
                 NOUN.denom -> NOUN
+                PROPER_NOUN.denom -> PROPER_NOUN
                 ADJECTIVE.denom -> ADJECTIVE
+                ADVERB.denom -> ADVERB
                 PRONOUN.denom -> PRONOUN
                 VERB.denom -> VERB
                 INTERJECTION.denom -> INTERJECTION
@@ -94,16 +109,18 @@ enum class GrammaticalType(val denom: String) {
             return type?.let {
                 when (it) {
                     NOUN -> 0
-                    ADJECTIVE -> 1
-                    PRONOUN -> 2
-                    VERB -> 3
-                    INTERJECTION -> 4
-                    PREPOSITION -> 5
-                    SUFFIX -> 6
-                    PREFIX -> 7
-                    else -> 8
+                    PROPER_NOUN -> 1
+                    ADJECTIVE -> 2
+                    ADVERB -> 3
+                    PRONOUN -> 4
+                    VERB -> 5
+                    INTERJECTION -> 6
+                    PREPOSITION -> 7
+                    SUFFIX -> 8
+                    PREFIX -> 9
+                    else -> 10
                 }
-            } ?: 8
+            } ?: 10
         }
     }
 }
@@ -140,18 +157,32 @@ enum class VerbClass(val clas: Int) {
 
         fun getPosition(verbClass: VerbClass?): Int = verbClass?.let {
             when (verbClass) {
-                I -> 0
-                II -> 1
-                III -> 2
-                IV -> 3
-                V -> 4
-                VI -> 5
-                VII -> 6
-                VIII -> 7
-                IX -> 8
-                X -> 9
-                else -> 10
+                I -> 1
+                II -> 2
+                III -> 3
+                IV -> 4
+                V -> 5
+                VI -> 6
+                VII -> 7
+                VIII -> 8
+                IX -> 9
+                X -> 10
+                else -> 0
             }
-        } ?: 10
+        } ?: 0
+
+        fun toVerbClassFromName(name: String): VerbClass = when (name) {
+            "I" -> I
+            "II" -> II
+            "III" -> III
+            "IV" -> IV
+            "V" -> V
+            "VI" -> VI
+            "VII" -> VII
+            "VIII" -> VIII
+            "IX" -> IX
+            "X" -> X
+            else -> NONE
+        }
     }
 }

@@ -80,6 +80,8 @@ class AddDeclensionActivity : AppCompatActivity() {
         )
     }
 
+    // first detect the declension(s),
+    // then searching the roots in the dic that have that declension
     private val detectDeclensionObserver = Observer<String> { declensionWord ->
         viewModelDeclension.detectDeclension(declensionWord.toString())
             .observe(this, { declensions ->
@@ -92,8 +94,8 @@ class AddDeclensionActivity : AppCompatActivity() {
                         val root = "${
                             declensionWord.substring(0, sizeDeclWord - declension.suffix.length)
                         }${declension.paradigmEnding}"
-                        viewModelWords.filter(root, true).observe(this, { dicRes ->
-                            if (dicRes.isNotEmpty()) {
+                        viewModelWords.filter(root, declension.paradigm, true).observe(this, { dicRes ->
+                            if (dicRes.isNotEmpty()) { // todo make a callback
                                 tvResults.text = StringBuffer().let { sb ->
                                     dicRes.map {
                                         sb.append("${it.wordIAST} ${declension.gCase.abbr} ${declension.gNumber.abbr} ${declension.gGender.abbr}\n")

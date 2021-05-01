@@ -98,4 +98,12 @@ class WordsViewModel(val app: Application) : AndroidViewModel(app) {
                     it.postValue(repoWords.filter2(filterEn, filterIast))
                 }
             }
+
+    fun filter(root: String, paradigm: String, isPrefix: Boolean): LiveData<List<Word>> {
+        return MutableLiveData<List<Word>>().also {
+            viewModelScope.launch {
+                it.postValue(repoWords.filterNounsAndAdjectives(root, paradigm, isPrefix))
+            }
+        }
+    }
 }

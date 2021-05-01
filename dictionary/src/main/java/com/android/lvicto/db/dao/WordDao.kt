@@ -1,6 +1,7 @@
 package com.android.lvicto.db.dao
 
 import androidx.room.*
+import com.android.lvicto.data.GrammaticalType
 import com.android.lvicto.db.entity.Word
 
 @Dao
@@ -30,4 +31,10 @@ interface WordDao {
 
     @Delete
     fun deleteWords(words: List<Word>): Int
+
+    @Query("""
+        SELECT * FROM word_table
+        WHERE wordIAST LIKE :filter AND paradigm LIKE :paradigm
+    """)
+    fun getNounsAndAdjectives(filter: String, paradigm: String): List<Word>
 }

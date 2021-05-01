@@ -10,7 +10,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.entity.Word
 
-@Database(entities = [Word::class], version = 3)
+@Database(entities = [Word::class], version = 4)
 @TypeConverters(Converters::class)
 abstract class WordsDatabase : RoomDatabase() {
 
@@ -25,7 +25,7 @@ abstract class WordsDatabase : RoomDatabase() {
                     context.applicationContext,
                     WordsDatabase::class.java,
                     "my_database.db"
-                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                ).addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build()
             }
             return INSTANCE as WordsDatabase
@@ -46,7 +46,12 @@ abstract class WordsDatabase : RoomDatabase() {
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("""
-                    CREATE TABLE IF NOT EXISTS `words_new` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `word` TEXT NOT NULL, `wordIAST` TEXT NOT NULL, `meaningEn` TEXT NOT NULL, `meaningRo` TEXT NOT NULL, `gType` TEXT NOT NULL, `paradigm` TEXT NOT NULL, `verbClass` INTEGER NOT NULL)
+                    CREATE TABLE IF NOT EXISTS `words_new` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                        `word` TEXT NOT NULL, `wordIAST` TEXT NOT NULL, 
+                        `meaningEn` TEXT NOT NULL, `meaningRo` TEXT NOT NULL, 
+                        `gType` TEXT NOT NULL, `paradigm` TEXT NOT NULL, 
+                        `verbClass` INTEGER NOT NULL)
                 """)
 
                 // Copy the data
@@ -55,6 +60,35 @@ abstract class WordsDatabase : RoomDatabase() {
                     SELECT id, word, wordIAST, meaningEn, meaningRo, gType, paradigm, verbClass
                         FROM word_table
                     """)
+
+                // Remove the old table
+                database.execSQL("DROP TABLE word_table")
+
+                // Change the table name to the correct one
+                database.execSQL("ALTER TABLE words_new RENAME TO word_table")
+            }
+        }
+
+        private val MIGRATION_3_4 = object : Migration(3,4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE word_table ADD COLUMN gender TEXT NOT NULL DEFAULT ''")
+
+                database.execSQL("""
+                    CREATE TABLE IF NOT EXISTS `words_new` (
+                        `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                        `word` TEXT NOT NULL, `wordIAST` TEXT NOT NULL, 
+                        `meaningEn` TEXT NOT NULL, `meaningRo` TEXT NOT NULL, 
+                        `gType` TEXT NOT NULL, `paradigm` TEXT NOT NULL, 
+                        `verbClass` INTEGER NOT NULL,
+                        `gender` TEXT NOT NULL)
+                """)
+
+                // Copy the data
+                database.execSQL("""
+                    INSERT INTO words_new (id, word, wordIAST, meaningEn, meaningRo, gType, paradigm, verbClass, gender)
+                    SELECT id, word, wordIAST, meaningEn, meaningRo, gType, paradigm, verbClass, gender
+                        FROM word_table
+                """)
 
                 // Remove the old table
                 database.execSQL("DROP TABLE word_table")
