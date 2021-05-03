@@ -1,6 +1,7 @@
 package com.android.lvicto.repo
 
 import android.app.Application
+import com.android.lvicto.data.GrammaticalGender
 import com.android.lvicto.data.GrammaticalType
 import com.android.lvicto.data.VerbClass
 import com.android.lvicto.db.WordsDatabase
@@ -35,10 +36,11 @@ class WordsRepositoryImpl internal constructor(val application: Application) : W
         meaningRo: String,
         gType: GrammaticalType,
         paradigm: String,
-        verbClass: VerbClass
+        verbClass: VerbClass,
+        gender: GrammaticalGender
     ) = coroutineScope {
         withContext(Dispatchers.IO) {
-            wordsDao.update(Word(id, sans, iast, meaningEn, meaningRo, gType, paradigm, verbClass))
+            wordsDao.update(Word(id, sans, iast, meaningEn, meaningRo, gType, paradigm, verbClass, gender))
             true
         }
     }

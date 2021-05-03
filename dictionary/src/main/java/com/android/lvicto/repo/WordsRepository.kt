@@ -1,5 +1,6 @@
 package com.android.lvicto.repo
 
+import com.android.lvicto.data.GrammaticalGender
 import com.android.lvicto.data.GrammaticalType
 import com.android.lvicto.data.VerbClass
 import com.android.lvicto.db.entity.Word
@@ -18,7 +19,8 @@ interface WordsRepository {
         meaningRo: String,
         gType: GrammaticalType,
         paradigm: String,
-        verbClass: VerbClass
+        verbClass: VerbClass,
+        gender: GrammaticalGender
     ) : Boolean
     suspend fun deleteWords(words: List<Word>): Int
 

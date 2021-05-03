@@ -10,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
+import com.android.lvicto.data.GrammaticalType
 import com.android.lvicto.db.entity.Word
 
 
@@ -76,6 +77,12 @@ class WordsAdapter(private val context: Context,
                                private val hideCtaOnNoSelection: (Boolean) -> Unit) : RecyclerView.ViewHolder(view) {
 
         fun bindData(word: Word, type: Int, position: Int) { // todo complete
+            view.findViewById<TextView>(R.id.tvItemWordType).text = when(word.gType) {
+                GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> "${word.gType.denom}, ${word.gender.abbr}, ${if(word.paradigm.isNotEmpty()) word.paradigm else "n/a"}"
+                GrammaticalType.PROPER_NOUN -> "${word.gType.denom}, ${if(word.paradigm.isNotEmpty()) word.paradigm else "n/a"}"
+                GrammaticalType.VERB -> "${word.gType.denom}, ${word.verbClass}"
+                else -> word.gType.denom
+            }
             view.findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
             view.findViewById<TextView>(R.id.tvItemWordSa).text = word.word
             when (type) {

@@ -167,6 +167,7 @@ class AddModifyWordActivity : AppCompatActivity() {
         val gType = converters.toGramaticalType(spinnerType.selectedItem.toString())
         val paradigm = editParadigm.text.toString()
         val verbClass = VerbClass.toVerbClassFromName(spinnerVerbCase.selectedItem.toString())
+        val gender = converters.toGramaticalGender(spinnerWordGender.selectedItem.toString())
 
         val word = Word(id = id,
             word = wordSa,
@@ -175,7 +176,8 @@ class AddModifyWordActivity : AppCompatActivity() {
             meaningRo = wordRo,
             gType = gType,
             paradigm = paradigm,
-            verbClass = verbClass)
+            verbClass = verbClass,
+            gender = gender)
         when (requestCode) {
             CODE_REQUEST_ADD_WORD -> {
                 viewModel.insert(word).observe(this, {
@@ -192,11 +194,12 @@ class AddModifyWordActivity : AppCompatActivity() {
                     word.meaningRo,
                     word.gType,
                     word.paradigm,
-                    word.verbClass)
+                    word.verbClass,
+                    word.gender)
                     .observe(this@AddModifyWordActivity, {
                         Toast.makeText(
                             this@AddModifyWordActivity,
-                            "Modified word.",
+                            "Modified word : ${word.wordIAST}",
                             Toast.LENGTH_SHORT
                         ).show()
                     })
