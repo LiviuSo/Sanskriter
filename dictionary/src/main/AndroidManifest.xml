@@ -3,7 +3,8 @@
     package="com.android.lvicto">
 
     <application>
-        <activity android:name=".ui.AddDeclensionActivity"></activity>
+        <activity android:name=".ui.ConjugationActivity"></activity>
+        <activity android:name=".ui.AddDeclensionActivity" />
         <activity
             android:name=".ui.DictionaryActivity"
             android:screenOrientation="portrait"

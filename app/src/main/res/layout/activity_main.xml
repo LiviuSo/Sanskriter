@@ -43,4 +43,11 @@
         android:id="@+id/btnDeclensionConstruction"
         android:textAllCaps="false"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Conjugation [DB construction]"
+        android:id="@+id/btnConjugationConstruction"
+        android:textAllCaps="false"/>
+
 </LinearLayout>

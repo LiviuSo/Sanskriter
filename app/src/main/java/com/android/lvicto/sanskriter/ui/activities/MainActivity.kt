@@ -9,6 +9,7 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
 import com.android.lvicto.ui.AddDeclensionActivity
+import com.android.lvicto.ui.ConjugationActivity
 import com.android.lvicto.ui.DictionaryActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
 
         btnDeclensionConstruction.setOnClickListener {
             startActivity(Intent(this, AddDeclensionActivity::class.java))
+        }
+
+        btnConjugationConstruction.setOnClickListener {
+            startActivity(Intent(this, ConjugationActivity::class.java))
         }
 
         // debug
