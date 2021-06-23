@@ -1,10 +1,16 @@
-package com.android.lvicto.util
+package com.android.lvicto.common.util
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import androidx.annotation.ArrayRes
 import androidx.core.content.FileProvider
 import java.io.*
 
@@ -20,7 +26,6 @@ fun Context.getStorageDir(fileName: String): String {
     file.createNewFile()
     return file.absolutePath
 }
-
 
 //write data to file
 fun Context.writeDataToFile(data: String, fileName: String): Boolean { // todo make async
@@ -63,6 +68,7 @@ fun Context.readData(uri: Uri): String {
     return stringBuilder.toString()
 }
 
+@Deprecated("remove")
 fun Context.readData(fileName: String): String {
     val stringBuilder = StringBuilder()
     try {
@@ -92,8 +98,10 @@ fun Context.readData(fileName: String): String {
     return stringBuilder.toString()
 }
 
-
-fun Context.export(filename: String) {
+/**
+ * Create an intent to share
+ */
+fun Context.export(filename: String, subject: String = "Dictionary: exporting data") {
     val file = File(this.getStorageDir(filename))
     val path = FileProvider.getUriForFile(
         this,
@@ -109,7 +117,7 @@ fun Context.export(filename: String) {
     // the attachment
     emailIntent.putExtra(Intent.EXTRA_STREAM, path)
     // the mail subject
-    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "words: todo add the current date")
+    emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
     this.startActivity(Intent.createChooser(emailIntent, Constants.Dictionary.EMAIL_TITLE))
 }
 
@@ -126,3 +134,53 @@ fun isExternalStorageReadable(): Boolean {
     val state = Environment.getExternalStorageState()
     return Environment.MEDIA_MOUNTED_READ_ONLY == state
 }
+
+
+fun Spinner.initSpinner(@ArrayRes array: Int,
+                        doOnSelect: (parent: AdapterView<*>?, Int) -> Unit,
+                        doOnSelectNothing: () -> Unit) {
+    this.adapter = ArrayAdapter.createFromResource(
+        this.context,
+        array,
+        android.R.layout.simple_spinner_item
+    ).also { adapter ->
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+    }
+    this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            parent: AdapterView<*>?,
+            view: View?,
+            position: Int,
+            id: Long
+        ) {
+            doOnSelect.invoke(parent, position)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {
+            doOnSelectNothing()
+        }
+    }
+}
+
+// Boolean
+fun Boolean?.isFalse(): Boolean {
+    return if (this == null) {
+        true
+    } else {
+        this != true
+    }
+}
+
+// Activity
+fun Activity.openFilePicker(requestCode: Int) {
+    var chooseFile = Intent()
+    chooseFile.action = Intent.ACTION_GET_CONTENT
+    chooseFile.type = "*/*"
+    chooseFile = Intent.createChooser(chooseFile, "Choose a file")
+    startActivityForResult(chooseFile, requestCode)
+}
+
+
+
+
+

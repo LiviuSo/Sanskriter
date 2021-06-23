@@ -1,5 +1,6 @@
 package com.android.lvicto.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -13,13 +14,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
-import com.android.lvicto.adapter.DeclensionAdapter
-import com.android.lvicto.data.Declensions
-import com.android.lvicto.db.Converters
-import com.android.lvicto.db.entity.Declension
-import com.android.lvicto.util.Constants
-import com.android.lvicto.util.Constants.Dictionary.PICKFILE_RESULT_CODE
-import com.android.lvicto.util.export
+import com.android.lvicto.common.adapter.DeclensionAdapter
+import com.android.lvicto.common.db.data.Declensions
+import com.android.lvicto.common.db.Converters
+import com.android.lvicto.common.db.entity.Declension
+import com.android.lvicto.common.util.Constants
+import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
+import com.android.lvicto.common.util.export
+import com.android.lvicto.common.util.openFilePicker
 import com.android.lvicto.viewmodel.DeclensionViewModel
 import com.android.lvicto.viewmodel.WordsViewModel
 import kotlinx.android.synthetic.main.activity_add_declension.*
@@ -191,7 +193,7 @@ class AddDeclensionActivity : AppCompatActivity() {
             this.adapter = ArrayAdapter
                 .createFromResource(
                     this@AddDeclensionActivity,
-                    R.array.sanskrit_numbers_array,
+                    R.array.filter_sanskrit_numbers_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
@@ -361,7 +363,7 @@ class AddDeclensionActivity : AppCompatActivity() {
         }
 
         buttonImport.setOnClickListener {
-            openFilePicker()
+            openFilePicker(PICKFILE_RESULT_CODE)
         }
 
         buttonExport.setOnClickListener {
@@ -448,14 +450,6 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         }
         // endregion
-    }
-
-    private fun openFilePicker() { // todo extension
-        var chooseFile = Intent()
-        chooseFile.action = Intent.ACTION_GET_CONTENT
-        chooseFile.type = "*/*"
-        chooseFile = Intent.createChooser(chooseFile, "Choose a file")
-        startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
     }
 
     companion object {

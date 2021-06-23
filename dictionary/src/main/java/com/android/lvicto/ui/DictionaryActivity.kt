@@ -2,6 +2,7 @@ package com.android.lvicto.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -20,23 +21,21 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
-import com.android.lvicto.adapter.WordsAdapter
-import com.android.lvicto.data.Words
-import com.android.lvicto.db.entity.Word
-import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
-import com.android.lvicto.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_REQUEST_CODE
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_EN
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_IAST
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_ID
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RESULT
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_RO
-import com.android.lvicto.util.Constants.Dictionary.EXTRA_WORD_SA
-import com.android.lvicto.util.Constants.Dictionary.FILENAME_WORDS
-import com.android.lvicto.util.Constants.Dictionary.PICKFILE_RESULT_CODE
-import com.android.lvicto.util.Utils.hideSoftKeyboard
-import com.android.lvicto.util.export
+import com.android.lvicto.common.adapter.WordsAdapter
+import com.android.lvicto.common.db.data.Words
+import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
+import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_EN
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_IAST
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_RESULT
+import com.android.lvicto.common.util.Constants.Dictionary.FILENAME_WORDS
+import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
+import com.android.lvicto.common.util.Utils.hideSoftKeyboard
+import com.android.lvicto.common.util.export
+import com.android.lvicto.common.util.openFilePicker
 import com.android.lvicto.viewmodel.WordsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.layout_all_words.*
@@ -72,7 +71,7 @@ class DictionaryActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menuItemImport -> {
                 Log.d(LOG_TAG, "R.id.menuItemImport")
-                openFilePicker()
+                openFilePicker(PICKFILE_RESULT_CODE)
                 true
             }
             R.id.menuItemExport -> {
@@ -95,14 +94,6 @@ class DictionaryActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun openFilePicker() {
-        var chooseFile = Intent()
-        chooseFile.action = Intent.ACTION_GET_CONTENT
-        chooseFile.type = "*/*"
-        chooseFile = Intent.createChooser(chooseFile, "Choose a file")
-        startActivityForResult(chooseFile, PICKFILE_RESULT_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

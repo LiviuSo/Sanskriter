@@ -6,11 +6,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.android.lvicto.data.GrammaticalGender
-import com.android.lvicto.data.GrammaticalType
-import com.android.lvicto.data.VerbClass
-import com.android.lvicto.data.Words
-import com.android.lvicto.db.entity.Word
+import com.android.lvicto.common.db.data.GrammaticalGender
+import com.android.lvicto.common.db.data.GrammaticalType
+import com.android.lvicto.common.db.data.VerbClass
+import com.android.lvicto.common.db.data.Words
+import com.android.lvicto.common.db.entity.Word
 import com.android.lvicto.repo.FileRepository
 import com.android.lvicto.repo.WordsRepositoryImpl
 import com.google.gson.Gson

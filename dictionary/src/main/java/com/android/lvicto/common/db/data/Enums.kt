@@ -1,4 +1,4 @@
-package com.android.lvicto.data
+package com.android.lvicto.common.db.data
 
 enum class GrammaticalGender(val abbr: String) {
     NONE("n/a"),
@@ -185,4 +185,6 @@ enum class VerbClass(val clas: Int) {
             else -> NONE
         }
     }
+
+
 }

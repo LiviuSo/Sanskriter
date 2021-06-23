@@ -1,14 +1,13 @@
-package com.android.lvicto.adapter
+package com.android.lvicto.common.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
-import com.android.lvicto.db.entity.Declension
-import kotlinx.android.synthetic.main.item_declension.view.*
+import com.android.lvicto.common.db.entity.Declension
+import kotlinx.android.synthetic.main.item_grammar.view.*
 
 class DeclensionAdapter(val context: Context) : RecyclerView.Adapter<DeclensionAdapter.DeclensionViewHolder>() {
 
@@ -17,7 +16,7 @@ class DeclensionAdapter(val context: Context) : RecyclerView.Adapter<DeclensionA
     private var data: List<Declension>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeclensionViewHolder {
-        return DeclensionViewHolder(LayoutInflater.from(context).inflate(R.layout.item_declension, parent, false), onDeleteClick)
+        return DeclensionViewHolder(LayoutInflater.from(context).inflate(R.layout.item_grammar, parent, false), onDeleteClick)
     }
 
     override fun onBindViewHolder(holder: DeclensionViewHolder, position: Int) {

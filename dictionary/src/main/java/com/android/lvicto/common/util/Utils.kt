@@ -1,4 +1,4 @@
-package com.android.lvicto.util
+package com.android.lvicto.common.util
 
 import android.app.Activity
 import android.content.Context

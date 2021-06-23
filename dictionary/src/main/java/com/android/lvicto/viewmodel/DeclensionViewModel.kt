@@ -6,8 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.android.lvicto.data.Declensions
-import com.android.lvicto.db.entity.Declension
+import com.android.lvicto.common.db.data.Declensions
+import com.android.lvicto.common.db.entity.Declension
 import com.android.lvicto.repo.DeclensionRepositoryImpl
 import com.android.lvicto.repo.FileRepository
 import com.google.gson.Gson

@@ -2,16 +2,16 @@ package com.android.lvicto.repo
 
 import android.app.Application
 import android.util.Log
-import com.android.lvicto.db.DeclensionDatabase
-import com.android.lvicto.data.GrammaticalCase
-import com.android.lvicto.data.GrammaticalGender
-import com.android.lvicto.data.GrammaticalNumber
-import com.android.lvicto.db.entity.Declension
+import com.android.lvicto.common.db.GrammarDatabase
+import com.android.lvicto.common.db.data.GrammaticalCase
+import com.android.lvicto.common.db.data.GrammaticalGender
+import com.android.lvicto.common.db.data.GrammaticalNumber
+import com.android.lvicto.common.db.entity.Declension
 
 class DeclensionRepositoryImpl internal constructor(val application: Application) :
     DeclensionRepository {
 
-    private val declensionDao = DeclensionDatabase.getInstance(application).declensionDao()
+    private val declensionDao = GrammarDatabase.getInstance(application).declensionDao()
 
     override suspend fun getAll(): List<Declension> = declensionDao.getAll()
 
@@ -23,7 +23,7 @@ class DeclensionRepositoryImpl internal constructor(val application: Application
         declensionDao.deleteDeclension(arrayListOf(declension))
 
     override suspend fun filter(declension: Declension): List<Declension> {
-        creteLog(declension)
+        createLog(declension)
         return declensionDao.getDeclensions(
             if(declension.paradigm.isNotEmpty()) {
                 "%${declension.paradigm}%"
@@ -64,7 +64,7 @@ class DeclensionRepositoryImpl internal constructor(val application: Application
     override suspend fun getSuffixes(part: String): List<String> = declensionDao.getSuffixes(part)
 
     // debug only
-    private fun creteLog(declension: Declension) {
+    private fun createLog(declension: Declension) {
         val stringBuffer = StringBuffer()
         stringBuffer.append(
             if (declension.paradigm.isNotEmpty()) {

@@ -1,4 +1,4 @@
-package com.android.lvicto.util
+package com.android.lvicto.common.util
 
 class Constants {
 
@@ -22,8 +22,11 @@ class Constants {
         const val EMAIL_RECIPIENT = "Lsocolovici1979@gmail.com"
         const val EMAIL_TITLE = "Lsocolovici1979@gmail.com"
         const val FILENAME_DECLENSION: String = "declensions.json"
+        const val FILENAME_CONJUGATION: String = "conjugations.json"
 
-        val PICKFILE_RESULT_CODE: Int = 2
+        const val PICKFILE_RESULT_CODE: Int = 2
+        const val NONE = "n/a"
+
 
     }
 }

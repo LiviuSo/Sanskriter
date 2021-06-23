@@ -10,13 +10,6 @@
         <item>Gen.</item>
         <item>Loc.</item>
         <item>Voc.</item>
-
-    </string-array>
-
-    <string-array name="sanskrit_numbers_array">
-        <item>sg.</item>
-        <item>du.</item>
-        <item>pl.</item>
     </string-array>
 
     <string-array name="sanskrit_gender_array">
@@ -38,14 +31,14 @@
     </string-array>
 
     <string-array name="filter_sanskrit_numbers_array">
-        <item>n/a</item>
+        <item>Number</item>
         <item>sg.</item>
         <item>du.</item>
         <item>pl.</item>
     </string-array>
 
     <string-array name="filter_sanskrit_gender_array">
-        <item>n/a</item>
+        <item>Gender</item>
         <item>M.</item>
         <item>F.</item>
         <item>N.</item>
@@ -66,7 +59,7 @@
     </string-array>
 
     <string-array name="verb_class">
-        <item>NONE</item>
+        <item>Class</item>
         <item>I</item>
         <item>II</item>
         <item>III</item>
@@ -77,5 +70,32 @@
         <item>VIII</item>
         <item>IX</item>
         <item>X</item>
+    </string-array>
+
+    <string-array name="grammatical_person">
+        <item>Person</item>
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+    </string-array>
+
+    <string-array name="verb_time">
+        <item>Time</item>
+        <item>Present</item>
+        <item>Perfect</item>
+        <item>Imperfect</item>
+    </string-array>
+
+    <string-array name="verb_mode">
+        <item>Mode</item>
+        <item>atmanepada</item>
+        <item>parasmaipada</item>
+    </string-array>
+
+    <string-array name="verb_paradigm_type">
+        <item>Paradigm</item>
+        <item>thematic </item>
+        <item>perfect thematic</item>
+        <item>aorist thematic</item>
     </string-array>
 </resources>

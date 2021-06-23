@@ -1,7 +1,7 @@
-package com.android.lvicto.db.dao
+package com.android.lvicto.common.db.dao
 
 import androidx.room.*
-import com.android.lvicto.db.entity.Declension
+import com.android.lvicto.common.db.entity.Declension
 
 @Dao
 interface DeclensionDao {

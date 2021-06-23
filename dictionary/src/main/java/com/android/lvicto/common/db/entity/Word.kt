@@ -1,4 +1,4 @@
-package com.android.lvicto.db.entity
+package com.android.lvicto.common.db.entity
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -6,10 +6,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.android.lvicto.data.GrammaticalGender
-import com.android.lvicto.data.GrammaticalType
-import com.android.lvicto.data.VerbClass
-import com.android.lvicto.db.Converters
+import com.android.lvicto.common.db.data.GrammaticalGender
+import com.android.lvicto.common.db.data.GrammaticalType
+import com.android.lvicto.common.db.data.VerbClass
+import com.android.lvicto.common.db.Converters
 
 
 @Entity(tableName = "word_table")
