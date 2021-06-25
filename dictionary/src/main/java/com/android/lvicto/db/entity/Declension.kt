@@ -1,4 +1,4 @@
-package com.android.lvicto.common.db.entity
+package com.android.lvicto.db.entity
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -6,10 +6,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.android.lvicto.common.db.Converters
-import com.android.lvicto.common.db.data.GrammaticalCase
-import com.android.lvicto.common.db.data.GrammaticalGender
-import com.android.lvicto.common.db.data.GrammaticalNumber
+import com.android.lvicto.db.Converters
+import com.android.lvicto.db.data.GrammaticalCase
+import com.android.lvicto.db.data.GrammaticalGender
+import com.android.lvicto.db.data.GrammaticalNumber
 import java.util.*
 
 @Entity(tableName = "declension_table")

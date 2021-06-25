@@ -2,10 +2,10 @@ package com.android.lvicto.repo
 
 import android.content.Context
 import android.net.Uri
-import com.android.lvicto.common.db.data.Declensions
-import com.android.lvicto.common.db.data.Words
-import com.android.lvicto.common.db.entity.Declension
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.data.Declensions
+import com.android.lvicto.db.data.Words
+import com.android.lvicto.db.entity.Declension
+import com.android.lvicto.db.entity.Word
 import com.android.lvicto.common.util.readData
 import com.android.lvicto.common.util.writeDataToFile
 import com.google.gson.Gson

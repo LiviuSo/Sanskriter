@@ -1,4 +1,4 @@
-package com.android.lvicto.common.db.data
+package com.android.lvicto.db.data
 
 enum class GrammaticalGender(val abbr: String) {
     NONE("n/a"),

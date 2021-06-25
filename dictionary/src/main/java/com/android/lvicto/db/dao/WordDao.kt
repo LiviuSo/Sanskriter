@@ -1,7 +1,7 @@
-package com.android.lvicto.common.db.dao
+package com.android.lvicto.db.dao
 
 import androidx.room.*
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.entity.Word
 
 @Dao
 interface WordDao {

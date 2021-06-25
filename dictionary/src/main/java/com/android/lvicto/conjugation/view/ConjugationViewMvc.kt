@@ -9,40 +9,48 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.Visibility
 import com.android.lvicto.R
-import com.android.lvicto.common.adapter.ConjugationAdapter
-import com.android.lvicto.common.db.entity.Conjugation
+import com.android.lvicto.conjugation.adapter.ConjugationAdapter
+import com.android.lvicto.db.entity.Conjugation
 import com.android.lvicto.common.util.Constants.Dictionary.NONE
 import com.android.lvicto.common.util.initSpinner
+import com.android.lvicto.common.view.BaseViewMvs
 import com.android.lvicto.ui.dialog.ErrorDialog
 import kotlinx.android.synthetic.main.activity_conjugation.*
 
-class ConjugationViewMvc(
-    val activity: AppCompatActivity,
-    private val conjugationAddAction: (Conjugation?) -> Unit,
-    private val conjugationDeleteAction: (Conjugation?) -> Unit,
-    private val conjugationFilterAction: (Conjugation?) -> Unit,
-    private val conjugationDetectAction: (String) -> Unit,
-    private val conjugationImport: () -> Unit,
-    private val conjugationExport: () -> Unit
-) {
+class ConjugationViewMvc(val activity: AppCompatActivity)
+    : BaseViewMvs<ConjugationViewMvc.Listener>() {
+
+    interface Listener {
+        fun onConjugationAddAction(conjugation: Conjugation?)
+        fun onConjugationDeleteAction(conjugation: Conjugation?)
+        fun onConjugationFilterAction(conjugation: Conjugation?)
+        fun onConjugationDetectAction(form: String)
+        fun onConjugationImport()
+        fun onConjugationExport()
+    }
+
+    private val filterObserver: Observer<in Conjugation> = Observer { conjugation ->
+        listeners.forEach { listener ->
+            listener.onConjugationFilterAction(conjugation)
+        }
+    }
 
     private val LOG: String = "debconj"
 
     // todo can be move to a separate component ?
-    val conjugationMediatorLiveData: MediatorLiveData<Conjugation> = MediatorLiveData()
-    val paradigmRootLiveData: MutableLiveData<String> = MutableLiveData()
-    val endingLiveData: MutableLiveData<String> = MutableLiveData()
-    val verbClassLiveData: MutableLiveData<String> = MutableLiveData()
-    val numberLiveData: MutableLiveData<String> = MutableLiveData()
-    val personLiveData: MutableLiveData<String> = MutableLiveData()
-    val timeLiveData: MutableLiveData<String> = MutableLiveData()
-    val modeLiveData: MutableLiveData<String> = MutableLiveData()
-    val pardigmTypeLiveData: MutableLiveData<String> = MutableLiveData()
-    val formLiveDate: MutableLiveData<String> = MutableLiveData()
+    private val conjugationMediatorLiveData: MediatorLiveData<Conjugation> = MediatorLiveData()
+    private val paradigmRootLiveData: MutableLiveData<String> = MutableLiveData()
+    private val endingLiveData: MutableLiveData<String> = MutableLiveData()
+    private val verbClassLiveData: MutableLiveData<String> = MutableLiveData()
+    private val numberLiveData: MutableLiveData<String> = MutableLiveData()
+    private val personLiveData: MutableLiveData<String> = MutableLiveData()
+    private val timeLiveData: MutableLiveData<String> = MutableLiveData()
+    private val modeLiveData: MutableLiveData<String> = MutableLiveData()
+    private val pardigmTypeLiveData: MutableLiveData<String> = MutableLiveData()
+    private val formLiveDate: MutableLiveData<String> = MutableLiveData()
 
     private val NONE_CLASS: String = activity.resources.getStringArray(R.array.verb_class)[0]
     private val NONE_PERSON = activity.resources.getStringArray(R.array.grammatical_person)[0]
@@ -64,7 +72,7 @@ class ConjugationViewMvc(
         null
     )
 
-    private var isFiltering = false
+    var isFiltering = false
 
     fun init(@LayoutRes layoutId: Int) {
         activity.setContentView(layoutId)
@@ -196,7 +204,7 @@ class ConjugationViewMvc(
             if (isChecked) {
                 isFiltering = true
                 activity.buttonAdd.isEnabled = false
-                conjugationMediatorLiveData.observe(activity, conjugationFilterAction)
+                conjugationMediatorLiveData.observe(activity, filterObserver)
                 conjugationMediatorLiveData.value = conjugation?.clone()
             }
         }
@@ -204,18 +212,26 @@ class ConjugationViewMvc(
             if (isChecked) {
                 isFiltering = false
                 activity.buttonAdd.isEnabled = true
-                conjugationMediatorLiveData.removeObserver(conjugationFilterAction)
-                conjugationFilterAction.invoke(null)
+                conjugationMediatorLiveData.removeObserver(filterObserver)
+                listeners.forEach { listener ->
+                    listener.onConjugationFilterAction(null) // reset filters to show all
+                }
             }
         }
         activity.buttonAdd.setOnClickListener {
-            conjugationAddAction.invoke(conjugation)
+            listeners.forEach { listener ->
+                listener.onConjugationAddAction(conjugation)
+            }
         }
         activity.buttonImport.setOnClickListener {
-            conjugationImport()
+            listeners.forEach { listener ->
+                listener.onConjugationImport()
+            }
         }
         activity.buttonExport.setOnClickListener {
-            conjugationExport()
+            listeners.forEach { listener ->
+                listener.onConjugationExport()
+            }
         }
         //  endregion
 
@@ -260,7 +276,9 @@ class ConjugationViewMvc(
             }
 
             formLiveDate.observe(activity, {
-                conjugationDetectAction
+                listeners.forEach {
+                    listener -> listener.onConjugationDetectAction(it)
+                }
             })
         }
     }
@@ -269,7 +287,11 @@ class ConjugationViewMvc(
         activity.rvForms.apply {
             this.layoutManager = LinearLayoutManager(activity)
             this.adapter  =  ConjugationAdapter(context).apply {
-                this.onDeleteClick = conjugationDeleteAction
+                this.onDeleteClick = { _conjugation ->
+                    listeners.forEach { _listener ->
+                        _listener.onConjugationDeleteAction(_conjugation)
+                    }
+                }
             }
         }
     }

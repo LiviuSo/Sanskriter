@@ -10,11 +10,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD
 import com.android.lvicto.R
-import com.android.lvicto.common.db.data.GrammaticalGender
-import com.android.lvicto.common.db.data.GrammaticalType
-import com.android.lvicto.common.db.data.VerbClass
-import com.android.lvicto.common.db.Converters
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.data.GrammaticalGender
+import com.android.lvicto.db.data.GrammaticalType
+import com.android.lvicto.db.data.VerbClass
+import com.android.lvicto.db.Converters
+import com.android.lvicto.db.entity.Word
 import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD

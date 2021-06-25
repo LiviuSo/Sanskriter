@@ -1,4 +1,4 @@
-package com.android.lvicto.common.adapter
+package com.android.lvicto.conjugation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
-import com.android.lvicto.common.db.entity.Conjugation
+import com.android.lvicto.db.entity.Conjugation
 import kotlinx.android.synthetic.main.item_grammar.view.*
 
 class ConjugationAdapter(val context: Context) : RecyclerView.Adapter<ConjugationAdapter.ConjugationViewHolder>() {

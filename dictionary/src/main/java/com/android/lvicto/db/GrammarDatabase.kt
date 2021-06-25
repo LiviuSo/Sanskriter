@@ -1,13 +1,13 @@
-package com.android.lvicto.common.db
+package com.android.lvicto.db
 
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.android.lvicto.common.db.dao.ConjugationDao
-import com.android.lvicto.common.db.dao.DeclensionDao
-import com.android.lvicto.common.db.entity.Conjugation
-import com.android.lvicto.common.db.entity.Declension
+import com.android.lvicto.db.dao.ConjugationDao
+import com.android.lvicto.db.dao.DeclensionDao
+import com.android.lvicto.db.entity.Conjugation
+import com.android.lvicto.db.entity.Declension
 
 @Database(entities = [Declension::class, Conjugation::class], version = 2)
 @TypeConverters(Converters::class)

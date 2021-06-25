@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
-import com.android.lvicto.common.db.entity.Declension
+import com.android.lvicto.db.entity.Declension
 import kotlinx.android.synthetic.main.item_grammar.view.*
 
 class DeclensionAdapter(val context: Context) : RecyclerView.Adapter<DeclensionAdapter.DeclensionViewHolder>() {

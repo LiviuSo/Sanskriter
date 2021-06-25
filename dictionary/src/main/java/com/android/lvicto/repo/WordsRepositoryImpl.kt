@@ -1,12 +1,12 @@
 package com.android.lvicto.repo
 
 import android.app.Application
-import com.android.lvicto.common.db.data.GrammaticalGender
-import com.android.lvicto.common.db.data.GrammaticalType
-import com.android.lvicto.common.db.data.VerbClass
-import com.android.lvicto.common.db.WordsDatabase
-import com.android.lvicto.common.db.dao.WordDao
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.data.GrammaticalGender
+import com.android.lvicto.db.data.GrammaticalType
+import com.android.lvicto.db.data.VerbClass
+import com.android.lvicto.db.WordsDatabase
+import com.android.lvicto.db.dao.WordDao
+import com.android.lvicto.db.entity.Word
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext

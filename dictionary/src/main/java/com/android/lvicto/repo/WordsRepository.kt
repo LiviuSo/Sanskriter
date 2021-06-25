@@ -1,9 +1,9 @@
 package com.android.lvicto.repo
 
-import com.android.lvicto.common.db.data.GrammaticalGender
-import com.android.lvicto.common.db.data.GrammaticalType
-import com.android.lvicto.common.db.data.VerbClass
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.data.GrammaticalGender
+import com.android.lvicto.db.data.GrammaticalType
+import com.android.lvicto.db.data.VerbClass
+import com.android.lvicto.db.entity.Word
 
 interface WordsRepository {
 

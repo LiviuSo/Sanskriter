@@ -1,18 +1,15 @@
-package com.android.lvicto.conjugation.data
+package com.android.lvicto.conjugation.usecases
 
-import android.content.Context
 import android.util.Log
-import com.android.lvicto.common.db.GrammarDatabase
-import com.android.lvicto.common.db.entity.Conjugation
+import com.android.lvicto.db.dao.ConjugationDao
+import com.android.lvicto.db.entity.Conjugation
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ConjugationAddUseCase(val context: Context) { // todo refactor not to pass Context
+class ConjugationAddUseCase(private val conjugationDao: ConjugationDao) { // todo refactor not to pass Context
 
     val LOG = "debconj"
-
-    private val conjugationDao = GrammarDatabase.getInstance(context).conjugationDao()
 
     sealed class Result {
         object Success : Result()

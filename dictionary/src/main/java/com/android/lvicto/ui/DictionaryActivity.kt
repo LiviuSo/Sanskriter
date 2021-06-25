@@ -2,7 +2,6 @@ package com.android.lvicto.ui
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -22,8 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.adapter.WordsAdapter
-import com.android.lvicto.common.db.data.Words
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.data.Words
+import com.android.lvicto.db.entity.Word
 import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE

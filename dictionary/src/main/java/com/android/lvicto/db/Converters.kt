@@ -1,7 +1,7 @@
-package com.android.lvicto.common.db
+package com.android.lvicto.db
 
 import androidx.room.TypeConverter
-import com.android.lvicto.common.db.data.*
+import com.android.lvicto.db.data.*
 
 class Converters {
 

@@ -2,11 +2,11 @@ package com.android.lvicto.repo
 
 import android.app.Application
 import android.util.Log
-import com.android.lvicto.common.db.GrammarDatabase
-import com.android.lvicto.common.db.data.GrammaticalCase
-import com.android.lvicto.common.db.data.GrammaticalGender
-import com.android.lvicto.common.db.data.GrammaticalNumber
-import com.android.lvicto.common.db.entity.Declension
+import com.android.lvicto.db.GrammarDatabase
+import com.android.lvicto.db.data.GrammaticalCase
+import com.android.lvicto.db.data.GrammaticalGender
+import com.android.lvicto.db.data.GrammaticalNumber
+import com.android.lvicto.db.entity.Declension
 
 class DeclensionRepositoryImpl internal constructor(val application: Application) :
     DeclensionRepository {

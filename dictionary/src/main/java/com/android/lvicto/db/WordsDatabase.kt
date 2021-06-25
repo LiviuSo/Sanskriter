@@ -1,4 +1,4 @@
-package com.android.lvicto.common.db
+package com.android.lvicto.db
 
 import android.content.Context
 import androidx.room.Database
@@ -7,8 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.android.lvicto.common.db.dao.WordDao
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.dao.WordDao
+import com.android.lvicto.db.entity.Word
 
 @Database(entities = [Word::class], version = 4)
 @TypeConverters(Converters::class)

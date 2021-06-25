@@ -9,7 +9,7 @@ import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
 import com.android.lvicto.ui.AddDeclensionActivity
-import com.android.lvicto.conjugation.ConjugationActivity
+import com.android.lvicto.conjugation.activities.ConjugationActivity
 import com.android.lvicto.ui.DictionaryActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*

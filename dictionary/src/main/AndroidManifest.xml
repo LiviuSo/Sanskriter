@@ -3,7 +3,7 @@
     package="com.android.lvicto">
 
     <application>
-        <activity android:name=".conjugation.ConjugationActivity"/>
+        <activity android:name=".conjugation.activities.ConjugationActivity"/>
         <activity android:name=".ui.AddDeclensionActivity" />
         <activity
             android:name=".ui.DictionaryActivity"

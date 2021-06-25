@@ -1,9 +1,9 @@
-package com.android.lvicto.conjugation.data
+package com.android.lvicto.conjugation.usecases
 
 import android.content.Context
 import android.net.Uri
-import com.android.lvicto.common.db.data.Conjugations
-import com.android.lvicto.common.db.entity.Conjugation
+import com.android.lvicto.db.data.Conjugations
+import com.android.lvicto.db.entity.Conjugation
 import com.android.lvicto.common.util.readData
 import com.android.lvicto.common.util.writeDataToFile
 import com.google.gson.Gson

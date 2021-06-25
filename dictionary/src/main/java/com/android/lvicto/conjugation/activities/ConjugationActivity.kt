@@ -1,65 +1,88 @@
-package com.android.lvicto.conjugation
+package com.android.lvicto.conjugation.activities
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.lvicto.R
-import com.android.lvicto.common.db.entity.Conjugation
+import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.db.entity.Conjugation
+import com.android.lvicto.common.dependencyinjection.Service
 import com.android.lvicto.common.util.Constants
 import com.android.lvicto.common.util.Constants.Dictionary.FILENAME_CONJUGATION
 import com.android.lvicto.common.util.export
 import com.android.lvicto.common.util.openFilePicker
-import com.android.lvicto.conjugation.data.ConjugationAddUseCase
-import com.android.lvicto.conjugation.data.ConjugationFetchUseCase
-import com.android.lvicto.conjugation.data.ConjugationImportExportUseCase
+import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
+import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
+import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
-import com.android.lvicto.ui.dialog.ErrorDialog
 import kotlinx.coroutines.*
-import java.lang.Exception
 
-class ConjugationActivity : AppCompatActivity() {
+class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
 
-    private lateinit var mViewMvc: ConjugationViewMvc // todo injection
-    private lateinit var mConjugationAddUseCase: ConjugationAddUseCase
-    private lateinit var mConjugationFetchUseCase: ConjugationFetchUseCase
-    private lateinit var mConjugationImportExportUseCase: ConjugationImportExportUseCase
+    @field:Service private lateinit var mViewMvc: ConjugationViewMvc // todo injection
+    @field:Service private lateinit var mConjugationAddUseCase: ConjugationAddUseCase
+    @field:Service private lateinit var mConjugationFetchUseCase: ConjugationFetchUseCase
+    @field:Service private lateinit var mConjugationImportExportUseCase: ConjugationImportExportUseCase
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mConjugationAddUseCase = ConjugationAddUseCase(this)
-        mConjugationFetchUseCase = ConjugationFetchUseCase(this)
-        mConjugationImportExportUseCase = ConjugationImportExportUseCase(this)
-
-        mViewMvc = ConjugationViewMvc(this,
-            this::add,
-            this::delete,
-            this::filter,
-            this::detect,
-            this::import,
-            this::export
-        )
+        injector.inject(this)
         mViewMvc.init(R.layout.activity_conjugation)
-        filter(null) // to init the RecView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mViewMvc.registerListener(this)
+
+        if (!mViewMvc.isFiltering) {
+            filter(null)
+        } // to init the RecView
     }
 
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
+        mViewMvc.unregisterListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == Constants.Dictionary.PICKFILE_RESULT_CODE) {
+        if (requestCode == Constants.Dictionary.PICKFILE_RESULT_CODE) {
             data?.data?.let {
                 loadImports(it)
             }
         }
     }
 
+    // region Listener
+    override fun onConjugationAddAction(conjugation: Conjugation?) {
+        add(conjugation)
+    }
+
+    override fun onConjugationDeleteAction(conjugation: Conjugation?) {
+        delete(conjugation)
+    }
+
+    override fun onConjugationFilterAction(conjugation: Conjugation?) {
+        filter(conjugation)
+    }
+
+    override fun onConjugationDetectAction(form: String) {
+        detect(form)
+    }
+
+    override fun onConjugationImport() {
+        import()
+    }
+
+    override fun onConjugationExport() {
+        export()
+    }
+    // endregion
+
+    // region private
     private fun add(conjugation: Conjugation?) {
         coroutineScope.launch {
             if (conjugation != null) {
@@ -96,7 +119,7 @@ class ConjugationActivity : AppCompatActivity() {
             mViewMvc.showProgress()
             try {
                 val res = mConjugationFetchUseCase.filter(conjugation)
-                if(res is ConjugationFetchUseCase.Result.Success) {
+                if (res is ConjugationFetchUseCase.Result.Success) {
                     mViewMvc.setConjugations(res.conjugations)
                 } else {
                     mViewMvc.showErrorDialog("Fail to filter") {
@@ -118,7 +141,7 @@ class ConjugationActivity : AppCompatActivity() {
             mViewMvc.showProgress()
             try {
                 val res = mConjugationFetchUseCase.filterByEnding(ending)
-                if(res is ConjugationFetchUseCase.Result.Success) {
+                if (res is ConjugationFetchUseCase.Result.Success) {
                     mViewMvc.setConjugations(res.conjugations)
                 } else {
                     mViewMvc.showErrorDialog("Fail to detect") {
@@ -139,20 +162,27 @@ class ConjugationActivity : AppCompatActivity() {
         coroutineScope.launch {
             mViewMvc.showProgress()
             try {
-                if(conjugation != null) {
+                if (conjugation != null) {
                     val resAdd = mConjugationAddUseCase.delete(listOf(conjugation))
                     if (resAdd is ConjugationAddUseCase.Result.Success) {
-                        val resFetch = mConjugationFetchUseCase.filter()
+                        val filterBy = if (mViewMvc.isFiltering) {
+                            mViewMvc.conjugation
+                        } else {
+                            null
+                        }
+                        val resFetch = mConjugationFetchUseCase.filter(filterBy)
                         if (resFetch is ConjugationFetchUseCase.Result.Success) {
                             mViewMvc.setConjugations(resFetch.conjugations)
                         } else {
                             mViewMvc.showErrorDialog("Fail to filter") {
                                 // onRetry() empty for now
-                            }                        }
-                    } else {
-                        mViewMvc.showErrorDialog("Fail to delete") {
-                            // onRetry() empty for now
-                        }                    }
+                            }
+                        }
+                    }
+                } else {
+                    mViewMvc.showErrorDialog("Fail to delete") {
+                        // onRetry() empty for now
+                    }
                 }
             } catch (e: Exception) {
                 mViewMvc.showErrorDialog("Unknown error (delete): ${e.message}") {
@@ -169,18 +199,26 @@ class ConjugationActivity : AppCompatActivity() {
             try {
                 mViewMvc.showProgress()
                 val conjugations = mConjugationFetchUseCase.filter()
-                if(conjugations is ConjugationFetchUseCase.Result.Success) {
-                    val res = mConjugationImportExportUseCase.exportConjugations(conjugations.conjugations, FILENAME_CONJUGATION)
-                    if(res is ConjugationImportExportUseCase.Result.SuccessWrite) {
-                        this@ConjugationActivity.export(FILENAME_CONJUGATION, "Dictionary: exporting conjugations")
+                if (conjugations is ConjugationFetchUseCase.Result.Success) {
+                    val res = mConjugationImportExportUseCase.exportConjugations(
+                        conjugations.conjugations,
+                        FILENAME_CONJUGATION
+                    )
+                    if (res is ConjugationImportExportUseCase.Result.SuccessWrite) {
+                        this@ConjugationActivity.export(
+                            FILENAME_CONJUGATION,
+                            "Dictionary: exporting conjugations"
+                        )
                     } else {
                         mViewMvc.showErrorDialog("Fail to export") {
                             // onRetry() empty for now
-                        }                    }
+                        }
+                    }
                 } else {
                     mViewMvc.showErrorDialog("Fail to filter") {
                         // onRetry() empty for now
-                    }                }
+                    }
+                }
             } catch (e: Exception) {
                 mViewMvc.showErrorDialog("Unknown error (export): ${e.message}") {
                     // onRetry() empty for now
@@ -200,18 +238,20 @@ class ConjugationActivity : AppCompatActivity() {
             try {
                 mViewMvc.showProgress()
                 val res = mConjugationImportExportUseCase.importConjugations(uri)
-                if(res is ConjugationImportExportUseCase.Result.SuccessRead) {
-                    if(res.conjugations != null) {
+                if (res is ConjugationImportExportUseCase.Result.SuccessRead) {
+                    if (res.conjugations != null) {
                         mConjugationAddUseCase.addConjugations(res.conjugations)
                         mViewMvc.setConjugations(res.conjugations)
                     } else {
                         mViewMvc.showErrorDialog("Fail to add conjugations.") {
                             // onRetry() empty for now
-                        }                    }
+                        }
+                    }
                 } else {
                     mViewMvc.showErrorDialog("Fail to import") {
                         // onRetry() empty for now
-                    }                }
+                    }
+                }
             } catch (e: Exception) {
                 mViewMvc.showErrorDialog("Unknown error (import): ${e.message}") {
                     // onRetry() empty for now
@@ -221,5 +261,5 @@ class ConjugationActivity : AppCompatActivity() {
             }
         }
     }
-
+// endregion
 }

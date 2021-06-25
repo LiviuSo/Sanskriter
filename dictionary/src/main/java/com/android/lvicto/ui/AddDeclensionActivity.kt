@@ -1,6 +1,5 @@
 package com.android.lvicto.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -15,9 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.adapter.DeclensionAdapter
-import com.android.lvicto.common.db.data.Declensions
-import com.android.lvicto.common.db.Converters
-import com.android.lvicto.common.db.entity.Declension
+import com.android.lvicto.db.data.Declensions
+import com.android.lvicto.db.Converters
+import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.common.util.Constants
 import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.common.util.export

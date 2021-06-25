@@ -1,6 +1,6 @@
 package com.android.lvicto.repo
 
-import com.android.lvicto.common.db.entity.Declension
+import com.android.lvicto.db.entity.Declension
 
 interface DeclensionRepository {
 

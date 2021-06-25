@@ -10,8 +10,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
-import com.android.lvicto.common.db.data.GrammaticalType
-import com.android.lvicto.common.db.entity.Word
+import com.android.lvicto.db.data.GrammaticalType
+import com.android.lvicto.db.entity.Word
 
 
 class WordsAdapter(private val context: Context,

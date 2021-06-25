@@ -1,4 +1,4 @@
-package com.android.lvicto.common.db.entity
+package com.android.lvicto.db.entity
 
 import android.os.Parcel
 import android.os.Parcelable
