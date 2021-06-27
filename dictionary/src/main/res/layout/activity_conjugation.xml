@@ -282,7 +282,7 @@
             app:layout_constraintStart_toEndOf="@+id/tvLabelResults" />
 
         <TextView
-            android:id="@+id/edRootDetected"
+            android:id="@+id/tvRootDetected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Detected Root"

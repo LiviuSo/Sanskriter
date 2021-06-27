@@ -20,8 +20,8 @@ import com.android.lvicto.common.view.BaseViewMvs
 import com.android.lvicto.ui.dialog.ErrorDialog
 import kotlinx.android.synthetic.main.activity_conjugation.*
 
-class ConjugationViewMvc(val activity: AppCompatActivity)
-    : BaseViewMvs<ConjugationViewMvc.Listener>() {
+class ConjugationViewMvc(val activity: AppCompatActivity) :
+    BaseViewMvs<ConjugationViewMvc.Listener>() {
 
     interface Listener {
         fun onConjugationAddAction(conjugation: Conjugation?)
@@ -54,10 +54,12 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
 
     private val NONE_CLASS: String = activity.resources.getStringArray(R.array.verb_class)[0]
     private val NONE_PERSON = activity.resources.getStringArray(R.array.grammatical_person)[0]
-    private val NONE_NUMBER = activity.resources.getStringArray(R.array.filter_sanskrit_numbers_array)[0]
+    private val NONE_NUMBER =
+        activity.resources.getStringArray(R.array.filter_sanskrit_numbers_array)[0]
     private val NONE_TIME = activity.resources.getStringArray(R.array.verb_time)[0]
     private val NONE_MODE = activity.resources.getStringArray(R.array.verb_mode)[0]
-    private val NONE_PARADYGM_TYPE = activity.resources.getStringArray(R.array.verb_paradigm_type)[0]
+    private val NONE_PARADYGM_TYPE =
+        activity.resources.getStringArray(R.array.verb_paradigm_type)[0]
 
 
     var conjugation: Conjugation? = Conjugation(
@@ -83,13 +85,13 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
         activity.edParadigmRoot.addTextChangedListener(object : TextWatcherOnChange() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 s.toString().let {
-                    val paradigmRoot = if(it.isEmpty()) {
+                    val paradigmRoot = if (it.isEmpty()) {
                         NONE
                     } else {
                         it
                     }
                     conjugation?.paradigmRoot = paradigmRoot
-                    if(isFiltering) {
+                    if (isFiltering) {
                         paradigmRootLiveData.value = paradigmRoot
                     }
                 }
@@ -98,72 +100,75 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
         activity.edEnding.addTextChangedListener(object : TextWatcherOnChange() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 s.toString().let {
-                    val ending = if(it.isEmpty()) {
+                    val ending = if (it.isEmpty()) {
                         NONE
                     } else {
                         it
                     }
                     conjugation?.ending = ending
-                    if(isFiltering) {
+                    if (isFiltering) {
                         endingLiveData.value = ending
                     }
                 }
             }
         })
-        activity.spinnerClass.initSpinner(R.array.verb_class, { parent,  position ->
+        activity.spinnerClass.initSpinner(R.array.verb_class, { parent, position ->
             parent?.getItemAtPosition(position).toString().let {
-                val verbClass = if(it == NONE_CLASS) {
+                val verbClass = if (it == NONE_CLASS) {
                     NONE
                 } else {
                     it
                 }
                 conjugation?.verbClass = verbClass
-                if(isFiltering) {
+                if (isFiltering) {
                     verbClassLiveData.value = verbClass
                 }
             }
         }, {
             verbClassLiveData.value = null // todo use the enum
         })
-        activity.spinnerNumberVerb.initSpinner(R.array.filter_sanskrit_numbers_array, { parent,  position ->
-            parent?.getItemAtPosition(position).toString().let {
-                val verbNumber = if(it == NONE_NUMBER) {
-                    NONE
-                } else {
-                    it
+        activity.spinnerNumberVerb.initSpinner(
+            R.array.filter_sanskrit_numbers_array,
+            { parent, position ->
+                parent?.getItemAtPosition(position).toString().let {
+                    val verbNumber = if (it == NONE_NUMBER) {
+                        NONE
+                    } else {
+                        it
+                    }
+                    conjugation?.verbNumber = verbNumber
+                    if (isFiltering) {
+                        numberLiveData.value = verbNumber
+                    }
                 }
-                conjugation?.verbNumber = verbNumber
-                if(isFiltering) {
-                    numberLiveData.value = verbNumber
-                }
-            }
-        }, {
-            numberLiveData.value = null // todo use the enum
-        })
-        activity.spinnerPerson.initSpinner(R.array.grammatical_person, { parent,  position ->
+            },
+            {
+                numberLiveData.value = null // todo use the enum
+            })
+        activity.spinnerPerson.initSpinner(R.array.grammatical_person, { parent, position ->
             parent?.getItemAtPosition(position).toString().let {
-                val verbPerson = if(it == NONE_PERSON) {
+                val verbPerson = if (it == NONE_PERSON) {
                     NONE
                 } else {
                     it
                 }
                 conjugation?.verbPerson = verbPerson
-                if(isFiltering) {
+                if (isFiltering) {
                     personLiveData.value = verbPerson
                 }
             }
         }, {
             personLiveData.value = null // todo use the enum
         })
-        activity.spinnerTime.initSpinner(R.array.verb_time, { parent,  position ->
+        activity.spinnerTime.initSpinner(R.array.verb_time, { parent, position ->
             parent?.getItemAtPosition(position).toString().let {
-                val verbTime = if(it == NONE_TIME) {
+                val verbTime = if (it == NONE_TIME) {
                     NONE
                 } else {
                     it
                 }
                 conjugation?.verbTime = verbTime
-                if(isFiltering) {
+                if (isFiltering) {
                     timeLiveData.value = verbTime
                 }
             }
@@ -172,28 +177,28 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
         })
         activity.spinnerMode.initSpinner(R.array.verb_mode, { parent, position ->
             parent?.getItemAtPosition(position).toString().let {
-                val verbMode = if(it == NONE_MODE) {
+                val verbMode = if (it == NONE_MODE) {
                     NONE
                 } else {
                     it
                 }
                 conjugation?.verbMode = verbMode
-                if(isFiltering) {
+                if (isFiltering) {
                     modeLiveData.value = verbMode
                 }
             }
         }, {
             modeLiveData.value = null // todo use the enum
         })
-        activity.spinnerParadigmType.initSpinner(R.array.verb_paradigm_type, { parent,  position ->
+        activity.spinnerParadigmType.initSpinner(R.array.verb_paradigm_type, { parent, position ->
             parent?.getItemAtPosition(position).toString().let {
-                val verbParadygmType = if(it == NONE_PARADYGM_TYPE) {
+                val verbParadygmType = if (it == NONE_PARADYGM_TYPE) {
                     NONE
                 } else {
                     it
                 }
                 conjugation?.verbParadygmType = verbParadygmType
-                if(isFiltering) {
+                if (isFiltering) {
                     pardigmTypeLiveData.value = verbParadygmType
                 }
             }
@@ -276,8 +281,8 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
             }
 
             formLiveDate.observe(activity, {
-                listeners.forEach {
-                    listener -> listener.onConjugationDetectAction(it)
+                listeners.forEach { listener ->
+                    listener.onConjugationDetectAction(it)
                 }
             })
         }
@@ -286,7 +291,7 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
     private fun initRecylerView() {
         activity.rvForms.apply {
             this.layoutManager = LinearLayoutManager(activity)
-            this.adapter  =  ConjugationAdapter(context).apply {
+            this.adapter = ConjugationAdapter(context).apply {
                 this.onDeleteClick = { _conjugation ->
                     listeners.forEach { _listener ->
                         _listener.onConjugationDeleteAction(_conjugation)
@@ -297,7 +302,6 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
     }
 
     fun setConjugations(conjugations: List<Conjugation>) {
-        Log.d(LOG, "setConjugations: $conjugations")
         (activity.rvForms.adapter as ConjugationAdapter).refresh(conjugations)
     }
 
@@ -311,6 +315,10 @@ class ConjugationViewMvc(val activity: AppCompatActivity)
 
     fun showErrorDialog(message: String, onRetry: () -> Unit) {
         ErrorDialog(activity, message, onRetry).showDialog()
+    }
+
+    fun setFormRoot(formRoot: String) {
+        activity.tvRootDetected.text = formRoot
     }
 
     abstract class TextWatcherOnChange : TextWatcher {

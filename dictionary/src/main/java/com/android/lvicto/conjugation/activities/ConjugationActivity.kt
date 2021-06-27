@@ -3,6 +3,7 @@ package com.android.lvicto.conjugation.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import com.android.lvicto.R
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.db.entity.Conjugation
@@ -15,14 +16,22 @@ import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
+import com.android.lvicto.ui.dialog.ErrorDialog
 import kotlinx.coroutines.*
 
 class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
 
-    @field:Service private lateinit var mViewMvc: ConjugationViewMvc // todo injection
-    @field:Service private lateinit var mConjugationAddUseCase: ConjugationAddUseCase
-    @field:Service private lateinit var mConjugationFetchUseCase: ConjugationFetchUseCase
-    @field:Service private lateinit var mConjugationImportExportUseCase: ConjugationImportExportUseCase
+    @field:Service
+    private lateinit var mViewMvc: ConjugationViewMvc // todo injection
+
+    @field:Service
+    private lateinit var mConjugationAddUseCase: ConjugationAddUseCase
+
+    @field:Service
+    private lateinit var mConjugationFetchUseCase: ConjugationFetchUseCase
+
+    @field:Service
+    private lateinit var mConjugationImportExportUseCase: ConjugationImportExportUseCase
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -136,28 +145,6 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
         }
     }
 
-    private fun detect(ending: String) {
-        coroutineScope.launch {
-            mViewMvc.showProgress()
-            try {
-                val res = mConjugationFetchUseCase.filterByEnding(ending)
-                if (res is ConjugationFetchUseCase.Result.Success) {
-                    mViewMvc.setConjugations(res.conjugations)
-                } else {
-                    mViewMvc.showErrorDialog("Fail to detect") {
-                        // onRetry() empty for now
-                    }
-                }
-            } catch (e: Exception) {
-                mViewMvc.showErrorDialog("Unknown error (detect): ${e.message}") {
-                    // onRetry() empty for now
-                }
-            } finally {
-                mViewMvc.hideProgress()
-            }
-        }
-    }
-
     private fun delete(conjugation: Conjugation?) {
         coroutineScope.launch {
             mViewMvc.showProgress()
@@ -261,5 +248,73 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
             }
         }
     }
+
+    private fun detect(form: String) {
+        coroutineScope.launch {
+            try {
+                mViewMvc.showProgress()
+                if (form.isNotEmpty()) { // try to detect
+                    var conjugations: List<Conjugation> = arrayListOf()
+                    val len = form.length
+                    var index = len - 1
+                    var hasResults: Boolean
+                    var result: ConjugationFetchUseCase.Result
+                    var isDetected = false
+                    scan@ while (index >= 0) {
+                        val ending = form.substring(index, len)
+                        result = mConjugationFetchUseCase.filterByEnding(ending)
+                        hasResults = if (result is ConjugationFetchUseCase.Result.Success) {
+                            result.conjugations.isNotEmpty()
+                        } else {
+                            ErrorDialog(this@ConjugationActivity, "Unable to detect form") {}
+                            false
+                        }
+                        if (!hasResults) { // we reached a point where there are no results
+                            // was there only one result previously ?
+
+                            isDetected = conjugations.size == 1
+                                    && conjugations.first().ending == form.substring(
+                                index + 1,
+                                len
+                            ) // compare previous ending candidate
+                            break@scan
+                        } else { // continue toward the beginning
+                            conjugations =
+                                (result as ConjugationFetchUseCase.Result.Success).conjugations
+                            isDetected = false
+                            index--
+                        }
+                    } // end scan from the end loop
+
+                    if (isDetected) {
+                        mViewMvc.setConjugations(conjugations)
+                        val root = form.substring(0, index + 1)
+                        mViewMvc.setFormRoot(root)
+                    } else {
+                        mViewMvc.setConjugations(arrayListOf())
+                        mViewMvc.setFormRoot("") // reset result
+                    }
+                } else { // reset
+                    val res = mConjugationFetchUseCase.filter()
+                    if (res is ConjugationFetchUseCase.Result.Success) {
+                        mViewMvc.setConjugations(res.conjugations)
+                    } else {
+                        ErrorDialog(
+                            this@ConjugationActivity,
+                            "Unknown exception. Unable to detect form"
+                        ) {}
+                    }
+                }
+            } catch (e: Exception) {
+                ErrorDialog(
+                    this@ConjugationActivity,
+                    "Unknown exception. Unable to detect form"
+                ) {}
+            } finally {
+                mViewMvc.hideProgress()
+            }
+        }
+    }
+
 // endregion
 }
