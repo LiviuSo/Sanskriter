@@ -82,8 +82,9 @@
     <string-array name="verb_time">
         <item>Time</item>
         <item>Present</item>
-        <item>Perfect</item>
         <item>Imperfect</item>
+        <item>Imperative</item>
+        <item>Optative</item>
     </string-array>
 
     <string-array name="verb_mode">

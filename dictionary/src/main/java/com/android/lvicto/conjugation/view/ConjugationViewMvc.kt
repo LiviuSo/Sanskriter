@@ -18,7 +18,10 @@ import com.android.lvicto.common.util.Constants.Dictionary.NONE
 import com.android.lvicto.common.util.initSpinner
 import com.android.lvicto.common.view.BaseViewMvs
 import com.android.lvicto.ui.dialog.ErrorDialog
+import kotlinx.android.synthetic.main.activity_add_declension.*
 import kotlinx.android.synthetic.main.activity_conjugation.*
+import kotlinx.android.synthetic.main.activity_conjugation.buttonExport
+import kotlinx.android.synthetic.main.activity_conjugation.buttonImport
 
 class ConjugationViewMvc(val activity: AppCompatActivity) :
     BaseViewMvs<ConjugationViewMvc.Listener>() {
@@ -303,6 +306,7 @@ class ConjugationViewMvc(val activity: AppCompatActivity) :
 
     fun setConjugations(conjugations: List<Conjugation>) {
         (activity.rvForms.adapter as ConjugationAdapter).refresh(conjugations)
+        activity.tvConjugationCount.text = "${conjugations.size} forms"
     }
 
     fun showProgress() {

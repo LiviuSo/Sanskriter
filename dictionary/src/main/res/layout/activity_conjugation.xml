@@ -54,6 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="Paradigm Root"
+            android:imeActionLabel="@string/kbImeActionIAST"
             app:layout_constraintBottom_toTopOf="@+id/guideline_filter1"
             app:layout_constraintEnd_toStartOf="@+id/edEnding"
             app:layout_constraintHorizontal_weight="2"
@@ -65,6 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="ending"
+            android:imeActionLabel="@string/kbImeActionIAST"
             app:layout_constraintBottom_toTopOf="@+id/guideline_filter1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
@@ -76,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="100dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_guide1" />
 
         <Spinner
             android:id="@+id/spinnerClass"
@@ -116,7 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="135dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_guide2" />
 
         <Spinner
             android:id="@+id/spinnerTime"
@@ -149,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="175dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_guide3" />
 
         <Spinner
             android:id="@+id/spinnerParadigmType"
@@ -168,7 +170,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="210dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_guide4" />
 
         <RadioGroup
             android:layout_width="wrap_content"
@@ -213,7 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="245dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_guide5" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -222,7 +224,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="@+id/tvDetectConjugation"
-            app:layout_constraintGuide_begin="310dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_detect1" />
 
         <TextView
             android:id="@+id/tvDetectConjugation"
@@ -250,6 +252,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="form to decompose"
+            android:imeActionLabel="@string/kbImeActionIAST"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_detect1" />
@@ -259,7 +262,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="420dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_results1" />
 
         <TextView
             android:id="@+id/tvLabelResults"
@@ -301,16 +304,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="475dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_results2" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvConjugationCount"
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline_results2"
+            android:text="0"
+            android:layout_marginStart="5dp" />
 
         <Button
             android:id="@+id/buttonImport"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:text="Import"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonExport"
             app:layout_constraintTop_toBottomOf="@+id/guideline_results2" />
 
         <Button
@@ -320,7 +334,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:text="Export"
-            app:layout_constraintStart_toEndOf="@+id/buttonImport"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/guideline_results2" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -328,12 +342,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="515dp" />
+            app:layout_constraintGuide_begin="@dimen/dim_results3" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvForms"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dim_rv_height"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/guideline_results3" />
 

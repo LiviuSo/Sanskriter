@@ -16,6 +16,7 @@ import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
+import com.android.lvicto.ui.dialog.ConfirmationDialog
 import com.android.lvicto.ui.dialog.ErrorDialog
 import kotlinx.coroutines.*
 
@@ -146,29 +147,27 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
     }
 
     private fun delete(conjugation: Conjugation?) {
+        conjugation?.let { ConfirmationDialog(this, it, ::deleteDialogAction).showDialog() }
+    }
+
+    private fun deleteDialogAction(conjugation: Conjugation) {
         coroutineScope.launch {
             mViewMvc.showProgress()
             try {
-                if (conjugation != null) {
-                    val resAdd = mConjugationAddUseCase.delete(listOf(conjugation))
-                    if (resAdd is ConjugationAddUseCase.Result.Success) {
-                        val filterBy = if (mViewMvc.isFiltering) {
-                            mViewMvc.conjugation
-                        } else {
-                            null
-                        }
-                        val resFetch = mConjugationFetchUseCase.filter(filterBy)
-                        if (resFetch is ConjugationFetchUseCase.Result.Success) {
-                            mViewMvc.setConjugations(resFetch.conjugations)
-                        } else {
-                            mViewMvc.showErrorDialog("Fail to filter") {
-                                // onRetry() empty for now
-                            }
-                        }
+                val resAdd = mConjugationAddUseCase.delete(listOf(conjugation))
+                if (resAdd is ConjugationAddUseCase.Result.Success) {
+                    val filterBy = if (mViewMvc.isFiltering) {
+                        mViewMvc.conjugation
+                    } else {
+                        null
                     }
-                } else {
-                    mViewMvc.showErrorDialog("Fail to delete") {
-                        // onRetry() empty for now
+                    val resFetch = mConjugationFetchUseCase.filter(filterBy)
+                    if (resFetch is ConjugationFetchUseCase.Result.Success) {
+                        mViewMvc.setConjugations(resFetch.conjugations)
+                    } else {
+                        mViewMvc.showErrorDialog("Fail to filter") {
+                            // onRetry() empty for now
+                        }
                     }
                 }
             } catch (e: Exception) {

@@ -30,7 +30,8 @@ class ConjugationAdapter(val context: Context) : RecyclerView.Adapter<Conjugatio
         notifyDataSetChanged()
     }
 
-    class ConjugationViewHolder(val view: View, private val onDeleteClick: ((Conjugation) -> Unit)?): RecyclerView.ViewHolder(view) {
+    class ConjugationViewHolder(val view: View,
+                                private val onDeleteClick: ((Conjugation) -> Unit)?): RecyclerView.ViewHolder(view) {
         fun bind(declension: Conjugation?) {
             view.tvDeclension.text = declension.toString()
             view.btnRemove.setOnClickListener {

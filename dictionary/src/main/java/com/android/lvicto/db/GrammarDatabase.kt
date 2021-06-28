@@ -41,7 +41,8 @@ abstract class GrammarDatabase  : RoomDatabase() {
                 INSTANCE = Room.databaseBuilder(context.applicationContext,
                     GrammarDatabase::class.java,
                     "grammar_database.db")
-                    .addMigrations(MIGRATION_1_2).build()
+//                    .addMigrations(MIGRATION_1_2) // todo investigate to execute asynch
+                    .build()
             }
             return INSTANCE as GrammarDatabase
         }
