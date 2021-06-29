@@ -1,19 +1,18 @@
 package com.lvicto.skeyboard
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.skeyboard.R
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_new_keyboard.*
 
-class MainActivity : AppCompatActivity() {
+class NewKeyboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_new_keyboard)
 
         buttonEnableKeyboard.setOnClickListener {
             showInputMethodsManager(this)
@@ -31,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun chooseInputMethod() {
-        val inputManager = application.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputManager = application.applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.showInputMethodPicker()
     }
 }

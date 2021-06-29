@@ -3,10 +3,11 @@
     package="com.android.lvicto">
 
     <application>
-        <activity android:name=".conjugation.activities.ConjugationActivity"/>
+        <activity android:name=".ui.WordsActivity" />
+        <activity android:name=".conjugation.activities.ConjugationActivity" />
         <activity android:name=".ui.AddDeclensionActivity" />
         <activity
-            android:name=".ui.DictionaryActivity"
+            android:name=".common.activities.DictionaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
         <activity

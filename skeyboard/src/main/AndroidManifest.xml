@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Keyboard"
         android:fullBackupContent="@xml/backup_descriptor">
 
-        <activity android:name="com.lvicto.skeyboard.MainActivity">
+        <activity android:name="com.lvicto.skeyboard.NewKeyboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

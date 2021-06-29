@@ -16,13 +16,6 @@
             android:textAllCaps="false"/>
 
     <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Test Keyboard"
-            android:id="@+id/btnTestKeyboard"
-            android:textAllCaps="false"/>
-
-    <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Book v2"
@@ -39,15 +32,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Declention [DB construction]"
-        android:id="@+id/btnDeclensionConstruction"
-        android:textAllCaps="false"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Conjugation [DB construction]"
-        android:id="@+id/btnConjugationConstruction"
+        android:text="Test Keyboard"
+        android:id="@+id/btnTestKeyboard"
         android:textAllCaps="false"/>
 
 </LinearLayout>

@@ -18,7 +18,7 @@ import com.android.lvicto.sanskriter.ui.view.CursorWatcher
 import com.android.lvicto.sanskriter.util.AssetsHelper
 import com.android.lvicto.sanskriter.util.SandhiEngine
 import com.android.lvicto.sanskriter.viewmodel.NotesViewModel
-import com.android.lvicto.ui.DictionaryActivity
+import com.android.lvicto.common.activities.DictionaryActivity
 import kotlinx.android.synthetic.main.fragment_zoom_page.*
 import kotlinx.android.synthetic.main.fragment_zoom_page.view.*
 import kotlinx.android.synthetic.main.search_bar.view.*

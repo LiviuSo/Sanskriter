@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.layout_all_words.*
 import kotlinx.android.synthetic.main.search_bar.*
 
 
-class DictionaryActivity : AppCompatActivity() {
+class WordsActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WordsViewModel
     private lateinit var wordsAdapter: WordsAdapter
@@ -57,7 +57,7 @@ class DictionaryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dictionary)
+        setContentView(R.layout.activity_words)
         initUI()
     }
 
@@ -107,11 +107,11 @@ class DictionaryActivity : AppCompatActivity() {
                             val filterEn = editSearchEnDic.text.toString()
                             val filterIast = editSearchIastDic.text.toString()
                             viewModel.filter2(filterEn, filterIast)
-                                .observe(this@DictionaryActivity, { filteredWords ->
+                                .observe(this@WordsActivity, { filteredWords ->
                                     wordsAdapter.words = filteredWords
                                 })
                         } else {
-                            viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
+                            viewModel.getAllWordsCor().observe(this@WordsActivity, {
                                 wordsAdapter.words = it // show all words for now
                             })
                         }
@@ -120,11 +120,11 @@ class DictionaryActivity : AppCompatActivity() {
                             val filterEn = editSearchEnDic.text.toString()
                             val filterIast = editSearchIastDic.text.toString()
                             viewModel.filter2(filterEn, filterIast)
-                                .observe(this@DictionaryActivity, { filteredWords ->
+                                .observe(this@WordsActivity, { filteredWords ->
                                     wordsAdapter.words = filteredWords
                                 })
                         } else {
-                            viewModel.getAllWordsCor().observe(this@DictionaryActivity, {
+                            viewModel.getAllWordsCor().observe(this@WordsActivity, {
                                 wordsAdapter.words = it // show all words for now
                             })
                         }
@@ -137,7 +137,7 @@ class DictionaryActivity : AppCompatActivity() {
                     Log.d(LOG_TAG, uri?.path.toString())
                     if (uri != null) {
                         viewModel.readFromFiles(uri)
-                            .observe(this@DictionaryActivity, importObserver)
+                            .observe(this@WordsActivity, importObserver)
                     } else {
                         Log.d(LOG_TAG, "path is null")
                     }
@@ -152,7 +152,7 @@ class DictionaryActivity : AppCompatActivity() {
     private fun initUI() {
 
         // TODO injection
-        viewModel = ViewModelProvider(this@DictionaryActivity).get(WordsViewModel::class.java)
+        viewModel = ViewModelProvider(this@WordsActivity).get(WordsViewModel::class.java)
 
         // toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -182,7 +182,7 @@ class DictionaryActivity : AppCompatActivity() {
                 )
                 val filterEn = s.toString()
                 val filterIast = editSearchIastDic.text.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@DictionaryActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
                     wordsAdapter.words = it
                 })
             }
@@ -192,7 +192,7 @@ class DictionaryActivity : AppCompatActivity() {
             if (hasFocus) {
                 val filterEn = (v as EditText).text.toString()
                 val filterIast = editSearchIast.text.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@DictionaryActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
                     wordsAdapter.words = it
                 })
             }
@@ -210,7 +210,7 @@ class DictionaryActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val filterEn = editSearchEnDic.text.toString()
                 val filterIast = s.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@DictionaryActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
                     wordsAdapter.words = it
                 })
             }
@@ -220,7 +220,7 @@ class DictionaryActivity : AppCompatActivity() {
             if (hasFocus) {
                 val filterEn = editSearchEnDic.text.toString()
                 val filterIast = (v as EditText).text.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@DictionaryActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
                     wordsAdapter.words = it
                 })
             }
@@ -229,7 +229,7 @@ class DictionaryActivity : AppCompatActivity() {
         ibSearchClose.setOnClickListener {
             clearSearch()
             // close the keyboard
-            hideSoftKeyboard(this@DictionaryActivity)
+            hideSoftKeyboard(this@WordsActivity)
         }
 
         // get data from intent
@@ -246,10 +246,10 @@ class DictionaryActivity : AppCompatActivity() {
                     editSearchEnDic.setText(searchEn)
                 }
                 if (searchIast != null) {
-                    viewModel.filter(searchIast, true).observe(this@DictionaryActivity, { words1 ->
+                    viewModel.filter(searchIast, true).observe(this@WordsActivity, { words1 ->
                         if (searchEn != null) {
                             viewModel.filter2(searchEn, searchIast)
-                                .observe(this@DictionaryActivity, { words2 ->
+                                .observe(this@WordsActivity, { words2 ->
                                     wordsAdapter.words = words2
                                 })
                         } else {
@@ -287,7 +287,7 @@ class DictionaryActivity : AppCompatActivity() {
         // add fab
         fab = findViewById(R.id.fabDictionary)
         fab.setOnClickListener {
-            val intent = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
+            val intent = Intent(this@WordsActivity, AddModifyWordActivity::class.java)
             val word = Word(
                 word = "",
                 wordIAST = editSearchIast.text.toString(),
@@ -315,7 +315,7 @@ class DictionaryActivity : AppCompatActivity() {
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove())
-            .observe(this@DictionaryActivity, {
+            .observe(this@WordsActivity, {
                 adapter.unselectRemoveSelected()
                 if (llSearch.visibility != View.VISIBLE) { // show all words
                     wordsAdapter.words = it
@@ -323,7 +323,7 @@ class DictionaryActivity : AppCompatActivity() {
                     viewModel.filter2(
                         editSearchEnDic.text.toString(),
                         editSearchIastDic.text.toString()
-                    ).observe(this@DictionaryActivity, { fw ->
+                    ).observe(this@WordsActivity, { fw ->
                             wordsAdapter.words = fw
                         })
                 }
@@ -338,13 +338,13 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val LOG_TAG = DictionaryActivity::class.java.simpleName
+        private val LOG_TAG = WordsActivity::class.java.simpleName
     }
 
     private val exportObserver = Observer<List<Word>> { words ->
         val filename = FILENAME_WORDS // todo make a constant for now
         if (words != null) {
-            viewModel.writeToFiles(Words(words), filename).observe(this@DictionaryActivity, {
+            viewModel.writeToFiles(Words(words), filename).observe(this@WordsActivity, {
                 this.export(filename = filename)
             })
         }
@@ -360,10 +360,10 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private val itemEditClickListener = View.OnClickListener {
-        val intentEdit = Intent(this@DictionaryActivity, AddModifyWordActivity::class.java)
+        val intentEdit = Intent(this@WordsActivity, AddModifyWordActivity::class.java)
         intentEdit.putExtra(EXTRA_WORD, it.tag as Word)
         intentEdit.putExtra(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
-        this@DictionaryActivity.startActivityForResult(intentEdit, CODE_REQUEST_EDIT_WORD)
+        this@WordsActivity.startActivityForResult(intentEdit, CODE_REQUEST_EDIT_WORD)
     }
 
     @SuppressLint("RestrictedApi")

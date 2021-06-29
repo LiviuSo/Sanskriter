@@ -12,10 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.SandhiActivity"></activity>
+
+        <activity android:name=".ui.activities.SandhiActivity" />
 
         <uses-library
             android:name="com.android.lvicto.dictionary"
+            android:required="false" />
+
+        <uses-library
+            android:name="com.lvicto.skeyboard"
             android:required="false" />
 
         <activity
@@ -31,12 +36,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.activities.MainActivity" />
         <activity
             android:name=".ui.activities.KeyboardSelectPopup"
             android:theme="@style/AppTheme.CustomTheme" />
+
         <activity android:name=".ui.activities.TestKeyboardActivity" />
-        <activity android:name=".ui.activities.BookActivity"></activity>
+
+        <activity android:name=".ui.activities.BookActivity" />
     </application>
 
 </manifest>
