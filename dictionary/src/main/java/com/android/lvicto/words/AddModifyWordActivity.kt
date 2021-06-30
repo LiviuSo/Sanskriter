@@ -1,4 +1,4 @@
-package com.android.lvicto.ui
+package com.android.lvicto.words
 
 import android.app.Activity
 import android.content.Intent
@@ -19,7 +19,6 @@ import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_RESULT
-import com.android.lvicto.viewmodel.WordsViewModel
 import kotlinx.android.synthetic.main.activity_add_declension.*
 import kotlinx.android.synthetic.main.activity_add_word.*
 

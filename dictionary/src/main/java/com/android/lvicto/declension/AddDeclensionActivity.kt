@@ -1,4 +1,4 @@
-package com.android.lvicto.ui
+package com.android.lvicto.declension
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,8 +21,7 @@ import com.android.lvicto.common.util.Constants
 import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.common.util.export
 import com.android.lvicto.common.util.openFilePicker
-import com.android.lvicto.viewmodel.DeclensionViewModel
-import com.android.lvicto.viewmodel.WordsViewModel
+import com.android.lvicto.words.WordsViewModel
 import kotlinx.android.synthetic.main.activity_add_declension.*
 
 class AddDeclensionActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.android.lvicto.viewmodel
+package com.android.lvicto.words
 
 import android.app.Application
 import android.net.Uri
@@ -11,8 +11,7 @@ import com.android.lvicto.db.data.GrammaticalType
 import com.android.lvicto.db.data.VerbClass
 import com.android.lvicto.db.data.Words
 import com.android.lvicto.db.entity.Word
-import com.android.lvicto.repo.FileRepository
-import com.android.lvicto.repo.WordsRepositoryImpl
+import com.android.lvicto.common.FileRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

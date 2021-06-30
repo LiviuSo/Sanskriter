@@ -1,4 +1,4 @@
-package com.android.lvicto.ui.dialog
+package com.android.lvicto.common.dialog
 
 import android.app.Activity
 import android.app.AlertDialog

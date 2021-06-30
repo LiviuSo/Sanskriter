@@ -1,4 +1,4 @@
-package com.android.lvicto.repo
+package com.android.lvicto.declension
 
 import android.app.Application
 import android.util.Log

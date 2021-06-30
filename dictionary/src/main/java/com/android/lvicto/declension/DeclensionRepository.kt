@@ -1,4 +1,4 @@
-package com.android.lvicto.repo
+package com.android.lvicto.declension
 
 import com.android.lvicto.db.entity.Declension
 

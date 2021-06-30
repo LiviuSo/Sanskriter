@@ -2,7 +2,6 @@ package com.android.lvicto.conjugation.view
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.annotation.LayoutRes
@@ -17,8 +16,6 @@ import com.android.lvicto.db.entity.Conjugation
 import com.android.lvicto.common.util.Constants.Dictionary.NONE
 import com.android.lvicto.common.util.initSpinner
 import com.android.lvicto.common.view.BaseViewMvs
-import com.android.lvicto.ui.dialog.ErrorDialog
-import kotlinx.android.synthetic.main.activity_add_declension.*
 import kotlinx.android.synthetic.main.activity_conjugation.*
 import kotlinx.android.synthetic.main.activity_conjugation.buttonExport
 import kotlinx.android.synthetic.main.activity_conjugation.buttonImport

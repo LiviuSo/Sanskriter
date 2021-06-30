@@ -1,4 +1,4 @@
-package com.android.lvicto.repo
+package com.android.lvicto.common
 
 import android.content.Context
 import android.net.Uri

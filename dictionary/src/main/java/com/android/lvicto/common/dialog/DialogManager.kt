@@ -1,4 +1,4 @@
-package com.android.lvicto.ui.dialog
+package com.android.lvicto.common.dialog
 
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.db.entity.Conjugation

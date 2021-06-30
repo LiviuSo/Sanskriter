@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.android.lvicto.R
 import com.android.lvicto.conjugation.activities.ConjugationActivity
-import com.android.lvicto.ui.AddDeclensionActivity
-import com.android.lvicto.ui.WordsActivity
+import com.android.lvicto.declension.AddDeclensionActivity
+import com.android.lvicto.words.WordsActivity
 import kotlinx.android.synthetic.main.activity_dictionary.*
 
 class DictionaryActivity : AppCompatActivity() {

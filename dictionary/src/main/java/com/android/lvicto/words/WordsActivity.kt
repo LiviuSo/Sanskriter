@@ -1,4 +1,4 @@
-package com.android.lvicto.ui
+package com.android.lvicto.words
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -35,8 +35,7 @@ import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.common.util.Utils.hideSoftKeyboard
 import com.android.lvicto.common.util.export
 import com.android.lvicto.common.util.openFilePicker
-import com.android.lvicto.ui.dialog.DialogManager
-import com.android.lvicto.viewmodel.WordsViewModel
+import com.android.lvicto.common.dialog.DialogManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.layout_all_words.*
 import kotlinx.android.synthetic.main.search_bar.*

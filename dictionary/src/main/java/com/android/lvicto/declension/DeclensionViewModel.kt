@@ -1,4 +1,4 @@
-package com.android.lvicto.viewmodel
+package com.android.lvicto.declension
 
 import android.app.Application
 import android.net.Uri
@@ -8,8 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.android.lvicto.db.data.Declensions
 import com.android.lvicto.db.entity.Declension
-import com.android.lvicto.repo.DeclensionRepositoryImpl
-import com.android.lvicto.repo.FileRepository
+import com.android.lvicto.common.FileRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

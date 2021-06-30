@@ -1,4 +1,4 @@
-package com.android.lvicto.repo
+package com.android.lvicto.words
 
 import com.android.lvicto.db.data.GrammaticalGender
 import com.android.lvicto.db.data.GrammaticalType

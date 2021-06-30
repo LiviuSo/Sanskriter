@@ -3,15 +3,15 @@
     package="com.android.lvicto">
 
     <application>
-        <activity android:name=".ui.WordsActivity" />
+        <activity android:name=".words.WordsActivity" />
         <activity android:name=".conjugation.activities.ConjugationActivity" />
-        <activity android:name=".ui.AddDeclensionActivity" />
+        <activity android:name=".declension.AddDeclensionActivity" />
         <activity
             android:name=".common.activities.DictionaryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
         <activity
-            android:name=".ui.AddModifyWordActivity"
+            android:name=".words.AddModifyWordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
 
