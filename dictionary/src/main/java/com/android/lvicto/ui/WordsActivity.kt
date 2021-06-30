@@ -35,6 +35,7 @@ import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.common.util.Utils.hideSoftKeyboard
 import com.android.lvicto.common.util.export
 import com.android.lvicto.common.util.openFilePicker
+import com.android.lvicto.ui.dialog.DialogManager
 import com.android.lvicto.viewmodel.WordsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.layout_all_words.*
@@ -43,6 +44,7 @@ import kotlinx.android.synthetic.main.search_bar.*
 
 class WordsActivity : AppCompatActivity() {
 
+    private lateinit var dialogManager: DialogManager
     private lateinit var viewModel: WordsViewModel
     private lateinit var wordsAdapter: WordsAdapter
 
@@ -58,6 +60,7 @@ class WordsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_words)
+        dialogManager = DialogManager(this)
         initUI()
     }
 
@@ -356,7 +359,7 @@ class WordsActivity : AppCompatActivity() {
 
     private val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
         val word = it.tag as Word
-        WordDialog(this, word).showDialog()
+        dialogManager.showWordDialog(word)
     }
 
     private val itemEditClickListener = View.OnClickListener {

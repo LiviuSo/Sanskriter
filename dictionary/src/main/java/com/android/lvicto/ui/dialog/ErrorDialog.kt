@@ -1,27 +1,27 @@
 package com.android.lvicto.ui.dialog
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.DialogInterface
+import androidx.appcompat.app.AppCompatActivity
 
-class ErrorDialog(val activity: Activity, private val message: String, private val onRetry: () -> Unit) {
+class ErrorDialog(
+    activity: AppCompatActivity,
+    message: String,
+    private val onRetry: () -> Unit
+) : BaseDialog(activity, message) {
 
-    private fun createDialog(): AlertDialog = AlertDialog.Builder(activity).apply {
+    override fun setupDialog(builder: Builder): Builder = builder.apply {
         this
-            .setMessage(message)
             .setPositiveButton("Close") { dialog, which ->
-            if(which == DialogInterface.BUTTON_POSITIVE) {
-                dialog.dismiss()
-            }
-        }.setNegativeButton("Retry") { dialog, which ->
+                if(which == DialogInterface.BUTTON_POSITIVE) {
+                    dialog.dismiss()
+                }
+            }.setNegativeButton("Retry") { dialog, which ->
                 if(which == DialogInterface.BUTTON_NEGATIVE) {
                     onRetry.invoke()
                     dialog.dismiss()
                 }
             }
-    }.create()
-
-    fun showDialog() {
-        createDialog().show()
     }
+
 }

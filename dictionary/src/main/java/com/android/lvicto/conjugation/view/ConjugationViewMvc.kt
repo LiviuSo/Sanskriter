@@ -317,9 +317,9 @@ class ConjugationViewMvc(val activity: AppCompatActivity) :
         activity.progressBar.visibility = GONE
     }
 
-    fun showErrorDialog(message: String, onRetry: () -> Unit) {
-        ErrorDialog(activity, message, onRetry).showDialog()
-    }
+//    fun showErrorDialog(message: String, onRetry: () -> Unit) {
+//        ErrorDialog(activity, message, onRetry).showDialog()
+//    }
 
     fun setFormRoot(formRoot: String) {
         activity.tvRootDetected.text = formRoot

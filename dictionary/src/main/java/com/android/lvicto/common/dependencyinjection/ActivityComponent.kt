@@ -6,6 +6,7 @@ import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
+import com.android.lvicto.ui.dialog.DialogManager
 
 class ActivityComponent(
     val activity: AppCompatActivity,
@@ -33,6 +34,8 @@ class ActivityComponent(
     val viewMvc: ConjugationViewMvc
         get() = ConjugationViewMvc(activity = activity)
 
+    val dialogManager: DialogManager
+        get() = DialogManager(activity = activity)
 
     // todo complete
 

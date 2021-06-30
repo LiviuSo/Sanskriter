@@ -1,24 +1,25 @@
 package com.android.lvicto.ui
 
-import android.app.Activity
-import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.R
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.common.util.Constants
+import com.android.lvicto.db.entity.Word
+import com.android.lvicto.ui.dialog.BaseDialog
 
-class WordDialog(val context: Activity, val word: Word) {
+class WordDialog(
+    activity: AppCompatActivity,
+    val word: Word
+) : BaseDialog(activity, word.toString()) {
 
-    private fun createDialog(): Dialog = AlertDialog.Builder(context).apply {
+    override fun setupDialog(builder: Builder): Builder = builder.apply {
         this
             .setPositiveButton(R.string.fire) { dialog, which ->
                 if (which == DialogInterface.BUTTON_POSITIVE) {
                     dialog.dismiss()
                 }
             }
-            .setMessage("$word")
             .setNeutralButton(R.string.edit) { _, which ->
                 if (which == DialogInterface.BUTTON_NEUTRAL) {
                     val intentEdit = Intent(context, AddModifyWordActivity::class.java)
@@ -27,16 +28,12 @@ class WordDialog(val context: Activity, val word: Word) {
                         Constants.Dictionary.EXTRA_REQUEST_CODE,
                         Constants.Dictionary.CODE_REQUEST_EDIT_WORD
                     )
-                    this@WordDialog.context.startActivityForResult(
+                    this@WordDialog.activity.startActivityForResult(
                         intentEdit,
                         Constants.Dictionary.CODE_REQUEST_EDIT_WORD
                     )
                 }
             }
-    }.create()
-
-    fun showDialog() {
-        createDialog().show()
     }
 
 }

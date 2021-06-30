@@ -4,6 +4,7 @@ import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
+import com.android.lvicto.ui.dialog.DialogManager
 import java.lang.reflect.Field
 
 class Injector(private val compositionRoot: PresentationCompositionRoot) {
@@ -50,6 +51,9 @@ class Injector(private val compositionRoot: PresentationCompositionRoot) {
         }
         ConjugationViewMvc::class.java -> {
             compositionRoot.viewMvc
+        }
+        DialogManager::class.java -> {
+            compositionRoot.dialogManager
         }
         else -> {
             throw Exception("unsupported service type: $type")

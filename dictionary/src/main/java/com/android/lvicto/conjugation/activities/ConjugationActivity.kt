@@ -3,7 +3,6 @@ package com.android.lvicto.conjugation.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import com.android.lvicto.R
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.db.entity.Conjugation
@@ -16,7 +15,8 @@ import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
-import com.android.lvicto.ui.dialog.ConfirmationDialog
+import com.android.lvicto.ui.dialog.ConjugationDialog
+import com.android.lvicto.ui.dialog.DialogManager
 import com.android.lvicto.ui.dialog.ErrorDialog
 import kotlinx.coroutines.*
 
@@ -33,6 +33,9 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
 
     @field:Service
     private lateinit var mConjugationImportExportUseCase: ConjugationImportExportUseCase
+
+    @field:Service
+    private lateinit var dialogManager: DialogManager
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -104,17 +107,17 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
                         if (resFetch is ConjugationFetchUseCase.Result.Success) {
                             mViewMvc.setConjugations(resFetch.conjugations)
                         } else {
-                            mViewMvc.showErrorDialog("Fail to filter") {
+                           dialogManager.showErrorDialog("Fail to filter") {
                                 // onRetry() empty for now
                             }
                         }
                     } else {
-                        mViewMvc.showErrorDialog("Fail to add") {
+                       dialogManager.showErrorDialog("Fail to add") {
                             // onRetry() empty for now
                         }
                     }
                 } catch (e: Exception) {
-                    mViewMvc.showErrorDialog("Unknown error (add): ${e.message}") {
+                   dialogManager.showErrorDialog("Unknown error (add): ${e.message}") {
                         // onRetry() empty for now
                     }
                 } finally {
@@ -132,12 +135,12 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
                 if (res is ConjugationFetchUseCase.Result.Success) {
                     mViewMvc.setConjugations(res.conjugations)
                 } else {
-                    mViewMvc.showErrorDialog("Fail to filter") {
+                   dialogManager.showErrorDialog("Fail to filter") {
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                mViewMvc.showErrorDialog("Unknown error (filter): ${e.message}") {
+               dialogManager.showErrorDialog("Unknown error (filter): ${e.message}") {
                     // onRetry() empty for now
                 }
             } finally {
@@ -147,7 +150,9 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
     }
 
     private fun delete(conjugation: Conjugation?) {
-        conjugation?.let { ConfirmationDialog(this, it, ::deleteDialogAction).showDialog() }
+        conjugation?.let {
+            dialogManager.showConjugationDialog(it, ::deleteDialogAction)
+        }
     }
 
     private fun deleteDialogAction(conjugation: Conjugation) {
@@ -165,13 +170,13 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
                     if (resFetch is ConjugationFetchUseCase.Result.Success) {
                         mViewMvc.setConjugations(resFetch.conjugations)
                     } else {
-                        mViewMvc.showErrorDialog("Fail to filter") {
+                       dialogManager.showErrorDialog("Fail to filter") {
                             // onRetry() empty for now
                         }
                     }
                 }
             } catch (e: Exception) {
-                mViewMvc.showErrorDialog("Unknown error (delete): ${e.message}") {
+               dialogManager.showErrorDialog("Unknown error (delete): ${e.message}") {
                     // onRetry() empty for now
                 }
             } finally {
@@ -196,17 +201,17 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
                             "Dictionary: exporting conjugations"
                         )
                     } else {
-                        mViewMvc.showErrorDialog("Fail to export") {
+                       dialogManager.showErrorDialog("Fail to export") {
                             // onRetry() empty for now
                         }
                     }
                 } else {
-                    mViewMvc.showErrorDialog("Fail to filter") {
+                   dialogManager.showErrorDialog("Fail to filter") {
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                mViewMvc.showErrorDialog("Unknown error (export): ${e.message}") {
+               dialogManager.showErrorDialog("Unknown error (export): ${e.message}") {
                     // onRetry() empty for now
                 }
             } finally {
@@ -229,17 +234,17 @@ class ConjugationActivity : BaseActivity(), ConjugationViewMvc.Listener {
                         mConjugationAddUseCase.addConjugations(res.conjugations)
                         mViewMvc.setConjugations(res.conjugations)
                     } else {
-                        mViewMvc.showErrorDialog("Fail to add conjugations.") {
+                       dialogManager.showErrorDialog("Fail to add conjugations.") {
                             // onRetry() empty for now
                         }
                     }
                 } else {
-                    mViewMvc.showErrorDialog("Fail to import") {
+                   dialogManager.showErrorDialog("Fail to import") {
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                mViewMvc.showErrorDialog("Unknown error (import): ${e.message}") {
+               dialogManager.showErrorDialog("Unknown error (import): ${e.message}") {
                     // onRetry() empty for now
                 }
             } finally {
