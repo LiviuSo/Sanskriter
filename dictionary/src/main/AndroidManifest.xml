@@ -5,7 +5,7 @@
     <application>
         <activity android:name=".words.WordsActivity" />
         <activity android:name=".conjugation.activities.ConjugationActivity" />
-        <activity android:name=".declension.AddDeclensionActivity" />
+        <activity android:name=".declension.activities.DeclensionActivity" />
         <activity
             android:name=".common.activities.DictionaryActivity"
             android:screenOrientation="portrait"

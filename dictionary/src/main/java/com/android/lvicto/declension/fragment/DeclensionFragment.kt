@@ -1,31 +1,34 @@
-package com.android.lvicto.declension
+package com.android.lvicto.declension.fragment
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.adapter.DeclensionAdapter
-import com.android.lvicto.db.data.Declensions
-import com.android.lvicto.db.Converters
-import com.android.lvicto.db.entity.Declension
+import com.android.lvicto.common.fragment.BaseFragment
 import com.android.lvicto.common.util.Constants
-import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
 import com.android.lvicto.common.util.export
 import com.android.lvicto.common.util.openFilePicker
+import com.android.lvicto.db.Converters
+import com.android.lvicto.db.data.Declensions
+import com.android.lvicto.db.entity.Declension
+import com.android.lvicto.declension.DeclensionViewModel
 import com.android.lvicto.words.WordsViewModel
-import kotlinx.android.synthetic.main.activity_add_declension.*
+import kotlinx.android.synthetic.main.fragment_declension.*
+import kotlinx.android.synthetic.main.fragment_declension.view.*
 
-class AddDeclensionActivity : AppCompatActivity() {
-
+class DeclensionFragment : BaseFragment() {
     private var mCase: String = "n/a"
     private var mGender: String = "n/a"
     private var mNumber: String = "n/a"
@@ -48,8 +51,8 @@ class AddDeclensionActivity : AppCompatActivity() {
         val filename = Constants.Dictionary.FILENAME_DECLENSION // todo make a constant for now
         if (declensions != null) {
             viewModelDeclension.writeToFile(Declensions(declensions), filename)
-                .observe(this@AddDeclensionActivity, {
-                    this.export(filename = filename)
+                .observe(requireActivity(), {
+                    requireActivity().export(filename = filename)
                 })
         }
     }
@@ -94,17 +97,18 @@ class AddDeclensionActivity : AppCompatActivity() {
                         val root = "${
                             declensionWord.substring(0, sizeDeclWord - declension.suffix.length)
                         }${declension.paradigmEnding}"
-                        viewModelWords.filter(root, declension.paradigm, true).observe(this, { dicRes ->
-                            if (dicRes.isNotEmpty()) { // todo make a callback
-                                tvResults.text = StringBuffer().let { sb ->
-                                    dicRes.map {
-                                        sb.append("${it.wordIAST} ${declension.gCase.abbr} ${declension.gNumber.abbr} ${declension.gGender.abbr}\n")
-                                    }.first().toString()
+                        viewModelWords.filter(root, declension.paradigm, true)
+                            .observe(this, { dicRes ->
+                                if (dicRes.isNotEmpty()) { // todo make a callback
+                                    tvResults.text = StringBuffer().let { sb ->
+                                        dicRes.map {
+                                            sb.append("${it.wordIAST} ${declension.gCase.abbr} ${declension.gNumber.abbr} ${declension.gGender.abbr}\n")
+                                        }.first().toString()
+                                    }
+                                } else {
+                                    tvResults.text = "No results yet."
                                 }
-                            } else {
-                                tvResults.text = "No results yet."
-                            }
-                        })
+                            })
                     } else {
                         tvResults.text = "No results yet."
                     }
@@ -112,65 +116,71 @@ class AddDeclensionActivity : AppCompatActivity() {
             })
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_declension)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // todo injection
-        viewModelDeclension = DeclensionViewModel(application)
-        viewModelWords = WordsViewModel(application)
+        viewModelDeclension = DeclensionViewModel(requireActivity().application)
+        viewModelWords = WordsViewModel(requireActivity().application)
 
-        setUpUI()
+        return setUpUI(inflater, container, R.layout.fragment_declension)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICKFILE_RESULT_CODE) {
+        if (requestCode == Constants.Dictionary.PICKFILE_RESULT_CODE) {
             data?.data?.let {
                 viewModelDeclension.readFromFile(it)
-                    .observe(this@AddDeclensionActivity, importObserver)
+                    .observe(requireActivity(), importObserver)
             } ?: Log.d(LOG_TAG, "path is null")
         }
     }
 
-    private fun setUpUI() {
+    private fun setUpUI(
+        layoutInflater: LayoutInflater,
+        parent: ViewGroup?,
+        @LayoutRes layoutId: Int
+    ): View {
+        val root = layoutInflater.inflate(layoutId, parent, false)
 
         // region livedata
         mCaseFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, filterObserver)
+            observe(requireActivity(), filterObserver)
         }
         mNumberFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, filterObserver)
+            observe(requireActivity(), filterObserver)
         }
         mGenderFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, filterObserver)
+            observe(requireActivity(), filterObserver)
         }
         mParadigmFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, filterObserver)
+            observe(requireActivity(), filterObserver)
         }
         mEndingFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, filterObserver)
+            observe(requireActivity(), filterObserver)
         }
         mSuffixFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, filterObserver)
+            observe(requireActivity(), filterObserver)
         }
         mDeclensionFilter = MutableLiveData<String>().apply {
-            observe(this@AddDeclensionActivity, detectDeclensionObserver)
+            observe(requireActivity(), detectDeclensionObserver)
         }
         // endregion
 
         // region spinners add declension
-        spinnerCase.apply {
-            this.adapter = ArrayAdapter
+        root.spinnerCase.apply {
+            this@apply.adapter = ArrayAdapter
                 .createFromResource(
-                    this@AddDeclensionActivity,
+                    requireActivity(),
                     R.array.sanskrit_cases_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
-            this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -187,17 +197,17 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         }
 
-        spinnerNumber.apply {
-            this.adapter = ArrayAdapter
+        root.spinnerNumber.apply {
+            this@apply.adapter = ArrayAdapter
                 .createFromResource(
-                    this@AddDeclensionActivity,
+                    requireActivity(),
                     R.array.filter_sanskrit_numbers_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
-            this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -214,17 +224,17 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         }
 
-        spinnerGender.apply {
-            this.adapter = ArrayAdapter
+        root.spinnerGender.apply {
+            this@apply.adapter = ArrayAdapter
                 .createFromResource(
-                    this@AddDeclensionActivity,
+                    requireActivity(),
                     R.array.sanskrit_gender_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
-            this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -243,26 +253,26 @@ class AddDeclensionActivity : AppCompatActivity() {
         // endregion
 
         // region RV
-        recyclerViewDeclensions.layoutManager = LinearLayoutManager(this)
-        adapter = DeclensionAdapter(this).apply {
-            this.onDeleteClick = { declension ->
+        root.recyclerViewDeclensions.layoutManager = LinearLayoutManager(requireActivity())
+        adapter = DeclensionAdapter(requireActivity()).apply {
+            this@apply.onDeleteClick = { declension ->
                 Log.d("decl11", "delete : $declension")
-                viewModelDeclension.delete(declension).observe(this@AddDeclensionActivity, {
-                    viewModelDeclension.getAll().observe(this@AddDeclensionActivity, { list ->
+                viewModelDeclension.delete(declension).observe(requireActivity(), {
+                    viewModelDeclension.getAll().observe(requireActivity(), { list ->
                         adapter.refresh(list)
                     })
                 })
             }
         }
-        recyclerViewDeclensions.adapter = adapter
+        root.recyclerViewDeclensions.adapter = adapter
 
-        viewModelDeclension.getAll().observe(this, {
+        viewModelDeclension.getAll().observe(requireActivity(), {
             adapter.refresh(it)
         })
         // endregion
 
         // region edit text
-        editTextSuffix.addTextChangedListener(object : TextWatcher {
+        root.editTextSuffix.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence?,
                 start: Int,
@@ -287,8 +297,13 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         })
 
-        editTextFilterParadigm.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        root.editTextFilterParadigm.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -299,8 +314,13 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         })
 
-        editTextFilterEnding.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        root.editTextFilterEnding.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -311,8 +331,13 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         })
 
-        editTextFilterSuffix.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        root.editTextFilterSuffix.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -323,8 +348,13 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         })
 
-        editTextDetectDeclension.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        root.editTextDetectDeclension.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                s: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -338,7 +368,7 @@ class AddDeclensionActivity : AppCompatActivity() {
         // endregion
 
         // region buttons
-        buttonSave.setOnClickListener {
+        root.buttonSave.setOnClickListener {
             viewModelDeclension.let { viewModel ->
                 // insert into the DB
                 val decl = Declension(
@@ -351,36 +381,36 @@ class AddDeclensionActivity : AppCompatActivity() {
                     editTextSuffix.text.toString(),
                     editTextParadigmDeclension.text.toString()
                 )
-                viewModel.insert(decl).observe(this, {
+                viewModel.insert(decl).observe(requireActivity(), {
                     // refresh RV
-                    viewModel.getAll().observe(this, {
+                    viewModel.getAll().observe(requireActivity(), {
                         adapter.refresh(it)
                     })
                 })
             }
         }
 
-        buttonImport.setOnClickListener {
-            openFilePicker(PICKFILE_RESULT_CODE)
+        root.buttonImport.setOnClickListener {
+            requireActivity().openFilePicker(Constants.Dictionary.PICKFILE_RESULT_CODE)
         }
 
-        buttonExport.setOnClickListener {
-            viewModelDeclension.getAll().observe(this, exportObserver)
+        root.buttonExport.setOnClickListener {
+            viewModelDeclension.getAll().observe(requireActivity(), exportObserver)
         }
         // endregion
 
         // region spinners filter
-        spinnerFilterCase.apply {
-            this.adapter = ArrayAdapter
+        root.spinnerFilterCase.apply {
+            this@apply.adapter = ArrayAdapter
                 .createFromResource(
-                    this@AddDeclensionActivity,
+                    requireActivity(),
                     R.array.filter_sanskrit_cases_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
-            this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -396,17 +426,17 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         }
 
-        spinnerFilterNumber.apply {
-            this.adapter = ArrayAdapter
+        root.spinnerFilterNumber.apply {
+            this@apply.adapter = ArrayAdapter
                 .createFromResource(
-                    this@AddDeclensionActivity,
+                    requireActivity(),
                     R.array.filter_sanskrit_numbers_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
-            this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -422,17 +452,17 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         }
 
-        spinnerFilterGender.apply {
-            this.adapter = ArrayAdapter
+        root.spinnerFilterGender.apply {
+            this@apply.adapter = ArrayAdapter
                 .createFromResource(
-                    this@AddDeclensionActivity,
+                    requireActivity(),
                     R.array.filter_sanskrit_gender_array,
                     android.R.layout.simple_spinner_item
                 )
                 .also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
-            this.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
                     view: View?,
@@ -448,6 +478,8 @@ class AddDeclensionActivity : AppCompatActivity() {
             }
         }
         // endregion
+
+        return root
     }
 
     companion object {
