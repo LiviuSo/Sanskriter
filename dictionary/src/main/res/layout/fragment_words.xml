@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".words.activities.WordsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <include
+            layout="@layout/search_bar"
+            android:visibility="gone"/>
+
+        <include layout="@layout/layout_all_words" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabDictionary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/dim_fab_bottom"
+        android:elevation="@dimen/dim_fab_elevation"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_marginEnd="10dp"
+        app:backgroundTint="@color/colorShowDefinition"
+        android:contentDescription="Fab Dictionary"
+        android:layout_marginRight="10dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

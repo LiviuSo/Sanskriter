@@ -1,37 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".words.WordsActivity">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include layout="@layout/toolbar" />
-
-        <include
-            layout="@layout/search_bar"
-            android:visibility="gone"/>
-
-        <include layout="@layout/layout_all_words" />
-
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabDictionary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/dim_fab_bottom"
-        android:elevation="@dimen/dim_fab_elevation"
-        android:src="@drawable/ic_add_24dp"
-        app:backgroundTint="@color/colorShowDefinition"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    android:id="@+id/containerWords" />

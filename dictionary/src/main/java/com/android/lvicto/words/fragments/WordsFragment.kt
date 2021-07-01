@@ -1,4 +1,4 @@
-package com.android.lvicto.words
+package com.android.lvicto.words.fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -7,41 +7,39 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.LinearLayout
+import android.view.*
+import android.widget.*
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.adapter.WordsAdapter
-import com.android.lvicto.db.data.Words
-import com.android.lvicto.db.entity.Word
-import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
-import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_EN
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_IAST
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_RESULT
-import com.android.lvicto.common.util.Constants.Dictionary.FILENAME_WORDS
-import com.android.lvicto.common.util.Constants.Dictionary.PICKFILE_RESULT_CODE
-import com.android.lvicto.common.util.Utils.hideSoftKeyboard
+import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.common.fragment.BaseFragment
+import com.android.lvicto.common.util.Constants
+import com.android.lvicto.common.util.Utils
 import com.android.lvicto.common.util.export
 import com.android.lvicto.common.util.openFilePicker
-import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.db.data.Words
+import com.android.lvicto.db.entity.Word
+import com.android.lvicto.words.WordsViewModel
+import com.android.lvicto.words.activities.AddModifyWordActivity
+import com.android.lvicto.words.activities.WordsActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.layout_all_words.*
+import kotlinx.android.synthetic.main.fragment_words.view.*
+import kotlinx.android.synthetic.main.layout_all_words.view.*
 import kotlinx.android.synthetic.main.search_bar.*
+import kotlinx.android.synthetic.main.search_bar.view.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 
-
-class WordsActivity : AppCompatActivity() {
+/*
+bug : after editing a word in edit/remove mode, the list is not showing that word's update
+bug: if an item is selected then unselected and then scrolled - the item is auto-selected
+ */
+class WordsFragment : BaseFragment() {
 
     private lateinit var dialogManager: DialogManager
     private lateinit var viewModel: WordsViewModel
@@ -56,77 +54,46 @@ class WordsActivity : AppCompatActivity() {
     private lateinit var fab: FloatingActionButton
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_words)
-        dialogManager = DialogManager(this)
-        initUI()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_dictionary, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menuItemImport -> {
-                Log.d(LOG_TAG, "R.id.menuItemImport")
-                openFilePicker(PICKFILE_RESULT_CODE)
-                true
-            }
-            R.id.menuItemExport -> {
-                Log.d(LOG_TAG, "R.id.menuItemExport")
-                viewModel.getAllWordsCor().observe(this, exportObserver)
-                true
-            }
-            R.id.menuItemFind -> {
-                Log.d(LOG_TAG, "R.id.menuItemFind")
-                if (llSearch.visibility != View.VISIBLE) {
-                    // show edit with close button
-                    llSearch.visibility = View.VISIBLE
-                    // pop-up IAST keyboard for now
-                    // as typing, filter
-                    true
-
-                } else {
-                    false
-                }
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        dialogManager = DialogManager(requireActivity() as AppCompatActivity)
+        return initUI(inflater, container, R.layout.fragment_words)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                CODE_REQUEST_ADD_WORD, CODE_REQUEST_EDIT_WORD -> {
-                    val word = data?.getParcelableExtra<Word>(EXTRA_WORD_RESULT)
+                Constants.Dictionary.CODE_REQUEST_ADD_WORD, Constants.Dictionary.CODE_REQUEST_EDIT_WORD -> {
+                    val word =
+                        data?.getParcelableExtra<Word>(Constants.Dictionary.EXTRA_WORD_RESULT)
 
-                    if (requestCode == CODE_REQUEST_ADD_WORD) {
+                    if (requestCode == Constants.Dictionary.CODE_REQUEST_ADD_WORD) {
                         if (llSearch.visibility == View.VISIBLE) { // the insertion was made from search
                             val filterEn = editSearchEnDic.text.toString()
                             val filterIast = editSearchIastDic.text.toString()
                             viewModel.filter2(filterEn, filterIast)
-                                .observe(this@WordsActivity, { filteredWords ->
+                                .observe(requireActivity(), { filteredWords ->
                                     wordsAdapter.words = filteredWords
                                 })
                         } else {
-                            viewModel.getAllWordsCor().observe(this@WordsActivity, {
+                            viewModel.getAllWordsCor().observe(requireActivity(), {
                                 wordsAdapter.words = it // show all words for now
                             })
                         }
-                    } else if (requestCode == CODE_REQUEST_EDIT_WORD) {
+                    } else if (requestCode == Constants.Dictionary.CODE_REQUEST_EDIT_WORD) {
                         if (llSearch.visibility == View.VISIBLE) { // the update was made from search
                             val filterEn = editSearchEnDic.text.toString()
                             val filterIast = editSearchIastDic.text.toString()
                             viewModel.filter2(filterEn, filterIast)
-                                .observe(this@WordsActivity, { filteredWords ->
+                                .observe(requireActivity(), { filteredWords ->
                                     wordsAdapter.words = filteredWords
                                 })
                         } else {
-                            viewModel.getAllWordsCor().observe(this@WordsActivity, {
+                            viewModel.getAllWordsCor().observe(requireActivity(), {
                                 wordsAdapter.words = it // show all words for now
                             })
                         }
@@ -134,12 +101,12 @@ class WordsActivity : AppCompatActivity() {
                         Log.e(LOG_TAG, "success unknown code")
                     }
                 }
-                PICKFILE_RESULT_CODE -> {
+                Constants.Dictionary.PICKFILE_RESULT_CODE -> {
                     val uri = data?.data
                     Log.d(LOG_TAG, uri?.path.toString())
                     if (uri != null) {
                         viewModel.readFromFiles(uri)
-                            .observe(this@WordsActivity, importObserver)
+                            .observe(requireActivity(), importObserver)
                     } else {
                         Log.d(LOG_TAG, "path is null")
                     }
@@ -151,22 +118,76 @@ class WordsActivity : AppCompatActivity() {
         }
     }
 
-    private fun initUI() {
+    private fun initUI(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        @LayoutRes layoutId: Int
+    ): View {
+
+        val root = inflater.inflate(layoutId, container, false)
 
         // TODO injection
-        viewModel = ViewModelProvider(this@WordsActivity).get(WordsViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(WordsViewModel::class.java)
 
-        // toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        // region toolbar
+        val toolbar = root.toolbar
         toolbar.title = resources.getString(R.string.dictionary)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        toolbar.toolbarSearch.setOnClickListener {
+            if (llSearch.visibility != View.VISIBLE) {
+                // show edit with close button
+                llSearch.visibility = View.VISIBLE
+                // pop-up IAST keyboard for now
+                // as typing, filter
+            }
+        }
+        toolbar.navigationUp.setOnClickListener {
+            if (wordsAdapter.type != WordsAdapter.TYPE_NON_REMOVABLE) {
+                cancelRemoveSelected()
+                it.visibility = View.GONE
+            } else {
+                requireActivity().onBackPressed()
+            }
+        }
+
+        root.toolbarTitle.text = "Dictionary" // todo resource
+        val overflowMenuImageView: ImageView = root.toolbarMenu
+        overflowMenuImageView.setOnClickListener { view ->
+            val popupMenu = PopupMenu(activity, view)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menuItemImport -> {
+                        requireActivity().openFilePicker(Constants.Dictionary.PICKFILE_RESULT_CODE)
+                        true
+                    }
+                    R.id.menuItemExport -> {
+                        viewModel.getAllWordsCor().observe(requireActivity(), exportObserver)
+                        true
+                    }
+                    R.id.menuItemFind -> {
+                        if (llSearch.visibility != View.VISIBLE) {
+                            // show edit with close button
+                            llSearch.visibility = View.VISIBLE
+                            // pop-up IAST keyboard for now
+                            // as typing, filter
+                            true
+
+                        } else {
+                            false
+                        }
+                    }
+                    else -> super.onOptionsItemSelected(item)
+                }
+            }
+            popupMenu.inflate(R.menu.menu_dictionary)
+            popupMenu.show()
+        }
+        // endregion
 
         // search bar
-        llSearch = findViewById(R.id.llSearchBar)
-        editSearchEnDic = findViewById(R.id.editSearch)
-        editSearchIastDic = findViewById(R.id.editSearchIast)
-        ibSearchClose = findViewById(R.id.btnCloseSearchBar)
+        llSearch = root.llSearchBar
+        editSearchEnDic = root.editSearch
+        editSearchIastDic = root.editSearchIast
+        ibSearchClose = root.btnCloseSearchBar
 
         editSearchEnDic.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -184,7 +205,7 @@ class WordsActivity : AppCompatActivity() {
                 )
                 val filterEn = s.toString()
                 val filterIast = editSearchIastDic.text.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(requireActivity(), {
                     wordsAdapter.words = it
                 })
             }
@@ -194,7 +215,7 @@ class WordsActivity : AppCompatActivity() {
             if (hasFocus) {
                 val filterEn = (v as EditText).text.toString()
                 val filterIast = editSearchIast.text.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(requireActivity(), {
                     wordsAdapter.words = it
                 })
             }
@@ -212,7 +233,7 @@ class WordsActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val filterEn = editSearchEnDic.text.toString()
                 val filterIast = s.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(requireActivity(), {
                     wordsAdapter.words = it
                 })
             }
@@ -222,7 +243,7 @@ class WordsActivity : AppCompatActivity() {
             if (hasFocus) {
                 val filterEn = editSearchEnDic.text.toString()
                 val filterIast = (v as EditText).text.toString()
-                viewModel.filter2(filterEn, filterIast).observe(this@WordsActivity, {
+                viewModel.filter2(filterEn, filterIast).observe(requireActivity(), {
                     wordsAdapter.words = it
                 })
             }
@@ -231,41 +252,42 @@ class WordsActivity : AppCompatActivity() {
         ibSearchClose.setOnClickListener {
             clearSearch()
             // close the keyboard
-            hideSoftKeyboard(this@WordsActivity)
+            Utils.hideSoftKeyboard(requireActivity())
         }
 
         // get data from intent
-        val searchIast = intent.getStringExtra(EXTRA_WORD_IAST)
-        val searchEn = intent.getStringExtra(EXTRA_WORD_EN)
-        if (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) {
-            if (llSearch.visibility != View.VISIBLE) {
-                // show edit with close button
-                llSearch.visibility = View.VISIBLE
-                if (!searchIast.isNullOrEmpty()) {
-                    editSearchIastDic.setText(searchIast)
-                }
-                if (!searchEn.isNullOrEmpty()) {
-                    editSearchEnDic.setText(searchEn)
-                }
-                if (searchIast != null) {
-                    viewModel.filter(searchIast, true).observe(this@WordsActivity, { words1 ->
-                        if (searchEn != null) {
-                            viewModel.filter2(searchEn, searchIast)
-                                .observe(this@WordsActivity, { words2 ->
-                                    wordsAdapter.words = words2
-                                })
-                        } else {
-                            wordsAdapter.words = words1
-                        }
-                    })
+        requireActivity().intent.let { intent ->
+            val searchIast = intent.getStringExtra(Constants.Dictionary.EXTRA_WORD_IAST)
+            val searchEn = intent.getStringExtra(Constants.Dictionary.EXTRA_WORD_EN)
+            if (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) {
+                if (llSearch.visibility != View.VISIBLE) {
+                    // show edit with close button
+                    llSearch.visibility = View.VISIBLE
+                    if (!searchIast.isNullOrEmpty()) {
+                        editSearchIastDic.setText(searchIast)
+                    }
+                    if (!searchEn.isNullOrEmpty()) {
+                        editSearchEnDic.setText(searchEn)
+                    }
+                    if (searchIast != null) {
+                        viewModel.filter(searchIast, true).observe(requireActivity(), { words1 ->
+                            if (searchEn != null) {
+                                viewModel.filter2(searchEn, searchIast)
+                                    .observe(requireActivity(), { words2 ->
+                                        wordsAdapter.words = words2
+                                    })
+                            } else {
+                                wordsAdapter.words = words1
+                            }
+                        })
+                    }
                 }
             }
         }
-
         // words recycleview
-        recyclerView = findViewById(R.id.rv_words)
+        recyclerView = root.rv_words
         wordsAdapter = WordsAdapter(
-            this, itemDefinitionClickListener,
+            requireContext(), itemDefinitionClickListener,
             itemEditClickListener,
             longClickListener
         ) {
@@ -275,31 +297,36 @@ class WordsActivity : AppCompatActivity() {
                 View.VISIBLE
             }
         }
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerView.adapter = wordsAdapter
-        viewModel.getAllWordsCor().observe(this, Observer<List<Word>> {
+        viewModel.getAllWordsCor().observe(requireActivity(), {
             wordsAdapter.words = it
         })
 
         // remove words
-        llRemoveCancel = findViewById(R.id.llRemoveCancel)
-        btnRemove.setOnClickListener(this::removeSelected)
-        btnClearSelections.setOnClickListener(this::unselectAll)
+        llRemoveCancel = root.llRemoveCancel
+        llRemoveCancel.btnRemove.setOnClickListener(this::removeSelected)
+        llRemoveCancel.btnClearSelections.setOnClickListener(this::unselectAll)
 
         // add fab
-        fab = findViewById(R.id.fabDictionary)
+        fab = root.fabDictionary
         fab.setOnClickListener {
-            val intent = Intent(this@WordsActivity, AddModifyWordActivity::class.java)
+            val intent = Intent(requireActivity(), AddModifyWordActivity::class.java)
             val word = Word(
                 word = "",
                 wordIAST = editSearchIast.text.toString(),
                 meaningEn = editSearchEnDic.text.toString(),
                 meaningRo = ""
             )
-            intent.putExtra(EXTRA_WORD, word)
-            intent.putExtra(EXTRA_REQUEST_CODE, CODE_REQUEST_ADD_WORD)
-            startActivityForResult(intent, CODE_REQUEST_ADD_WORD)
+            intent.putExtra(Constants.Dictionary.EXTRA_WORD, word)
+            intent.putExtra(
+                Constants.Dictionary.EXTRA_REQUEST_CODE,
+                Constants.Dictionary.CODE_REQUEST_ADD_WORD
+            )
+            startActivityForResult(intent, Constants.Dictionary.CODE_REQUEST_ADD_WORD)
         }
+
+        return root
     }
 
     private fun clearSearch() {
@@ -317,7 +344,7 @@ class WordsActivity : AppCompatActivity() {
     private fun removeSelected(v: View) {
         val adapter = recyclerView.adapter as WordsAdapter
         viewModel.deleteWords(adapter.getWordsToRemove())
-            .observe(this@WordsActivity, {
+            .observe(requireActivity(), {
                 adapter.unselectRemoveSelected()
                 if (llSearch.visibility != View.VISIBLE) { // show all words
                     wordsAdapter.words = it
@@ -325,9 +352,9 @@ class WordsActivity : AppCompatActivity() {
                     viewModel.filter2(
                         editSearchEnDic.text.toString(),
                         editSearchIastDic.text.toString()
-                    ).observe(this@WordsActivity, { fw ->
-                            wordsAdapter.words = fw
-                        })
+                    ).observe(requireActivity(), { fw ->
+                        wordsAdapter.words = fw
+                    })
                 }
             })
     }
@@ -344,10 +371,10 @@ class WordsActivity : AppCompatActivity() {
     }
 
     private val exportObserver = Observer<List<Word>> { words ->
-        val filename = FILENAME_WORDS // todo make a constant for now
+        val filename = Constants.Dictionary.FILENAME_WORDS // todo make a constant for now
         if (words != null) {
-            viewModel.writeToFiles(Words(words), filename).observe(this@WordsActivity, {
-                this.export(filename = filename)
+            viewModel.writeToFiles(Words(words), filename).observe(requireActivity(), {
+                requireActivity().export(filename = filename)
             })
         }
     }
@@ -362,16 +389,22 @@ class WordsActivity : AppCompatActivity() {
     }
 
     private val itemEditClickListener = View.OnClickListener {
-        val intentEdit = Intent(this@WordsActivity, AddModifyWordActivity::class.java)
-        intentEdit.putExtra(EXTRA_WORD, it.tag as Word)
-        intentEdit.putExtra(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
-        this@WordsActivity.startActivityForResult(intentEdit, CODE_REQUEST_EDIT_WORD)
+        val intentEdit = Intent(requireActivity(), AddModifyWordActivity::class.java)
+        intentEdit.putExtra(Constants.Dictionary.EXTRA_WORD, it.tag as Word)
+        intentEdit.putExtra(
+            Constants.Dictionary.EXTRA_REQUEST_CODE,
+            Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+        )
+        requireActivity().startActivityForResult(
+            intentEdit,
+            Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+        )
     }
 
     @SuppressLint("RestrictedApi")
     private val longClickListener: View.OnLongClickListener = View.OnLongClickListener {
         updateRevViewItems(WordsAdapter.TYPE_REMOVABLE)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        it.rootView.navigationUp.visibility = View.VISIBLE
         fab.visibility = View.GONE
         true
     }
@@ -382,18 +415,4 @@ class WordsActivity : AppCompatActivity() {
         adapter.notifyDataSetChanged()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        cancelRemoveSelected()
-        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        return true
-    }
-
-    override fun onBackPressed() {
-        if (llRemoveCancel.visibility == View.VISIBLE) {
-            cancelRemoveSelected()
-            supportActionBar?.setDisplayHomeAsUpEnabled(false)
-        } else {
-            super.onBackPressed()
-        }
-    }
 }

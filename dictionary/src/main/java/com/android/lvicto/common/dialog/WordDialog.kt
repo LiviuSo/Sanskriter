@@ -7,7 +7,7 @@ import com.android.lvicto.R
 import com.android.lvicto.common.util.Constants
 import com.android.lvicto.db.entity.Word
 import com.android.lvicto.common.dialog.BaseDialog
-import com.android.lvicto.words.AddModifyWordActivity
+import com.android.lvicto.words.activities.AddModifyWordActivity
 
 class WordDialog(
     activity: AppCompatActivity,

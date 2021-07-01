@@ -1,4 +1,4 @@
-package com.android.lvicto.words
+package com.android.lvicto.words.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -7,21 +7,22 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD
 import com.android.lvicto.R
+import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
+import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD
+import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_RESULT
+import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.GrammaticalGender
 import com.android.lvicto.db.data.GrammaticalType
 import com.android.lvicto.db.data.VerbClass
-import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Word
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_REQUEST_CODE
-import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_ADD_WORD
-import com.android.lvicto.common.util.Constants.Dictionary.CODE_REQUEST_EDIT_WORD
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_RESULT
+import com.android.lvicto.words.WordsViewModel
 import kotlinx.android.synthetic.main.activity_add_word.*
 
-class AddModifyWordActivity : AppCompatActivity() {
+class AddModifyWordActivity : BaseActivity() {
 
     private var word: Word? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
