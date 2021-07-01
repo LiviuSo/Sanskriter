@@ -7,7 +7,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -22,11 +22,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
@@ -65,4 +65,15 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$archLifecycleVersion"
+
+    // Navigation - Kotlin
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+    // Navigation - Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navVersion"
+    // Navigation - Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
+    // Navigation - Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:$composeVersion"
+
 }
