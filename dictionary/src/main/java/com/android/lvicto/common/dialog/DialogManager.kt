@@ -3,7 +3,6 @@ package com.android.lvicto.common.dialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.db.entity.Conjugation
 import com.android.lvicto.db.entity.Word
-import com.android.lvicto.ui.WordDialog
 
 class DialogManager(val activity: AppCompatActivity) {
 
@@ -17,8 +16,8 @@ class DialogManager(val activity: AppCompatActivity) {
         ConjugationDialog(activity, conjugation, onPositiveAction).showDialog()
     }
 
-    fun showWordDialog(word: Word) {
-        WordDialog(activity, word).showDialog()
+    fun showWordDialog(word: Word, action: () -> Unit) {
+        WordDialog(activity, word, action).showDialog()
     }
 
 }

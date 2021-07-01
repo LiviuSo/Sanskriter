@@ -36,7 +36,6 @@ import kotlinx.android.synthetic.main.search_bar.view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 
 /*
-bug : after editing a word in edit/remove mode, the list is not showing that word's update
 bug: if an item is selected then unselected and then scrolled - the item is auto-selected
  */
 class WordsFragment : BaseFragment() {
@@ -68,9 +67,8 @@ class WordsFragment : BaseFragment() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 Constants.Dictionary.CODE_REQUEST_ADD_WORD, Constants.Dictionary.CODE_REQUEST_EDIT_WORD -> {
-                    val word =
-                        data?.getParcelableExtra<Word>(Constants.Dictionary.EXTRA_WORD_RESULT)
-
+//                    val word =
+//                        data?.getParcelableExtra<Word>(Constants.Dictionary.EXTRA_WORD_RESULT)
                     if (requestCode == Constants.Dictionary.CODE_REQUEST_ADD_WORD) {
                         if (llSearch.visibility == View.VISIBLE) { // the insertion was made from search
                             val filterEn = editSearchEnDic.text.toString()
@@ -91,9 +89,10 @@ class WordsFragment : BaseFragment() {
                             viewModel.filter2(filterEn, filterIast)
                                 .observe(requireActivity(), { filteredWords ->
                                     wordsAdapter.words = filteredWords
+
                                 })
                         } else {
-                            viewModel.getAllWordsCor().observe(requireActivity(), {
+                            viewModel.getAllWordsCor().observe(this@WordsFragment, {
                                 wordsAdapter.words = it // show all words for now
                             })
                         }
@@ -191,18 +190,12 @@ class WordsFragment : BaseFragment() {
 
         editSearchEnDic.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.d(LOG_TAG, "[en] afterTextChanged: ${s.toString()}")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(LOG_TAG, "[en] beforeTextChanged: ${s.toString()}")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.d(
-                    LOG_TAG,
-                    " [en] onTextChanged: ${s.toString()} start=$start before=$before count=$count"
-                )
                 val filterEn = s.toString()
                 val filterIast = editSearchIastDic.text.toString()
                 viewModel.filter2(filterEn, filterIast).observe(requireActivity(), {
@@ -223,11 +216,9 @@ class WordsFragment : BaseFragment() {
 
         editSearchIastDic.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                Log.d(LOG_TAG, "[iast] afterTextChanged: ${s.toString()}")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                Log.d(LOG_TAG, "[iast] beforeTextChanged: ${s.toString()}")
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -385,7 +376,18 @@ class WordsFragment : BaseFragment() {
 
     private val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
         val word = it.tag as Word
-        dialogManager.showWordDialog(word)
+        dialogManager.showWordDialog(word) {
+            val intentEdit = Intent(context, AddModifyWordActivity::class.java)
+            intentEdit.putExtra(Constants.Dictionary.EXTRA_WORD, word)
+            intentEdit.putExtra(
+                Constants.Dictionary.EXTRA_REQUEST_CODE,
+                Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+            )
+            startActivityForResult(
+                intentEdit,
+                Constants.Dictionary.CODE_REQUEST_EDIT_WORD
+            )
+        }
     }
 
     private val itemEditClickListener = View.OnClickListener {
@@ -395,7 +397,7 @@ class WordsFragment : BaseFragment() {
             Constants.Dictionary.EXTRA_REQUEST_CODE,
             Constants.Dictionary.CODE_REQUEST_EDIT_WORD
         )
-        requireActivity().startActivityForResult(
+        startActivityForResult(
             intentEdit,
             Constants.Dictionary.CODE_REQUEST_EDIT_WORD
         )
