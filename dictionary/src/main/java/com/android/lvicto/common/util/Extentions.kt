@@ -11,7 +11,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.ArrayRes
+import androidx.annotation.IdRes
 import androidx.core.content.FileProvider
+import androidx.navigation.findNavController
 import java.io.*
 
 
@@ -179,6 +181,12 @@ fun Activity.openFilePicker(requestCode: Int) {
     chooseFile = Intent.createChooser(chooseFile, "Choose a file")
     startActivityForResult(chooseFile, requestCode)
 }
+
+// View
+fun View.navigate(@IdRes action: Int) {
+    this.findNavController().navigate(action)
+}
+
 
 
 

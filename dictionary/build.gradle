@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 30
@@ -35,6 +36,7 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
@@ -74,6 +76,6 @@ dependencies {
     // Navigation - Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$navVersion"
     // Navigation - Jetpack Compose Integration
-    implementation "androidx.navigation:navigation-compose:$composeVersion"
+//    implementation "androidx.navigation:navigation-compose:$composeVersion"
 
 }

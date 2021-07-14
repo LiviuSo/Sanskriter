@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import com.android.lvicto.R
 import com.android.lvicto.common.dependencyinjection.Service
 import com.android.lvicto.common.dialog.DialogManager
@@ -22,7 +23,6 @@ import com.android.lvicto.db.entity.Conjugation
 import kotlinx.coroutines.*
 
 class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
-
 
     @field:Service
     private lateinit var mViewMvc: ConjugationViewMvc // todo injection

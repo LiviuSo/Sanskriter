@@ -13,6 +13,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
@@ -40,6 +41,8 @@ bug: if an item is selected then unselected and then scrolled - the item is auto
  */
 class WordsFragment : BaseFragment() {
 
+//    private val safeVarargs: WordsFragmentArgs by navArgs()
+
     private lateinit var dialogManager: DialogManager
     private lateinit var viewModel: WordsViewModel
     private lateinit var wordsAdapter: WordsAdapter
@@ -58,8 +61,15 @@ class WordsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         dialogManager = DialogManager(requireActivity() as AppCompatActivity)
         return initUI(inflater, container, R.layout.fragment_words)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+//        Toast.makeText(requireContext(), "${safeVarargs.flowStepNumber}", Toast.LENGTH_SHORT).show()
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

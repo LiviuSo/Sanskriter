@@ -20,12 +20,12 @@ buildscript {
     ext.rxJavaVersion = "2.2.14"
     ext.kotlinReflectVersion = "1.5.20"
     ext.testCore = "1.4.0-rc01"
-    ext.preference="1.1.1"
-    ext.roomCompilerVersion="2.1.0"
-    ext.multidexVersion="2.0.1"
-    ext.coroutinesCoreVersion="1.3.7"
-    ext.coroutinesVersion="1.5.0"
-    ext.composeVersion = "2.4.0-alpha04"
+    ext.preference = "1.1.1"
+    ext.roomCompilerVersion = "2.1.0"
+    ext.multidexVersion = "2.0.1"
+    ext.coroutinesCoreVersion = "1.3.7"
+    ext.coroutinesVersion = "1.5.0"
+//    ext.composeVersion = "2.4.0-alpha04"
     ext.navVersion = "2.3.5"
     ext.lifecycleKtxVersion = "2.3.1"
 
@@ -40,7 +40,11 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion" }
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
+
+    }
 }
 
 allprojects {
