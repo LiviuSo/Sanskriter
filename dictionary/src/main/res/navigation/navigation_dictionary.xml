@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_dictionary"
+    app:startDestination="@id/destinationDicTestFragment">
+
+    <fragment
+        android:id="@+id/destinationDicTestFragment"
+        android:name="com.android.lvicto.start.DictionaryTestFragment"
+        android:label="Main Fragment"
+        tools:layout="@layout/fragment_dictionary_test">
+        <action
+            android:id="@+id/action_dictionaryTestFragment_to_conjugationFragment"
+            app:destination="@id/destinationConjugationFragment" />
+        <action
+            android:id="@+id/action_dictionaryTestFragment_to_declensionFragment"
+            app:destination="@id/destinationDeclensionFragment" />
+        <action
+            android:id="@+id/action_dictionaryTestFragment_to_wordsFragment"
+            app:destination="@id/destinationWordsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationConjugationFragment"
+        android:name="com.android.lvicto.conjugation.fragment.ConjugationFragment"
+        android:label="Conjugations"
+        tools:layout="@layout/fragment_conjugation">
+        <action
+            android:id="@+id/action_conjugationFragment_to_dictionaryTestFragment"
+            app:destination="@id/destinationDicTestFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationDeclensionFragment"
+        android:name="com.android.lvicto.declension.fragment.DeclensionFragment"
+        android:label="Declensions"
+        tools:layout="@layout/activity_declension">
+        <action
+            android:id="@+id/action_declensionFragment_to_dictionaryTestFragment"
+            app:destination="@id/destinationDicTestFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationWordsFragment"
+        android:name="com.android.lvicto.words.fragments.WordsFragment"
+        android:label="Words"
+        tools:layout="@layout/fragment_words">
+        <action
+            android:id="@+id/action_wordsFragment_to_dictionaryTestFragment"
+            app:destination="@id/destinationDicTestFragment" />
+
+        <argument
+            android:name="flowStepNumber"
+            app:argType="integer"
+            android:defaultValue="1"/>
+
+    </fragment>
+
+</navigation>

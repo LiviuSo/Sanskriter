@@ -9,6 +9,9 @@ interface DeclensionDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(suffix: Declension)
 
+    @Insert
+    fun insert(suffix: List<Declension>)
+
     @Query("DELETE FROM declension_table")
     fun deleteAll()
 

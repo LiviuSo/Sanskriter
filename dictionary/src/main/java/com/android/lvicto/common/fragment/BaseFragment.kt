@@ -2,17 +2,17 @@ package com.android.lvicto.common.fragment
 
 import androidx.fragment.app.Fragment
 import com.android.lvicto.common.activities.BaseActivity
-import com.android.lvicto.common.dependencyinjection.Injector
-import com.android.lvicto.common.dependencyinjection.PresentationCompositionRoot
+import com.android.lvicto.dependencyinjection.Injector
+import com.android.lvicto.dependencyinjection.composition.ControllerCompositionRoot
 
 open class BaseFragment : Fragment() {
 
-    private val presentationCompositionRoot: PresentationCompositionRoot by lazy {
-        PresentationCompositionRoot(activityCompositionRoot = (requireActivity() as BaseActivity).activityCompositionRoot)
+    private val controllerCompositionRoot: ControllerCompositionRoot by lazy {
+        ControllerCompositionRoot(activityCompositionRoot = (requireActivity() as BaseActivity).activityCompositionRoot)
     }
 
     val injector: Injector by lazy {
-        Injector(compositionRoot = presentationCompositionRoot)
+        Injector(compositionRoot = controllerCompositionRoot)
     }
 
 }

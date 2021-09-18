@@ -36,7 +36,7 @@ abstract class GrammarDatabase  : RoomDatabase() {
 
         private var INSTANCE: GrammarDatabase? = null
 
-        fun getInstance(context: Context): GrammarDatabase {
+        fun getInstance(context: Context): GrammarDatabase { // todo make synch
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(context.applicationContext,
                     GrammarDatabase::class.java,

@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.common.activities.DictionaryActivity
+import com.android.lvicto.start.DictionaryTestActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnTestDic.setOnClickListener {
-            startActivity(Intent(this@MainActivity, DictionaryActivity::class.java))
+            startActivity(Intent(this@MainActivity, DictionaryTestActivity::class.java))
         }
 
         btnTestKeyboard.setOnClickListener {

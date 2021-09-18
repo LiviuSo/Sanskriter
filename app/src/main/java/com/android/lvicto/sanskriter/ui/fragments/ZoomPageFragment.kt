@@ -9,9 +9,8 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.lvicto.common.activities.DictionaryTestActivity
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_EN
-import com.android.lvicto.common.util.Constants.Dictionary.EXTRA_WORD_IAST
+import com.android.lvicto.common.constants.Constants.EXTRA_WORD_EN
+import com.android.lvicto.common.constants.Constants.EXTRA_WORD_IAST
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapter.SandhiSuggestionAdapter

@@ -5,7 +5,6 @@ import com.android.lvicto.R
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.words.fragments.WordsFragment
 
-
 class WordsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,5 +17,4 @@ class WordsActivity : BaseActivity() {
                 .commit()
         }
     }
-
 }

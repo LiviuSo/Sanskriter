@@ -5,6 +5,7 @@
     <color name="colorWord">#c4efda</color>
     <color name="colorShowDefinition">#1baf2f</color>
     <color name="colorSearchWord">#deeae9</color>
+    <color name="colorSearchForm">#EEF6F5</color>
 
     <color name="colorPrimaryDarkBook">#9e0315</color>
     <color name="colorPrimaryDictionary">#86c777</color>

@@ -1,31 +1,34 @@
 package com.android.lvicto.conjugation.fragment
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.lvicto.R
-import com.android.lvicto.common.dependencyinjection.Service
+import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.fragment.BaseFragment
-import com.android.lvicto.common.util.Constants
-import com.android.lvicto.common.util.export
-import com.android.lvicto.common.util.openFilePicker
-import com.android.lvicto.conjugation.usecases.ConjugationAddUseCase
-import com.android.lvicto.conjugation.usecases.ConjugationFetchUseCase
-import com.android.lvicto.conjugation.usecases.ConjugationImportExportUseCase
+import com.android.lvicto.common.constants.Constants
+import com.android.lvicto.common.constants.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
+import com.android.lvicto.common.eventbus.ResultEventBus
+import com.android.lvicto.common.eventbus.event.ErrorEvent
+import com.android.lvicto.common.extention.export
+import com.android.lvicto.common.extention.openFilePicker
+import com.android.lvicto.common.resultlauncher.ResultLauncherManager
+import com.android.lvicto.common.view.factory.ViewMvcFactory
+import com.android.lvicto.conjugation.event.ImportConjugationsEvent
+import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
+import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
+import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
+import com.android.lvicto.conjugation.view.ConjugationViewMvcImpl
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.coroutines.*
 
-class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
-
-
-    @field:Service
-    private lateinit var mViewMvc: ConjugationViewMvc // todo injection
+class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultEventBus.Listener {
 
     @field:Service
     private lateinit var mConjugationAddUseCase: ConjugationAddUseCase
@@ -39,7 +42,21 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
     @field:Service
     private lateinit var dialogManager: DialogManager
 
+    @field:Service
+    private lateinit var viewMvcFactory: ViewMvcFactory
+
+    @field:Service
+    private lateinit var launchResultManager: ResultLauncherManager
+
+    @field:Service
+    private lateinit var resultEventBus: ResultEventBus
+
+    @field:Service
+    private lateinit var importPickerCodeHolder: ImportPickerCodeHolder
+
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private lateinit var mViewViewMvcImpl: ConjugationViewMvcImpl
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,14 +64,15 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
         savedInstanceState: Bundle?
     ): View {
         injector.inject(this)
-        return mViewMvc.init(layoutInflater, container, R.layout.fragment_conjugation)
+        mViewViewMvcImpl = viewMvcFactory.getConjugationViewMvc(requireActivity() as AppCompatActivity, container) // todo fix conversion
+        return mViewViewMvcImpl.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-        mViewMvc.registerListener(this)
-
-        if (!mViewMvc.isFiltering) {
+        mViewViewMvcImpl.registerListener(this)
+        resultEventBus.registerListener(this)
+        if (!mViewViewMvcImpl.isFiltering) {
             filter(null)
         } // to init the RecView
     }
@@ -62,17 +80,18 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
-        mViewMvc.unregisterListener(this)
+        resultEventBus.unregisterListener(this)
+        mViewViewMvcImpl.unregisterListener(this)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Constants.Dictionary.PICKFILE_RESULT_CODE) {
-            data?.data?.let {
-                loadImports(it)
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == Constants.PICKFILE_RESULT_CODE) {
+//            data?.data?.let {
+////                loadImports(it)
+//            }
+//        }
+//    }
 
     // region Listener
     override fun onConjugationAddAction(conjugation: Conjugation?) {
@@ -100,17 +119,17 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
     }
     // endregion
 
-    // region private
+    // region private todo: move to a delegate controller
     private fun add(conjugation: Conjugation?) {
         coroutineScope.launch {
             if (conjugation != null) {
-                mViewMvc.showProgress()
+                mViewViewMvcImpl.showProgress()
                 try {
                     val resAdd = mConjugationAddUseCase.addConjugation(conjugation)
                     if (resAdd is ConjugationAddUseCase.Result.Success) {
                         val resFetch = mConjugationFetchUseCase.filter()
                         if (resFetch is ConjugationFetchUseCase.Result.Success) {
-                            mViewMvc.setConjugations(resFetch.conjugations)
+                            mViewViewMvcImpl.setConjugations(resFetch.conjugations)
                         } else {
                             dialogManager.showErrorDialog("Fail to filter") {
                                 // onRetry() empty for now
@@ -126,7 +145,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                         // onRetry() empty for now
                     }
                 } finally {
-                    mViewMvc.hideProgress()
+                    mViewViewMvcImpl.hideProgress()
                 }
             }
         }
@@ -134,11 +153,11 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
 
     private fun filter(conjugation: Conjugation?) {
         coroutineScope.launch {
-            mViewMvc.showProgress()
+            mViewViewMvcImpl.showProgress()
             try {
                 val res = mConjugationFetchUseCase.filter(conjugation)
                 if (res is ConjugationFetchUseCase.Result.Success) {
-                    mViewMvc.setConjugations(res.conjugations)
+                    mViewViewMvcImpl.setConjugations(res.conjugations)
                 } else {
                     dialogManager.showErrorDialog("Fail to filter") {
                         // onRetry() empty for now
@@ -149,7 +168,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                     // onRetry() empty for now
                 }
             } finally {
-                mViewMvc.hideProgress()
+                mViewViewMvcImpl.hideProgress()
             }
         }
     }
@@ -162,18 +181,18 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
 
     private fun deleteDialogAction(conjugation: Conjugation) {
         coroutineScope.launch {
-            mViewMvc.showProgress()
+            mViewViewMvcImpl.showProgress()
             try {
                 val resAdd = mConjugationAddUseCase.delete(listOf(conjugation))
                 if (resAdd is ConjugationAddUseCase.Result.Success) {
-                    val filterBy = if (mViewMvc.isFiltering) {
-                        mViewMvc.conjugation
+                    val filterBy = if (mViewViewMvcImpl.isFiltering) {
+                        mViewViewMvcImpl.conjugation
                     } else {
                         null
                     }
                     val resFetch = mConjugationFetchUseCase.filter(filterBy)
                     if (resFetch is ConjugationFetchUseCase.Result.Success) {
-                        mViewMvc.setConjugations(resFetch.conjugations)
+                        mViewViewMvcImpl.setConjugations(resFetch.conjugations)
                     } else {
                         dialogManager.showErrorDialog("Fail to filter") {
                             // onRetry() empty for now
@@ -185,7 +204,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                     // onRetry() empty for now
                 }
             } finally {
-                mViewMvc.hideProgress()
+                mViewViewMvcImpl.hideProgress()
             }
         }
     }
@@ -193,16 +212,16 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
     private fun export() {
         coroutineScope.launch {
             try {
-                mViewMvc.showProgress()
+                mViewViewMvcImpl.showProgress()
                 val conjugations = mConjugationFetchUseCase.filter()
                 if (conjugations is ConjugationFetchUseCase.Result.Success) {
                     val res = mConjugationImportExportUseCase.exportConjugations(
                         conjugations.conjugations,
-                        Constants.Dictionary.FILENAME_CONJUGATION
+                        Constants.FILENAME_CONJUGATION
                     )
                     if (res is ConjugationImportExportUseCase.Result.SuccessWrite) {
                         activity?.export(
-                            Constants.Dictionary.FILENAME_CONJUGATION,
+                            Constants.FILENAME_CONJUGATION,
                             "Dictionary: exporting conjugations"
                         )
                     } else {
@@ -220,31 +239,35 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                     // onRetry() empty for now
                 }
             } finally {
-                mViewMvc.hideProgress()
+                mViewViewMvcImpl.hideProgress()
             }
         }
     }
 
     private fun import() {
-        activity?.openFilePicker(Constants.Dictionary.PICKFILE_RESULT_CODE)
+        launchResultManager.getLauncher(requireActivity()::class.java)?.openFilePicker(importPickerCodeHolder, RESULT_CODE_PICKFILE_CONJUGATIONS)
     }
 
     private fun loadImports(uri: Uri) {
         coroutineScope.launch {
             try {
-                mViewMvc.showProgress()
+                mViewViewMvcImpl.showProgress()
                 val res = mConjugationImportExportUseCase.importConjugations(uri)
                 if (res is ConjugationImportExportUseCase.Result.SuccessRead) {
+                    Log.d("conjugation_log", "loadImports: SuccessRead")
                     if (res.conjugations != null) {
                         mConjugationAddUseCase.addConjugations(res.conjugations)
-                        mViewMvc.setConjugations(res.conjugations)
+                        mViewViewMvcImpl.setConjugations(res.conjugations)
+                        Log.d("conjugation_log", "loadImports: SuccessRead res.conjugations != null")
                     } else {
                         dialogManager.showErrorDialog("Fail to add conjugations.") {
                             // onRetry() empty for now
+                            Log.d("conjugation_log", "loadImports: SuccessRead res.conjugations == null")
                         }
                     }
                 } else {
                     dialogManager.showErrorDialog("Fail to import") {
+                        Log.d("conjugation_log", "loadImports: unknown exception")
                         // onRetry() empty for now
                     }
                 }
@@ -253,7 +276,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                     // onRetry() empty for now
                 }
             } finally {
-                mViewMvc.hideProgress()
+                mViewViewMvcImpl.hideProgress()
             }
         }
     }
@@ -261,7 +284,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
     private fun detect(form: String) {
         coroutineScope.launch {
             try {
-                mViewMvc.showProgress()
+                mViewViewMvcImpl.showProgress()
                 if (form.isNotEmpty()) { // try to detect
                     var conjugations: List<Conjugation> = arrayListOf()
                     val len = form.length
@@ -296,17 +319,17 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                     } // end scan from the end loop
 
                     if (isDetected) {
-                        mViewMvc.setConjugations(conjugations)
+                        mViewViewMvcImpl.setConjugations(conjugations)
                         val root = form.substring(0, index + 1)
-                        mViewMvc.setFormRoot(root)
+                        mViewViewMvcImpl.setFormRoot(root)
                     } else {
-                        mViewMvc.setConjugations(arrayListOf())
-                        mViewMvc.setFormRoot("") // reset result
+                        mViewViewMvcImpl.setConjugations(arrayListOf())
+                        mViewViewMvcImpl.setFormRoot("") // reset result
                     }
                 } else { // reset
                     val res = mConjugationFetchUseCase.filter()
                     if (res is ConjugationFetchUseCase.Result.Success) {
-                        mViewMvc.setConjugations(res.conjugations)
+                        mViewViewMvcImpl.setConjugations(res.conjugations)
                     } else {
                         dialogManager.showErrorDialog(
                             "Unknown exception. Unable to detect form"
@@ -318,7 +341,24 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener {
                     "Unknown exception. Unable to detect form"
                 )
             } finally {
-                mViewMvc.hideProgress()
+                mViewViewMvcImpl.hideProgress()
+            }
+        }
+    }
+
+    override fun onEventReceived(event: Any) {
+        when (event) {
+            is ImportConjugationsEvent -> {
+                // todo fetch the conjugations and populate the list
+                event.intent?.data?.let {
+                    loadImports(it)
+                }
+            }
+            is ErrorEvent -> {
+                dialogManager.showErrorDialog("Unable to import conjugation")
+            }
+            else -> {
+                Log.e("", "")
             }
         }
     }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:id="@+id/llSearchBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorSearchWord"
+    android:orientation="vertical"
+    android:paddingStart="5dp"
+    android:paddingLeft="5dp"
+    android:paddingEnd="5dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton
+        android:id="@+id/btnCloseSearchBar"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_marginBottom="5dp"
+        android:contentDescription="@string/close_search_bar_descr"
+        android:src="@drawable/ic_close_24dp" />
+
+    <EditText
+        android:id="@+id/editSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/item_margin_left_right"
+        android:layout_weight="1"
+        android:hint="@string/dic_en_search_hint"
+        android:imeActionLabel="@string/kbImeActionEnglish" />
+
+    <EditText
+        android:id="@+id/editSearchIast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/item_margin_left_right"
+        android:layout_weight="1"
+        android:hint="@string/dic_iast_search_hint"
+        android:imeActionLabel="@string/kbImeActionIAST" />
+
+    <LinearLayout
+        android:id="@+id/llContainerSpecialSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edForm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="form (IAST)"
+            android:inputType="text"
+            android:imeActionLabel="@string/kbImeActionIAST"
+            android:layout_marginEnd="5dp"
+            android:autofillHints="off" />
+
+        <ImageButton
+            android:id="@+id/ibSearchForm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_baseline_zoom_in_24" />
+    </LinearLayout>
+
+</LinearLayout>

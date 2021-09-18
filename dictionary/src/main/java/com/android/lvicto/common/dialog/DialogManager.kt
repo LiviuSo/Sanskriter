@@ -1,8 +1,10 @@
 package com.android.lvicto.common.dialog
 
 import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.conjugation.dialog.ConjugationDialog
 import com.android.lvicto.db.entity.Conjugation
 import com.android.lvicto.db.entity.Word
+import com.android.lvicto.words.dialog.WordDialog
 
 class DialogManager(val activity: AppCompatActivity) {
 

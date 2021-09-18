@@ -13,6 +13,6 @@
               android:layout_height="wrap_content"
               android:text="Popup"
               android:id="@+id/tvInsidePopUp"
-              android:clickable="true"/>
+              android:clickable="true" />
 
 </RelativeLayout>

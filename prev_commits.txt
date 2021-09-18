@@ -12,3 +12,13 @@
 - Created submodule for sanskrit custom keyboard; some word to main app
 - Added different click listener for chapter and section titles
 - Initial commit: Added chapters RecyclerView
+
+
+// todos
+Dictionary:
+- complete replacement of viewModel with useCases
+- complete removal of onActivityResult()
+- create hierarchy of log tags
+- create 0-state screens
+- fix issue - list not refreshed after removing/adding/editing word
+- refine dialogManager (refactor hierarchy)

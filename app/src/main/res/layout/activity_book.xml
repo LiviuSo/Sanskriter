@@ -15,7 +15,7 @@
         <include layout="@layout/toolbar_book"/>
 
         <include
-            layout="@layout/search_bar"
+            layout="@layout/view_search_bar"
             android:visibility="gone"/>
 
         <FrameLayout

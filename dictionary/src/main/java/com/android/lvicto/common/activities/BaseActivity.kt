@@ -2,29 +2,28 @@ package com.android.lvicto.common.activities
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.common.dependencyinjection.ActivityComponent
-import com.android.lvicto.common.dependencyinjection.AppCompositionRoot
-import com.android.lvicto.common.dependencyinjection.Injector
-import com.android.lvicto.common.dependencyinjection.PresentationCompositionRoot
+import com.android.lvicto.dependencyinjection.composition.ActivityCompositionRoot
+import com.android.lvicto.dependencyinjection.composition.AppCompositionRoot
+import com.android.lvicto.dependencyinjection.Injector
+import com.android.lvicto.dependencyinjection.composition.ControllerCompositionRoot
 
 open class BaseActivity : AppCompatActivity() {
 
     lateinit var appCompositionRoot: AppCompositionRoot
         private set
-    lateinit var activityCompositionRoot: ActivityComponent
+    lateinit var activityCompositionRoot: ActivityCompositionRoot
         private set
-    lateinit var presentationCompositionRoot: PresentationCompositionRoot
+    lateinit var controllerCompositionRoot: ControllerCompositionRoot
         private set
     lateinit var injector: Injector
         private set
 
     fun setComposition(root: AppCompositionRoot) {
         appCompositionRoot = root
-        activityCompositionRoot = ActivityComponent(this, appCompositionRoot)
-        presentationCompositionRoot = PresentationCompositionRoot(activityCompositionRoot)
-        injector = Injector(presentationCompositionRoot)
+        activityCompositionRoot = ActivityCompositionRoot(this, appCompositionRoot)
+        controllerCompositionRoot = ControllerCompositionRoot(activityCompositionRoot)
+        injector = Injector(controllerCompositionRoot)
         Log.d("debconj", "injector initialized")
     }
-
 
 }

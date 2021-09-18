@@ -4,10 +4,8 @@
 
     <application>
         <activity android:name=".words.activities.WordsActivity" />
-        <activity android:name=".conjugation.activities.ConjugationActivity" />
-        <activity android:name=".declension.activities.DeclensionActivity" />
         <activity
-            android:name=".common.activities.DictionaryActivity"
+            android:name=".start.DictionaryTestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
         <activity
