@@ -1,8 +1,7 @@
 package com.android.lvicto.words.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,21 +43,16 @@ class WordsFragment : BaseFragment() {
         return mViewMvc.getRootView()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            mViewMvc.onActivityResult(requestCode, data)
-        }
-    }
-
     override fun onStart() {
         super.onStart()
         mControllerMvc.onStart()
+        Log.d(LOG_TAG, "WordsFragment onStart()")
     }
 
     override fun onStop() {
         super.onStop()
         mControllerMvc.onStop()
+        Log.d(LOG_TAG, "WordsFragment onStop()")
     }
     // endregion
 

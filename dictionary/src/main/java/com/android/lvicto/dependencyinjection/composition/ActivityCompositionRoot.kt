@@ -11,6 +11,7 @@ import com.android.lvicto.common.view.factory.ViewMvcFactory
 import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
+import com.android.lvicto.db.Converters
 import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.dao.DeclensionDao
 import com.android.lvicto.db.dao.WordDao
@@ -23,6 +24,8 @@ class ActivityCompositionRoot(
     val activity: BaseActivity,
     private val appComponent: AppCompositionRoot
 ) {
+
+    val converters: Converters get() = appComponent.converters
 
     val controllerMvcFactory: ControllerMvcFactory get() = ControllerMvcFactory(activity)
 

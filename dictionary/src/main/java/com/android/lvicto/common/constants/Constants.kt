@@ -7,8 +7,8 @@ object Constants {
     const val EXTRA_WORD_EN = "word_en"
     const val EXTRA_WORD_RO = "word_ro"
     const val EXTRA_WORD_ID = "word_id"
-    const val EXTRA_WORD = "EXTRA_WORD"
-    const val EXTRA_REQUEST_CODE = "EXTRA_REQUEST_CODE"
+    const val EXTRA_WORD = "extra_word"
+    const val EXTRA_REQUEST_CODE = "extra_request_code"
     const val EXTRA_WORD_RESULT = "EXTRA_WORD_RESULT"
 
     // add word

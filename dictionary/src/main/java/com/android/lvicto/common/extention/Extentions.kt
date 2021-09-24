@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
@@ -197,8 +198,12 @@ fun Activity.hideSoftKeyboard() {
 }
 
 // View
-fun View.navigate(@IdRes action: Int) {
-    this.findNavController().navigate(action)
+fun View.navigate(@IdRes action: Int, bundle: Bundle? = null) {
+    this.findNavController().navigate(action, bundle)
+}
+
+fun View.navigateBack() {
+    this.findNavController().popBackStack()
 }
 
 

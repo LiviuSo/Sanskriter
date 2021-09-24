@@ -7,10 +7,11 @@ import com.android.lvicto.R
 
 class DialogManager2(val context: Context, private val fragmentManager: FragmentManager) {
 
-    fun showInfoDialog(@StringRes messageId: Int) {
+    fun showInfoDialog(@StringRes messageId: Int, action: ((OneButtonDialog) -> Unit)? = null) {
         InfoDialog.createInfoDialog(
             context.resources.getString(messageId),
-            context.resources.getString(R.string.info_dialog_postive_caption)
+            context.resources.getString(R.string.info_dialog_postive_caption),
+            action
         ).show(fragmentManager, "info_dialog")
     }
 

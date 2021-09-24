@@ -3,10 +3,10 @@ package com.android.lvicto.words.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
+import android.os.Bundle
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionManager
-import android.transition.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,16 +14,20 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.common.constants.Constants
+import com.android.lvicto.common.constants.Constants.CODE_REQUEST_ADD_WORD
+import com.android.lvicto.common.constants.Constants.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.common.constants.Constants.EXTRA_REQUEST_CODE
+import com.android.lvicto.common.constants.Constants.EXTRA_WORD
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.extention.hideSoftKeyboard
+import com.android.lvicto.common.extention.navigate
 import com.android.lvicto.common.textwatcher.BaseTextWatcher
 import com.android.lvicto.common.view.BaseObservableMvc
 import com.android.lvicto.db.entity.Word
@@ -79,52 +83,6 @@ class WordsViewMvcImpl(
         init()
     }
 
-    override fun onActivityResult(requestCode: Int, data: Intent?) {
-        Log.e(WordsFragment.LOG_TAG, "onActivityResult")
-
-        when (requestCode) {
-            Constants.CODE_REQUEST_ADD_WORD, Constants.CODE_REQUEST_EDIT_WORD -> {
-                if (requestCode == Constants.CODE_REQUEST_ADD_WORD) {
-                    mDialogManager2.showInfoDialog(R.string.info_dialog_word_added)
-                    Log.e(WordsFragment.LOG_TAG, "word added")
-
-                    if (isSearchVisible()) { // the insertion was made from search
-                        val filterEn = getSearchEnString()
-                        val filterIast = getSearchIastString()
-                        for (listener in listeners) {
-                            listener.onFilterEnIast(filterEn, filterIast)
-                        }
-                    } else {
-                        for (listener in listeners) {
-                            listener.onInitWords()
-                        }
-                    }
-                } else if (requestCode == Constants.CODE_REQUEST_EDIT_WORD) {
-                    mDialogManager2.showInfoDialog(R.string.info_dialog_words_updated)
-                    if (isSearchVisible()) { // the update was made from search
-                        val filterEn = getSearchEnString()
-                        val filterIast = getSearchIastString()
-                        for (listener in listeners) {
-                            listener.onFilterEnIast(filterEn, filterIast)
-                        }
-                    } else {
-                        for (listener in listeners) {
-                            listener.onInitWords()
-                        }
-                    }
-                } else {
-                    Log.e(WordsFragment.LOG_TAG, "success unknown code")
-                }
-            }
-            else -> {
-                Log.e(
-                    WordsFragment.LOG_TAG,
-                    "Unknown code on DictionaryActivity.onActivityResult()"
-                )
-            }
-        }
-    }
-
     override fun onFilePicked(data: Intent?) {
         Log.d(WordsFragment.LOG_TAG, "onFilePicked($data)")
         val uri = data?.data
@@ -177,22 +135,17 @@ class WordsViewMvcImpl(
 
     private fun initFab() {
         mFabDictionary.setOnClickListener {
-            val intent = Intent(requireActivity(), AddModifyWordActivity::class.java)
             val word = Word(
                 word = "",
                 wordIAST = getSearchIastString(),
                 meaningEn = getSearchEnString(),
                 meaningRo = ""
             )
-            intent.putExtra(Constants.EXTRA_WORD, word)
-            intent.putExtra(
-                Constants.EXTRA_REQUEST_CODE,
-                Constants.CODE_REQUEST_ADD_WORD
-            )
-            requireActivity().startActivityForResult(
-                intent,
-                Constants.CODE_REQUEST_ADD_WORD
-            )
+            val bundle = Bundle().apply {
+                this.putParcelable(EXTRA_WORD, word)
+                this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_ADD_WORD)
+            }
+            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
         }
     }
 
@@ -210,29 +163,24 @@ class WordsViewMvcImpl(
             val word = it.tag as Word
             mDialogManager.showWordDialog(word) {
                 val intentEdit = Intent(requireActivity(), AddModifyWordActivity::class.java)
-                intentEdit.putExtra(Constants.EXTRA_WORD, word)
+                intentEdit.putExtra(EXTRA_WORD, word)
                 intentEdit.putExtra(
-                    Constants.EXTRA_REQUEST_CODE,
-                    Constants.CODE_REQUEST_EDIT_WORD
+                    EXTRA_REQUEST_CODE,
+                    CODE_REQUEST_EDIT_WORD
                 )
                 requireActivity().startActivityForResult(
                     intentEdit,
-                    Constants.CODE_REQUEST_EDIT_WORD
+                    CODE_REQUEST_EDIT_WORD
                 )
             }
         }
 
         val itemEditClickListener = View.OnClickListener {
-            val intentEdit = Intent(requireActivity(), AddModifyWordActivity::class.java)
-            intentEdit.putExtra(Constants.EXTRA_WORD, it.tag as Word)
-            intentEdit.putExtra(
-                Constants.EXTRA_REQUEST_CODE,
-                Constants.CODE_REQUEST_EDIT_WORD
-            )
-            requireActivity().startActivityForResult(
-                intentEdit,
-                Constants.CODE_REQUEST_EDIT_WORD
-            )
+            val bundle = Bundle().apply {
+                this.putParcelable(EXTRA_WORD, it.tag as Word)
+                this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
+            }
+            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
         }
 
         @SuppressLint("RestrictedApi")
@@ -311,7 +259,6 @@ class WordsViewMvcImpl(
 
         getRootView().ibSearchForm.setOnClickListener {
             val form = getRootView().edForm.text.toString()
-            // val formDetails = viewModelConjugation.getFormDetails()
             Toast.makeText(requireActivity(), "Search form $form", Toast.LENGTH_SHORT).show()
         }
     }
@@ -342,7 +289,6 @@ class WordsViewMvcImpl(
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menuItemImport -> {
-//                        requireActivity().openFilePicker(mResultLauncher)
                         for (listener in listeners) {
                             listener.onImport()
                         }

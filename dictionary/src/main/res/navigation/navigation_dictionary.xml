@@ -50,12 +50,25 @@
         <action
             android:id="@+id/action_wordsFragment_to_dictionaryTestFragment"
             app:destination="@id/destinationDicTestFragment" />
+        <action
+            android:id="@+id/action_dictionaryWordsFragment_to_addModifyFragment"
+            app:destination="@+id/destinationAddModifyWord" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/destinationAddModifyWord"
+        android:name="com.android.lvicto.words.fragments.AddModifyWordFragment"
+        android:label="AddModifyWord"
+        tools:layout="@layout/fragment_add_word">
+        <action
+            android:id="@+id/action_addModifyWordFragment_to_dictionaryWordsFragment"
+            app:destination="@id/destinationWordsFragment" />
         <argument
-            android:name="flowStepNumber"
-            app:argType="integer"
-            android:defaultValue="1"/>
-
+            android:name="extra_word"
+            app:argType="com.android.lvicto.db.entity.Word"/>
+        <argument
+            android:name="extra_request_code"
+            app:argType="integer"/>
     </fragment>
 
 </navigation>

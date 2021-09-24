@@ -15,6 +15,7 @@ abstract class OneButtonDialog : BaseDialog() {
 
     protected var mMessage: String? = null
     protected var mCaption: String? = null
+    protected var mAction: ((OneButtonDialog) -> Unit)? = null
 
     protected fun addArguments(message: String, caption: String) {
         this.arguments = Bundle(2).also {
@@ -42,7 +43,7 @@ abstract class OneButtonDialog : BaseDialog() {
     }
 
     protected fun onButtonClicked() {
-        dismiss()
+        mAction?.invoke(this)
     }
 
     @LayoutRes

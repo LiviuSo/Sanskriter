@@ -44,19 +44,15 @@ class DictionaryTestActivity : BaseActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 val intent = it.data
                 val code = importPickerCodeHolder.code
-                Log.d("import_log", "received code $code")
                 if (it.resultCode == Activity.RESULT_OK) {
-                    when(code) {
+                    when (code) {
                         RESULT_CODE_PICKFILE_WORDS -> {
-                            Log.d("import_log", " sending event ImportWordsIntentEvent")
                             eventBus.postEvent(ImportWordsIntentEvent(intent))
                         }
                         RESULT_CODE_PICKFILE_DECLENSIONS -> {
-                            Log.d("import_log", " sending event ImportDeclensionsIntentEvent")
                             eventBus.postEvent(ImportDeclensionsIntentEvent(intent))
                         }
                         RESULT_CODE_PICKFILE_CONJUGATIONS -> {
-                            Log.d("import_log", " sending event ImportConjugationsEvent")
                             eventBus.postEvent(ImportConjugationsEvent(intent))
                         }
                         else -> {
@@ -68,24 +64,6 @@ class DictionaryTestActivity : BaseActivity() {
                 }
             }
         resultLauncherManager.registerLauncher(this::class.java, importWordsResultLauncher)
-
-//        val importDeclensionsResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            if (it.resultCode == Activity.RESULT_OK) {
-//
-//            } else {
-//                eventBus.postEvent(ErrorEvent("Received import declensions: unknown error"))
-//            }
-//        }
-//        resultLauncherManager.registerLauncher(DeclensionFragment::class.java, importDeclensionsResultLauncher)
-
-//        val importConjugationsResultManager = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            if(it.resultCode == Activity.RESULT_OK) {
-//                eventBus.postEvent(ImportConjugationsEvent(it.data))
-//            } else {
-//                eventBus.postEvent(ErrorEvent("Received import conjugations: unknown error"))
-//            }
-//        }
-//        resultLauncherManager.registerLauncher(ConjugationFragment::class.java, importConjugationsResultManager)
     }
 
     override fun onDestroy() {

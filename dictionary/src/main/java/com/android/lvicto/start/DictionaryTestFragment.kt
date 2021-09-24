@@ -19,9 +19,9 @@ class DictionaryTestFragment : BaseFragment() {
         inflater.inflate(R.layout.fragment_dictionary_test, container, false).apply {
 
             this.btnTestWords.setOnClickListener {
-                val action = DictionaryTestFragmentDirections.actionDictionaryTestFragmentToWordsFragment(2)
-                findNavController().navigate(action)
-//                it.navigate(R.id.action_dictionaryTestFragment_to_wordsFragment)
+//                val action = DictionaryTestFragmentDirections.actionDictionaryTestFragmentToWordsFragment(2)
+//                findNavController().navigate(action)
+                it.navigate(R.id.action_dictionaryTestFragment_to_wordsFragment)
             }
 
             this.btnDeclensionConstruction.setOnClickListener {

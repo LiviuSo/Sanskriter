@@ -1,20 +1,19 @@
 package com.android.lvicto.words.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-//import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import com.android.lvicto.R
 import com.android.lvicto.common.constants.Constants
-import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.common.constants.Constants.EXTRA_REQUEST_CODE
+import com.android.lvicto.common.constants.Constants.EXTRA_WORD
 import com.android.lvicto.common.dialog.new.DialogManager2
+import com.android.lvicto.common.extention.navigateBack
 import com.android.lvicto.common.fragment.BaseFragment
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.GrammaticalGender
@@ -32,12 +31,12 @@ class AddModifyWordFragment : BaseFragment() {
 
     private var word: Word? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
-    private var id: Long = -1
-
-    private lateinit var converters: Converters // todo inject
-
     private val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+
+
+    @field:Service
+    private lateinit var converters: Converters
 
     @field:Service
     private lateinit var wordsInsertWordsUseCase: WordsInsertUseCase
@@ -67,18 +66,10 @@ class AddModifyWordFragment : BaseFragment() {
 
         converters = Converters() // todo inject
 
-        activity.intent.let {
-            if (it.hasExtra(Constants.EXTRA_REQUEST_CODE)) {
-                requestCode = it.getIntExtra(Constants.EXTRA_REQUEST_CODE, -1)
-            }
-            if (it.hasExtra(Constants.EXTRA_WORD)) {
-                word = it.getParcelableExtra(Constants.EXTRA_WORD)
-                id = word?.id ?: -1
-                Log.d("david", "init with: $word")
+        requestCode = arguments?.getInt(EXTRA_REQUEST_CODE) ?: -1
+        word = arguments?.getParcelable(EXTRA_WORD)
 
-            }
-        }
-
+        // todo move to viewMvc
         root.editSa.setText(word?.word)
         root.editIAST.setText(word?.wordIAST)
         root.editRo.setText(word?.meaningRo)
@@ -176,6 +167,10 @@ class AddModifyWordFragment : BaseFragment() {
         return root
     }
 
+    override fun onStart() {
+        super.onStart()
+    }
+
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
@@ -218,8 +213,7 @@ class AddModifyWordFragment : BaseFragment() {
         val verbClass = VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString())
         val gender = converters.toGramaticalGender(root.spinnerWordGender.selectedItem.toString())
 
-        val word = Word(
-            id = id,
+        val newWord = Word(
             word = wordSa,
             wordIAST = wordIAST,
             meaningEn = wordEn,
@@ -232,82 +226,63 @@ class AddModifyWordFragment : BaseFragment() {
         when (requestCode) {
             Constants.CODE_REQUEST_ADD_WORD -> {
                 coroutineScope.launch {
-                    val result = wordsInsertWordsUseCase.insertWord(word)
-                    if (result is WordsInsertUseCase.Result.Success) {
-                        // reply to the calling activity
-                        val replyIntent = Intent()
-                        if (TextUtils.isEmpty(wordSa)) {
-                            activity.setResult(Activity.RESULT_CANCELED, replyIntent)
-                            // don't do anything
-                        } else {
-                            replyIntent.putExtra(Constants.EXTRA_WORD_RESULT, word)
-                            activity.setResult(Activity.RESULT_OK, replyIntent)
-                        }
-                        activity.finish() // todo remove activity amd fix refresh list
-                    } else if (result is WordsInsertUseCase.Result.Failure) {
-                        result.message?.let {
-                            dialogManager.showErrorDialog(R.string.info_dialog_words_added_error)
-                        }
-                    }
+                    addWord(v, newWord, activity)
                 }
             }
             Constants.CODE_REQUEST_EDIT_WORD -> {
-                Log.d(LOG_ADD_MODIFY, "sending $word")
                 coroutineScope.launch {
-                    val result = wordsUpdateUseCase.updateWord(
-                        Word(
-                            word.id,
-                            word.word,
-                            word.wordIAST,
-                            word.meaningEn,
-                            word.meaningRo,
-                            word.gType,
-                            word.paradigm,
-                            word.verbClass,
-                            word.gender
-                        )
-                    )
-                    if (result is WordsUpdateUseCase.Result.Success) {
-                        dialogManager.showInfoDialog(R.string.info_dialog_words_updated)
-                        // reply to the calling activity
-                        val replyIntent = Intent()
-                        replyIntent.putExtra(Constants.EXTRA_WORD_RESULT, word)
-                        activity.setResult(Activity.RESULT_OK, replyIntent)
-                        activity.finish()
-                    } else if (result is WordsUpdateUseCase.Result.Failure) {
-                        dialogManager.showErrorDialog(R.string.info_dialog_words_update_error)
-                        Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
-                    }
+                    newWord.id = word?.id ?: -1 // if null no modification will happen
+                    modifyWord(v, newWord, activity)
                 }
-//                viewModel.update(
-//                    word.id,
-//                    word.word,
-//                    word.wordIAST,
-//                    word.meaningEn,
-//                    word.meaningRo,
-//                    word.gType,
-//                    word.paradigm,
-//                    word.verbClass,
-//                    word.gender
-//                )
-//                    .observe(activity, {
-//                        Toast.makeText(
-//                            activity,
-//                            "Modified word : ${word.wordIAST}",
-//                            Toast.LENGTH_SHORT
-//                        ).show() // todo show dialog
-//                        // reply to the calling activity
-//                        val replyIntent = Intent()
-//                        replyIntent.putExtra(Constants.EXTRA_WORD_RESULT, word)
-//                        activity.setResult(Activity.RESULT_OK, replyIntent)
-//                        activity.finish()
-//                    })
             }
             else -> {
                 Log.d(LOG_ADD_MODIFY, "onClickAdd() : No word")
-                val replyIntent = Intent()
-                activity.setResult(Activity.RESULT_CANCELED, replyIntent)
-                activity.finish()
+                dialogManager.showErrorDialog(R.string.info_dialog_words_added_error)
+            }
+        }
+    }
+
+    private suspend fun modifyWord(
+        view: View,
+        word: Word,
+        activity: FragmentActivity
+    ) {
+        Log.d("modify_word", "modifying: $word")
+        val result = wordsUpdateUseCase.updateWord(word)
+        if (result is WordsUpdateUseCase.Result.Success) {
+            dialogManager.showInfoDialog(R.string.info_dialog_words_updated) {
+                it.dismiss()
+                if (activity is AddModifyWordActivity) {
+                    activity.finish()
+                } else {
+                    view.navigateBack()
+                }
+            }
+        } else if (result is WordsUpdateUseCase.Result.Failure) {
+            Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
+            dialogManager.showErrorDialog(R.string.info_dialog_words_update_error)
+        }
+    }
+
+    private suspend fun addWord(
+        view: View,
+        word: Word,
+        activity: FragmentActivity
+    ) {
+        val result = wordsInsertWordsUseCase.insertWord(word)
+        if (result is WordsInsertUseCase.Result.Success) {
+            dialogManager.showInfoDialog(R.string.info_dialog_word_added) {
+                it.dismiss()
+                if (activity is AddModifyWordActivity) {
+                    activity.finish()
+                } else {
+                    view.navigateBack()
+                }
+            }
+        } else if (result is WordsInsertUseCase.Result.Failure) {
+            result.message?.let {
+                Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
+                dialogManager.showErrorDialog(R.string.info_dialog_words_added_error)
             }
         }
     }

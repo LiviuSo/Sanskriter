@@ -10,6 +10,7 @@ import com.android.lvicto.common.view.factory.ViewMvcFactory
 import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
+import com.android.lvicto.db.Converters
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.dependencyinjection.composition.ControllerCompositionRoot
 import com.android.lvicto.words.controller.ControllerMvcFactory
@@ -73,6 +74,7 @@ class Injector(private val compositionRoot: ControllerCompositionRoot) {
         DeclensionWriteToFileUseCase::class.java -> { compositionRoot.declensionWriteUseCase }
         DialogManager2::class.java -> { compositionRoot.dialogManager2 }
         ControllerMvcFactory::class.java -> { compositionRoot.controllerMvcFactory }
+        Converters::class.java -> { compositionRoot.converters }
         else -> { throw Exception("unsupported service type: $type") }
     }
 

@@ -3,6 +3,7 @@ package com.android.lvicto.dependencyinjection.composition
 import android.app.Application
 import com.android.lvicto.common.ImportPickerCodeHolder
 import com.android.lvicto.common.eventbus.ResultEventBus
+import com.android.lvicto.db.Converters
 import com.android.lvicto.db.GrammarDatabase
 import com.android.lvicto.db.WordsDatabase
 import com.android.lvicto.db.dao.ConjugationDao
@@ -42,6 +43,10 @@ class AppCompositionRoot(val application: Application) {
     // import code holder todo: FIND A BETTER WAY
     val importCodeHolder by lazy {
         ImportPickerCodeHolder()
+    }
+
+    val converters: Converters by lazy {
+        Converters()
     }
 
 }

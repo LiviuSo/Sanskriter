@@ -13,12 +13,12 @@ class WordsUpdateUseCase(val wordDao: WordDao) {
         class Failure(val message: String?) : Result()
     }
 
-    suspend fun updateWord(word: Word) = withContext(Dispatchers.IO) {
+    suspend fun updateWord(word: Word): Result = withContext(Dispatchers.IO) {
         try {
             wordDao.update(word)
             Result.Success
         } catch (e: Exception) {
-            Result.Failure(e.message)
+            Result.Failure("Unable to update word")
         }
     }
 }

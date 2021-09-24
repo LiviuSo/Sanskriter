@@ -18,7 +18,6 @@ interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
         fun onReadFromFile(uri: Uri?)
     }
 
-    fun onActivityResult(requestCode: Int, data: Intent?)
     fun onFilePicked(data: Intent?)
     fun setWords(words: List<Word>?)
     fun isSearchVisible(): Boolean
