@@ -3,6 +3,7 @@ package com.android.lvicto.dependencyinjection
 import com.android.lvicto.common.ImportPickerCodeHolder
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.factory.ViewMvcFactory
@@ -11,6 +12,7 @@ import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.dependencyinjection.composition.ControllerCompositionRoot
+import com.android.lvicto.words.controller.ControllerMvcFactory
 import com.android.lvicto.words.usecase.*
 import java.lang.reflect.Field
 
@@ -69,6 +71,8 @@ class Injector(private val compositionRoot: ControllerCompositionRoot) {
         DeclensionInsertUseCase::class.java -> { compositionRoot.declensionInsertUseCase }
         DeclensionsReadFromFileUseCase::class.java -> { compositionRoot.declensionReadUseCase }
         DeclensionWriteToFileUseCase::class.java -> { compositionRoot.declensionWriteUseCase }
+        DialogManager2::class.java -> { compositionRoot.dialogManager2 }
+        ControllerMvcFactory::class.java -> { compositionRoot.controllerMvcFactory }
         else -> { throw Exception("unsupported service type: $type") }
     }
 

@@ -10,10 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
+//import android.widget.Toast
 import com.android.lvicto.R
 import com.android.lvicto.common.constants.Constants
 import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.fragment.BaseFragment
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.GrammaticalGender
@@ -38,9 +39,14 @@ class AddModifyWordFragment : BaseFragment() {
     private val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    @field:Service private lateinit var wordsInsertWordsUseCase: WordsInsertUseCase
-    @field:Service private lateinit var wordsUpdateUseCase: WordsUpdateUseCase
-    @field:Service private lateinit var dialogManager: DialogManager
+    @field:Service
+    private lateinit var wordsInsertWordsUseCase: WordsInsertUseCase
+
+    @field:Service
+    private lateinit var wordsUpdateUseCase: WordsUpdateUseCase
+
+    @field:Service
+    private lateinit var dialogManager: DialogManager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -228,8 +234,6 @@ class AddModifyWordFragment : BaseFragment() {
                 coroutineScope.launch {
                     val result = wordsInsertWordsUseCase.insertWord(word)
                     if (result is WordsInsertUseCase.Result.Success) {
-                        Toast.makeText(activity, "Added word.", Toast.LENGTH_SHORT)
-                            .show()
                         // reply to the calling activity
                         val replyIntent = Intent()
                         if (TextUtils.isEmpty(wordSa)) {
@@ -241,7 +245,9 @@ class AddModifyWordFragment : BaseFragment() {
                         }
                         activity.finish() // todo remove activity amd fix refresh list
                     } else if (result is WordsInsertUseCase.Result.Failure) {
-                        result.message?.let { dialogManager.showErrorDialog(it) }
+                        result.message?.let {
+                            dialogManager.showErrorDialog(R.string.info_dialog_words_added_error)
+                        }
                     }
                 }
             }
@@ -262,18 +268,14 @@ class AddModifyWordFragment : BaseFragment() {
                         )
                     )
                     if (result is WordsUpdateUseCase.Result.Success) {
-                        Toast.makeText(
-                            activity,
-                            "Modified word : ${word.wordIAST}",
-                            Toast.LENGTH_SHORT
-                        ).show() // todo show dialog
+                        dialogManager.showInfoDialog(R.string.info_dialog_words_updated)
                         // reply to the calling activity
                         val replyIntent = Intent()
                         replyIntent.putExtra(Constants.EXTRA_WORD_RESULT, word)
                         activity.setResult(Activity.RESULT_OK, replyIntent)
                         activity.finish()
                     } else if (result is WordsUpdateUseCase.Result.Failure) {
-                        dialogManager.showErrorDialog("Unable to update word")
+                        dialogManager.showErrorDialog(R.string.info_dialog_words_update_error)
                         Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
                     }
                 }

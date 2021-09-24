@@ -3,4 +3,6 @@
     <color name="colorGreyDeclensionItem">#AAA7A7</color>
     <color name="color_blue_light">#B5C3E4</color>
     <color name="colorDarkGreen">#288706</color>
+    <color name="background_error">#F30909</color>
+    <color name="background_info">#57A7EE</color>
 </resources>

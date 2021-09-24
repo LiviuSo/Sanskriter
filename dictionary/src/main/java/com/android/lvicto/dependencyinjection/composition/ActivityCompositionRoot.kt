@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import com.android.lvicto.common.ImportPickerCodeHolder
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.factory.ViewMvcFactory
@@ -14,6 +15,7 @@ import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.dao.DeclensionDao
 import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.declension.usecase.*
+import com.android.lvicto.words.controller.ControllerMvcFactory
 import com.android.lvicto.words.usecase.*
 import com.google.gson.Gson
 
@@ -21,6 +23,10 @@ class ActivityCompositionRoot(
     val activity: BaseActivity,
     private val appComponent: AppCompositionRoot
 ) {
+
+    val controllerMvcFactory: ControllerMvcFactory get() = ControllerMvcFactory(activity)
+
+    val dialogManager2: DialogManager2 get() = DialogManager2(activity, activity.supportFragmentManager)
 
     private val layoutInflator: LayoutInflater get() = activity.layoutInflater
 
@@ -36,7 +42,7 @@ class ActivityCompositionRoot(
 
     val dialogManager: DialogManager get() = DialogManager(activity = activity)
 
-    val viewMvcFactory: ViewMvcFactory get() = ViewMvcFactory(layoutInflator, dialogManager)
+    val viewMvcFactory: ViewMvcFactory get() = ViewMvcFactory(layoutInflator, dialogManager, dialogManager2)
 
     val conjugationAddUseCase: ConjugationAddUseCase get() = ConjugationAddUseCase(conjugationDao)
 

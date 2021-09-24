@@ -3,6 +3,10 @@ package com.android.lvicto.words.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
+import android.transition.Fade
+import android.transition.Transition
+import android.transition.TransitionManager
+import android.transition.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +14,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.common.constants.Constants
 import com.android.lvicto.common.dialog.DialogManager
+import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.extention.hideSoftKeyboard
 import com.android.lvicto.common.textwatcher.BaseTextWatcher
 import com.android.lvicto.common.view.BaseObservableMvc
@@ -33,7 +40,8 @@ class WordsViewMvcImpl(
     private val mActivity: BaseActivity,
     inflater: LayoutInflater,
     container: ViewGroup?,
-    dlgManager: DialogManager
+    dlgManager: DialogManager,
+    dlgManager2: DialogManager2
 ) : BaseObservableMvc<WordsViewMvc.WordsViewListener>(), WordsViewMvc {
 
     private var mBtnCloseSearchBar: ImageButton
@@ -45,9 +53,12 @@ class WordsViewMvcImpl(
     private var mEditSearch: EditText
     private var mLlSearchBar: LinearLayout
     private var mDialogManager: DialogManager
+    private var mDialogManager2: DialogManager2
+    private var mProgress: ProgressBar
     private lateinit var mResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var mResources: Resources
     private lateinit var mWordsAdapter: WordsAdapter
+    private var mClRootWords: CoordinatorLayout
 
     init {
         setRootView(inflater.inflate(R.layout.fragment_words, container, false))
@@ -61,14 +72,22 @@ class WordsViewMvcImpl(
         mLlRemoveCancel = getRootView().llRemoveCancel
         mBtnCloseSearchBar = getRootView().btnCloseSearchBar
         mDialogManager = dlgManager
+        mDialogManager2 = dlgManager2
+        mClRootWords = getRootView().clRootWords
+        mProgress = getRootView().progress
 
         init()
     }
 
     override fun onActivityResult(requestCode: Int, data: Intent?) {
+        Log.e(WordsFragment.LOG_TAG, "onActivityResult")
+
         when (requestCode) {
             Constants.CODE_REQUEST_ADD_WORD, Constants.CODE_REQUEST_EDIT_WORD -> {
                 if (requestCode == Constants.CODE_REQUEST_ADD_WORD) {
+                    mDialogManager2.showInfoDialog(R.string.info_dialog_word_added)
+                    Log.e(WordsFragment.LOG_TAG, "word added")
+
                     if (isSearchVisible()) { // the insertion was made from search
                         val filterEn = getSearchEnString()
                         val filterIast = getSearchIastString()
@@ -81,6 +100,7 @@ class WordsViewMvcImpl(
                         }
                     }
                 } else if (requestCode == Constants.CODE_REQUEST_EDIT_WORD) {
+                    mDialogManager2.showInfoDialog(R.string.info_dialog_words_updated)
                     if (isSearchVisible()) { // the update was made from search
                         val filterEn = getSearchEnString()
                         val filterIast = getSearchIastString()
@@ -354,6 +374,9 @@ class WordsViewMvcImpl(
     }
 
     private fun showSearchBar() {
+        val transition: Transition = Fade()
+        transition.duration = 1000L
+        TransitionManager.beginDelayedTransition(mClRootWords, transition)
         mLlSearchBar.visibility = View.VISIBLE
     }
 
@@ -404,5 +427,13 @@ class WordsViewMvcImpl(
 
     override fun unselectSelectedToRemove() {
         mWordsAdapter.unselectSelectedToRemove()
+    }
+
+    override fun showProgress() {
+        mProgress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        mProgress.visibility = View.GONE
     }
 }
