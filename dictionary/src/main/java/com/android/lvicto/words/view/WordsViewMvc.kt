@@ -27,5 +27,6 @@ interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
     fun unselectSelectedToRemove()
     fun showProgress()
     fun hideProgress()
+    fun setupSearchFromOutside(searchIast: String?, searchEn: String?)
     fun getRootView(): View
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationWords"
+    app:startDestination="@id/destinationWordsFragment">
+
+    <fragment
+        android:id="@+id/destinationWordsFragment"
+        android:name="com.android.lvicto.words.fragments.WordsFragment"
+        android:label="Words"
+        tools:layout="@layout/fragment_words">
+        <action
+            android:id="@id/action_dictionaryWordsFragment_to_addModifyFragment"
+            app:destination="@id/destinationAddModifyWordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationAddModifyWordFragment"
+        android:name="com.android.lvicto.words.fragments.AddModifyWordFragment"
+        android:label="AddModifyWord"
+        tools:layout="@layout/fragment_add_word" />
+
+    <activity
+        android:id="@+id/destinationWordsActivity"
+        android:name="com.android.lvicto.words.activities.WordsActivity"
+        android:label="WordsActivity"
+        tools:layout="@layout/activity_words" />
+
+</navigation>

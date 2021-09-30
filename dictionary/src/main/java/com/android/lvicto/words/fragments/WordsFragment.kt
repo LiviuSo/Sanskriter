@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.constants.Constants.EXTRA_WORD_EN
+import com.android.lvicto.common.constants.Constants.EXTRA_WORD_IAST
 import com.android.lvicto.common.fragment.BaseFragment
 import com.android.lvicto.common.view.factory.ViewMvcFactory
 import com.android.lvicto.dependencyinjection.Service
@@ -27,7 +29,14 @@ class WordsFragment : BaseFragment() {
     @field:Service
     private lateinit var mControllerMvcFactory: ControllerMvcFactory
 
+    private var mWordIast: String? = null
+    private var mWordEn: String? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mWordIast = requireActivity().intent.getStringExtra(EXTRA_WORD_IAST) ?: ""
+        mWordEn = requireActivity().intent.getStringExtra(EXTRA_WORD_EN) ?: ""
+    }
     // region lifecycle
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +44,6 @@ class WordsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         injector.inject(this)
-
 
         mViewMvc = mViewMvcFactory.getWordsViewMvc(requireActivity() as BaseActivity, container)
         mControllerMvc = mControllerMvcFactory.getWordsControllerMvc()
@@ -45,14 +53,12 @@ class WordsFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        mControllerMvc.onStart()
-        Log.d(LOG_TAG, "WordsFragment onStart()")
+        mControllerMvc.onStart(mWordIast, mWordEn)
     }
 
     override fun onStop() {
         super.onStop()
         mControllerMvc.onStop()
-        Log.d(LOG_TAG, "WordsFragment onStop()")
     }
     // endregion
 

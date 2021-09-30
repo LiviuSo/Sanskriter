@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,6 @@ import com.android.lvicto.db.entity.Word
 
 class WordsAdapter(private val context: Context,
                    private val clickListenerDefinition: View.OnClickListener,
-                   private val clickListenerEdit: View.OnClickListener,
                    private val longClickListener: View.OnLongClickListener,
                    private val checkItemCallback: (Boolean) -> Unit) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
 
@@ -36,7 +34,10 @@ class WordsAdapter(private val context: Context,
         } else { // TYPE_REMOVABLE
             LayoutInflater.from(context).inflate(R.layout.item_word_removable, parent, false)
         }
-        return WordViewHolder(view, clickListenerDefinition, clickListenerEdit, longClickListener, checkItemCallback)
+        return WordViewHolder(view,
+            clickListenerDefinition,
+            longClickListener,
+            checkItemCallback)
     }
 
     override fun getItemCount(): Int {
@@ -72,7 +73,6 @@ class WordsAdapter(private val context: Context,
 
     inner class WordViewHolder(val view: View,
                                private val clickListenerDefinition: View.OnClickListener,
-                               private val clickListenerEdit: View.OnClickListener,
                                private val longClickListener: View.OnLongClickListener,
                                private val hideCtaOnNoSelection: (Boolean) -> Unit) : RecyclerView.ViewHolder(view) {
 
@@ -110,11 +110,6 @@ class WordsAdapter(private val context: Context,
                         }
                     }
                     checkBox.isChecked = selectedToRemove.contains(position)
-
-                    view.findViewById<Button>(R.id.btnEditWord).apply {
-                        setOnClickListener(clickListenerEdit)
-                        tag = word
-                    }
                 }
                 else -> {
                     Log.d(LOG_TAG, "Unknown type of recycler view item ")

@@ -59,7 +59,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     private var isDataLoaded = false
 
 
-    fun onStart() {
+    fun onStart(mWordIast: String?, mWordEn: String?) {
         // inject
         mActivity.injector.inject(this)
 
@@ -69,6 +69,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         if (!isDataLoaded) {
             coroutineScope.launch {
                 initWords()
+                mViewMvc.setupSearchFromOutside(mWordIast, mWordEn)
             }
         }
 

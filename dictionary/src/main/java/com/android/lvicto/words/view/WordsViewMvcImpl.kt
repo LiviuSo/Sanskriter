@@ -15,11 +15,11 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.activities.BaseActivity
-import com.android.lvicto.common.constants.Constants
 import com.android.lvicto.common.constants.Constants.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.constants.Constants.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.common.constants.Constants.EXTRA_REQUEST_CODE
@@ -31,7 +31,6 @@ import com.android.lvicto.common.extention.navigate
 import com.android.lvicto.common.textwatcher.BaseTextWatcher
 import com.android.lvicto.common.view.BaseObservableMvc
 import com.android.lvicto.db.entity.Word
-import com.android.lvicto.words.activities.AddModifyWordActivity
 import com.android.lvicto.words.adapter.WordsAdapter
 import com.android.lvicto.words.fragments.WordsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -105,30 +104,25 @@ class WordsViewMvcImpl(
         mResources = requireActivity().resources
         initToolbar()
         initSearchBar() // todo separate view
-        setupSearchFromIntent()
         initRecView()
         initRemoveWords()
         initFab()
     }
 
-    private fun setupSearchFromIntent() {
-        requireActivity().intent.let { intent ->
-            val searchIast = intent.getStringExtra(Constants.EXTRA_WORD_IAST)
-            val searchEn = intent.getStringExtra(Constants.EXTRA_WORD_EN)
-            if (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) {
-                if (!isSearchVisible()) {
-                    // show edit with close button
-                    showSearchBar()
-                    if (!searchIast.isNullOrEmpty()) {
-                        mEditSearchIast.setText(searchIast)
-                        for (listener in listeners) {
-                            listener.onFilterIastEn(searchIast, searchEn)
-                        }
-                    }
-                    if (!searchEn.isNullOrEmpty()) {
-                        mEditSearch.setText(searchEn)
-                    }
+    override fun setupSearchFromOutside(searchIast: String?, searchEn: String?) {
+        if (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) {
+            if (!isSearchVisible()) {
+                // show edit with close button
+                showSearchBar()
+            }
+            if (!searchIast.isNullOrEmpty()) {
+                mEditSearchIast.setText(searchIast)
+                for (listener in listeners) {
+                    listener.onFilterIastEn(searchIast, searchEn)
                 }
+            }
+            if (!searchEn.isNullOrEmpty()) {
+                mEditSearch.setText(searchEn)
             }
         }
     }
@@ -145,7 +139,8 @@ class WordsViewMvcImpl(
                 this.putParcelable(EXTRA_WORD, word)
                 this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_ADD_WORD)
             }
-            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
+            it.findNavController()
+                .navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
         }
     }
 
@@ -159,22 +154,6 @@ class WordsViewMvcImpl(
     }
 
     private fun initRecView() {
-        val itemDefinitionClickListener: View.OnClickListener = View.OnClickListener {
-            val word = it.tag as Word
-            mDialogManager.showWordDialog(word) {
-                val intentEdit = Intent(requireActivity(), AddModifyWordActivity::class.java)
-                intentEdit.putExtra(EXTRA_WORD, word)
-                intentEdit.putExtra(
-                    EXTRA_REQUEST_CODE,
-                    CODE_REQUEST_EDIT_WORD
-                )
-                requireActivity().startActivityForResult(
-                    intentEdit,
-                    CODE_REQUEST_EDIT_WORD
-                )
-            }
-        }
-
         val itemEditClickListener = View.OnClickListener {
             val bundle = Bundle().apply {
                 this.putParcelable(EXTRA_WORD, it.tag as Word)
@@ -193,7 +172,6 @@ class WordsViewMvcImpl(
 
         mWordsAdapter = WordsAdapter(
             requireActivity(),
-            itemDefinitionClickListener,
             itemEditClickListener,
             longClickListener
         ) {
@@ -215,8 +193,8 @@ class WordsViewMvcImpl(
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val filterEn = s.toString()
                 val filterIast = getSearchIastString()
-                for (listner in listeners) {
-                    listner.onFilterEnIast(filterEn, filterIast)
+                for (listener in listeners) {
+                    listener.onFilterEnIast(filterEn, filterIast)
                 }
             }
         })
@@ -225,8 +203,8 @@ class WordsViewMvcImpl(
             if (hasFocus) {
                 val filterEn = (v as EditText).text.toString()
                 val filterIast = getSearchIastString()
-                for (listner in listeners) {
-                    listner.onFilterEnIast(filterEn, filterIast)
+                for (listener in listeners) {
+                    listener.onFilterEnIast(filterEn, filterIast)
                 }
             }
         }
@@ -321,7 +299,7 @@ class WordsViewMvcImpl(
 
     private fun showSearchBar() {
         val transition: Transition = Fade()
-        transition.duration = 1000L
+        transition.duration = 250L
         TransitionManager.beginDelayedTransition(mClRootWords, transition)
         mLlSearchBar.visibility = View.VISIBLE
     }
