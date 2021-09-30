@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationPages"
+    app:startDestination="@id/destinationPageFragment">
+
+    <fragment
+        android:id="@+id/destinationPageFragment"
+        tools:layout="@layout/fragment_zoom_page"
+        android:name="com.android.lvicto.sanskriter.ui.fragments.BookPagesFragment"
+        android:label="BookPageFragment" >
+        <action
+            android:id="@+id/action_bookPageFragment_to_zoomPageFragment"
+            app:destination="@id/destinationZoomPageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationZoomPageFragment"
+        tools:layout="@layout/fragment_zoom_page"
+        android:name="com.android.lvicto.sanskriter.ui.fragments.ZoomPageFragment"
+        android:label="ZoomPageFragment" >
+
+        <action
+            android:id="@+id/action_fromZoomPage_toWordsActivity"
+            app:destination="@id/navigationWords" />
+    </fragment>
+
+
+</navigation>

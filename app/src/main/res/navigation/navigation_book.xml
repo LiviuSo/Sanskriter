@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationBook"
+    app:startDestination="@id/destinationBookContentFragment">
+
+    <fragment
+        android:id="@+id/destinationBookContentFragment"
+        android:name="com.android.lvicto.sanskriter.ui.fragments.BookContentsFragment"
+        android:label="BookContentsFragment"
+        tools:layout="@layout/fragment_book_contents">
+
+        <action
+            android:id="@+id/action_from_bookContent_to_pagesActivity"
+            app:destination="@id/destinationPageActivity" />
+
+        <action
+            android:id="@+id/action_from_pages_to_pagesZoom"
+            app:destination="@id/destinationZoomPagesFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/destinationZoomPagesFragment"
+        android:name="com.android.lvicto.sanskriter.ui.fragments.ZoomPageFragment"
+        android:label="ZoomPagesFragment"
+        tools:layout="@layout/fragment_zoom_page" />
+
+    <activity
+        android:id="@+id/destinationPageActivity"
+        android:name="com.android.lvicto.sanskriter.ui.activities.PagesActivity"
+        android:label="PagesActivity"
+        tools:layout="@layout/activity_pages" />
+
+</navigation>

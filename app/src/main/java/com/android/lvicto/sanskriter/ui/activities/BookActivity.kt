@@ -1,6 +1,6 @@
 package com.android.lvicto.sanskriter.ui.activities
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,27 +8,25 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.android.lvicto.sanskriter.R
-import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.util.BookHelper
 import com.android.lvicto.sanskriter.ui.fragments.BookContentsFragment
 import com.android.lvicto.sanskriter.viewmodel.ChaptersViewModel
 
 class BookActivity : AppCompatActivity(),
-        BookContentsFragment.OnFragmentInteractionListener {
+    BookContentsFragment.OnFragmentInteractionListener {
 
-    lateinit var viewModel: ChaptersViewModel
     lateinit var btnSearch: Button
+    private lateinit var viewModel: ChaptersViewModel
     private lateinit var searchBar: LinearLayout
     private lateinit var editSearch: EditText
     private lateinit var tvTitle: TextView
 
-    override fun onClickBookSection(string: String) {
+    override fun onClickBookSection(view: View, string: String) {
         editSearch.text.clear()
         searchBar.visibility = View.GONE
-        val intent = Intent(this, PagesActivity::class.java)
-        startActivity(intent)
+        findNavController(view.id).navigate(R.id.action_from_bookContent_to_pagesActivity)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,12 +40,9 @@ class BookActivity : AppCompatActivity(),
     }
 
     private fun showBookContents() {
-        viewModel.bookContents.observe(this, Observer<BookContent> {
+        viewModel.bookContents.observe(this, {
             BookHelper.getInstance().setData(it!!) // todo refactor to init()
             tvTitle.text = it.title
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentHolder,
-                    BookContentsFragment.newInstance(), FRAG_BOOK_CONTENTS)
-                    .commit()
         })
     }
 
@@ -57,7 +52,7 @@ class BookActivity : AppCompatActivity(),
         btnSearch = findViewById(R.id.btnSearch)
         btnSearch.visibility = View.VISIBLE
         btnSearch.setOnClickListener {
-            if(searchBar.visibility == View.GONE) {
+            if (searchBar.visibility == View.GONE) {
                 Log.d(LOG_TAG, "Clicked search titles")
                 searchBar.visibility = View.VISIBLE
                 (supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) as BookContentsFragment).onSearchClicked()
@@ -65,21 +60,26 @@ class BookActivity : AppCompatActivity(),
         }
         // init search bar
         editSearch = findViewById(R.id.editSearch)
-        editSearch.addTextChangedListener( object : TextWatcher {
+        editSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
+            @SuppressLint("RestrictedApi")
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                (supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) as BookContentsFragment).filterSectionTitles(s.toString())
+                (supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) as BookContentsFragment).filterSectionTitles(
+                    s.toString()
+                )
             }
         })
         val btnCloseSearch = findViewById<ImageButton>(R.id.btnCloseSearchBar)
         btnCloseSearch.setOnClickListener {
             searchBar.visibility = View.GONE
-            (supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) as BookContentsFragment).setContents(true)
+            (supportFragmentManager.findFragmentByTag(FRAG_BOOK_CONTENTS) as BookContentsFragment).setContents(
+                true
+            )
         }
     }
 

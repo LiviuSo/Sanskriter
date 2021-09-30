@@ -36,7 +36,7 @@ class BookContentsFragment : Fragment() {
                     adapter.data = bookHelper.titles
                 } else {
                     Log.d(LOG_TAG, "Clicked on section: $title")
-                    onSectionClicked(title)
+                    onSectionClicked(view, title)
                 }
             }
         }
@@ -46,7 +46,7 @@ class BookContentsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_book_contents, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.recViewTitles)
         rv.layoutManager = LinearLayoutManager(this.activity)
-        adapter = TitlesAdapter(this.activity!!, clickListener)
+        adapter = TitlesAdapter(this.requireActivity(), clickListener)
         rv.adapter = adapter
         return view
     }
@@ -75,8 +75,8 @@ class BookContentsFragment : Fragment() {
         adapter.data = bookHelper.allSectionsTitles
     }
 
-    private fun onSectionClicked(title: String) {
-        listener?.onClickBookSection(title)
+    private fun onSectionClicked(view: View, title: String) {
+        listener?.onClickBookSection(view, title)
     }
 
     override fun onAttach(context: Context) {
@@ -88,7 +88,7 @@ class BookContentsFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 
@@ -103,13 +103,10 @@ class BookContentsFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onClickBookSection(string: String)
+        fun onClickBookSection(view: View, string: String)
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance() = BookContentsFragment()
-
         private const val LOG_TAG = "BookContentsFragment"
     }
 }
