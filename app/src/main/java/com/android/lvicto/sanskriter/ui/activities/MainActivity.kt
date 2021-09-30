@@ -1,16 +1,12 @@
 package com.android.lvicto.sanskriter.ui.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.start.DictionaryTestActivity
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.data.BookContent
 import com.android.lvicto.sanskriter.data.BookSection
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_main.*
 import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
@@ -21,26 +17,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btnTestDic.setOnClickListener {
-            startActivity(Intent(this@MainActivity, DictionaryTestActivity::class.java))
-        }
-
-        btnTestKeyboard.setOnClickListener {
-            startActivity(Intent(this@MainActivity, TestKeyboardActivity::class.java))
-        }
-
-        btnTestBook2.setOnClickListener {
-            startActivity(Intent(this@MainActivity, BookActivity::class.java))
-        }
-
-        btnTestSanshi.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SandhiActivity::class.java))
-        }
-
         // debug
-        Log.d(LOG_TAG, writeBookContents(this))
+//        Log.d(LOG_TAG, writeBookContents(this))
     }
-
 
     // debug
     private fun readBookContents(context: Context): BookContent {

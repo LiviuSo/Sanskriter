@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationApp"
+    app:startDestination="@id/destinationMainFragment">
+
+    <fragment
+        android:id="@+id/destinationMainFragment"
+        android:name="com.android.lvicto.sanskriter.ui.fragments.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_from_mainFragment_to_bookActivity"
+            app:destination="@id/destinationBookActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/destinationBookActivity"
+        android:name="com.android.lvicto.sanskriter.ui.activities.BookActivity"
+        android:label="BookActivity"
+        tools:layout="@layout/activity_book" />
+
+</navigation>

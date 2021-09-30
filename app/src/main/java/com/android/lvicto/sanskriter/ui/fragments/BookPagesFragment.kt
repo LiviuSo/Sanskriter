@@ -27,10 +27,10 @@ class BookPagesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sectionTitle = PreferenceHelper(this.activity!!).getLastSection()
+        val sectionTitle = PreferenceHelper(requireActivity()).getLastSection()
         val pageIndexInSection = 0 // todo save last page index
         bookHelper.setCurrentPage(sectionTitle, pageIndexInSection)
-        gd = GestureDetector(this.activity!!.applicationContext, GestureListener())
+        gd = GestureDetector(requireActivity().applicationContext, GestureListener())
     }
 
     private lateinit var pageImageView: ImageView
@@ -72,7 +72,7 @@ class BookPagesFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 
