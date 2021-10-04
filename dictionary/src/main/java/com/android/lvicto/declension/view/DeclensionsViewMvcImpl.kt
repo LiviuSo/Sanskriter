@@ -16,6 +16,7 @@ import com.android.lvicto.common.activities.BaseActivity
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
+import com.android.lvicto.declension.view.interf.DeclensionsViewMvc
 import kotlinx.android.synthetic.main.fragment_declension.*
 import kotlinx.android.synthetic.main.fragment_declension.view.*
 import com.android.lvicto.common.view.BaseObservableMvc as BaseObservableMvc1
@@ -98,7 +99,7 @@ class DeclensionsViewMvcImpl(
             mDeclensionFilter = MutableLiveData<String>().apply {
                 observe(activity, {
                     listeners.forEach { listener ->
-                        listener.onFilter()
+                        listener.onDetectDeclension(it)
                     }
                 })
             }

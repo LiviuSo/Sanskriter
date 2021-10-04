@@ -112,22 +112,24 @@
 
         <Button
             android:id="@+id/buttonImport"
-            android:layout_width="54dp"
-            android:layout_height="46dp"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:text="Imp"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@+id/guideline13"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline12" />
 
         <Button
             android:id="@+id/buttonExport"
-            android:layout_width="52dp"
-            android:layout_height="46dp"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
             android:layout_marginLeft="6dp"
             android:text="Exp"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@+id/guideline13"
             app:layout_constraintStart_toEndOf="@+id/buttonImport"
             app:layout_constraintTop_toTopOf="@+id/guideline12" />

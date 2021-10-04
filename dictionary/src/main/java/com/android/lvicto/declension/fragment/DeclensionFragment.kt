@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import com.android.lvicto.R
 import com.android.lvicto.common.ImportPickerCodeHolder
 import com.android.lvicto.common.activities.BaseActivity
@@ -26,11 +25,19 @@ import com.android.lvicto.db.entity.Word
 import com.android.lvicto.declension.event.ImportDeclensionsIntentEvent
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.declension.view.DeclensionsViewMvcImpl
-import com.android.lvicto.declension.view.DeclensionsViewMvc
+import com.android.lvicto.declension.view.interf.DeclensionsViewMvc
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.usecase.WordsFilterUseCase
 import kotlinx.android.synthetic.main.fragment_declension.*
 import kotlinx.coroutines.*
+
+/*
+todos:
+- dialog when adding
+- dialog on deleting
+- spinner
+- detection
+ */
 
 class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsViewMvc.Listener {
 
@@ -92,15 +99,21 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
 
     override fun onFilter() {
         coroutineScope.launch {
-            Log.d(LOG_TAG, "filterObserver")
             val declension: Declension = collectData()
+            Log.d(LOG_TAG, "filterObserver by $declension")
             val result = declensionFilterUseCase.filter(declension)
             if (result is DeclensionFilterUseCase.Result.Success) {
-                Log.d(LOG_TAG, "filterObserver: Success")
                 mViewMvcImpl.setDeclensions(result.declensions)
             } else if (result is DeclensionFilterUseCase.Result.Failure) {
                 dialogManager.showErrorDialog(result.message)
             }
+        }
+    }
+
+    override fun onDetectDeclension(declension: String) {
+        coroutineScope.launch {
+            Log.d(LOG_TAG, "onDetectDeclension: $declension")
+            detectDeclensionObserver(declension)
         }
     }
 
@@ -121,12 +134,12 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
     private suspend fun detectDeclension(word: String): List<Declension> {
         val declensions = arrayListOf<Declension>()
         if (word.isEmpty()) { // if empty return all declensions
-            val result = declensionFetchUseCase.getAll()
-            if (result is DeclensionFetchUseCase.Result.Success) {
+            val result = declensionFilterUseCase.filter(collectData())
+            if (result is DeclensionFilterUseCase.Result.Success) {
                 declensions.addAll(result.declensions)
                 declensionInsertUseCase.insert(result.declensions)
                 Log.d(LOG_TAG, "Inserting declensions ${result.declensions}")
-            } else if (result is DeclensionFetchUseCase.Result.Failure) {
+            } else if (result is DeclensionFilterUseCase.Result.Failure) {
                 Log.d(LOG_TAG, "Error fetching declensions")
             }
         } else {
@@ -163,7 +176,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
 
     // first detect the declension(s),
     // then searching the roots in the dic that have that declension
-    private val detectDeclensionObserver = Observer<String> { declensionWord ->
+    private fun detectDeclensionObserver(declensionWord: String) {
         coroutineScope.launch {
             val declensions = detectDeclension(declensionWord.toString())
             mViewMvcImpl.setDeclensions(declensions)
@@ -246,7 +259,8 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                     coroutineScope.launch {
                         declensionsReadFromFileUseCase.loadDeclensionsFromFile(uri).let {
                             if (it is DeclensionsReadFromFileUseCase.Result.Success) {
-                                mViewMvcImpl.setDeclensions(it.declension)
+                                declensionInsertUseCase.insert(it.declensions)
+                                mViewMvcImpl.setDeclensions(it.declensions)
                             } else if (it is DeclensionsReadFromFileUseCase.Result.Failure) {
                                 dialogManager.showErrorDialog("Unable to read from file")
                                 Log.d(LOG_TAG, "Unable to read from file: ${it.message}")
@@ -307,14 +321,14 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
             // insert into the DB
             declensionInsertUseCase.insert(declension).let { resultInsert ->
                 if (resultInsert is DeclensionInsertUseCase.Result.Success) {
-                    declensionFetchUseCase.getAll().let { resultFetch ->
-                        if (resultFetch is DeclensionFetchUseCase.Result.Success) {
+                    declensionFilterUseCase.filter(collectData()).let { resultFetch ->
+                        if (resultFetch is DeclensionFilterUseCase.Result.Success) {
                             mViewMvcImpl.setDeclensions(resultFetch.declensions)
-                        } else if (resultFetch is DeclensionFetchUseCase.Result.Failure) {
+                        } else if (resultFetch is DeclensionFilterUseCase.Result.Failure) {
                             dialogManager.showErrorDialog("Error fetching declensions")
                             Log.d(
                                 LOG_TAG,
-                                "Error fetching declensions ${resultFetch.message}"
+                                "Error filtering declensions ${resultFetch.message}"
                             )
                         }
                     }

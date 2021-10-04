@@ -84,15 +84,6 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
         mViewViewMvcImpl.unregisterListener(this)
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == Constants.PICKFILE_RESULT_CODE) {
-//            data?.data?.let {
-////                loadImports(it)
-//            }
-//        }
-//    }
-
     // region Listener
     override fun onConjugationAddAction(conjugation: Conjugation?) {
         add(conjugation)

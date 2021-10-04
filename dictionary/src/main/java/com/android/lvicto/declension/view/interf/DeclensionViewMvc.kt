@@ -1,4 +1,4 @@
-package com.android.lvicto.declension.view
+package com.android.lvicto.declension.view.interf
 
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +15,7 @@ interface DeclensionsViewMvc {
         fun onButtonImport()
         fun onButtonExport()
         fun onFilter()
+        fun onDetectDeclension(declension: String)
     }
 
     fun setUpUI(

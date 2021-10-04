@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 class DeclensionsReadFromFileUseCase(val context: Context, val gson: Gson) {
 
     sealed class Result {
-        class Success(val declension: List<Declension>): Result()
+        class Success(val declensions: List<Declension>): Result()
         class Failure(val message: String): Result()
     }
 
