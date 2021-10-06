@@ -4,7 +4,7 @@ buildscript {
     // versions
     ext.kotlinVersion = "1.5.20"
     ext.supportVersion = "28.0.0"
-    ext.gradleVersion = '4.2.2'
+    ext.gradleVersion = '7.0.2'
     ext.appcompatVersion = "1.3.0"
     ext.junitVersion = '4.13.2'
     ext.testRunnerVersion = '1.4.0'
