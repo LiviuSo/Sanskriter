@@ -25,11 +25,12 @@
 
         <activity
             android:name=".ui.activities.PagesActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="locked"
             android:theme="@style/AppTheme.BookTheme" />
+
         <activity
             android:name=".ui.activities.SetupActivity"
-            android:screenOrientation="fullSensor"
+            android:screenOrientation="locked"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,14 +39,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activities.MainActivity" />
+        <activity android:name=".ui.activities.MainActivity"
+            android:screenOrientation="locked"/>
+
         <activity
             android:name=".ui.activities.KeyboardSelectPopup"
-            android:theme="@style/AppTheme.CustomTheme" />
+            android:theme="@style/AppTheme.CustomTheme"
+            android:screenOrientation="locked"/>
 
-        <activity android:name=".ui.activities.TestKeyboardActivity" />
+        <activity android:name=".ui.activities.TestKeyboardActivity"
+            android:screenOrientation="locked"/>
 
-        <activity android:name=".ui.activities.BookActivity" />
+        <activity android:name=".ui.activities.BookActivity"
+            android:screenOrientation="locked"/>
     </application>
 
 </manifest>
