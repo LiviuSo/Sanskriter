@@ -12,9 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Keyboard"
-        android:fullBackupContent="@xml/backup_descriptor">
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:dataExtractionRules="@xml/data_extraction_rules">
 
-        <activity android:name="com.lvicto.skeyboard.NewKeyboardActivity">
+        <activity android:name="com.lvicto.skeyboard.NewKeyboardActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +27,8 @@
         <service
             android:name="com.lvicto.skeyboard.service.SanskritKeyboardIms"
             android:label="@string/keyboard_name"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
             <meta-data
                 android:name="android.view.im"
                 android:resource="@xml/method" />

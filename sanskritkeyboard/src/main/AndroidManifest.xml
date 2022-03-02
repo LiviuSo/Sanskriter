@@ -12,12 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.SettingsActivity"></activity>
+        <activity android:name=".ui.SettingsActivity" />
 
         <service
             android:name=".service.SanskritCustomKeyboard"
             android:label="@string/keyboard_name"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
             <meta-data
                 android:name="android.view.im"
                 android:resource="@xml/method" />
@@ -30,7 +31,8 @@
         <service
             android:name=".newkeyboard.CustomSanskritKeyboard"
             android:label="@string/keyboard_name_new"
-            android:permission="android.permission.BIND_INPUT_METHOD">
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:exported="true">
             <meta-data
                 android:name="android.view.im"
                 android:resource="@xml/method" />
@@ -40,7 +42,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.TestKeyboardActivity">
+        <activity android:name=".ui.TestKeyboardActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
