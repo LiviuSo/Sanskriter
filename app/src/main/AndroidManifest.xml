@@ -25,11 +25,12 @@
 
         <activity
             android:name=".ui.activities.PagesActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.BookTheme" />
         <activity
             android:name=".ui.activities.SetupActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
