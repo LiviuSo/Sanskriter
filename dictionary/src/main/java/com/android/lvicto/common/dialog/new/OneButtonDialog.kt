@@ -3,10 +3,11 @@ package com.android.lvicto.common.dialog.new
 import android.app.Dialog
 import android.os.Bundle
 import androidx.annotation.LayoutRes
+import com.android.lvicto.common.base.BaseDialog2
 import kotlinx.android.synthetic.main.dialog_error.*
 import java.lang.IllegalStateException
 
-abstract class OneButtonDialog : BaseDialog() {
+abstract class OneButtonDialog : BaseDialog2() {
 
     companion object {
         const val ARG_MESSAGE = "dialog_arg_message"

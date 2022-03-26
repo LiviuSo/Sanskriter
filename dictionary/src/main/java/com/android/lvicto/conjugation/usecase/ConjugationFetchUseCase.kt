@@ -1,7 +1,7 @@
 package com.android.lvicto.conjugation.usecase
 
 import android.util.Log
-import com.android.lvicto.common.constants.Constants.NONE
+import com.android.lvicto.common.Constants.NONE
 import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.coroutines.CancellationException

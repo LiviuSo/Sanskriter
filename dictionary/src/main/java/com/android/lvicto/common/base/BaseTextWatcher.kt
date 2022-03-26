@@ -1,4 +1,4 @@
-package com.android.lvicto.common.textwatcher
+package com.android.lvicto.common.base
 
 import android.text.Editable
 import android.text.TextWatcher

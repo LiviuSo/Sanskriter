@@ -1,7 +1,6 @@
 package com.android.lvicto.words.controller
 
-import com.android.lvicto.common.activities.BaseActivity
-import com.android.lvicto.words.controller.WordsController
+import com.android.lvicto.common.base.BaseActivity
 
 class ControllerMvcFactory(val activity: BaseActivity) {
 

@@ -1,4 +1,4 @@
-package com.android.lvicto.common.view
+package com.android.lvicto.common.base
 
 import com.android.lvicto.common.view.viewinterface.ObservableMvc
 

@@ -1,15 +1,14 @@
 package com.android.lvicto.words.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.android.lvicto.common.activities.BaseActivity
-import com.android.lvicto.common.constants.Constants.EXTRA_WORD_EN
-import com.android.lvicto.common.constants.Constants.EXTRA_WORD_IAST
-import com.android.lvicto.common.fragment.BaseFragment
-import com.android.lvicto.common.view.factory.ViewMvcFactory
+import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.Constants.EXTRA_WORD_EN
+import com.android.lvicto.common.Constants.EXTRA_WORD_IAST
+import com.android.lvicto.common.base.BaseFragment
+import com.android.lvicto.common.view.ViewMvcFactory
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.controller.ControllerMvcFactory
 import com.android.lvicto.words.controller.WordsController

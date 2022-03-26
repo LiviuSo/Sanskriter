@@ -4,8 +4,8 @@ import android.net.Uri
 import android.util.Log
 import com.android.lvicto.R
 import com.android.lvicto.common.ImportPickerCodeHolder
-import com.android.lvicto.common.activities.BaseActivity
-import com.android.lvicto.common.constants.Constants
+import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.Constants
 import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent

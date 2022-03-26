@@ -12,14 +12,13 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
-import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
 import com.android.lvicto.declension.view.interf.DeclensionsViewMvc
-import kotlinx.android.synthetic.main.fragment_declension.*
 import kotlinx.android.synthetic.main.fragment_declension.view.*
-import com.android.lvicto.common.view.BaseObservableMvc as BaseObservableMvc1
+import com.android.lvicto.common.base.BaseObservableMvc as BaseObservableMvc1
 
 class DeclensionsViewMvcImpl(
     private val mActivity: BaseActivity,

@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import com.android.lvicto.R
-import com.android.lvicto.common.fragment.BaseFragment
+import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.common.extention.navigate
 import kotlinx.android.synthetic.main.fragment_dictionary_test.view.*
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.db.entity.Declension
 
 interface DeclensionsViewMvc {

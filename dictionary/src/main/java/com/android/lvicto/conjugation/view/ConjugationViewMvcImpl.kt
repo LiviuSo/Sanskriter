@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
-import com.android.lvicto.common.constants.Constants.NONE
+import com.android.lvicto.common.Constants.NONE
 import com.android.lvicto.common.extention.initSpinner
-import com.android.lvicto.common.textwatcher.BaseTextWatcher
-import com.android.lvicto.common.view.BaseObservableMvc
+import com.android.lvicto.common.base.BaseTextWatcher
+import com.android.lvicto.common.base.BaseObservableMvc
 import com.android.lvicto.conjugation.adapter.ConjugationAdapter
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.android.synthetic.main.fragment_conjugation.view.*

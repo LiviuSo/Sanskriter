@@ -1,12 +1,12 @@
 package com.android.lvicto.dependencyinjection
 
 import com.android.lvicto.common.ImportPickerCodeHolder
-import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
-import com.android.lvicto.common.view.factory.ViewMvcFactory
+import com.android.lvicto.common.view.ViewMvcFactory
 import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase

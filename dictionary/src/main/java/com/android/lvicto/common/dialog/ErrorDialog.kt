@@ -2,6 +2,7 @@ package com.android.lvicto.common.dialog
 
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.common.base.BaseDialog
 
 class ErrorDialog(
     activity: AppCompatActivity,

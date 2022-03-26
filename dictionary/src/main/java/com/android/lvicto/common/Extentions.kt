@@ -18,7 +18,7 @@ import androidx.annotation.IdRes
 import androidx.core.content.FileProvider
 import androidx.navigation.findNavController
 import com.android.lvicto.common.ImportPickerCodeHolder
-import com.android.lvicto.common.constants.Constants
+import com.android.lvicto.common.Constants
 import java.io.*
 
 
