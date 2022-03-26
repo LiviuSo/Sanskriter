@@ -1,4 +1,4 @@
-package com.android.lvicto.common.view
+package com.android.lvicto.common.base
 
 import android.content.Context
 import android.view.View

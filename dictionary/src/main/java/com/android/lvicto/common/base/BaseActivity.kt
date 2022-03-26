@@ -1,4 +1,4 @@
-package com.android.lvicto.common.activities
+package com.android.lvicto.common.base
 
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity

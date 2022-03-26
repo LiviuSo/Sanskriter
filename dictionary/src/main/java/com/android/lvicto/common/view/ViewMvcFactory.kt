@@ -1,9 +1,9 @@
-package com.android.lvicto.common.view.factory
+package com.android.lvicto.common.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.conjugation.view.ConjugationViewMvcImpl

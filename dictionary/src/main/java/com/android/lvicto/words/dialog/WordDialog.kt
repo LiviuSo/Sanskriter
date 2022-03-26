@@ -3,7 +3,7 @@ package com.android.lvicto.words.dialog
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.R
-import com.android.lvicto.common.dialog.BaseDialog
+import com.android.lvicto.common.base.BaseDialog
 import com.android.lvicto.db.entity.Word
 
 class WordDialog(

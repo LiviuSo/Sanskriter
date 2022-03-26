@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.lvicto.common.constants.Constants.EXTRA_WORD_EN
-import com.android.lvicto.common.constants.Constants.EXTRA_WORD_IAST
+import com.android.lvicto.common.Constants.EXTRA_WORD_EN
+import com.android.lvicto.common.Constants.EXTRA_WORD_IAST
 import com.android.lvicto.sanskriter.MyApplication.Companion.application
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.adapter.SandhiSuggestionAdapter
@@ -21,10 +21,8 @@ import com.android.lvicto.sanskriter.viewmodel.NotesViewModel
 import com.android.lvicto.words.activities.WordsActivity
 import kotlinx.android.synthetic.main.fragment_zoom_page.*
 import kotlinx.android.synthetic.main.fragment_zoom_page.view.*
-import kotlinx.android.synthetic.main.search_bar.view.*
 import kotlinx.android.synthetic.main.view_add_note.*
 import kotlinx.android.synthetic.main.view_add_note.view.*
-import kotlinx.android.synthetic.main.view_sandhi.*
 import kotlinx.android.synthetic.main.view_sandhi.view.*
 import kotlinx.android.synthetic.main.view_search_words.view.*
 

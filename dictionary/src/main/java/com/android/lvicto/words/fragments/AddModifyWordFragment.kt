@@ -9,12 +9,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentActivity
 import com.android.lvicto.R
-import com.android.lvicto.common.constants.Constants
-import com.android.lvicto.common.constants.Constants.EXTRA_REQUEST_CODE
-import com.android.lvicto.common.constants.Constants.EXTRA_WORD
+import com.android.lvicto.common.Constants
+import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
+import com.android.lvicto.common.Constants.EXTRA_WORD
 import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.extention.navigateBack
-import com.android.lvicto.common.fragment.BaseFragment
+import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.GrammaticalGender
 import com.android.lvicto.db.data.GrammaticalType

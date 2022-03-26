@@ -1,7 +1,7 @@
-package com.android.lvicto.common.fragment
+package com.android.lvicto.common.base
 
 import androidx.fragment.app.Fragment
-import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.dependencyinjection.Injector
 import com.android.lvicto.dependencyinjection.composition.ControllerCompositionRoot
 

@@ -6,10 +6,10 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.android.lvicto.R
 import com.android.lvicto.common.ImportPickerCodeHolder
-import com.android.lvicto.common.activities.BaseActivity
-import com.android.lvicto.common.constants.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
-import com.android.lvicto.common.constants.Constants.RESULT_CODE_PICKFILE_DECLENSIONS
-import com.android.lvicto.common.constants.Constants.RESULT_CODE_PICKFILE_WORDS
+import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
+import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_DECLENSIONS
+import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_WORDS
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager

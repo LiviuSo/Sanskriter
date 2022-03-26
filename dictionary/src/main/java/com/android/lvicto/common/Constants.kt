@@ -1,4 +1,4 @@
-package com.android.lvicto.common.constants
+package com.android.lvicto.common
 
 object Constants {
     // extras

@@ -2,7 +2,7 @@ package com.android.lvicto.words.activities
 
 import android.os.Bundle
 import com.android.lvicto.R
-import com.android.lvicto.common.activities.BaseActivity
+import com.android.lvicto.common.base.BaseActivity
 
 class AddModifyWordActivity : BaseActivity() {
 
