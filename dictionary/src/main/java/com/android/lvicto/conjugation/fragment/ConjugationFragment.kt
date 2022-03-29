@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.base.BaseFragment
@@ -15,8 +15,8 @@ import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
-import com.android.lvicto.common.extention.export
-import com.android.lvicto.common.extention.openFilePicker
+import com.android.lvicto.common.export
+import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.ViewMvcFactory
 import com.android.lvicto.conjugation.event.ImportConjugationsEvent
@@ -52,7 +52,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private lateinit var resultEventBus: ResultEventBus
 
     @field:Service
-    private lateinit var importPickerCodeHolder: ImportPickerCodeHolder
+    private lateinit var importPickerCode: ImportPickerCode
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private lateinit var mViewViewMvcImpl: ConjugationViewMvcImpl
@@ -236,7 +236,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     }
 
     private fun import() {
-        launchResultManager.getLauncher(requireActivity()::class.java)?.openFilePicker(importPickerCodeHolder, RESULT_CODE_PICKFILE_CONJUGATIONS)
+        launchResultManager.getLauncher(requireActivity()::class.java)?.openFilePicker(importPickerCode, RESULT_CODE_PICKFILE_CONJUGATIONS)
     }
 
     private fun loadImports(uri: Uri) {
@@ -245,25 +245,21 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                 mViewViewMvcImpl.showProgress()
                 val res = mConjugationImportExportUseCase.importConjugations(uri)
                 if (res is ConjugationImportExportUseCase.Result.SuccessRead) {
-                    Log.d("conjugation_log", "loadImports: SuccessRead")
                     if (res.conjugations != null) {
                         mConjugationAddUseCase.addConjugations(res.conjugations)
                         mViewViewMvcImpl.setConjugations(res.conjugations)
-                        Log.d("conjugation_log", "loadImports: SuccessRead res.conjugations != null")
                     } else {
                         dialogManager.showErrorDialog("Fail to add conjugations.") {
                             // onRetry() empty for now
-                            Log.d("conjugation_log", "loadImports: SuccessRead res.conjugations == null")
                         }
                     }
                 } else {
                     dialogManager.showErrorDialog("Fail to import") {
-                        Log.d("conjugation_log", "loadImports: unknown exception")
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                dialogManager.showErrorDialog("Unknown error (import): ${e.message}") {
+                dialogManager.showErrorDialog("Unknown error when importing: ${e.message}") {
                     // onRetry() empty for now
                 }
             } finally {

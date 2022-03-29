@@ -1,6 +1,6 @@
 package com.android.lvicto.dependencyinjection
 
-import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
@@ -55,7 +55,7 @@ class Injector(private val compositionRoot: ControllerCompositionRoot) {
         DialogManager::class.java -> { compositionRoot.dialogManager }
         ResultLauncherManager::class.java -> { compositionRoot.resultLauncherManager }
         ResultEventBus::class.java -> { compositionRoot.eventBus }
-        ImportPickerCodeHolder::class.java -> { compositionRoot.importPickerCodeHolder }
+        ImportPickerCode::class.java -> { compositionRoot.importPickerCode }
         ConjugationAddUseCase::class.java -> { compositionRoot.conjugationAddUseCase }
         ConjugationFetchUseCase::class.java -> { compositionRoot.conjugationFetchUseCase }
         ConjugationImportExportUseCase::class.java -> { compositionRoot.conjugationImportExportUseCase }

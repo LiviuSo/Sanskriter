@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants.NONE
-import com.android.lvicto.common.extention.initSpinner
+import com.android.lvicto.common.initSpinner
 import com.android.lvicto.common.base.BaseTextWatcher
 import com.android.lvicto.common.base.BaseObservableMvc
 import com.android.lvicto.conjugation.adapter.ConjugationAdapter

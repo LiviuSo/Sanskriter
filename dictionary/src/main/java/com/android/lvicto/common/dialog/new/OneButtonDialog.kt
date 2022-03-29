@@ -16,7 +16,9 @@ abstract class OneButtonDialog : BaseDialog2() {
 
     protected var mMessage: String? = null
     protected var mCaption: String? = null
-    protected var mAction: ((OneButtonDialog) -> Unit)? = null
+    protected var mAction: ((OneButtonDialog) -> Unit)? = {
+        it.dismiss()
+    }
 
     protected fun addArguments(message: String, caption: String) {
         this.arguments = Bundle(2).also {

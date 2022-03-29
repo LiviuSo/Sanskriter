@@ -2,7 +2,7 @@ package com.android.lvicto.words.usecase
 
 import android.content.Context
 import android.net.Uri
-import com.android.lvicto.common.extention.readData
+import com.android.lvicto.common.readData
 import com.android.lvicto.db.data.Words
 import com.android.lvicto.db.entity.Word
 import com.google.gson.Gson
@@ -34,4 +34,5 @@ class WordsReadFromFileUseCase(val context: Context) {
             words.list
         }
     }
+
 }

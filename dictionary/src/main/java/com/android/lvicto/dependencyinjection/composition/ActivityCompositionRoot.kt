@@ -1,7 +1,7 @@
 package com.android.lvicto.dependencyinjection.composition
 
 import android.view.LayoutInflater
-import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
@@ -85,5 +85,5 @@ class ActivityCompositionRoot(
 
     val eventBus: ResultEventBus get() = appComponent.eventBus
 
-    val importPickerCodeHolder: ImportPickerCodeHolder = appComponent.importCodeHolder
+    val importPickerCode: ImportPickerCode = appComponent.importCodeHolder
 }

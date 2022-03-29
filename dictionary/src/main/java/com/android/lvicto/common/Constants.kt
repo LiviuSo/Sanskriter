@@ -31,4 +31,6 @@ object Constants {
 
     const val BASE_LOG = "log_"
 
+    const val EMPTY_STRING = ""
+
 }

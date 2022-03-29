@@ -13,7 +13,7 @@ import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
 import com.android.lvicto.common.dialog.new.DialogManager2
-import com.android.lvicto.common.extention.navigateBack
+import com.android.lvicto.common.navigateBack
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.GrammaticalGender
@@ -237,7 +237,7 @@ class AddModifyWordFragment : BaseFragment() {
             }
             else -> {
                 Log.d(LOG_ADD_MODIFY, "onClickAdd() : No word")
-                dialogManager.showErrorDialog(R.string.info_dialog_words_added_error)
+                dialogManager.showErrorDialog(R.string.error_dialog_words_added)
             }
         }
     }
@@ -260,7 +260,7 @@ class AddModifyWordFragment : BaseFragment() {
             }
         } else if (result is WordsUpdateUseCase.Result.Failure) {
             Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
-            dialogManager.showErrorDialog(R.string.info_dialog_words_update_error)
+            dialogManager.showErrorDialog(R.string.error_dialog_words_update)
         }
     }
 
@@ -282,7 +282,7 @@ class AddModifyWordFragment : BaseFragment() {
         } else if (result is WordsInsertUseCase.Result.Failure) {
             result.message?.let {
                 Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
-                dialogManager.showErrorDialog(R.string.info_dialog_words_added_error)
+                dialogManager.showErrorDialog(R.string.error_dialog_words_added)
             }
         }
     }

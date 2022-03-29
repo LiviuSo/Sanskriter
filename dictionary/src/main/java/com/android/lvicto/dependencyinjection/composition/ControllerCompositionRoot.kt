@@ -1,6 +1,6 @@
 package com.android.lvicto.dependencyinjection.composition
 
-import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
@@ -59,7 +59,7 @@ class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCom
 
     val activity: BaseActivity get() = activityCompositionRoot.activity
 
-    val importPickerCodeHolder: ImportPickerCodeHolder = activityCompositionRoot.importPickerCodeHolder
+    val importPickerCode: ImportPickerCode = activityCompositionRoot.importPickerCode
 
     val dialogManager2: DialogManager2 = activityCompositionRoot.dialogManager2
 

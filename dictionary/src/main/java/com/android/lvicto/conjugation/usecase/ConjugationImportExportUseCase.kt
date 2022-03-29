@@ -4,8 +4,8 @@ import android.content.Context
 import android.net.Uri
 import com.android.lvicto.db.data.Conjugations
 import com.android.lvicto.db.entity.Conjugation
-import com.android.lvicto.common.extention.readData
-import com.android.lvicto.common.extention.writeDataToFile
+import com.android.lvicto.common.readData
+import com.android.lvicto.common.writeDataToFile
 import com.google.gson.Gson
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +38,7 @@ class ConjugationImportExportUseCase(val context: Context) {
     suspend fun exportConjugations(conjugations: List<Conjugation>, fileName: String): Result =
         withContext(Dispatchers.IO) {
             try {
-                if (context.writeDataToFile(Gson().toJson(Conjugations(conjugations)), fileName)) {
+                if (context.writeDataToFile(Gson().toJson(Conjugations(conjugations)), fileName).isNotEmpty()) {
                     Result.SuccessWrite
                 } else {
                     Result.Failure

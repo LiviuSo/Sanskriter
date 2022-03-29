@@ -10,7 +10,7 @@ class DialogManager2(val context: Context, private val fragmentManager: Fragment
     fun showInfoDialog(@StringRes messageId: Int, action: ((OneButtonDialog) -> Unit)? = null) {
         InfoDialog.createInfoDialog(
             context.resources.getString(messageId),
-            context.resources.getString(R.string.info_dialog_postive_caption),
+            context.resources.getString(R.string.info_dialog_positive_caption),
             action
         ).show(fragmentManager, "info_dialog")
     }
@@ -18,7 +18,7 @@ class DialogManager2(val context: Context, private val fragmentManager: Fragment
     fun showErrorDialog(@StringRes messageId: Int) {
         ErrorDialog.createErrorDialog(
             context.resources.getString(messageId),
-            context.resources.getString(R.string.error_dialog_postive_caption)
+            context.resources.getString(R.string.error_dialog_positive_caption)
         ).show(fragmentManager, "error_dialog")
     }
 

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.android.lvicto.R
-import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
 import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_DECLENSIONS
@@ -30,7 +30,7 @@ class DictionaryTestActivity : BaseActivity() {
     private lateinit var eventBus: ResultEventBus
 
     @field:Service
-    private lateinit var importPickerCodeHolder: ImportPickerCodeHolder
+    private lateinit var importPickerCode: ImportPickerCode
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class DictionaryTestActivity : BaseActivity() {
         val importWordsResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 val intent = it.data
-                val code = importPickerCodeHolder.code
+                val code = importPickerCode.code
                 if (it.resultCode == Activity.RESULT_OK) {
                     when (code) {
                         RESULT_CODE_PICKFILE_WORDS -> {
