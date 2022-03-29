@@ -1,7 +1,7 @@
 package com.android.lvicto.declension.usecase
 
 import android.content.Context
-import com.android.lvicto.common.extention.writeDataToFile
+import com.android.lvicto.common.writeDataToFile
 import com.android.lvicto.db.data.Declensions
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -17,10 +17,10 @@ class DeclensionWriteToFileUseCase(val context: Context, val gson: Gson) {
     suspend fun writeDataToFile(declensions: Declensions, fileName: String): Result =
         withContext(Dispatchers.IO) {
             try {
-                context.writeDataToFile(gson.toJson(declensions), fileName)
-                Result.Success
+                if(context.writeDataToFile(gson.toJson(declensions), fileName).isNotEmpty()) Result.Success
+                else Result.Failure("Unable to write data.")
             } catch (e: Exception) {
-                Result.Success
+                Result.Failure("Some error occurred.")
             }
         }
 }

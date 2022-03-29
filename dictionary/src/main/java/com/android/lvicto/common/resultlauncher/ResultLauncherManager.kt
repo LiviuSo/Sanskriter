@@ -8,16 +8,16 @@ class ResultLauncherManager(val activity: AppCompatActivity) {
 
     private val mLaunchers = HashMap<Class<*>, ActivityResultLauncher<Intent>>()
 
-    fun getLauncher(resReceiver: Class<*>): ActivityResultLauncher<Intent>? {
-        return mLaunchers[resReceiver.javaClass]
+    fun getLauncher(resultReceiver: Class<*>): ActivityResultLauncher<Intent>? {
+        return mLaunchers[resultReceiver.javaClass]
     }
 
-    fun registerLauncher(resReceiver: Class<*>, resLauncher: ActivityResultLauncher<Intent>) {
-        mLaunchers[resReceiver.javaClass] = resLauncher
+    fun registerLauncher(resultReceiver: Class<*>, resLauncher: ActivityResultLauncher<Intent>) {
+        mLaunchers[resultReceiver.javaClass] = resLauncher
     }
 
-    fun unregisterLauncher(resReceiver: Class<*>) {
-        mLaunchers.remove(resReceiver)
+    fun unregisterLauncher(resultReceiver: Class<*>) {
+        mLaunchers.remove(resultReceiver)
     }
 
 }

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.R
 import com.android.lvicto.common.base.BaseFragment
-import com.android.lvicto.common.extention.navigate
+import com.android.lvicto.common.navigate
 import kotlinx.android.synthetic.main.fragment_dictionary_test.view.*
 
 class DictionaryTestFragment : BaseFragment() {

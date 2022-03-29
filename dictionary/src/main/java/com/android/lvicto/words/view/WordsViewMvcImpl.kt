@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,13 +25,12 @@ import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.dialog.new.DialogManager2
-import com.android.lvicto.common.extention.hideSoftKeyboard
-import com.android.lvicto.common.extention.navigate
+import com.android.lvicto.common.hideSoftKeyboard
+import com.android.lvicto.common.navigate
 import com.android.lvicto.common.base.BaseTextWatcher
 import com.android.lvicto.common.base.BaseObservableMvc
 import com.android.lvicto.db.entity.Word
 import com.android.lvicto.words.adapter.WordsAdapter
-import com.android.lvicto.words.fragments.WordsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_words.view.*
 import kotlinx.android.synthetic.main.layout_all_words.view.*
@@ -83,7 +81,6 @@ class WordsViewMvcImpl(
     }
 
     override fun onFilePicked(data: Intent?) {
-        Log.d(WordsFragment.LOG_TAG, "onFilePicked($data)")
         val uri = data?.data
         for (listener in listeners) {
             listener.onReadFromFile(uri)

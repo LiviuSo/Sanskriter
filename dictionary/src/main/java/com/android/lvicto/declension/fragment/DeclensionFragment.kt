@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.R
-import com.android.lvicto.common.ImportPickerCodeHolder
+import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.BASE_LOG
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
-import com.android.lvicto.common.extention.export
-import com.android.lvicto.common.extention.openFilePicker
+import com.android.lvicto.common.export
+import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.ViewMvcFactory
@@ -51,7 +51,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
     private lateinit var eventBus: ResultEventBus
 
     @field:Service
-    private lateinit var importPickerCodeHolder: ImportPickerCodeHolder
+    private lateinit var importPickerCode: ImportPickerCode
 
     @field:Service
     private lateinit var declensionDeleteUseCase: DeclensionDeleteUseCase
@@ -86,10 +86,9 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
     private fun exportDeclensions(declensions: List<Declension>) {
         coroutineScope.launch {
             val filename = Constants.FILENAME_DECLENSION // todo make a constant for now
-            val result =
-                declensionWriteToFileUseCase.writeDataToFile(Declensions(declensions), filename)
+            val result = declensionWriteToFileUseCase.writeDataToFile(Declensions(declensions), filename)
             if (result is DeclensionWriteToFileUseCase.Result.Success) {
-                requireActivity().export(filename = filename)
+                requireActivity().export(filePath = filename)
                 // todo show dialog when done
             } else if (result is DeclensionWriteToFileUseCase.Result.Failure) {
                 result.message.let { dialogManager.showErrorDialog(it) }
@@ -201,7 +200,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                             Log.d(LOG_TAG, "Failure: ${result.message}")
                         }
                     } else {
-                        tvResults.text = "No results yet."
+                        tvResults.text = getString(R.string.error_conjugation_no_results)
                     }
                 }
             }
@@ -216,7 +215,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                 }.first().toString()
             }
         } else {
-            tvResults.text = "No results yet (empty list)."
+            tvResults.text = getString(R.string.error_conjugation_no_results)
         }
     }
 
@@ -345,7 +344,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
 
     override fun onButtonImport() {
         resultLauncherManager.getLauncher(requireActivity()::class.java)
-            ?.openFilePicker(importPickerCodeHolder, Constants.RESULT_CODE_PICKFILE_DECLENSIONS)
+            ?.openFilePicker(importPickerCode, Constants.RESULT_CODE_PICKFILE_DECLENSIONS)
     }
 
     override fun onButtonExport() {

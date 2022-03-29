@@ -10,22 +10,24 @@
     <string name="close_search_bar_descr">Close search bar</string>
     <string name="fire">Okay</string>
     <string name="edit">Edit</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="info_dialog_words_title">Words</string>
-    <string name="info_dialog_postive_caption">Okay</string>
+    <string name="info_dialog_positive_caption">Okay</string>
     <string name="info_dialog_words_added">Words added.</string>
-    <string name="error_dialog_title">Error</string>
-    <string name="info_dialog_words_filter_error">Error filtering the words.</string>
-    <string name="info_dialog_read_file_error">Unable to read from file.</string>
-    <string name="info_dialog_words_delete_error">Unable to delete words.</string>
-    <string name="info_dialog_words_fetch_error">Failed to fetch words.</string>
-    <string name="info_dialog_words_export_error">Unable to fetch words for exporting.</string>
-    <string name="info_dialog_words_import_error">Error importing words.</string>
-    <string name="error_dialog_postive_caption">Close</string>
-    <string name="info_dialog_words_update_error">Unable to update word.</string>
-    <string name="info_dialog_words_updated">Word updated</string>
     <string name="info_dialog_word_added">Word added.</string>
-    <string name="info_dialog_words_added_error">Fail to add word.</string>
+    <string name="info_dialog_words_updated">Word updated</string>
+
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_positive_caption">Close</string>
+    <string name="error_dialog_words_filter">Error filtering the words</string>
+    <string name="error_dialog_read_file">Unable to read from file</string>
+    <string name="error_dialog_words_delete">Unable to delete words</string>
+    <string name="error_dialog_words_fetch">Failed to fetch words</string>
+    <string name="error_dialog_fetch_words_export">Unable to fetch words for exporting</string>
+    <string name="error_dialog_words_import">Error importing words</string>
+    <string name="error_dialog_words_update">Unable to update word</string>
+    <string name="error_dialog_words_added">Fail to add word</string>
+    <string name="error_dialog_words_empty_list">No words to export</string>
+    <string name="error_conjugation_no_results">No results yet</string>
 
 </resources>

@@ -2,7 +2,7 @@ package com.android.lvicto.declension.usecase
 
 import android.content.Context
 import android.net.Uri
-import com.android.lvicto.common.extention.readData
+import com.android.lvicto.common.readData
 import com.android.lvicto.db.data.Declensions
 import com.android.lvicto.db.entity.Declension
 import com.google.gson.Gson

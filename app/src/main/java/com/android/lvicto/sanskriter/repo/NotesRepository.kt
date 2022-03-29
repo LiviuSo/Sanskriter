@@ -1,8 +1,8 @@
 package com.android.lvicto.sanskriter.repo
 
 import android.content.Context
-import com.android.lvicto.common.extention.readData
-import com.android.lvicto.common.extention.writeDataToFile
+import com.android.lvicto.common.readData
+import com.android.lvicto.common.writeDataToFile
 
 class NotesRepository(val context: Context) {
 
