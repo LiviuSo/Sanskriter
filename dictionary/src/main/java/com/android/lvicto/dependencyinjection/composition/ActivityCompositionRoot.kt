@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
-import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.ViewMvcFactory
@@ -29,7 +28,7 @@ class ActivityCompositionRoot(
 
     val controllerMvcFactory: ControllerMvcFactory get() = ControllerMvcFactory(activity)
 
-    val dialogManager2: DialogManager2 get() = DialogManager2(activity, activity.supportFragmentManager)
+    val dialogManager: DialogManager get() = DialogManager(activity, activity.supportFragmentManager)
 
     private val layoutInflator: LayoutInflater get() = activity.layoutInflater
 
@@ -43,9 +42,7 @@ class ActivityCompositionRoot(
 
     val application = appComponent.application
 
-    val dialogManager: DialogManager get() = DialogManager(activity = activity)
-
-    val viewMvcFactory: ViewMvcFactory get() = ViewMvcFactory(layoutInflator, dialogManager, dialogManager2)
+    val viewMvcFactory: ViewMvcFactory get() = ViewMvcFactory(layoutInflator, dialogManager)
 
     val conjugationAddUseCase: ConjugationAddUseCase get() = ConjugationAddUseCase(conjugationDao)
 

@@ -6,7 +6,7 @@ import com.android.lvicto.R
 import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants
-import com.android.lvicto.common.dialog.new.DialogManager2
+import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
 import com.android.lvicto.common.export
@@ -55,7 +55,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     private lateinit var wordsInsertUseCase: WordsInsertUseCase
 
     @field:Service
-    private lateinit var mDialogManager2: DialogManager2
+    private lateinit var mDialogManager: DialogManager
 
     private var isDataLoaded = false
 
@@ -145,7 +145,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 isDataLoaded = true
             }
         } else if (result is WordsFetchUseCase.Result.Failure) {
-            mDialogManager2.showErrorDialog(R.string.error_dialog_words_fetch)
+            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_fetch)
             Log.d(WordsFragment.LOG_TAG, "failed to fetch the words: ${result.message}")
         }
         mViewMvc.hideProgress()
@@ -155,7 +155,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         mViewMvc.showProgress()
         val result = wordsFetchUseCase.fetchWords()
         if (result is WordsFetchUseCase.Result.Failure) {
-            mDialogManager2.showErrorDialog(R.string.error_dialog_fetch_words_export)
+            mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
             Log.d(WordsFragment.LOG_TAG, "Unable to fetch words ${result.message}")
         } else if (result is WordsFetchUseCase.Result.Success) {
             val words = result.words
@@ -163,7 +163,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 val filename = Constants.FILENAME_WORDS // todo add date in the filename
                 writeWordsToFile(Words(words), filename)
             } else {
-                mDialogManager2.showErrorDialog(R.string.error_dialog_words_empty_list)
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_empty_list)
             }
         }
         mViewMvc.hideProgress()
@@ -174,7 +174,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             if (result is WordsWriteToFileUseCase.Result.Success) {
                 mActivity.export(result.path)
             } else if (result is WordsWriteToFileUseCase.Result.Failure) {
-                mDialogManager2.showErrorDialog(R.string.error_dialog_fetch_words_export)
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
             }
         }
     }
@@ -184,7 +184,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         if (result is WordsFilterUseCase.Result.Success) {
             mViewMvc.setWords(result.words)
         } else if (result is WordsFilterUseCase.Result.Failure) {
-            mDialogManager2.showErrorDialog(R.string.error_dialog_words_filter)
+            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
             Log.d(WordsFragment.LOG_TAG, "unable to filter: ${result.message}")
         }
     }
@@ -203,7 +203,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 mViewMvc.setWords(result.words)
             }
             is WordsReadFromFileUseCase.Result.Failure -> {
-                mDialogManager2.showErrorDialog(R.string.error_dialog_read_file)
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_read_file)
             }
         }
     }
@@ -219,7 +219,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                     // nothing
                 }
             } else if (result is WordsFilterUseCase.Result.Failure) {
-                mDialogManager2.showErrorDialog(R.string.error_dialog_words_filter)
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                 Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIast : ${result.message}")
             }
         }
@@ -238,7 +238,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 filterByBoth(filterIast, filterEn)
             }
         } else if (result is WordsDeleteUseCase.Result.Failure) {
-            mDialogManager2.showErrorDialog(R.string.error_dialog_words_delete)
+            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_delete)
         }
 
     }
@@ -249,7 +249,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 mViewMvc.onFilePicked(event.intent)
             }
             is ErrorEvent -> {
-                mDialogManager2.showErrorDialog(R.string.error_dialog_words_import)
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_import)
             }
             else -> {
                 Log.d(WordsFragment.LOG_TAG, "WordsFragment: unknown event ${event::class.java.name}")

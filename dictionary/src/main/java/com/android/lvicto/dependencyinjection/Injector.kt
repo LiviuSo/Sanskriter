@@ -3,7 +3,6 @@ package com.android.lvicto.dependencyinjection
 import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
-import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.ViewMvcFactory
@@ -52,7 +51,6 @@ class Injector(private val compositionRoot: ControllerCompositionRoot) {
     private fun getServiceForClass(type: Class<*>): Any = when (type) {
         BaseActivity::class.java -> { compositionRoot.activity }
         ViewMvcFactory::class.java -> { compositionRoot.viewMvcFactory }
-        DialogManager::class.java -> { compositionRoot.dialogManager }
         ResultLauncherManager::class.java -> { compositionRoot.resultLauncherManager }
         ResultEventBus::class.java -> { compositionRoot.eventBus }
         ImportPickerCode::class.java -> { compositionRoot.importPickerCode }
@@ -72,7 +70,7 @@ class Injector(private val compositionRoot: ControllerCompositionRoot) {
         DeclensionInsertUseCase::class.java -> { compositionRoot.declensionInsertUseCase }
         DeclensionsReadFromFileUseCase::class.java -> { compositionRoot.declensionReadUseCase }
         DeclensionWriteToFileUseCase::class.java -> { compositionRoot.declensionWriteUseCase }
-        DialogManager2::class.java -> { compositionRoot.dialogManager2 }
+        DialogManager::class.java -> { compositionRoot.dialogManager }
         ControllerMvcFactory::class.java -> { compositionRoot.controllerMvcFactory }
         Converters::class.java -> { compositionRoot.converters }
         else -> { throw Exception("unsupported service type: $type") }

@@ -10,12 +10,12 @@ import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.BASE_LOG
-import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
 import com.android.lvicto.common.export
 import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.base.BaseFragment
+import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.ViewMvcFactory
 import com.android.lvicto.db.Converters
@@ -91,7 +91,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                 requireActivity().export(filePath = filename)
                 // todo show dialog when done
             } else if (result is DeclensionWriteToFileUseCase.Result.Failure) {
-                result.message.let { dialogManager.showErrorDialog(it) }
+                result.message.let { dialogManager.showErrorDialogWithRetry(it) }
             }
         }
     }
@@ -104,7 +104,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
             if (result is DeclensionFilterUseCase.Result.Success) {
                 mViewMvcImpl.setDeclensions(result.declensions)
             } else if (result is DeclensionFilterUseCase.Result.Failure) {
-                dialogManager.showErrorDialog(result.message)
+                dialogManager.showErrorDialogWithRetry(result.message)
             }
         }
     }
@@ -200,7 +200,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                             Log.d(LOG_TAG, "Failure: ${result.message}")
                         }
                     } else {
-                        tvResults.text = getString(R.string.error_conjugation_no_results)
+                        tvResults.text = getString(R.string.dialog_message_conjugation_no_results)
                     }
                 }
             }
@@ -215,7 +215,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                 }.first().toString()
             }
         } else {
-            tvResults.text = getString(R.string.error_conjugation_no_results)
+            tvResults.text = getString(R.string.dialog_message_conjugation_no_results)
         }
     }
 
@@ -261,7 +261,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                                 declensionInsertUseCase.insert(it.declensions)
                                 mViewMvcImpl.setDeclensions(it.declensions)
                             } else if (it is DeclensionsReadFromFileUseCase.Result.Failure) {
-                                dialogManager.showErrorDialog("Unable to read from file")
+                                dialogManager.showErrorDialogWithRetry("Unable to read from file")
                                 Log.d(LOG_TAG, "Unable to read from file: ${it.message}")
                             }
                         }
@@ -286,7 +286,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                         if (fetchResult is DeclensionFetchUseCase.Result.Success) {
                             mViewMvcImpl.setDeclensions(fetchResult.declensions)
                         } else if (fetchResult is DeclensionFetchUseCase.Result.Failure) {
-                            dialogManager.showErrorDialog("Error fetching declensions")
+                            dialogManager.showErrorDialogWithRetry("Error fetching declensions")
                             Log.d(
                                 LOG_TAG,
                                 "Error fetching declensions : ${fetchResult.message}"
@@ -294,7 +294,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                         }
                     }
                 } else if (resultDelete is DeclensionDeleteUseCase.Result.Failure) {
-                    dialogManager.showErrorDialog("Error deleting declension")
+                    dialogManager.showErrorDialogWithRetry("Error deleting declension")
                     Log.d(LOG_TAG, "Error fetching declensions : ${resultDelete.message}")
                 }
             }
@@ -309,7 +309,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                     mViewMvcImpl.setDeclensions(it.declensions)
                 } else if (it is DeclensionFetchUseCase.Result.Failure) {
                     Log.d(LOG_TAG, "Error fetching declensions : ${it.message}")
-                    dialogManager.showErrorDialog("")
+                    dialogManager.showErrorDialogWithRetry("")
                 }
             }
         }
@@ -324,7 +324,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                         if (resultFetch is DeclensionFilterUseCase.Result.Success) {
                             mViewMvcImpl.setDeclensions(resultFetch.declensions)
                         } else if (resultFetch is DeclensionFilterUseCase.Result.Failure) {
-                            dialogManager.showErrorDialog("Error fetching declensions")
+                            dialogManager.showErrorDialogWithRetry("Error fetching declensions")
                             Log.d(
                                 LOG_TAG,
                                 "Error filtering declensions ${resultFetch.message}"
@@ -332,7 +332,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                         }
                     }
                 } else if (resultInsert is DeclensionInsertUseCase.Result.Failure) {
-                    dialogManager.showErrorDialog("Error fetching declensions")
+                    dialogManager.showErrorDialogWithRetry("Error fetching declensions")
                     Log.d(
                         LOG_TAG,
                         "Error fetching declensions ${resultInsert.message}"
@@ -353,7 +353,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
             if (result is DeclensionFetchUseCase.Result.Success) {
                 exportDeclensions(result.declensions)
             } else if (result is DeclensionFetchUseCase.Result.Failure) {
-                dialogManager.showErrorDialog("Unable to fetch declesions")
+                dialogManager.showErrorDialogWithRetry("Unable to fetch declesions")
             }
         }
     }
