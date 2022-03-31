@@ -22,5 +22,14 @@
     <dimen name="dim_results3">450dp</dimen>
     <dimen name="dim_rv_height">310dp</dimen>
 
+    <dimen name="dimen70">70dp</dimen>
+    <dimen name="dimen35">35dp</dimen>
+    <dimen name="dimen20">20dp</dimen>
+    <dimen name="dimen100">100dp</dimen>
+    <dimen name="dimen10">10dp</dimen>
+    <dimen name="dimen280">280dp</dimen>
+    <dimen name="dimen250">250dp</dimen>
+    <dimen name="dimen120">120dp</dimen>
+
 
 </resources>

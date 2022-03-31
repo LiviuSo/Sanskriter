@@ -3,7 +3,6 @@ package com.android.lvicto.dependencyinjection.composition
 import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
-import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.view.ViewMvcFactory
@@ -49,8 +48,6 @@ class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCom
 
     val declensionWriteUseCase: DeclensionWriteToFileUseCase get() = activityCompositionRoot.declensionWriteUseCase
 
-    val dialogManager: DialogManager get() = activityCompositionRoot.dialogManager
-
     val viewMvcFactory: ViewMvcFactory get() = activityCompositionRoot.viewMvcFactory
 
     val resultLauncherManager: ResultLauncherManager get() = activityCompositionRoot.resultLauncherManager
@@ -61,7 +58,7 @@ class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCom
 
     val importPickerCode: ImportPickerCode = activityCompositionRoot.importPickerCode
 
-    val dialogManager2: DialogManager2 = activityCompositionRoot.dialogManager2
+    val dialogManager: DialogManager = activityCompositionRoot.dialogManager
 
     val controllerMvcFactory: ControllerMvcFactory = activityCompositionRoot.controllerMvcFactory
 

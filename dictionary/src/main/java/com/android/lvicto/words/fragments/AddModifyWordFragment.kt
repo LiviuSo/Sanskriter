@@ -12,7 +12,7 @@ import com.android.lvicto.R
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
-import com.android.lvicto.common.dialog.new.DialogManager2
+import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.navigateBack
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.db.Converters
@@ -45,7 +45,7 @@ class AddModifyWordFragment : BaseFragment() {
     private lateinit var wordsUpdateUseCase: WordsUpdateUseCase
 
     @field:Service
-    private lateinit var dialogManager: DialogManager2
+    private lateinit var dialogManager: DialogManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -237,7 +237,7 @@ class AddModifyWordFragment : BaseFragment() {
             }
             else -> {
                 Log.d(LOG_ADD_MODIFY, "onClickAdd() : No word")
-                dialogManager.showErrorDialog(R.string.error_dialog_words_added)
+                dialogManager.showErrorDialog(R.string.dialog_error_message_words_added)
             }
         }
     }
@@ -250,7 +250,7 @@ class AddModifyWordFragment : BaseFragment() {
         Log.d("modify_word", "modifying: $word")
         val result = wordsUpdateUseCase.updateWord(word)
         if (result is WordsUpdateUseCase.Result.Success) {
-            dialogManager.showInfoDialog(R.string.info_dialog_words_updated) {
+            dialogManager.showInfoDialog(R.string.dialog_info_message_words_updated) {
                 it.dismiss()
                 if (activity is AddModifyWordActivity) {
                     activity.finish()
@@ -260,7 +260,7 @@ class AddModifyWordFragment : BaseFragment() {
             }
         } else if (result is WordsUpdateUseCase.Result.Failure) {
             Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
-            dialogManager.showErrorDialog(R.string.error_dialog_words_update)
+            dialogManager.showErrorDialog(R.string.dialog_error_message_words_update)
         }
     }
 
@@ -271,7 +271,7 @@ class AddModifyWordFragment : BaseFragment() {
     ) {
         val result = wordsInsertWordsUseCase.insertWord(word)
         if (result is WordsInsertUseCase.Result.Success) {
-            dialogManager.showInfoDialog(R.string.info_dialog_word_added) {
+            dialogManager.showInfoDialog(R.string.dialog_info_message_word_added) {
                 it.dismiss()
                 if (activity is AddModifyWordActivity) {
                     activity.finish()
@@ -282,7 +282,7 @@ class AddModifyWordFragment : BaseFragment() {
         } else if (result is WordsInsertUseCase.Result.Failure) {
             result.message?.let {
                 Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
-                dialogManager.showErrorDialog(R.string.error_dialog_words_added)
+                dialogManager.showErrorDialog(R.string.dialog_error_message_words_added)
             }
         }
     }

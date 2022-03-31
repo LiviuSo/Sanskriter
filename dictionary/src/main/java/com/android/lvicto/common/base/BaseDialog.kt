@@ -1,19 +1,26 @@
 package com.android.lvicto.common.base
 
-import android.app.Activity
-import android.app.AlertDialog
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.DialogFragment
+import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.dependencyinjection.Injector
+import com.android.lvicto.dependencyinjection.composition.ControllerCompositionRoot
 
-abstract class BaseDialog(
-    val activity: Activity,
-    val message: String
-) : AlertDialog(activity) {
+abstract class BaseDialog : DialogFragment() {
 
-    abstract fun setupDialog(builder: Builder): Builder
-
-    private fun createDialog(): AlertDialog = setupDialog(Builder(activity).setMessage(message)).create()
-
-    fun showDialog() {
-        createDialog().show()
+    private val controllerCompositionRoot: ControllerCompositionRoot by lazy {
+        ControllerCompositionRoot((requireActivity() as BaseActivity).activityCompositionRoot)
     }
+
+    val injector: Injector by lazy {
+        Injector(controllerCompositionRoot)
+    }
+
+    @LayoutRes
+    protected abstract fun getLayout(): Int
+
+    @IdRes
+    protected abstract fun getMessageViewId(): Int
 
 }

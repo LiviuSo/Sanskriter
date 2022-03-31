@@ -11,23 +11,41 @@
     <string name="fire">Okay</string>
     <string name="edit">Edit</string>
 
-    <string name="info_dialog_words_title">Words</string>
-    <string name="info_dialog_positive_caption">Okay</string>
-    <string name="info_dialog_words_added">Words added.</string>
-    <string name="info_dialog_word_added">Word added.</string>
-    <string name="info_dialog_words_updated">Word updated</string>
+    <string name="dialog_info_title_words">Words</string>
+    <string name="dialog_error_title">Error</string>
 
-    <string name="error_dialog_title">Error</string>
-    <string name="error_dialog_positive_caption">Close</string>
-    <string name="error_dialog_words_filter">Error filtering the words</string>
-    <string name="error_dialog_read_file">Unable to read from file</string>
-    <string name="error_dialog_words_delete">Unable to delete words</string>
-    <string name="error_dialog_words_fetch">Failed to fetch words</string>
-    <string name="error_dialog_fetch_words_export">Unable to fetch words for exporting</string>
-    <string name="error_dialog_words_import">Error importing words</string>
-    <string name="error_dialog_words_update">Unable to update word</string>
-    <string name="error_dialog_words_added">Fail to add word</string>
-    <string name="error_dialog_words_empty_list">No words to export</string>
-    <string name="error_conjugation_no_results">No results yet</string>
+    <string name="dialog_info_message_words_added">Words added.</string>
+    <string name="dialog_info_message_word_added">Word added.</string>
+    <string name="dialog_info_message_words_updated">Word updated</string>
+
+    <string name="dialog_message_conjugation_no_results">No results yet</string>
+    <string name="dialog_message_confirmation_delete">Are you sure you want to delete?</string>
+
+    <string name="dialog_caption_okay">Okay</string>
+    <string name="dialog_caption_close">Close</string>
+    <string name="dialog_caption_cancel">Cancel</string>
+    <string name="dialog_caption_retry">Retry</string>
+    <string name="dialog_error_caption">Error dialog icon</string>
+    <string name="dialog_error_retry_caption">Error dialog retry icon</string>
+    <string name="dialog_info_caption">Dialog info icon</string>
+    <string name="dialog_info_caption_positive">Dialog info with positive button icon</string>
+
+    <string name="dialog_error_message_words_filter">Error filtering the words</string>
+    <string name="dialog_error_message_read_file">Unable to read from file</string>
+    <string name="dialog_error_message_words_delete">Unable to delete words</string>
+    <string name="dialog_error_message_words_fetch">Failed to fetch words</string>
+    <string name="dialog_error_message_fetch_words_export">Unable to fetch words for exporting</string>
+    <string name="dialog_error_message_words_import">Error importing words</string>
+    <string name="dialog_error_message_words_update">Unable to update word</string>
+    <string name="dialog_error_message_words_added">Fail to add word</string>
+    <string name="dialog_error_message_words_empty_list">No words to export</string>
+    <string name="dialog_error_message_fail_to_filter">Fail to filter</string>
+    <string name="dialog_error_message_fail_to_add">Fail to add</string>
+    <string name="dialog_error_message_unknown">An error has occurred. Try again later.</string>
+    <string name="dialog_error_message_fail_to_export">Fail to export</string>
+    <string name="dialog_error_message_fail_to_add_conjugation">Fail to add conjugations</string>
+    <string name="dialog_error_message_fail_to_import">Fail to import</string>
+    <string name="dialog_error_message_unable_to_detect_form">Unable to detect form</string>
+    <string name="dialog_error_message_unable_to_import_conjugation">Unable to import conjugation</string>
 
 </resources>

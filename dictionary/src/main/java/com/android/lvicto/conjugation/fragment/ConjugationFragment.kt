@@ -7,12 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import com.android.lvicto.R
 import com.android.lvicto.common.ImportPickerCode
 import com.android.lvicto.dependencyinjection.Service
-import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
+import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
 import com.android.lvicto.common.export
@@ -122,17 +123,18 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                         if (resFetch is ConjugationFetchUseCase.Result.Success) {
                             mViewViewMvcImpl.setConjugations(resFetch.conjugations)
                         } else {
-                            dialogManager.showErrorDialog("Fail to filter") {
+                            dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                                 // onRetry() empty for now
                             }
                         }
                     } else {
-                        dialogManager.showErrorDialog("Fail to add") {
+                        dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_add) {
                             // onRetry() empty for now
                         }
                     }
                 } catch (e: Exception) {
-                    dialogManager.showErrorDialog("Unknown error (add): ${e.message}") {
+                    // todo add log for the exception & create resource
+                    dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown) {
                         // onRetry() empty for now
                     }
                 } finally {
@@ -150,12 +152,13 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                 if (res is ConjugationFetchUseCase.Result.Success) {
                     mViewViewMvcImpl.setConjugations(res.conjugations)
                 } else {
-                    dialogManager.showErrorDialog("Fail to filter") {
+                    dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                dialogManager.showErrorDialog("Unknown error (filter): ${e.message}") {
+                // todo add log for the exception & create resource
+                dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown) {
                     // onRetry() empty for now
                 }
             } finally {
@@ -185,13 +188,14 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     if (resFetch is ConjugationFetchUseCase.Result.Success) {
                         mViewViewMvcImpl.setConjugations(resFetch.conjugations)
                     } else {
-                        dialogManager.showErrorDialog("Fail to filter") {
+                        dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                             // onRetry() empty for now
                         }
                     }
                 }
             } catch (e: Exception) {
-                dialogManager.showErrorDialog("Unknown error (delete): ${e.message}") {
+                // todo add log for the exception & create resource
+                dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown) {
                     // onRetry() empty for now
                 }
             } finally {
@@ -216,17 +220,18 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                             "Dictionary: exporting conjugations"
                         )
                     } else {
-                        dialogManager.showErrorDialog("Fail to export") {
+                        dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_export) {
                             // onRetry() empty for now
                         }
                     }
                 } else {
-                    dialogManager.showErrorDialog("Fail to filter") {
+                    dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                dialogManager.showErrorDialog("Unknown error (export): ${e.message}") {
+                // todo add log for the exception & create resource
+                dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown) {
                     // onRetry() empty for now
                 }
             } finally {
@@ -249,17 +254,18 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                         mConjugationAddUseCase.addConjugations(res.conjugations)
                         mViewViewMvcImpl.setConjugations(res.conjugations)
                     } else {
-                        dialogManager.showErrorDialog("Fail to add conjugations.") {
+                        dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_add_conjugation) {
                             // onRetry() empty for now
                         }
                     }
                 } else {
-                    dialogManager.showErrorDialog("Fail to import") {
+                    dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_import) {
                         // onRetry() empty for now
                     }
                 }
             } catch (e: Exception) {
-                dialogManager.showErrorDialog("Unknown error when importing: ${e.message}") {
+                // todo add log for the exception & create resource
+                dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown) {
                     // onRetry() empty for now
                 }
             } finally {
@@ -285,7 +291,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                         hasResults = if (result is ConjugationFetchUseCase.Result.Success) {
                             result.conjugations.isNotEmpty()
                         } else {
-                            dialogManager.showErrorDialog("Unable to detect form")
+                            dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unable_to_detect_form)
                             false
                         }
                         if (!hasResults) { // we reached a point where there are no results
@@ -318,15 +324,11 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     if (res is ConjugationFetchUseCase.Result.Success) {
                         mViewViewMvcImpl.setConjugations(res.conjugations)
                     } else {
-                        dialogManager.showErrorDialog(
-                            "Unknown exception. Unable to detect form"
-                        )
+                        dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown)
                     }
                 }
             } catch (e: Exception) {
-                dialogManager.showErrorDialog(
-                    "Unknown exception. Unable to detect form"
-                )
+                dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown)
             } finally {
                 mViewViewMvcImpl.hideProgress()
             }
@@ -342,7 +344,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                 }
             }
             is ErrorEvent -> {
-                dialogManager.showErrorDialog("Unable to import conjugation")
+                dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unable_to_import_conjugation)
             }
             else -> {
                 Log.e("", "")

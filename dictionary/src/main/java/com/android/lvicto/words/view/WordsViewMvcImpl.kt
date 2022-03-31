@@ -24,7 +24,6 @@ import com.android.lvicto.common.Constants.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
 import com.android.lvicto.common.dialog.DialogManager
-import com.android.lvicto.common.dialog.new.DialogManager2
 import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
 import com.android.lvicto.common.base.BaseTextWatcher
@@ -41,8 +40,7 @@ class WordsViewMvcImpl(
     private val mActivity: BaseActivity,
     inflater: LayoutInflater,
     container: ViewGroup?,
-    dlgManager: DialogManager,
-    dlgManager2: DialogManager2
+    dlgManager: DialogManager
 ) : BaseObservableMvc<WordsViewMvc.WordsViewListener>(), WordsViewMvc {
 
     private var mBtnCloseSearchBar: ImageButton
@@ -54,7 +52,6 @@ class WordsViewMvcImpl(
     private var mEditSearch: EditText
     private var mLlSearchBar: LinearLayout
     private var mDialogManager: DialogManager
-    private var mDialogManager2: DialogManager2
     private var mProgress: ProgressBar
     private lateinit var mResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var mResources: Resources
@@ -73,7 +70,6 @@ class WordsViewMvcImpl(
         mLlRemoveCancel = getRootView().llRemoveCancel
         mBtnCloseSearchBar = getRootView().btnCloseSearchBar
         mDialogManager = dlgManager
-        mDialogManager2 = dlgManager2
         mClRootWords = getRootView().clRootWords
         mProgress = getRootView().progress
 
