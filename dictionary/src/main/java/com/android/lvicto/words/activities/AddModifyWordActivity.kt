@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.android.lvicto.R
 import com.android.lvicto.common.base.BaseActivity
 
+// todo get rid of
 class AddModifyWordActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

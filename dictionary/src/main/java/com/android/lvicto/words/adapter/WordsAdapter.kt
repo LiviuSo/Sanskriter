@@ -28,25 +28,13 @@ class WordsAdapter(private val context: Context,
         }
     val selectedToRemove = arrayListOf<Int>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-        val view = if (type == TYPE_NON_REMOVABLE) {
-            LayoutInflater.from(context).inflate(R.layout.item_word, parent, false)
-        } else { // TYPE_REMOVABLE
-            LayoutInflater.from(context).inflate(R.layout.item_word_removable, parent, false)
-        }
-        return WordViewHolder(view,
-            clickListenerDefinition,
-            longClickListener,
-            checkItemCallback)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder = WordViewHolder(
+        if (type == TYPE_NON_REMOVABLE) { LayoutInflater.from(context).inflate(R.layout.item_word, parent, false) } else { LayoutInflater.from(context).inflate(R.layout.item_word_removable, parent, false) },
+        clickListenerDefinition,
+        longClickListener,
+        checkItemCallback)
 
-    override fun getItemCount(): Int {
-        return if (words != null) {
-            words!!.size
-        } else {
-            0
-        }
-    }
+    override fun getItemCount(): Int = words?.size ?: 0
 
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         words?.let {
@@ -64,7 +52,7 @@ class WordsAdapter(private val context: Context,
 
     fun unselectSelectedToRemove() {
         selectedToRemove.clear()
-        notifyDataSetChanged()
+        notifyDataSetChanged() // todo try to optimize
     }
 
     fun getWordsToRemove(): List<Word> = selectedToRemove.map {
@@ -78,8 +66,8 @@ class WordsAdapter(private val context: Context,
 
         fun bindData(word: Word, type: Int, position: Int) { // todo complete
             view.findViewById<TextView>(R.id.tvItemWordType).text = when(word.gType) {
-                GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> "${word.gType.denom}, ${word.gender.abbr}, ${if(word.paradigm.isNotEmpty()) word.paradigm else "n/a"}"
-                GrammaticalType.PROPER_NOUN -> "${word.gType.denom}, ${if(word.paradigm.isNotEmpty()) word.paradigm else "n/a"}"
+                GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> "${word.gType.denom}, ${word.gender.abbr}, ${word.paradigm.ifEmpty { "n/a" }}"
+                GrammaticalType.PROPER_NOUN -> "${word.gType.denom}, ${word.paradigm.ifEmpty { "n/a" }}"
                 GrammaticalType.VERB -> "${word.gType.denom}, ${word.verbClass}"
                 else -> word.gType.denom
             }
@@ -98,7 +86,7 @@ class WordsAdapter(private val context: Context,
                 TYPE_REMOVABLE -> {
                     val checkBox = view.findViewById<CheckBox>(R.id.ckbItem)
                     checkBox.apply {
-                        setOnCheckedChangeListener { v, checked ->
+                        setOnCheckedChangeListener { _, checked ->
                             if (!checked) {
                                 Log.d(LOG_TAG, "De-selected $position")
                                 selectedToRemove.remove(position)

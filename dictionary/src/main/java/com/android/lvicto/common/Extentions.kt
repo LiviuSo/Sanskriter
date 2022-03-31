@@ -16,12 +16,15 @@ import androidx.annotation.ArrayRes
 import androidx.annotation.IdRes
 import androidx.core.content.FileProvider
 import androidx.navigation.findNavController
-import androidx.room.util.StringUtil
 import com.android.lvicto.common.Constants.EMPTY_STRING
 import java.io.*
 
-
-fun Context.getStorageDir(fileName: String, parentName: String = "words"): String {
+/**
+ * @param fileName The file name
+ * @param parantName The name of the parent directory
+ * @returns The path to the file
+ */
+fun Context.getFilePath(fileName: String, parentName: String = "words"): String {
     // create folder
     val dir = File(this.getExternalFilesDir(null), parentName + File.separator.toString())
     if (!dir.mkdirs()) {
@@ -43,7 +46,7 @@ fun Context.getStorageDir(fileName: String, parentName: String = "words"): Strin
 fun Context.writeDataToFile(data: String, fileName: String): String { // todo make async ?
     var fileOutputStream: FileOutputStream? = null
     try {
-        return getStorageDir(fileName).apply {
+        return getFilePath(fileName).apply {
             fileOutputStream = FileOutputStream(this).apply {
                 write(data.toByteArray())
             }
@@ -81,11 +84,10 @@ fun Context.readData(uri: Uri): String {
     return stringBuilder.toString()
 }
 
-@Deprecated("remove")
 fun Context.readData(fileName: String): String {
     val stringBuilder = StringBuilder()
     try {
-        val filePath = this.getStorageDir(fileName, "notes")
+        val filePath = this.getFilePath(fileName, "notes")
         val file = File(filePath)
         val bufferedReader = BufferedReader(FileReader(file))
         var temp: String?

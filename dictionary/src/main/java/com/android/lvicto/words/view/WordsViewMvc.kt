@@ -9,8 +9,8 @@ import com.android.lvicto.db.entity.Word
 
 interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
     interface WordsViewListener {
-        fun onFilterIastEn(searchIast: String?, searchEn: String?)
-        fun onFilterEnIast(filterEn: String, filterIast: String)
+        fun onFilterIASTEn(searchIast: String?, searchEn: String?)
+        fun onFilterEnIAST(filterEn: String, filterIast: String)
         fun onInitWords()
         fun onDeleteWords(wordsToRemove: List<Word>)
         fun onImport()
@@ -22,7 +22,7 @@ interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
     fun setWords(words: List<Word>?)
     fun isSearchVisible(): Boolean
     fun getSearchEnString(): String
-    fun getSearchIastString(): String
+    fun getSearchIASTString(): String
     fun setResultLauncher(resultLauncher: ActivityResultLauncher<Intent>)
     fun unselectSelectedToRemove()
     fun showProgress()

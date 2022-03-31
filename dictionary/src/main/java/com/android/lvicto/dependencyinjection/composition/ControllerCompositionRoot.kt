@@ -5,13 +5,13 @@ import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
-import com.android.lvicto.common.view.ViewMvcFactory
+import com.android.lvicto.common.factory.ViewMvcFactory
 import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
 import com.android.lvicto.db.Converters
 import com.android.lvicto.declension.usecase.*
-import com.android.lvicto.words.controller.ControllerMvcFactory
+import com.android.lvicto.common.factory.ControllerMvcFactory
 import com.android.lvicto.words.usecase.*
 
 class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCompositionRoot) {

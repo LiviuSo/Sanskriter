@@ -32,10 +32,10 @@ data class Word(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        converters.toGramaticalType(parcel.readString()!!),
+        converters.toGrammaticalType(parcel.readString()!!),
         parcel.readString()!!,
         converters.toVerbClass(parcel.readInt()),
-        converters.toGramaticalGender(parcel.readString()!!)
+        converters.toGrammaticalGender(parcel.readString()!!)
     )
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
@@ -44,10 +44,10 @@ data class Word(
         dest.writeString(wordIAST)
         dest.writeString(meaningEn)
         dest.writeString(meaningRo)
-        dest.writeString(converters.fromGramaticalType(gType))
+        dest.writeString(converters.fromGrammaticalType(gType))
         dest.writeString(paradigm)
         dest.writeInt(converters.fromVerbClass(verbClass))
-        dest.writeString(converters.fromGramaticalGender(gender))
+        dest.writeString(converters.fromGrammaticalGender(gender))
     }
 
     override fun describeContents(): Int = 0

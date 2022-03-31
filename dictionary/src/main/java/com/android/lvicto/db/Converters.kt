@@ -6,28 +6,28 @@ import com.android.lvicto.db.data.*
 class Converters {
 
     @TypeConverter
-    fun toGramaticalCase(string: String): GrammaticalCase = GrammaticalCase.getValueFromAbbr(string)
+    fun toGrammaticalCase(string: String): GrammaticalCase = GrammaticalCase.getValueFromAbbr(string)
 
     @TypeConverter
-    fun fromGramaticalCase(value: GrammaticalCase): String = value.abbr
+    fun fromGrammaticalCase(value: GrammaticalCase): String = value.abbr
 
     @TypeConverter
-    fun toGramaticalNumber(string: String): GrammaticalNumber = GrammaticalNumber.getValueFromAbbr(string)
+    fun toGrammaticalNumber(string: String): GrammaticalNumber = GrammaticalNumber.getValueFromAbbr(string)
 
     @TypeConverter
-    fun fromGramaticalNumber(value: GrammaticalNumber): String = value.abbr
+    fun fromGrammaticalNumber(value: GrammaticalNumber): String = value.abbr
 
     @TypeConverter
-    fun toGramaticalGender(string: String): GrammaticalGender = GrammaticalGender.getValueFromAbbr(string)
+    fun toGrammaticalGender(string: String): GrammaticalGender = GrammaticalGender.getValueFromAbbr(string)
 
     @TypeConverter
-    fun fromGramaticalGender(value: GrammaticalGender) = value.abbr
+    fun fromGrammaticalGender(value: GrammaticalGender) = value.abbr
 
     @TypeConverter
-    fun fromGramaticalType(value: GrammaticalType) = value.denom
+    fun fromGrammaticalType(value: GrammaticalType) = value.denom
 
     @TypeConverter
-    fun toGramaticalType(string: String): GrammaticalType = GrammaticalType.getValueFromDenom(string)
+    fun toGrammaticalType(string: String): GrammaticalType = GrammaticalType.getValueFromDenom(string)
 
     @TypeConverter
     fun fromVerbClass(clas: VerbClass) = clas.clas

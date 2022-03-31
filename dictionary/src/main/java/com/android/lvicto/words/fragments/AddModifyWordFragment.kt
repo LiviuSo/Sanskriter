@@ -31,8 +31,7 @@ class AddModifyWordFragment : BaseFragment() {
 
     private var word: Word? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
-    private val coroutineScope: CoroutineScope =
-        CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
 
     @field:Service
@@ -92,7 +91,7 @@ class AddModifyWordFragment : BaseFragment() {
                     id: Long
                 ) {
                     word?.apply {
-                        gType = converters.toGramaticalType(
+                        gType = converters.toGrammaticalType(
                             parent?.getItemAtPosition(position).toString()
                         )
                         showHideField(root, this)
@@ -122,7 +121,7 @@ class AddModifyWordFragment : BaseFragment() {
                     position: Int,
                     id: Long
                 ) {
-                    word?.gender = converters.toGramaticalGender(
+                    word?.gender = converters.toGrammaticalGender(
                         parent?.getItemAtPosition(position).toString()
                     )
                 }
@@ -167,10 +166,6 @@ class AddModifyWordFragment : BaseFragment() {
         return root
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
@@ -208,10 +203,10 @@ class AddModifyWordFragment : BaseFragment() {
         val wordIAST = root.editIAST.text.toString()
         val wordEn = root.editEn.text.toString()
         val wordRo = root.editRo.text.toString()
-        val gType = converters.toGramaticalType(root.spinnerType.selectedItem.toString())
+        val gType = converters.toGrammaticalType(root.spinnerType.selectedItem.toString())
         val paradigm = root.editParadigm.text.toString()
         val verbClass = VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString())
-        val gender = converters.toGramaticalGender(root.spinnerWordGender.selectedItem.toString())
+        val gender = converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString())
 
         val newWord = Word(
             word = wordSa,

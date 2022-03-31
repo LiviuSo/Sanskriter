@@ -36,9 +36,9 @@ data class Declension(
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
-        converters.toGramaticalCase(parcel.readString().toString()),
-        converters.toGramaticalNumber(parcel.readString().toString()),
-        converters.toGramaticalGender(parcel.readString().toString()),
+        converters.toGrammaticalCase(parcel.readString().toString()),
+        converters.toGrammaticalNumber(parcel.readString().toString()),
+        converters.toGrammaticalGender(parcel.readString().toString()),
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
@@ -46,9 +46,9 @@ data class Declension(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
-        parcel.writeString(converters.fromGramaticalCase(gCase))
-        parcel.writeString(converters.fromGramaticalNumber(gNumber))
-        parcel.writeString(converters.fromGramaticalGender(gGender))
+        parcel.writeString(converters.fromGrammaticalCase(gCase))
+        parcel.writeString(converters.fromGrammaticalNumber(gNumber))
+        parcel.writeString(converters.fromGrammaticalGender(gGender))
         parcel.writeString(paradigm)
         parcel.writeString(paradigmEnding)
         parcel.writeString(suffix)
