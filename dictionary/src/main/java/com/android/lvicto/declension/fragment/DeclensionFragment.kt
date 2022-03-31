@@ -17,7 +17,7 @@ import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
-import com.android.lvicto.common.view.ViewMvcFactory
+import com.android.lvicto.common.factory.ViewMvcFactory
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.Declensions
 import com.android.lvicto.db.entity.Declension
@@ -120,9 +120,9 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
         val converters = Converters()
         return Declension(
             0,
-            converters.toGramaticalCase(spinnerFilterCase.selectedItem.toString()),
-            converters.toGramaticalNumber(spinnerFilterNumber.selectedItem.toString()),
-            converters.toGramaticalGender(spinnerFilterGender.selectedItem.toString()),
+            converters.toGrammaticalCase(spinnerFilterCase.selectedItem.toString()),
+            converters.toGrammaticalNumber(spinnerFilterNumber.selectedItem.toString()),
+            converters.toGrammaticalGender(spinnerFilterGender.selectedItem.toString()),
             editTextFilterParadigm.text.toString(),
             editTextFilterEnding.text.toString(),
             editTextFilterSuffix.text.toString(),

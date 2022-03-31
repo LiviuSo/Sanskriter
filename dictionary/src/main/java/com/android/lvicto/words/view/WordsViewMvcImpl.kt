@@ -48,7 +48,7 @@ class WordsViewMvcImpl(
     private var mFabDictionary: FloatingActionButton
     private var mRvWords: RecyclerView
     private var mToolbar: Toolbar
-    private var mEditSearchIast: EditText
+    private var mEditSearchIAST: EditText
     private var mEditSearch: EditText
     private var mLlSearchBar: LinearLayout
     private var mDialogManager: DialogManager
@@ -63,7 +63,7 @@ class WordsViewMvcImpl(
 
         mLlSearchBar = getRootView().llSearchBar
         mEditSearch = getRootView().editSearch
-        mEditSearchIast = getRootView().editSearchIast
+        mEditSearchIAST = getRootView().editSearchIast
         mToolbar = getRootView().toolbar
         mRvWords = getRootView().rv_words
         mFabDictionary = getRootView().fabDictionary
@@ -91,7 +91,7 @@ class WordsViewMvcImpl(
 
     override fun getSearchEnString(): String = mEditSearch.text.toString()
 
-    override fun getSearchIastString(): String = mEditSearchIast.text.toString()
+    override fun getSearchIASTString(): String = mEditSearchIAST.text.toString()
 
     private fun init() {
         mResources = requireActivity().resources
@@ -109,9 +109,9 @@ class WordsViewMvcImpl(
                 showSearchBar()
             }
             if (!searchIast.isNullOrEmpty()) {
-                mEditSearchIast.setText(searchIast)
+                mEditSearchIAST.setText(searchIast)
                 for (listener in listeners) {
-                    listener.onFilterIastEn(searchIast, searchEn)
+                    listener.onFilterIASTEn(searchIast, searchEn)
                 }
             }
             if (!searchEn.isNullOrEmpty()) {
@@ -124,7 +124,7 @@ class WordsViewMvcImpl(
         mFabDictionary.setOnClickListener {
             val word = Word(
                 word = "",
-                wordIAST = getSearchIastString(),
+                wordIAST = getSearchIASTString(),
                 meaningEn = getSearchEnString(),
                 meaningRo = ""
             )
@@ -185,9 +185,9 @@ class WordsViewMvcImpl(
         mEditSearch.addTextChangedListener(object : BaseTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val filterEn = s.toString()
-                val filterIast = getSearchIastString()
+                val filterIAST = getSearchIASTString()
                 for (listener in listeners) {
-                    listener.onFilterEnIast(filterEn, filterIast)
+                    listener.onFilterEnIAST(filterEn, filterIAST)
                 }
             }
         })
@@ -195,29 +195,29 @@ class WordsViewMvcImpl(
         mEditSearch.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 val filterEn = (v as EditText).text.toString()
-                val filterIast = getSearchIastString()
+                val filterIAST = getSearchIASTString()
                 for (listener in listeners) {
-                    listener.onFilterEnIast(filterEn, filterIast)
+                    listener.onFilterEnIAST(filterEn, filterIAST)
                 }
             }
         }
 
-        mEditSearchIast.addTextChangedListener(object : BaseTextWatcher() {
+        mEditSearchIAST.addTextChangedListener(object : BaseTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val filterEn = getSearchEnString()
                 val filterIast = s.toString()
                 for (listener in listeners) {
-                    listener.onFilterEnIast(filterEn, filterIast)
+                    listener.onFilterEnIAST(filterEn, filterIast)
                 }
             }
         })
 
-        mEditSearchIast.setOnFocusChangeListener { v, hasFocus ->
+        mEditSearchIAST.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 val filterEn = getSearchEnString()
                 val filterIast = (v as EditText).text.toString()
                 for (listener in listeners) {
-                    listener.onFilterEnIast(filterEn, filterIast)
+                    listener.onFilterEnIAST(filterEn, filterIast)
                 }
             }
         }
@@ -253,7 +253,7 @@ class WordsViewMvcImpl(
             }
         }
 
-        mToolbar.toolbarTitle.text = "Dictionary" // todo resource
+        mToolbar.toolbarTitle.text = mResources.getString(R.string.dictionary)
         val overflowMenuImageView: ImageView = mToolbar.toolbarMenu
         overflowMenuImageView.setOnClickListener { view ->
             val popupMenu = PopupMenu(requireActivity(), view)
@@ -309,7 +309,7 @@ class WordsViewMvcImpl(
 
     private fun clearSearch() {
         mEditSearch.text.clear()
-        mEditSearchIast.text.clear()
+        mEditSearchIAST.text.clear()
         mLlSearchBar.visibility = View.GONE
     }
 

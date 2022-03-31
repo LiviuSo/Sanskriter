@@ -19,7 +19,7 @@ import com.android.lvicto.common.eventbus.event.ErrorEvent
 import com.android.lvicto.common.export
 import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
-import com.android.lvicto.common.view.ViewMvcFactory
+import com.android.lvicto.common.factory.ViewMvcFactory
 import com.android.lvicto.conjugation.event.ImportConjugationsEvent
 import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase

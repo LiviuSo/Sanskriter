@@ -73,7 +73,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 mViewMvc.setupSearchFromOutside(mWordIast, mWordEn)
             }
         }
-
     }
 
     fun onStop() {
@@ -84,13 +83,13 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     }
 
     // region listener
-    override fun onFilterIastEn(searchIast: String?, searchEn: String?) {
+    override fun onFilterIASTEn(searchIast: String?, searchEn: String?) {
         coroutineScope.launch {
-            filterIastEn(searchIast, searchEn)
+            filterIASTEn(searchIast, searchEn)
         }
     }
 
-    override fun onFilterEnIast(filterEn: String, filterIast: String) {
+    override fun onFilterEnIAST(filterEn: String, filterIast: String) {
         coroutineScope.launch {
             filterByBoth(filterIast, filterEn)
         }
@@ -132,7 +131,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         receiveEvent(event)
     }
     // endregion
-
 
     private suspend fun initWords() {
         mViewMvc.showProgress()
@@ -208,19 +206,19 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         }
     }
 
-    private suspend fun filterIastEn(searchIast: String?, searchEn: String?) {
+    private suspend fun filterIASTEn(searchIAST: String?, searchEn: String?) {
         mViewMvc.showProgress()
-        if (searchIast != null) {
-            val result = wordsFilterUseCase.filter(searchIast, true)
+        if (searchIAST != null) {
+            val result = wordsFilterUseCase.filter(searchIAST, true)
             if (result is WordsFilterUseCase.Result.Success) {
                 if (searchEn != null) {
-                    filterByBoth(searchIast, searchEn)
+                    filterByBoth(searchIAST, searchEn)
                 } else {
                     // nothing
                 }
             } else if (result is WordsFilterUseCase.Result.Failure) {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
-                Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIast : ${result.message}")
+                Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${result.message}")
             }
         }
         mViewMvc.hideProgress()
@@ -233,14 +231,13 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             if (!mViewMvc.isSearchVisible()) {
                 initWords()
             } else {
-                val filterEn = mViewMvc.getSearchEnString()
-                val filterIast = mViewMvc.getSearchIastString()
-                filterByBoth(filterIast, filterEn)
+                mViewMvc.apply {
+                    filterByBoth(getSearchIASTString(), getSearchEnString())
+                }
             }
         } else if (result is WordsDeleteUseCase.Result.Failure) {
             mDialogManager.showErrorDialog(R.string.dialog_error_message_words_delete)
         }
-
     }
 
     private fun receiveEvent(event: Any) {

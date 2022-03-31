@@ -300,9 +300,9 @@ class DeclensionsViewMvcImpl(
                 listener.onSaveDeclensions(
                     Declension(
                         0,
-                        converters.toGramaticalCase(mCase),
-                        converters.toGramaticalNumber(mNumber),
-                        converters.toGramaticalGender(mGender),
+                        converters.toGrammaticalCase(mCase),
+                        converters.toGrammaticalNumber(mNumber),
+                        converters.toGrammaticalGender(mGender),
                         root.editTextParadigm.text.toString(),
                         root.editTextParadigmEnding.text.toString(),
                         root.editTextSuffix.text.toString(),

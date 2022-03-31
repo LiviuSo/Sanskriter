@@ -27,7 +27,7 @@ class ConjugationAdapter(val context: Context) : RecyclerView.Adapter<Conjugatio
 
     fun refresh(list: List<Conjugation>) {
         data = list
-        notifyDataSetChanged()
+        notifyDataSetChanged() // todo try to optimize
     }
 
     class ConjugationViewHolder(val view: View,

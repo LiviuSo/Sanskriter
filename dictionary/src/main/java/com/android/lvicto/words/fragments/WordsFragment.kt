@@ -8,9 +8,9 @@ import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants.EXTRA_WORD_EN
 import com.android.lvicto.common.Constants.EXTRA_WORD_IAST
 import com.android.lvicto.common.base.BaseFragment
-import com.android.lvicto.common.view.ViewMvcFactory
+import com.android.lvicto.common.factory.ViewMvcFactory
 import com.android.lvicto.dependencyinjection.Service
-import com.android.lvicto.words.controller.ControllerMvcFactory
+import com.android.lvicto.common.factory.ControllerMvcFactory
 import com.android.lvicto.words.controller.WordsController
 import com.android.lvicto.words.view.WordsViewMvc
 
@@ -28,20 +28,19 @@ class WordsFragment : BaseFragment() {
     @field:Service
     private lateinit var mControllerMvcFactory: ControllerMvcFactory
 
-    private var mWordIast: String? = null
+    private var mWordIAST: String? = null
     private var mWordEn: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mWordIast = requireActivity().intent.getStringExtra(EXTRA_WORD_IAST) ?: ""
-        mWordEn = requireActivity().intent.getStringExtra(EXTRA_WORD_EN) ?: ""
+        requireActivity().intent.apply {
+            mWordIAST = getStringExtra(EXTRA_WORD_IAST) ?: ""
+            mWordEn = getStringExtra(EXTRA_WORD_EN) ?: ""
+        }
     }
+
     // region lifecycle
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         injector.inject(this)
 
         mViewMvc = mViewMvcFactory.getWordsViewMvc(requireActivity() as BaseActivity, container)
@@ -52,7 +51,7 @@ class WordsFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        mControllerMvc.onStart(mWordIast, mWordEn)
+        mControllerMvc.onStart(mWordIAST, mWordEn)
     }
 
     override fun onStop() {

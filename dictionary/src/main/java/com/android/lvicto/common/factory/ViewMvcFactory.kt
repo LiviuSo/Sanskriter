@@ -1,4 +1,4 @@
-package com.android.lvicto.common.view
+package com.android.lvicto.common.factory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
