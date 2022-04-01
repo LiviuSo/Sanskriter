@@ -86,6 +86,8 @@ enum class GrammaticalType(val denom: String) {
     PREPOSITION("preposition"),
     SUFFIX("suffix"),
     PREFIX("prefix"),
+    NUMERAL_CARDINAL("numeral cardinal"),
+    NUMERAL_ORDINAL("numeral ordinal"),
     OTHER("other");
 
     companion object {
@@ -101,6 +103,8 @@ enum class GrammaticalType(val denom: String) {
                 PREPOSITION.denom -> PREPOSITION
                 SUFFIX.denom -> SUFFIX
                 PREFIX.denom -> PREFIX
+                NUMERAL_CARDINAL.denom -> NUMERAL_CARDINAL
+                NUMERAL_ORDINAL.denom -> NUMERAL_ORDINAL
                 else -> OTHER
             }
         }
@@ -108,19 +112,30 @@ enum class GrammaticalType(val denom: String) {
         fun getPosition(type: GrammaticalType?): Int {
             return type?.let {
                 when (it) {
+                    // substantive group
                     NOUN -> 0
                     PROPER_NOUN -> 1
                     ADJECTIVE -> 2
-                    ADVERB -> 3
-                    PRONOUN -> 4
-                    VERB -> 5
-                    INTERJECTION -> 6
-                    PREPOSITION -> 7
-                    SUFFIX -> 8
-                    PREFIX -> 9
-                    else -> 10
+
+                    // pronoun group
+                    PRONOUN -> 3
+
+                    // verb group
+                    VERB -> 4
+
+                    // numeral group
+                    NUMERAL_CARDINAL -> 5
+                    NUMERAL_ORDINAL -> 6
+
+                    // other group
+                    ADVERB -> 7
+                    INTERJECTION -> 8
+                    PREPOSITION -> 9
+                    SUFFIX -> 10
+                    PREFIX -> 11
+                    else -> 12
                 }
-            } ?: 10
+            } ?: 12
         }
     }
 }
