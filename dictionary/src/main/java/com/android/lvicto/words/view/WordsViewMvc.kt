@@ -9,7 +9,7 @@ import com.android.lvicto.db.entity.Word
 
 interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
     interface WordsViewListener {
-        fun onFilterIASTEn(searchIast: String?, searchEn: String?)
+        fun onFilterIASTEn(searchIAST: String?, searchEn: String?)
         fun onFilterEnIAST(filterEn: String, filterIast: String)
         fun onInitWords()
         fun onDeleteWords(wordsToRemove: List<Word>)

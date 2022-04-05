@@ -59,18 +59,23 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 
     private var isDataLoaded = false
 
+    fun bindView(viewMvc: WordsViewMvc) {
+        mViewMvc = viewMvc
+    }
 
-    fun onStart(mWordIast: String?, mWordEn: String?) {
+    fun onStart(wordIAST: String?, wordEn: String?) {
         // inject
         mActivity.injector.inject(this)
 
         // register
         mViewMvc.registerListener(this)
         eventBus.registerListener(this)
+
+        // load initial data
         if (!isDataLoaded) {
             coroutineScope.launch {
-                initWords()
-                mViewMvc.setupSearchFromOutside(mWordIast, mWordEn)
+                onInitWords()
+                mViewMvc.setupSearchFromOutside(wordIAST, wordEn)
             }
         }
     }
@@ -83,9 +88,20 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     }
 
     // region listener
-    override fun onFilterIASTEn(searchIast: String?, searchEn: String?) {
+    override fun onFilterIASTEn(searchIAST: String?, searchEn: String?) {
         coroutineScope.launch {
-            filterIASTEn(searchIast, searchEn)
+            if (searchIAST != null) {
+                handleResult(
+                    getResult = { wordsFilterUseCase.filter(searchIAST, true) },
+                    isSuccess = { it is WordsFilterUseCase.Result.Success },
+                    isFailure = { it is WordsFilterUseCase.Result.Failure },
+                    onSuccess = { if (searchEn != null) { filterByBoth(searchIAST, searchEn) } else {/* nothing */ } },
+                    onFailure = {
+                        mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
+                        Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${(it as WordsFetchUseCase.Result.Failure).message}")
+                    }
+                )
+            }
         }
     }
 
@@ -97,14 +113,54 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 
     override fun onExport() {
         coroutineScope.launch {
-            exportWords()
+            handleResult(
+                getResult = { wordsFetchUseCase.fetchWords() },
+                isSuccess = { it is WordsFetchUseCase.Result.Success },
+                isFailure = { it is WordsFetchUseCase.Result.Failure },
+                onSuccess = {
+                    (it as WordsFetchUseCase.Result.Success).words.apply {
+                        if (isNotEmpty()) {
+                            val filename = Constants.FILENAME_WORDS // todo add date in the filename
+                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result ->
+                                if (result is WordsWriteToFileUseCase.Result.Success) {
+                                    mActivity.export(result.path)
+                                } else if (result is WordsWriteToFileUseCase.Result.Failure) {
+                                    mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
+                                }
+                            }
+                        } else {
+                            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_empty_list)
+                        }
+                    }
+                },
+                onFailure = {
+                    mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
+                    Log.d(WordsFragment.LOG_TAG, "Unable to fetch words ${(it as WordsFetchUseCase.Result.Failure).message}")
+                }
+            )
         }
     }
 
     override fun onReadFromFile(uri: Uri?) {
         if (uri != null) {
             coroutineScope.launch {
-                readFromFiles(uri)
+                handleResult(
+                    getResult = { wordsReadFromFileUseCase.readWords(uri) },
+                    isSuccess = { it is WordsReadFromFileUseCase.Result.Success },
+                    isFailure = { it is WordsReadFromFileUseCase.Result.Failure },
+                    onSuccess = {
+                        (it as WordsReadFromFileUseCase.Result.Success).words.apply {
+                            if (isEmpty()) {
+                                // todo show zero state screen
+                            } else {
+                                wordsInsertUseCase.insertWords(this)
+                                mViewMvc.setWords(this)
+                            }
+                            mViewMvc.setWords(this)
+                        }
+                    },
+                    onFailure = { mDialogManager.showErrorDialog(R.string.dialog_error_message_read_file) }
+                )
             }
         } else {
             Log.d(WordsFragment.LOG_TAG, "notifyReadFromFile(): uri is null")
@@ -119,128 +175,30 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 
     override fun onDeleteWords(wordsToRemove: List<Word>) {
         coroutineScope.launch {
-            deleteWords(wordsToRemove)
+            handleResult(
+                getResult = { wordsDeleteUseCase.deleteWords(wordsToRemove) },
+                isSuccess = { it is WordsDeleteUseCase.Result.Success },
+                isFailure = { it is WordsDeleteUseCase.Result.Failure },
+                onSuccess = {
+                    mViewMvc.unselectSelectedToRemove()
+                    if (!mViewMvc.isSearchVisible()) {
+                        initWords()
+                    } else {
+                        mViewMvc.apply {
+                            filterByBoth(getSearchIASTString(), getSearchEnString())
+                        }
+                    }
+                },
+                onFailure = { mDialogManager.showErrorDialog(R.string.dialog_error_message_words_delete) }
+            )
         }
     }
 
     override fun onImport() {
-        import()
+        resultLauncherManager.getLauncher(mActivity::class.java)?.openFilePicker(importPickerCode, Constants.RESULT_CODE_PICKFILE_WORDS)
     }
 
     override fun onEventReceived(event: Any) {
-        receiveEvent(event)
-    }
-    // endregion
-
-    private suspend fun initWords() {
-        mViewMvc.showProgress()
-        val result = wordsFetchUseCase.fetchWords()
-        if (result is WordsFetchUseCase.Result.Success) {
-            if (result.words.isNullOrEmpty()) {
-                // todo show empty screen
-            } else { // total success
-                mViewMvc.setWords(result.words)
-                isDataLoaded = true
-            }
-        } else if (result is WordsFetchUseCase.Result.Failure) {
-            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_fetch)
-            Log.d(WordsFragment.LOG_TAG, "failed to fetch the words: ${result.message}")
-        }
-        mViewMvc.hideProgress()
-    }
-
-    private suspend fun exportWords() {
-        mViewMvc.showProgress()
-        val result = wordsFetchUseCase.fetchWords()
-        if (result is WordsFetchUseCase.Result.Failure) {
-            mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
-            Log.d(WordsFragment.LOG_TAG, "Unable to fetch words ${result.message}")
-        } else if (result is WordsFetchUseCase.Result.Success) {
-            val words = result.words
-            if (words.isNotEmpty()) {
-                val filename = Constants.FILENAME_WORDS // todo add date in the filename
-                writeWordsToFile(Words(words), filename)
-            } else {
-                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_empty_list)
-            }
-        }
-        mViewMvc.hideProgress()
-    }
-
-    private suspend fun writeWordsToFile(words: Words, filename: String) {
-        wordsWriteToFileUseCase.writeWordsToFile(words, filename).let { result ->
-            if (result is WordsWriteToFileUseCase.Result.Success) {
-                mActivity.export(result.path)
-            } else if (result is WordsWriteToFileUseCase.Result.Failure) {
-                mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
-            }
-        }
-    }
-
-    private suspend fun filterByBoth(filterIast: String, filterEn: String) {
-        val result = wordsFilterUseCase.filter(filterIast, filterEn)
-        if (result is WordsFilterUseCase.Result.Success) {
-            mViewMvc.setWords(result.words)
-        } else if (result is WordsFilterUseCase.Result.Failure) {
-            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
-            Log.d(WordsFragment.LOG_TAG, "unable to filter: ${result.message}")
-        }
-    }
-
-    private suspend fun readFromFiles(uri: Uri) {
-        when (val result = wordsReadFromFileUseCase.readWords(uri)) {
-            is WordsReadFromFileUseCase.Result.Success -> {
-                result.words.let {
-                    if (it.isEmpty()) {
-                        // todo show zero state screen
-                    } else {
-                        wordsInsertUseCase.insertWords(it)
-                        mViewMvc.setWords(it)
-                    }
-                }
-                mViewMvc.setWords(result.words)
-            }
-            is WordsReadFromFileUseCase.Result.Failure -> {
-                mDialogManager.showErrorDialog(R.string.dialog_error_message_read_file)
-            }
-        }
-    }
-
-    private suspend fun filterIASTEn(searchIAST: String?, searchEn: String?) {
-        mViewMvc.showProgress()
-        if (searchIAST != null) {
-            val result = wordsFilterUseCase.filter(searchIAST, true)
-            if (result is WordsFilterUseCase.Result.Success) {
-                if (searchEn != null) {
-                    filterByBoth(searchIAST, searchEn)
-                } else {
-                    // nothing
-                }
-            } else if (result is WordsFilterUseCase.Result.Failure) {
-                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
-                Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${result.message}")
-            }
-        }
-        mViewMvc.hideProgress()
-    }
-
-    private suspend fun deleteWords(wordsToRemove: List<Word>) {
-        val result = wordsDeleteUseCase.deleteWords(wordsToRemove)
-        if (result is WordsDeleteUseCase.Result.Success) {
-            mViewMvc.unselectSelectedToRemove()
-            if (!mViewMvc.isSearchVisible()) {
-                initWords()
-            } else {
-                mViewMvc.apply {
-                    filterByBoth(getSearchIASTString(), getSearchEnString())
-                }
-            }
-        } else if (result is WordsDeleteUseCase.Result.Failure) {
-            mDialogManager.showErrorDialog(R.string.dialog_error_message_words_delete)
-        }
-    }
-
-    private fun receiveEvent(event: Any) {
         when (event) {
             is ImportWordsIntentEvent -> {
                 mViewMvc.onFilePicked(event.intent)
@@ -253,14 +211,52 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             }
         }
     }
+    // endregion
 
-    private fun import() {
-        resultLauncherManager.getLauncher(mActivity::class.java)
-            ?.openFilePicker(importPickerCode, Constants.RESULT_CODE_PICKFILE_WORDS)
+    private suspend fun filterByBoth(filterIAST: String, filterEn: String) {
+        handleResult(
+            getResult = { wordsFilterUseCase.filter(filterIAST, filterEn) },
+            isSuccess = { it is WordsFilterUseCase.Result.Success },
+            isFailure = { it is WordsFilterUseCase.Result.Failure },
+            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words) },
+            onFailure = {
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
+                Log.d(WordsFragment.LOG_TAG, "unable to filter: ${(it as WordsFilterUseCase.Result.Failure).message}")
+            }
+        )
     }
 
-    fun bindView(viewMvc: WordsViewMvc) {
-        mViewMvc = viewMvc
+    private suspend fun initWords() {
+        handleResult(
+            getResult = { wordsFetchUseCase.fetchWords() },
+            isSuccess = { it is WordsFetchUseCase.Result.Success },
+            isFailure = { it is WordsFetchUseCase.Result.Failure },
+            onSuccess = {
+                (it as WordsFetchUseCase.Result.Success).apply {
+                    if (words.isNullOrEmpty()) {
+                        // todo show empty screen
+                    } else { // total success
+                        mViewMvc.setWords(words)
+                        isDataLoaded = true
+                    }
+                }
+            },
+            onFailure = {
+                mDialogManager.showErrorDialog(R.string.dialog_error_message_words_fetch)
+                Log.d(WordsFragment.LOG_TAG, "failed to fetch the words: ${(it as WordsFetchUseCase.Result.Failure).message}")
+            }
+        )
+    }
+
+    private suspend fun handleResult(getResult: suspend () -> Any,
+                                     isSuccess: suspend (Any) -> Boolean, isFailure: suspend (Any) -> Boolean,
+                                     onSuccess: suspend (Any) -> Unit, onFailure: suspend (Any) -> Unit) {
+        mViewMvc.showProgress()
+        getResult().apply {
+            if (isSuccess(this)) { onSuccess(this) }
+            else if(isFailure(this)) { onFailure(this) }
+        }
+        mViewMvc.hideProgress()
     }
 
 }
