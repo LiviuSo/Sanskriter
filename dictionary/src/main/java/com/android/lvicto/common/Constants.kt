@@ -33,4 +33,11 @@ object Constants {
 
     const val EMPTY_STRING = ""
 
+    const val WORDS_TABLE = "word_table" // todo remove once migration completed
+    const val TABLE_WORDS_SUBSTANTIVES = "table_words_substantives"
+    const val TABLE_WORDS_PRONOUNS = "table_words_pronouns"
+    const val TABLE_WORDS_NUMERALS = "table_words_numerals"
+    const val TABLE_WORDS_VERBS = "table_words_verbs"
+    const val TABLE_WORDS_OTHER = "table_words_other"
+
 }
