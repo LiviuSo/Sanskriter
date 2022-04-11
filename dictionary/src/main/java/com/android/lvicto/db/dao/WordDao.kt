@@ -1,6 +1,7 @@
 package com.android.lvicto.db.dao
 
 import androidx.room.*
+import com.android.lvicto.common.Constants.WORDS_TABLE
 import com.android.lvicto.db.entity.Word
 
 @Dao
@@ -12,17 +13,16 @@ interface WordDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(words: List<Word>) // also updates
 
-    @Query("DELETE FROM word_table")
+    @Query("DELETE FROM $WORDS_TABLE")
     fun deleteAll()
 
     @Update
     fun update(word: Word)
 
-    @Query(
-        """
-            UPDATE word_table 
+    @Query("""
+            UPDATE $WORDS_TABLE 
             SET word=:word, 
-                wordIast=:wordIast, 
+                wordIAST=:wordIAST, 
                 meaningEn=:meaningEn, 
                 meaningRo=:meaningRo,
                 gType=:gType,
@@ -30,43 +30,35 @@ interface WordDao {
                 verbClass=:verbClass,
                 gender=:gender
             WHERE id = :id
-            """
-    )
+    """)
     fun update(
         id: Long,
-        word: String,
-        wordIast: String,
-        meaningEn: String,
-        meaningRo: String,
+        word: String, wordIAST: String, meaningEn: String, meaningRo: String,
         gType: String,
         paradigm: String,
         verbClass: Int,
         gender: String
     )
 
-    @Query("SELECT * from word_table ORDER BY wordIast ASC") // todo spike keep RX or LiveData
+    @Query("SELECT * from $WORDS_TABLE ORDER BY wordIAST ASC") // todo spike keep RX or LiveData
     fun getAllWords(): List<Word>
 
-    @Query("SELECT * from word_table WHERE wordIAST LIKE :filterIast ORDER BY wordIAST ASC")
-    fun getWords(filterIast: String): List<Word>
+    @Query("SELECT * from $WORDS_TABLE WHERE wordIAST LIKE :filterIAST ORDER BY wordIAST ASC")
+    fun getWords(filterIAST: String): List<Word>
 
-    @Query(
-        """
-       SELECT * from word_table 
-        WHERE (meaningEn LIKE :filterEn) AND (wordIAST LIKE :filterIast) 
+    @Query("""
+       SELECT * from $WORDS_TABLE 
+        WHERE (meaningEn LIKE :filterEn) AND (wordIAST LIKE :filterIAST) 
         ORDER BY wordIAST ASC
-    """
-    )
-    fun getWords(filterEn: String, filterIast: String): List<Word>
+    """)
+    fun getWords(filterEn: String, filterIAST: String): List<Word>
 
     @Delete
     fun deleteWords(words: List<Word>): Int
 
-    @Query(
-        """
-        SELECT * FROM word_table
+    @Query("""
+        SELECT * FROM $WORDS_TABLE
         WHERE wordIAST LIKE :filter AND paradigm LIKE :paradigm
-    """
-    )
+    """)
     fun getNounsAndAdjectives(filter: String, paradigm: String): List<Word>
 }
