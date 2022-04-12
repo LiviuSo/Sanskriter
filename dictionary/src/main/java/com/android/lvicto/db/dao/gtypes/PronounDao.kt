@@ -30,6 +30,7 @@ interface PronounDao {
                 paradigm=:paradigm,
                 gender=:gender,
                 number=:number,
+                person=:person,
                 gCase=:gCase
             WHERE id = :id
     """)
@@ -40,6 +41,7 @@ interface PronounDao {
         paradigm: String,
         gender: String,
         number: String,
+        person: String,
         gCase: String
     )
 
@@ -63,5 +65,5 @@ interface PronounDao {
         SELECT * FROM $TABLE_WORDS_PRONOUNS
         WHERE wordIAST LIKE :filter AND paradigm LIKE :paradigm
     """)
-    fun getProunsByParadigm(filter: String, paradigm: String): List<Pronoun>
+    fun getPronounsByParadigm(filter: String, paradigm: String): List<Pronoun>
 }

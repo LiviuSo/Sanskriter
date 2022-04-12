@@ -16,6 +16,7 @@ import com.android.lvicto.db.dao.DeclensionDao
 import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.common.factory.ControllerMvcFactory
+import com.android.lvicto.db.dao.gtypes.*
 import com.android.lvicto.words.usecase.*
 import com.google.gson.Gson
 
@@ -24,56 +25,46 @@ class ActivityCompositionRoot(
     private val appComponent: AppCompositionRoot
 ) {
 
+    private val wordDao: WordDao get() = appComponent.wordDao
+    private val numeralDao: NumeralDao get() = appComponent.numeralDao
+    private val otherDao: OtherDao get() = appComponent.otherDao
+    private val pronounDao: PronounDao get() = appComponent.pronounDao
+    private val substantiveDao: SubstantiveDao get() = appComponent.substantiveDao
+    private val verbDao: VerbDao get() = appComponent.verbDao
+    private val conjugationDao: ConjugationDao get() = appComponent.conjugationDao
+    private val declensionDao: DeclensionDao get() = appComponent.declensionDao
+
+    private val layoutInflator: LayoutInflater get() = activity.layoutInflater
+
+    private val gson: Gson get() = appComponent.gson
+
     val converters: Converters get() = appComponent.converters
 
     val controllerMvcFactory: ControllerMvcFactory get() = ControllerMvcFactory(activity)
 
     val dialogManager: DialogManager get() = DialogManager(activity, activity.supportFragmentManager)
 
-    private val layoutInflator: LayoutInflater get() = activity.layoutInflater
-
-    private val conjugationDao: ConjugationDao get() = appComponent.conjugationDao
-
-    private val wordsDao: WordDao get() = appComponent.wordDao
-
-    private val declensionDao: DeclensionDao get() = appComponent.declensionDao
-
-    private val gson: Gson get() = appComponent.gson
-
     val application = appComponent.application
 
     val viewMvcFactory: ViewMvcFactory get() = ViewMvcFactory(layoutInflator, dialogManager)
 
     val conjugationAddUseCase: ConjugationAddUseCase get() = ConjugationAddUseCase(conjugationDao)
-
     val conjugationFetchUseCase: ConjugationFetchUseCase get() = ConjugationFetchUseCase(conjugationDao)
-
     val conjugationImportExportUseCase: ConjugationImportExportUseCase get() = ConjugationImportExportUseCase(activity)
 
-    val wordsFetchUseCase: WordsFetchUseCase get() = WordsFetchUseCase(wordsDao)
-
-    val wordsDeleteUseCase: WordsDeleteUseCase get() = WordsDeleteUseCase(wordsDao)
-
-    val wordsWordsInsertUseCase: WordsInsertUseCase get() = WordsInsertUseCase(wordsDao)
-
-    val wordsWordsUpdateUseCase: WordsUpdateUseCase get() = WordsUpdateUseCase(wordsDao)
-
+    val wordsFetchUseCase: WordsFetchUseCase get() = WordsFetchUseCase(wordDao)
+    val wordsDeleteUseCase: WordsDeleteUseCase get() = WordsDeleteUseCase(wordDao)
+    val wordsWordsInsertUseCase: WordsInsertUseCase get() = WordsInsertUseCase(wordDao)
+    val wordsWordsUpdateUseCase: WordsUpdateUseCase get() = WordsUpdateUseCase(wordDao)
     val wordsReadFromFileUseCase: WordsReadFromFileUseCase get() = WordsReadFromFileUseCase(activity)
-
     val wordsWriteToFileUseCase: WordsWriteToFileUseCase get() = WordsWriteToFileUseCase(activity, gson)
-
-    val wordsFilterUseCase: WordsFilterUseCase get() = WordsFilterUseCase(wordsDao)
+    val wordsFilterUseCase: WordsFilterUseCase get() = WordsFilterUseCase(wordDao)
 
     val declensionDeleteUseCase: DeclensionDeleteUseCase get() = DeclensionDeleteUseCase(declensionDao = declensionDao)
-
     val declensionFetchUseCase: DeclensionFetchUseCase get() = DeclensionFetchUseCase(declensionDao)
-
     val declensionFilterUseCase: DeclensionFilterUseCase get() = DeclensionFilterUseCase(declensionDao)
-
     val declensionInsertUseCase: DeclensionInsertUseCase get() = DeclensionInsertUseCase(declensionDao)
-
     val declensionReadUseCase: DeclensionsReadFromFileUseCase get() = DeclensionsReadFromFileUseCase(activity, gson)
-
     val declensionWriteUseCase: DeclensionWriteToFileUseCase get() = DeclensionWriteToFileUseCase(activity, gson)
 
     val resultLauncherManager: ResultLauncherManager by lazy {

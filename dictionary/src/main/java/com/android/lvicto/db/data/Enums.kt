@@ -47,6 +47,24 @@ enum class GrammaticalNumber(val abbr: String) {
     }
 }
 
+enum class GrammaticalPerson(val abbr: String) {
+    NONE("n/a."),
+    FIRST("1st"),
+    SECOND("2nd"),
+    THIRD("3rd");
+
+    companion object {
+        fun getValueFromAbbr(abbr: String): GrammaticalPerson {
+            return when (abbr) {
+                FIRST.abbr -> FIRST
+                SECOND.abbr -> SECOND
+                THIRD.abbr -> THIRD
+                else -> NONE
+            }
+        }
+    }
+}
+
 enum class GrammaticalCase(val abbr: String) {
     NONE("n/a."),
     NOMINATIV("Nom."),

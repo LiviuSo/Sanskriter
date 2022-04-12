@@ -23,7 +23,7 @@ data class Pronoun(
     @field:ColumnInfo(name = "paradigm") var paradigm: String = "",
     @field:ColumnInfo(name = "gender") var gender: GrammaticalGender = GrammaticalGender.NONE,
     @field:ColumnInfo(name = "number") var number: GrammaticalNumber = GrammaticalNumber.NONE,
-    @field:ColumnInfo(name = "person") var person: String = "",
+    @field:ColumnInfo(name = "person") var person: GrammaticalPerson = GrammaticalPerson.NONE,
     @field:ColumnInfo(name = "gCase") var gCase: GrammaticalCase = GrammaticalCase.NONE
 ) : Parcelable {
 
@@ -37,7 +37,7 @@ data class Pronoun(
         parcel.readString()!!,
         converters.toGrammaticalGender(parcel.readString()!!),
         converters.toGrammaticalNumber(parcel.readString()!!),
-        parcel.readString()!!,
+        converters.toGrammaticalPerson(parcel.readString()!!),
         converters.toGrammaticalCase(parcel.readString()!!)
     )
 
@@ -51,7 +51,7 @@ data class Pronoun(
         dest.writeString(paradigm)
         dest.writeString(converters.fromGrammaticalGender(gender))
         dest.writeString(converters.fromGrammaticalNumber(number))
-        dest.writeString(person)
+        dest.writeString(converters.fromGrammaticalPerson(person))
         dest.writeString(converters.fromGrammaticalCase(gCase))
     }
 
@@ -68,6 +68,7 @@ data class Pronoun(
         it.append("paradigm: ${paradigm.ifEmpty { na }} \n")
         it.append("gender: ${gender.abbr} \n")
         it.append("number: ${number.abbr.ifEmpty { na }} \n")
+        it.append("person: ${person.abbr.ifEmpty { na }} \n")
         it.append("case: ${gCase.abbr.ifEmpty { na }} \n")
     }.toString()
 
