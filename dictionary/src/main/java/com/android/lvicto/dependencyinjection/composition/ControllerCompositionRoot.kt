@@ -17,35 +17,22 @@ import com.android.lvicto.words.usecase.*
 class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCompositionRoot) {
 
     val wordsFetchUseCase: WordsFetchUseCase get() = activityCompositionRoot.wordsFetchUseCase
-
     val wordsDeleteUseCase: WordsDeleteUseCase get() = activityCompositionRoot.wordsDeleteUseCase
-
     val wordsInsertWordUseCase: WordsInsertUseCase get() = activityCompositionRoot.wordsWordsInsertUseCase
-
     val wordsUpdateUseCase: WordsUpdateUseCase get() = activityCompositionRoot.wordsWordsUpdateUseCase
-
     val wordsReadFromFileUseCase: WordsReadFromFileUseCase get() = activityCompositionRoot.wordsReadFromFileUseCase
-
     val wordsWriteToFileUseCase: WordsWriteToFileUseCase get() = activityCompositionRoot.wordsWriteToFileUseCase
-
     val wordsFilterUseCase: WordsFilterUseCase get() = activityCompositionRoot.wordsFilterUseCase
 
     val conjugationAddUseCase: ConjugationAddUseCase get() = activityCompositionRoot.conjugationAddUseCase
-
     val conjugationFetchUseCase: ConjugationFetchUseCase get() = activityCompositionRoot.conjugationFetchUseCase
-
     val conjugationImportExportUseCase: ConjugationImportExportUseCase get() = activityCompositionRoot.conjugationImportExportUseCase
 
     val declensionDeleteUseCase: DeclensionDeleteUseCase get() = activityCompositionRoot.declensionDeleteUseCase
-
     val declensionFetchUseCase: DeclensionFetchUseCase get() = activityCompositionRoot.declensionFetchUseCase
-
     val declensionFilterUseCase: DeclensionFilterUseCase get() = activityCompositionRoot.declensionFilterUseCase
-
     val declensionInsertUseCase: DeclensionInsertUseCase get() = activityCompositionRoot.declensionInsertUseCase
-
     val declensionReadUseCase: DeclensionsReadFromFileUseCase get() = activityCompositionRoot.declensionReadUseCase
-
     val declensionWriteUseCase: DeclensionWriteToFileUseCase get() = activityCompositionRoot.declensionWriteUseCase
 
     val viewMvcFactory: ViewMvcFactory get() = activityCompositionRoot.viewMvcFactory

@@ -9,6 +9,7 @@ import com.android.lvicto.db.WordsDatabase
 import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.dao.DeclensionDao
 import com.android.lvicto.db.dao.WordDao
+import com.android.lvicto.db.dao.gtypes.*
 import com.google.gson.Gson
 
 class AppCompositionRoot(val application: Application) {
@@ -28,6 +29,26 @@ class AppCompositionRoot(val application: Application) {
 
     val wordDao: WordDao by lazy {
         wordsDatabase.wordDao()
+    }
+
+    val numeralDao: NumeralDao by lazy {
+        wordsDatabase.numeralDao()
+    }
+
+    val otherDao: OtherDao by lazy {
+        wordsDatabase.otherDao()
+    }
+
+    val pronounDao: PronounDao by lazy {
+        wordsDatabase.pronounDao()
+    }
+
+    val substantiveDao: SubstantiveDao by lazy {
+        wordsDatabase.substantiveDao()
+    }
+
+    val verbDao: VerbDao by lazy {
+        wordsDatabase.verbDao()
     }
 
     // event bus

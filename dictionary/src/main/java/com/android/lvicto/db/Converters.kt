@@ -34,4 +34,10 @@ class Converters {
 
     @TypeConverter
     fun toVerbClass(int: Int) = VerbClass.getValueFromClass(int)
+
+    @TypeConverter
+    fun fromGrammaticalPerson(person: GrammaticalPerson) = person.abbr
+
+    @TypeConverter
+    fun toGrammaticalPerson(value: String) = GrammaticalPerson.getValueFromAbbr(value)
 }
