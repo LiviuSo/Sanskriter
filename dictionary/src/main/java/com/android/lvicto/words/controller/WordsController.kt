@@ -153,7 +153,12 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                             if (isEmpty()) {
                                 // todo show zero state screen
                             } else {
-                                wordsInsertUseCase.insertWords(this)
+                                wordsInsertUseCase.insertWords(this) // todo remove when migration completed
+
+                                wordsInsertUseCase.insertWordsPlus(this.map { word ->
+                                    word.toWordWrapper()
+                                })
+
                                 mViewMvc.setWords(this)
                             }
                             mViewMvc.setWords(this)
