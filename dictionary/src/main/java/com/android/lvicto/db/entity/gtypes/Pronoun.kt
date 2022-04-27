@@ -73,7 +73,8 @@ data class Pronoun(
         it.append("case: ${gCase.abbr.ifEmpty { na }} \n")
     }.toString()
 
-    fun wrap() = WordWrapper(gType = gType,
+    fun wrap() = WordWrapper(id = id,
+        gType = gType,
         wordSa = word,
         wordIAST = wordIAST,
         meaningEn = meaningEn,

@@ -8,6 +8,7 @@ import com.android.lvicto.db.entity.Word
 import com.android.lvicto.db.entity.gtypes.*
 
 data class WordWrapper(
+    var id: Long = 0,
     val gType: GrammaticalType,
     val wordSa: String,
     val wordIAST: String,
@@ -21,6 +22,7 @@ data class WordWrapper(
     val verbClass: VerbClass = VerbClass.NONE) : Parcelable {
 
     constructor(parcel: Parcel) : this(
+        parcel.readLong(),
         converters.toGrammaticalType(parcel.readString()!!),
         parcel.readString()!!,
         parcel.readString()!!,
@@ -37,7 +39,8 @@ data class WordWrapper(
     override fun describeContents(): Int = 0
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest!!.writeString(converters.fromGrammaticalType(gType))
+        dest!!.writeLong(id)
+        dest.writeString(converters.fromGrammaticalType(gType))
         dest.writeString(wordSa)
         dest.writeString(wordIAST)
         dest.writeString(meaningEn)
@@ -57,15 +60,15 @@ data class WordWrapper(
         override fun newArray(size: Int): Array<WordWrapper?> = arrayOfNulls(size)
     }
 
-    fun toNumeral(): Numeral = Numeral(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, gender = gender, gCase = grammaticalCase)
+    fun toNumeral(): Numeral = Numeral(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, gender = gender, gCase = grammaticalCase)
 
-    fun toVerb(): Verb = Verb(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass)
+    fun toVerb(): Verb = Verb(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass)
 
-    fun toPronoun() = Pronoun(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, gender = gender, number = number, person = person, gCase = grammaticalCase)
+    fun toPronoun() = Pronoun(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, gender = gender, number = number, person = person, gCase = grammaticalCase)
 
-    fun toSubstantive() = Substantive(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, gender = gender)
+    fun toSubstantive() = Substantive(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, gender = gender)
 
-    fun toOther() = Other(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo)
+    fun toOther() = Other(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo)
 
-    fun toWord() = Word(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass, gender = gender)
+    fun toWord() = Word(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass, gender = gender)
 }

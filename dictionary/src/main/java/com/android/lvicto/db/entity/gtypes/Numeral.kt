@@ -61,7 +61,8 @@ data class Numeral(
         it.append("case: ${gCase.abbr} \n")
     }.toString()
 
-    fun wrap() = WordWrapper(gType = gType,
+    fun wrap() = WordWrapper(id = id,
+        gType = gType,
         wordSa = word,
         wordIAST = wordIAST,
         meaningEn = meaningEn,
