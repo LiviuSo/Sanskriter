@@ -12,13 +12,12 @@ import com.android.lvicto.R
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.navigateBack
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.db.Converters
-import com.android.lvicto.db.data.GrammaticalGender
-import com.android.lvicto.db.data.GrammaticalType
-import com.android.lvicto.db.data.VerbClass
+import com.android.lvicto.db.data.*
 import com.android.lvicto.db.entity.Word
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.activities.AddModifyWordActivity
@@ -264,7 +263,20 @@ class AddModifyWordFragment : BaseFragment() {
         word: Word,
         activity: FragmentActivity
     ) {
-        val result = wordsInsertWordsUseCase.insertWord(word)
+        val resultPlus = wordsInsertWordsUseCase.insertWordPlus(WordWrapper(
+            gType = word.gType,
+            wordSa = word.word,
+            wordIAST = word.wordIAST,
+            meaningEn = word.meaningEn,
+            meaningRo = word.meaningRo,
+            paradigm = word.paradigm,
+            gender = word.gender,
+            number = GrammaticalNumber.NONE,
+            person = GrammaticalPerson.NONE,
+            grammaticalCase = GrammaticalCase.NONE,
+            verbClass = word.verbClass))
+
+        val result = wordsInsertWordsUseCase.insertWord(word) // todo remove when migration complete
         if (result is WordsInsertUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_word_added) {
                 it.dismiss()

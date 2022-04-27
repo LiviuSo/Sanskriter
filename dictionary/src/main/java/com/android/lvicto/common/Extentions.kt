@@ -194,5 +194,10 @@ fun View.navigateBack() {
     this.findNavController().popBackStack()
 }
 
-
+// lists
+fun <T> concatenate(vararg lists: List<T>): List<T> = ArrayList<T>().apply {
+    for (list in lists) {
+        this += list
+    }
+}
 
