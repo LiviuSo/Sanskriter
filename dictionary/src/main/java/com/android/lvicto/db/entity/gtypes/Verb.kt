@@ -61,7 +61,8 @@ data class Verb(
         it.append("class: $verbClass \n")
     }.toString()
 
-    fun wrap() = WordWrapper(gType = gType,
+    fun wrap() = WordWrapper(id = id,
+        gType = gType,
         wordSa = word,
         wordIAST = wordIAST,
         meaningEn = meaningEn,

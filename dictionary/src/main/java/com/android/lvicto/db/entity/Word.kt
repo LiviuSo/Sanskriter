@@ -120,7 +120,8 @@ data class Word(
         }
     }.toString()
 
-    fun toWordWrapper() = WordWrapper(gType = gType,
+    fun toWordWrapper() = WordWrapper(id = id,
+        gType = gType,
         wordSa = word,
         wordIAST = wordIAST,
         meaningEn = meaningEn,
