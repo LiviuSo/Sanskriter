@@ -7,8 +7,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.common.Constants.TABLE_WORDS_OTHER
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.db.Converters
-import com.android.lvicto.db.data.GrammaticalType
+import com.android.lvicto.db.data.*
 import com.android.lvicto.db.entity.Word
 
 
@@ -51,6 +52,18 @@ data class Other(
         it.append("meaning (En): ${meaningEn.ifEmpty { na }} \n")
         it.append("meaning (Ro): ${meaningRo.ifEmpty { na }} \n")
     }.toString()
+
+    fun wrap() = WordWrapper(gType = gType,
+        wordSa = word,
+        wordIAST = wordIAST,
+        meaningEn = meaningEn,
+        meaningRo = meaningRo,
+        paradigm = "",
+        gender = GrammaticalGender.NONE,
+        number = GrammaticalNumber.NONE,
+        person = GrammaticalPerson.NONE,
+        grammaticalCase = GrammaticalCase.NONE,
+        verbClass = VerbClass.NONE)
 
     companion object CREATOR : Parcelable.Creator<Word> {
         @Ignore

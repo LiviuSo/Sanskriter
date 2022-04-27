@@ -7,10 +7,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.common.Constants.TABLE_WORDS_NUMERALS
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.db.Converters
-import com.android.lvicto.db.data.GrammaticalCase
-import com.android.lvicto.db.data.GrammaticalGender
-import com.android.lvicto.db.data.GrammaticalType
+import com.android.lvicto.db.data.*
 import com.android.lvicto.db.entity.Word
 
 
@@ -61,6 +60,18 @@ data class Numeral(
         it.append("gender: ${gender.abbr} \n")
         it.append("case: ${gCase.abbr} \n")
     }.toString()
+
+    fun wrap() = WordWrapper(gType = gType,
+        wordSa = word,
+        wordIAST = wordIAST,
+        meaningEn = meaningEn,
+        meaningRo = meaningRo,
+        paradigm = "",
+        gender = gender,
+        number = GrammaticalNumber.NONE,
+        person = GrammaticalPerson.NONE,
+        grammaticalCase = gCase,
+        verbClass = VerbClass.NONE)
 
     companion object CREATOR : Parcelable.Creator<Word> {
         @Ignore

@@ -114,14 +114,22 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     override fun onExport() {
         coroutineScope.launch {
             handleResult(
-                getResult = { wordsFetchUseCase.fetchWords() },
-                isSuccess = { it is WordsFetchUseCase.Result.Success },
+                getResult = {
+//                    wordsFetchUseCase.fetchWords()
+                    wordsFetchUseCase.fetchWordsPlus()
+                            },
+                isSuccess = {
+//                    it is WordsFetchUseCase.Result.Success
+                    it is WordsFetchUseCase.Result.SuccessPlus
+                            },
                 isFailure = { it is WordsFetchUseCase.Result.Failure },
                 onSuccess = {
-                    (it as WordsFetchUseCase.Result.Success).words.apply {
+//                    (it as WordsFetchUseCase.Result.Success).words.apply {
+                    (it as WordsFetchUseCase.Result.SuccessPlus).words.apply {
                         if (isNotEmpty()) {
                             val filename = Constants.FILENAME_WORDS // todo add date in the filename
-                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result ->
+//                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result ->
+                            wordsWriteToFileUseCase.writeWordsToFile(Words(this.map { wordWrapper -> wordWrapper.toWord() }), filename).let { result ->
                                 if (result is WordsWriteToFileUseCase.Result.Success) {
                                     mActivity.export(result.path)
                                 } else if (result is WordsWriteToFileUseCase.Result.Failure) {
@@ -232,16 +240,25 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     }
 
     private suspend fun initWords() {
-        handleResult(
-            getResult = { wordsFetchUseCase.fetchWords() },
-            isSuccess = { it is WordsFetchUseCase.Result.Success },
+        handleResult(getResult = {
+//            wordsFetchUseCase.fetchWords()
+            wordsFetchUseCase.fetchWordsPlus()
+                                 },
+            isSuccess = {
+//                it is WordsFetchUseCase.Result.Success
+                it is WordsFetchUseCase.Result.SuccessPlus
+                        },
             isFailure = { it is WordsFetchUseCase.Result.Failure },
             onSuccess = {
-                (it as WordsFetchUseCase.Result.Success).apply {
+//                (it as WordsFetchUseCase.Result.Success).apply {
+                (it as WordsFetchUseCase.Result.SuccessPlus).apply {
                     if (words.isNullOrEmpty()) {
                         // todo show empty screen
                     } else { // total success
-                        mViewMvc.setWords(words)
+//                        mViewMvc.setWords(words)
+                        mViewMvc.setWords(words.map { wordWrapper ->
+                            wordWrapper.toWord()
+                        })
                         isDataLoaded = true
                     }
                 }
