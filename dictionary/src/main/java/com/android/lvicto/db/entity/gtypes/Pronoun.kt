@@ -7,6 +7,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.common.Constants.TABLE_WORDS_PRONOUNS
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
 import com.android.lvicto.db.entity.Word
@@ -71,6 +72,18 @@ data class Pronoun(
         it.append("person: ${person.abbr.ifEmpty { na }} \n")
         it.append("case: ${gCase.abbr.ifEmpty { na }} \n")
     }.toString()
+
+    fun wrap() = WordWrapper(gType = gType,
+        wordSa = word,
+        wordIAST = wordIAST,
+        meaningEn = meaningEn,
+        meaningRo = meaningRo,
+        paradigm = paradigm,
+        gender = gender,
+        number = number,
+        person = person,
+        grammaticalCase = gCase,
+        verbClass = VerbClass.NONE)
 
     companion object CREATOR : Parcelable.Creator<Word> {
         @Ignore

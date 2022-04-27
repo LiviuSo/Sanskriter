@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
+import com.android.lvicto.db.entity.Word
 import com.android.lvicto.db.entity.gtypes.*
 
 data class WordWrapper(
@@ -66,4 +67,5 @@ data class WordWrapper(
 
     fun toOther() = Other(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo)
 
+    fun toWord() = Word(gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass, gender = gender)
 }
