@@ -17,6 +17,7 @@ object Constants {
 
     // share
     const val FILENAME_WORDS = "words.json"
+    const val FILENAME_WORDS_PLUS = "words_plus.json"
     const val EMAIL_RECIPIENT = "Lsocolovici1979@gmail.com"
     const val EMAIL_TITLE = "Lsocolovici1979@gmail.com"
     const val FILENAME_DECLENSION: String = "declensions.json"

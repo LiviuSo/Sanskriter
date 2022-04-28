@@ -127,9 +127,9 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 //                    (it as WordsFetchUseCase.Result.Success).words.apply {
                     (it as WordsFetchUseCase.Result.SuccessPlus).words.apply {
                         if (isNotEmpty()) {
-                            val filename = Constants.FILENAME_WORDS // todo add date in the filename
-//                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result ->
-                            wordsWriteToFileUseCase.writeWordsToFile(Words(this.map { wordWrapper -> wordWrapper.toWord() }), filename).let { result ->
+                            val filename = Constants.FILENAME_WORDS_PLUS // todo add date in the filename
+//                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result -> // todo remove when migration completed
+                            wordsWriteToFileUseCase.writeWordsToFilePlus((this), filename).let { result ->
                                 if (result is WordsWriteToFileUseCase.Result.Success) {
                                     mActivity.export(result.path)
                                 } else if (result is WordsWriteToFileUseCase.Result.Failure) {
