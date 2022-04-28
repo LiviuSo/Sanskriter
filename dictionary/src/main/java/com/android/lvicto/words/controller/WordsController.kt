@@ -189,7 +189,10 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     override fun onDeleteWords(wordsToRemove: List<Word>) {
         coroutineScope.launch {
             handleResult(
-                getResult = { wordsDeleteUseCase.deleteWords(wordsToRemove) },
+                getResult = {
+//                    wordsDeleteUseCase.deleteWords(wordsToRemove) // todo remove when migration completed
+                    wordsDeleteUseCase.deleteWordsPlus(wordsToRemove.map { it.toWordWrapper() })
+                            },
                 isSuccess = { it is WordsDeleteUseCase.Result.Success },
                 isFailure = { it is WordsDeleteUseCase.Result.Failure },
                 onSuccess = {

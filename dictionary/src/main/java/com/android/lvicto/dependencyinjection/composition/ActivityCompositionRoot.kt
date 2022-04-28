@@ -53,7 +53,7 @@ class ActivityCompositionRoot(
     val conjugationImportExportUseCase: ConjugationImportExportUseCase get() = ConjugationImportExportUseCase(activity)
 
     val wordsFetchUseCase: WordsFetchUseCase get() = WordsFetchUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
-    val wordsDeleteUseCase: WordsDeleteUseCase get() = WordsDeleteUseCase(wordDao)
+    val wordsDeleteUseCase: WordsDeleteUseCase get() = WordsDeleteUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
     val wordsWordsInsertUseCase: WordsInsertUseCase get() = WordsInsertUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
     val wordsWordsUpdateUseCase: WordsUpdateUseCase get() = WordsUpdateUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
     val wordsReadFromFileUseCase: WordsReadFromFileUseCase get() = WordsReadFromFileUseCase(activity)
