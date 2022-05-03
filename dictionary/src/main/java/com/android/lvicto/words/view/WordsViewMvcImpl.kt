@@ -23,6 +23,7 @@ import com.android.lvicto.common.Constants.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.Constants.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
@@ -83,7 +84,7 @@ class WordsViewMvcImpl(
         }
     }
 
-    override fun setWords(words: List<Word>?) {
+    override fun setWords(words: List<WordWrapper>?) {
         mWordsAdapter.words = words
     }
 

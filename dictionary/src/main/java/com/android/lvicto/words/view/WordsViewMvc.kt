@@ -4,22 +4,22 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.common.view.viewinterface.ObservableMvc
-import com.android.lvicto.db.entity.Word
 
 interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
     interface WordsViewListener {
         fun onFilterIASTEn(searchIAST: String?, searchEn: String?)
         fun onFilterEnIAST(filterEn: String, filterIast: String)
         fun onInitWords()
-        fun onDeleteWords(wordsToRemove: List<Word>)
+        fun onDeleteWords(wordsToRemove: List<WordWrapper>)
         fun onImport()
         fun onExport()
         fun onReadFromFile(uri: Uri?)
     }
 
     fun onFilePicked(data: Intent?)
-    fun setWords(words: List<Word>?)
+    fun setWords(words: List<WordWrapper>?)
     fun isSearchVisible(): Boolean
     fun getSearchEnString(): String
     fun getSearchIASTString(): String

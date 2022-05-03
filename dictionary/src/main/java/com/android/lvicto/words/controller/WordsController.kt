@@ -3,17 +3,12 @@ package com.android.lvicto.words.controller
 import android.net.Uri
 import android.util.Log
 import com.android.lvicto.R
-import com.android.lvicto.common.ImportPickerCode
+import com.android.lvicto.common.*
 import com.android.lvicto.common.base.BaseActivity
-import com.android.lvicto.common.Constants
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
-import com.android.lvicto.common.export
-import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
-import com.android.lvicto.db.data.Words
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.event.ImportWordsIntentEvent
 import com.android.lvicto.words.fragments.WordsFragment
@@ -129,7 +124,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                         if (isNotEmpty()) {
                             val filename = Constants.FILENAME_WORDS_PLUS // todo add date in the filename
 //                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result -> // todo remove when migration completed
-                            wordsWriteToFileUseCase.writeWordsToFilePlus((this), filename).let { result ->
+                            wordsWriteToFileUseCase.writeWordsToFilePlus(this, filename).let { result ->
                                 if (result is WordsWriteToFileUseCase.Result.Success) {
                                     mActivity.export(result.path)
                                 } else if (result is WordsWriteToFileUseCase.Result.Failure) {
@@ -153,19 +148,24 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         if (uri != null) {
             coroutineScope.launch {
                 handleResult(
-                    getResult = { wordsReadFromFileUseCase.readWords(uri) },
-                    isSuccess = { it is WordsReadFromFileUseCase.Result.Success },
-                    isFailure = { it is WordsReadFromFileUseCase.Result.Failure },
+                    getResult = {
+//                        wordsReadFromFileUseCase.readWords(uri)
+                        wordsReadFromFileUseCase.readWordsPlus(uri)
+                                },
+                    isSuccess = {
+                        it is WordsReadFromFileUseCase.Result.SuccessPlus
+                                },
+                    isFailure = {
+                        it is WordsReadFromFileUseCase.Result.Failure
+                                },
                     onSuccess = {
-                        (it as WordsReadFromFileUseCase.Result.Success).words.apply {
+                        (it as WordsReadFromFileUseCase.Result.SuccessPlus).words.apply {
                             if (isEmpty()) {
                                 // todo show zero state screen
                             } else {
-                                wordsInsertUseCase.insertWords(this) // todo remove when migration completed
+                                wordsInsertUseCase.insertWords(this.map { wordWrapper -> wordWrapper.toWord() }) // todo remove when migration completed
 
-                                wordsInsertUseCase.insertWordsPlus(this.map { word ->
-                                    word.toWordWrapper()
-                                })
+                                wordsInsertUseCase.insertWordsPlus(this)
 
                                 mViewMvc.setWords(this)
                             }
@@ -186,12 +186,12 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         }
     }
 
-    override fun onDeleteWords(wordsToRemove: List<Word>) {
+    override fun onDeleteWords(wordsToRemove: List<WordWrapper>) {
         coroutineScope.launch {
             handleResult(
                 getResult = {
 //                    wordsDeleteUseCase.deleteWords(wordsToRemove) // todo remove when migration completed
-                    wordsDeleteUseCase.deleteWordsPlus(wordsToRemove.map { it.toWordWrapper() })
+                    wordsDeleteUseCase.deleteWordsPlus(wordsToRemove)
                             },
                 isSuccess = { it is WordsDeleteUseCase.Result.Success },
                 isFailure = { it is WordsDeleteUseCase.Result.Failure },
@@ -234,7 +234,9 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             getResult = { wordsFilterUseCase.filter(filterIAST, filterEn) },
             isSuccess = { it is WordsFilterUseCase.Result.Success },
             isFailure = { it is WordsFilterUseCase.Result.Failure },
-            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words) },
+            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words.map {
+                it.toWordWrapper()
+            }) },
             onFailure = {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                 Log.d(WordsFragment.LOG_TAG, "unable to filter: ${(it as WordsFilterUseCase.Result.Failure).message}")
@@ -259,9 +261,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                         // todo show empty screen
                     } else { // total success
 //                        mViewMvc.setWords(words)
-                        mViewMvc.setWords(words.map { wordWrapper ->
-                            wordWrapper.toWord()
-                        })
+                        mViewMvc.setWords(words)
                         isDataLoaded = true
                     }
                 }

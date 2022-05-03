@@ -4,6 +4,7 @@ import android.content.Context
 import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.common.writeDataToFile
 import com.android.lvicto.db.data.Words
+import com.android.lvicto.db.data.WordsPlus
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,7 +35,7 @@ class WordsWriteToFileUseCase(val context: Context, val gson: Gson) {
 
     suspend fun writeWordsToFilePlus(words: List<WordWrapper>, filename: String): Result = withContext(Dispatchers.IO) {
         try {
-            gson.toJson(words)?.let {
+            gson.toJson(WordsPlus(words))?.let {
                 with(context.writeDataToFile(it, filename)) {
                     if(this.isNotEmpty()) Result.Success(this)
                     else Result.Failure("Unable write to file.")

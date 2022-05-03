@@ -9,8 +9,8 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
+import com.android.lvicto.common.WordWrapper
 import com.android.lvicto.db.data.GrammaticalType
-import com.android.lvicto.db.entity.Word
 
 
 class WordsAdapter(private val context: Context,
@@ -19,7 +19,7 @@ class WordsAdapter(private val context: Context,
                    private val checkItemCallback: (Boolean) -> Unit) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
 
     var type: Int = TYPE_NON_REMOVABLE
-    var words: List<Word>? = null
+    var words: List<WordWrapper>? = null
         set(value) {
             if (value != null) {
                 field = value
@@ -55,7 +55,7 @@ class WordsAdapter(private val context: Context,
         notifyDataSetChanged() // todo try to optimize
     }
 
-    fun getWordsToRemove(): List<Word> = selectedToRemove.map {
+    fun getWordsToRemove(): List<WordWrapper> = selectedToRemove.map {
         words!![it]
     }
 
@@ -64,7 +64,7 @@ class WordsAdapter(private val context: Context,
                                private val longClickListener: View.OnLongClickListener,
                                private val hideCtaOnNoSelection: (Boolean) -> Unit) : RecyclerView.ViewHolder(view) {
 
-        fun bindData(word: Word, type: Int, position: Int) { // todo complete
+        fun bindData(word: WordWrapper, type: Int, position: Int) { // todo complete
             view.findViewById<TextView>(R.id.tvItemWordType).text = when(word.gType) {
                 GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> "${word.gType.denom}, ${word.gender.abbr}, ${word.paradigm.ifEmpty { "n/a" }}"
                 GrammaticalType.PROPER_NOUN -> "${word.gType.denom}, ${word.paradigm.ifEmpty { "n/a" }}"
@@ -72,7 +72,7 @@ class WordsAdapter(private val context: Context,
                 else -> word.gType.denom
             }
             view.findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
-            view.findViewById<TextView>(R.id.tvItemWordSa).text = word.word
+            view.findViewById<TextView>(R.id.tvItemWordSa).text = word.wordSa
             when (type) {
                 TYPE_NON_REMOVABLE -> {
                     view.findViewById<TextView>(R.id.tvItemDefEn).text = word.meaningEn
