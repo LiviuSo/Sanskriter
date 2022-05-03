@@ -55,7 +55,9 @@ class WordsFetchUseCase(private val wordsDao: WordDao, // todo remove
                 pronounsDeferred.await(),
                 numeralsDeferred.await(),
                 verbsDeferred.await(),
-                otherDeferred.await()))
+                otherDeferred.await()).sortedBy {
+                    it.wordIAST
+            })
         } catch (e: CancellationException) {
             Result.Failure("Cancellation exception")
         } catch (e: Exception) {
