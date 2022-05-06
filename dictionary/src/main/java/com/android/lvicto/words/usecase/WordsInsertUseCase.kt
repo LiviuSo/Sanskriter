@@ -44,42 +44,17 @@ class WordsInsertUseCase(private val wordDao: WordDao, // todo remove
 
     suspend fun insertWordPlus(word: WordWrapper): Result = withContext(Dispatchers.IO) {
         try {
-            when(word.gType) {
-                GrammaticalType.NOUN, GrammaticalType.PROPER_NOUN, GrammaticalType.ADJECTIVE -> {
-                    substantiveDao.insert(Substantive(gType = word.gType,
-                        word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo = word.meaningRo,
-                        paradigm = word.paradigm,
-                        gender = word.gender
-                    ))
-                }
-                GrammaticalType.PRONOUN -> {
-                    pronounDao.insert(Pronoun(gType = word.gType,
-                        word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo = word.meaningRo,
-                        paradigm = word.paradigm,
-                        gender = word.gender, number = word.number, person = word.person,
-                        gCase = word.grammaticalCase
-                    ))
-                }
-                GrammaticalType.NUMERAL_CARDINAL, GrammaticalType.NUMERAL_ORDINAL -> {
-                    numeralDao.insert(Numeral(gType = word.gType,
-                        word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo = word.meaningRo,
-                        gender = word.gender,
-                        gCase = word.grammaticalCase
-                    ))
-                }
-                GrammaticalType.VERB -> {
-                    verbsDao.insert(Verb(gType = word.gType,
-                        word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo = word.meaningRo,
-                        paradigm = word.paradigm,
-                        verbClass = word.verbClass
-                    ))
-                }
-                else -> {
-                    otherDao.insert(Other(gType = word.gType,
-                        word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo =word. meaningRo
-                    ))
-                }
-            }
+            word.selectActionByType({
+                substantiveDao.insert(it)
+            }, {
+                pronounDao.insert(it)
+            }, {
+                verbsDao.insert(it)
+            }, {
+                numeralDao.insert(it)
+            }, {
+                otherDao.insert(it)
+            })
 
             // todo remove after the migration is complete
             wordDao.insert(Word(word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo = word.meaningRo,

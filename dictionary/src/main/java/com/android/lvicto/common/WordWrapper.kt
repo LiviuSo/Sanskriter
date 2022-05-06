@@ -9,17 +9,17 @@ import com.android.lvicto.db.entity.gtypes.*
 
 data class WordWrapper(
     var id: Long = 0,
-    val gType: GrammaticalType,
+    var gType: GrammaticalType,
     val wordSa: String,
-    val wordIAST: String,
-    val meaningEn: String,
-    val meaningRo: String,
-    val paradigm: String = "",
-    val gender: GrammaticalGender = GrammaticalGender.NONE,
-    val number: GrammaticalNumber = GrammaticalNumber.NONE,
-    val person: GrammaticalPerson = GrammaticalPerson.NONE,
-    val grammaticalCase: GrammaticalCase = GrammaticalCase.NONE,
-    val verbClass: VerbClass = VerbClass.NONE) : Parcelable {
+    var wordIAST: String,
+    var meaningEn: String,
+    var meaningRo: String,
+    var paradigm: String = "",
+    var gender: GrammaticalGender = GrammaticalGender.NONE,
+    var number: GrammaticalNumber = GrammaticalNumber.NONE,
+    var person: GrammaticalPerson = GrammaticalPerson.NONE,
+    var grammaticalCase: GrammaticalCase = GrammaticalCase.NONE,
+    var verbClass: VerbClass = VerbClass.NONE) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -71,4 +71,28 @@ data class WordWrapper(
     fun toOther() = Other(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo)
 
     fun toWord() = Word(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass, gender = gender)
+
+    fun selectActionByType(substantiveAction: (Substantive) -> Unit,
+                           pronounAction: (Pronoun) -> Unit,
+                           verbAction: (Verb) -> Unit,
+                           numeralAction: (Numeral) -> Unit,
+                           otherAction: (Other) -> Unit) {
+        when (this.gType) {
+            GrammaticalType.NOUN, GrammaticalType.PROPER_NOUN, GrammaticalType.ADJECTIVE -> {
+                substantiveAction.invoke(this.toSubstantive())
+            }
+            GrammaticalType.PRONOUN -> {
+                pronounAction.invoke(this.toPronoun())
+            }
+            GrammaticalType.VERB -> {
+                verbAction.invoke(this.toVerb())
+            }
+            GrammaticalType.NUMERAL_CARDINAL, GrammaticalType.NUMERAL_ORDINAL -> {
+                numeralAction.invoke(this.toNumeral())
+            }
+            else -> {
+                otherAction.invoke(this.toOther())
+            }
+        }
+    }
 }

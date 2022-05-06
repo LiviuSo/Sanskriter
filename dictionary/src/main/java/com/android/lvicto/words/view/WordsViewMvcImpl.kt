@@ -29,7 +29,7 @@ import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
 import com.android.lvicto.common.base.BaseTextWatcher
 import com.android.lvicto.common.base.BaseObservableMvc
-import com.android.lvicto.db.entity.Word
+import com.android.lvicto.db.data.GrammaticalType
 import com.android.lvicto.words.adapter.WordsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_words.view.*
@@ -123,8 +123,9 @@ class WordsViewMvcImpl(
 
     private fun initFab() {
         mFabDictionary.setOnClickListener {
-            val word = Word(
-                word = "",
+            val word = WordWrapper(
+                gType = GrammaticalType.OTHER,
+                wordSa = "",
                 wordIAST = getSearchIASTString(),
                 meaningEn = getSearchEnString(),
                 meaningRo = ""
@@ -150,7 +151,7 @@ class WordsViewMvcImpl(
     private fun initRecView() {
         val itemEditClickListener = View.OnClickListener {
             val bundle = Bundle().apply {
-                this.putParcelable(EXTRA_WORD, it.tag as Word)
+                this.putParcelable(EXTRA_WORD, it.tag as WordWrapper)
                 this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
             }
             it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)

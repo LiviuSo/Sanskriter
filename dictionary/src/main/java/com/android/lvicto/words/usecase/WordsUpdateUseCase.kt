@@ -5,6 +5,7 @@ import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.dao.gtypes.*
 import com.android.lvicto.db.data.GrammaticalType
 import com.android.lvicto.db.entity.Word
+import com.android.lvicto.db.entity.gtypes.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
@@ -30,24 +31,44 @@ class WordsUpdateUseCase(val wordDao: WordDao, // todo remove
         }
     }
 
-    suspend fun updateWordPlus(word: WordWrapper): Result = withContext(Dispatchers.IO) {
+    suspend fun updateWordPlus(oldWord: WordWrapper, word: WordWrapper): Result = withContext(Dispatchers.IO) {
         try {
-            when(word.gType) {
-                GrammaticalType.NOUN, GrammaticalType.PROPER_NOUN, GrammaticalType.ADJECTIVE -> {
-                    substantiveDao.update(word.toSubstantive())
-                }
-                GrammaticalType.PRONOUN -> {
-                    pronounDao.update(word.toPronoun())
-                }
-                GrammaticalType.VERB -> {
-                    verbsDao.update(word.toVerb())
-                }
-                GrammaticalType.NUMERAL_CARDINAL, GrammaticalType.NUMERAL_ORDINAL -> {
-                    numeralDao.insert(word.toNumeral())
-                }
-                else -> {
-                    otherDao.insert(word.toOther())
-                }
+            if(oldWord.gType == word.gType) {
+                word.selectActionByType({
+                    substantiveDao.update(it)
+                }, {
+                    pronounDao.update(it)
+                }, {
+                    verbsDao.update(it)
+                }, {
+                    numeralDao.update(it)
+                }, {
+                    otherDao.update(it)
+                })
+            } else {
+                oldWord.selectActionByType({
+                    substantiveDao.deleteSubstantives(arrayListOf(it))
+                }, {
+                    pronounDao.deletePronouns(arrayListOf(it))
+                }, {
+                    verbsDao.deleteVerbs(arrayListOf(it))
+                }, {
+                    numeralDao.deleteNumerals(arrayListOf(it))
+                }, {
+                    otherDao.deleteOthers(arrayListOf(it))
+                })
+
+                word.selectActionByType({
+                    substantiveDao.insert(it)
+                }, {
+                    pronounDao.insert(it)
+                }, {
+                    verbsDao.insert(it)
+                }, {
+                    numeralDao.insert(it)
+                }, {
+                    otherDao.insert(it)
+                })
             }
             Result.Success
         } catch (e: Exception) {
