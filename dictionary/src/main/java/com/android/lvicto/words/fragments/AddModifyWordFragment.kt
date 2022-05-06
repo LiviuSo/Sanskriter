@@ -18,7 +18,6 @@ import com.android.lvicto.common.navigateBack
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.activities.AddModifyWordActivity
 import com.android.lvicto.words.usecase.WordsInsertUseCase
@@ -28,7 +27,8 @@ import kotlinx.coroutines.*
 
 class AddModifyWordFragment : BaseFragment() {
 
-    private var word: Word? = null // todo make it a MediatorLiveData
+    private var word: WordWrapper? = null // todo make it a MediatorLiveData
+    private var oldWord: WordWrapper? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
     private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -66,9 +66,22 @@ class AddModifyWordFragment : BaseFragment() {
 
         requestCode = arguments?.getInt(EXTRA_REQUEST_CODE) ?: -1
         word = arguments?.getParcelable(EXTRA_WORD)
+        oldWord = WordWrapper(id = word?.id ?: -1,
+            gType = word?.gType ?: GrammaticalType.OTHER,
+            wordSa = word?.wordSa ?: "",
+            wordIAST = word?.wordIAST ?: "",
+            meaningEn = word?.meaningEn ?: "",
+            meaningRo = word?.meaningRo ?: "",
+            paradigm = word?.paradigm ?: "",
+            gender = word?.gender ?: GrammaticalGender.NONE,
+            number = word?.number ?: GrammaticalNumber.NONE,
+            person = word?.person ?: GrammaticalPerson.NONE,
+            grammaticalCase = word?.grammaticalCase ?: GrammaticalCase.NONE,
+            verbClass = word?.verbClass ?: VerbClass.NONE
+        )
 
         // todo move to viewMvc
-        root.editSa.setText(word?.word)
+        root.editSa.setText(word?.wordSa)
         root.editIAST.setText(word?.wordIAST)
         root.editRo.setText(word?.meaningRo)
         root.editEn.setText(word?.meaningEn)
@@ -128,7 +141,6 @@ class AddModifyWordFragment : BaseFragment() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     word?.gender = GrammaticalGender.NONE
                 }
-
             }
         }
         root.spinnerWordGender.setSelection(GrammaticalGender.getPosition(word?.gender))
@@ -170,7 +182,7 @@ class AddModifyWordFragment : BaseFragment() {
         coroutineScope.coroutineContext.cancelChildren()
     }
 
-    private fun showHideField(root: View, word: Word?) {
+    private fun showHideField(root: View, word: WordWrapper?) {
         when (word?.gType) {
             GrammaticalType.PROPER_NOUN -> {
                 root.editParadigm.visibility = View.VISIBLE
@@ -207,15 +219,15 @@ class AddModifyWordFragment : BaseFragment() {
         val verbClass = VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString())
         val gender = converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString())
 
-        val newWord = Word(
-            word = wordSa,
+        val newWord = WordWrapper(
+            gType = gType,
+            wordSa = wordSa,
             wordIAST = wordIAST,
             meaningEn = wordEn,
             meaningRo = wordRo,
-            gType = gType,
             paradigm = paradigm,
-            verbClass = verbClass,
-            gender = gender
+            gender = gender,
+            verbClass = verbClass
         )
         when (requestCode) {
             Constants.CODE_REQUEST_ADD_WORD -> {
@@ -225,8 +237,10 @@ class AddModifyWordFragment : BaseFragment() {
             }
             Constants.CODE_REQUEST_EDIT_WORD -> {
                 coroutineScope.launch {
-                    newWord.id = word?.id ?: -1 // if null no modification will happen
-                    modifyWord(v, newWord, activity)
+                    oldWord?.let {
+                        newWord.id = it.id // if null no modification will happen
+                        modifyWord(v, it, newWord, activity)
+                    }
                 }
             }
             else -> {
@@ -238,11 +252,12 @@ class AddModifyWordFragment : BaseFragment() {
 
     private suspend fun modifyWord(
         view: View,
-        word: Word,
+        oldWord: WordWrapper,
+        newWord: WordWrapper,
         activity: FragmentActivity
     ) {
 //        val result = wordsUpdateUseCase.updateWord(word) // todo remove when migration completed
-        val result = wordsUpdateUseCase.updateWordPlus(word.toWordWrapper())
+        val result = wordsUpdateUseCase.updateWordPlus(oldWord, newWord)
         if (result is WordsUpdateUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_words_updated) {
                 it.dismiss()
@@ -260,12 +275,12 @@ class AddModifyWordFragment : BaseFragment() {
 
     private suspend fun addWord(
         view: View,
-        word: Word,
+        word: WordWrapper,
         activity: FragmentActivity
     ) {
         val resultPlus = wordsInsertWordsUseCase.insertWordPlus(WordWrapper(
             gType = word.gType,
-            wordSa = word.word,
+            wordSa = word.wordSa,
             wordIAST = word.wordIAST,
             meaningEn = word.meaningEn,
             meaningRo = word.meaningRo,
@@ -276,7 +291,7 @@ class AddModifyWordFragment : BaseFragment() {
             grammaticalCase = GrammaticalCase.NONE,
             verbClass = word.verbClass))
 
-        val result = wordsInsertWordsUseCase.insertWord(word) // todo remove when migration complete
+        val result = wordsInsertWordsUseCase.insertWord(word.toWord()) // todo remove when migration complete
         if (result is WordsInsertUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_word_added) {
                 it.dismiss()
