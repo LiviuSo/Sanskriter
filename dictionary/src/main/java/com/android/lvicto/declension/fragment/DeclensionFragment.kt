@@ -6,14 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.R
-import com.android.lvicto.common.ImportPickerCode
+import com.android.lvicto.common.*
 import com.android.lvicto.common.base.BaseActivity
-import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.BASE_LOG
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
-import com.android.lvicto.common.export
-import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
@@ -192,8 +189,8 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                             LOG_TAG,
                             "filterWordsUseCase.filter($root, ${declension.paradigm}, true"
                         )
-                        val result = wordsFilterUseCase.filter(root, declension.paradigm, true)
-                        if (result is WordsFilterUseCase.Result.Success) {
+                        val result = wordsFilterUseCase.filterPlus(root, declension.paradigm, true)
+                        if (result is WordsFilterUseCase.Result.SuccessPlus) {
                             onDeclensionDetected(declension, result.words)
                             Log.d(LOG_TAG, "got words ${result.words}")
                         } else if (result is WordsFilterUseCase.Result.Failure) {
@@ -207,7 +204,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
         }
     }
 
-    private fun onDeclensionDetected(declension: Declension, dicRes: List<Word>) {
+    private fun onDeclensionDetected(declension: Declension, dicRes: List<WordWrapper>) {
         if (dicRes.isNotEmpty()) {
             tvResults.text = StringBuffer().let { sb ->
                 dicRes.map {

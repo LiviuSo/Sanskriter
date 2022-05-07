@@ -58,7 +58,7 @@ class ActivityCompositionRoot(
     val wordsWordsUpdateUseCase: WordsUpdateUseCase get() = WordsUpdateUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
     val wordsReadFromFileUseCase: WordsReadFromFileUseCase get() = WordsReadFromFileUseCase(activity)
     val wordsWriteToFileUseCase: WordsWriteToFileUseCase get() = WordsWriteToFileUseCase(activity, gson)
-    val wordsFilterUseCase: WordsFilterUseCase get() = WordsFilterUseCase(wordDao)
+    val wordsFilterUseCase: WordsFilterUseCase get() = WordsFilterUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
 
     val declensionDeleteUseCase: DeclensionDeleteUseCase get() = DeclensionDeleteUseCase(declensionDao = declensionDao)
     val declensionFetchUseCase: DeclensionFetchUseCase get() = DeclensionFetchUseCase(declensionDao)

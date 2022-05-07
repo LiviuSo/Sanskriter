@@ -85,18 +85,28 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     // region listener
     override fun onFilterIASTEn(searchIAST: String?, searchEn: String?) {
         coroutineScope.launch {
-            if (searchIAST != null) {
-                handleResult(
-                    getResult = { wordsFilterUseCase.filter(searchIAST, true) },
-                    isSuccess = { it is WordsFilterUseCase.Result.Success },
-                    isFailure = { it is WordsFilterUseCase.Result.Failure },
-                    onSuccess = { if (searchEn != null) { filterByBoth(searchIAST, searchEn) } else {/* nothing */ } },
-                    onFailure = {
-                        mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
-                        Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${(it as WordsFetchUseCase.Result.Failure).message}")
+            handleResult(
+//                    getResult = { wordsFilterUseCase.filter(searchIAST, true) },
+                getResult = {
+                    if (searchIAST != null && searchEn != null) {
+                        wordsFilterUseCase.filterPlus(searchIAST, searchEn)
+                    } else if (searchIAST != null) {
+                        wordsFilterUseCase.filterPlus(searchIAST, true)
+                    } else if (searchEn != null) {
+                        wordsFilterUseCase.filterPlus("", searchEn)
+                    } else {
+                        wordsFilterUseCase.filterPlus("", "")
                     }
-                )
-            }
+                            },
+//                    isSuccess = { it is WordsFilterUseCase.Result.Success },
+                isSuccess = { it is WordsFilterUseCase.Result.SuccessPlus },
+                isFailure = { it is WordsFilterUseCase.Result.Failure },
+                onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.SuccessPlus).words) },
+                onFailure = {
+                    mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
+                    Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${(it as WordsFetchUseCase.Result.Failure).message}")
+                }
+            )
         }
     }
 
@@ -231,17 +241,14 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 
     private suspend fun filterByBoth(filterIAST: String, filterEn: String) {
         handleResult(
-            getResult = { wordsFilterUseCase.filter(filterIAST, filterEn) },
-            isSuccess = { it is WordsFilterUseCase.Result.Success },
+            getResult = { wordsFilterUseCase.filterPlus(filterIAST, filterEn) },
+            isSuccess = { it is WordsFilterUseCase.Result.SuccessPlus },
             isFailure = { it is WordsFilterUseCase.Result.Failure },
-            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words.map {
-                it.toWordWrapper()
-            }) },
+            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.SuccessPlus).words) },
             onFailure = {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                 Log.d(WordsFragment.LOG_TAG, "unable to filter: ${(it as WordsFilterUseCase.Result.Failure).message}")
-            }
-        )
+            })
     }
 
     private suspend fun initWords() {
