@@ -69,7 +69,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         // load initial data
         if (!isDataLoaded) {
             coroutineScope.launch {
-                onInitWords()
+//                onInitWords()
                 mViewMvc.setupSearchFromOutside(wordIAST, wordEn)
             }
         }
@@ -101,7 +101,10 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 //                    isSuccess = { it is WordsFilterUseCase.Result.Success },
                 isSuccess = { it is WordsFilterUseCase.Result.SuccessPlus },
                 isFailure = { it is WordsFilterUseCase.Result.Failure },
-                onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.SuccessPlus).words) },
+                onSuccess = {
+                    Log.d("liviu", "filtering done!")
+                    mViewMvc.setWords((it as WordsFilterUseCase.Result.SuccessPlus).words)
+                            },
                 onFailure = {
                     mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                     Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${(it as WordsFetchUseCase.Result.Failure).message}")
@@ -262,6 +265,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                         },
             isFailure = { it is WordsFetchUseCase.Result.Failure },
             onSuccess = {
+                Log.d("liviu", "fetching words done!")
 //                (it as WordsFetchUseCase.Result.Success).apply {
                 (it as WordsFetchUseCase.Result.SuccessPlus).apply {
                     if (words.isNullOrEmpty()) {
