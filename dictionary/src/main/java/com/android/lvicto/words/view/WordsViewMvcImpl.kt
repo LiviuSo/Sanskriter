@@ -104,20 +104,18 @@ class WordsViewMvcImpl(
     }
 
     override fun setupSearchFromOutside(searchIast: String?, searchEn: String?) {
-        if (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) {
-            if (!isSearchVisible()) {
+        if ((!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) && !isSearchVisible()) {
                 // show edit with close button
                 showSearchBar()
             }
             if (!searchIast.isNullOrEmpty()) {
                 mEditSearchIAST.setText(searchIast)
-                for (listener in listeners) {
-                    listener.onFilterIASTEn(searchIast, searchEn)
-                }
             }
             if (!searchEn.isNullOrEmpty()) {
                 mEditSearch.setText(searchEn)
             }
+        for (listener in listeners) {
+            listener.onFilterIASTEn(searchIast, searchEn)
         }
     }
 
@@ -225,7 +223,7 @@ class WordsViewMvcImpl(
         }
 
         mBtnCloseSearchBar.setOnClickListener {
-            clearSearch()
+            hideSearch()
             // close the keyboard
             requireActivity().hideSoftKeyboard()
         }
@@ -242,6 +240,7 @@ class WordsViewMvcImpl(
             if (!isSearchVisible()) {
                 // show edit with close button
                 showSearchBar()
+                clearSearch()
                 // pop-up IAST keyboard for now
                 // as typing, filter
             }
@@ -277,6 +276,7 @@ class WordsViewMvcImpl(
                         if (!isSearchVisible()) {
                             // show edit with close button
                             showSearchBar()
+                            clearSearch()
                             // pop-up IAST keyboard for now
                             // as typing, filter
                             true
@@ -309,10 +309,14 @@ class WordsViewMvcImpl(
         adapter.notifyDataSetChanged()
     }
 
+    private fun hideSearch() {
+        clearSearch()
+        mLlSearchBar.visibility = View.GONE
+    }
+
     private fun clearSearch() {
         mEditSearch.text.clear()
         mEditSearchIAST.text.clear()
-        mLlSearchBar.visibility = View.GONE
     }
 
     private fun unselectAll(v: View) {
