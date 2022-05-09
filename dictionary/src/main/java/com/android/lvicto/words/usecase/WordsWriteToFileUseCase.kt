@@ -1,9 +1,8 @@
 package com.android.lvicto.words.usecase
 
 import android.content.Context
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.common.writeDataToFile
-import com.android.lvicto.db.data.Words
 import com.android.lvicto.db.data.WordsPlus
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -17,23 +16,7 @@ class WordsWriteToFileUseCase(val context: Context, val gson: Gson) {
         class Failure(val message: String?) : Result()
     }
 
-    @Deprecated("Removed when migration done")
-    suspend fun writeWordsToFile(words: Words, filename: String): Result = withContext(Dispatchers.IO) {
-            try {
-                gson.toJson(words)?.let {
-                    with(context.writeDataToFile(it, filename)) {
-                        if(this.isNotEmpty()) Result.Success(this)
-                        else Result.Failure("Unable write to file.")
-                    }
-                } ?: run {
-                    Result.Failure("Unable to parse.")
-                }
-            } catch (e: Exception) {
-                Result.Failure(e.message)
-            }
-        }
-
-    suspend fun writeWordsToFilePlus(words: List<WordWrapper>, filename: String): Result = withContext(Dispatchers.IO) {
+    suspend fun writeWordsToFile(words: List<Word>, filename: String): Result = withContext(Dispatchers.IO) {
         try {
             gson.toJson(WordsPlus(words))?.let {
                 with(context.writeDataToFile(it, filename)) {

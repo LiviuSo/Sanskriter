@@ -65,7 +65,7 @@
             app:destination="@id/destinationWordsFragment" />
         <argument
             android:name="extra_word"
-            app:argType="com.android.lvicto.db.entity.Word" />
+            app:argType="com.android.lvicto.common.Word" />
         <argument
             android:name="extra_request_code"
             app:argType="integer" />

@@ -7,10 +7,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.common.Constants.TABLE_WORDS_PRONOUNS
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Word
 
 
 @Entity(tableName = TABLE_WORDS_PRONOUNS)
@@ -73,7 +72,7 @@ data class Pronoun(
         it.append("case: ${gCase.abbr.ifEmpty { na }} \n")
     }.toString()
 
-    fun wrap() = WordWrapper(id = id,
+    fun wrap() = Word(id = id,
         gType = gType,
         wordSa = word,
         wordIAST = wordIAST,

@@ -1,48 +1,27 @@
 package com.android.lvicto.words.usecase
 
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.common.concatenate
-import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.dao.gtypes.*
-import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Word
-import com.android.lvicto.db.entity.gtypes.*
+import com.android.lvicto.db.data.GrammaticalType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-class WordsInsertUseCase(private val wordDao: WordDao, // todo remove
-                         private val substantiveDao: SubstantiveDao,
-                         private val pronounDao: PronounDao,
-                         private val verbsDao: VerbDao,
-                         private val numeralDao: NumeralDao,
-                         private val otherDao: OtherDao) {
+class WordsInsertUseCase(
+    private val substantiveDao: SubstantiveDao, // todo remove
+    private val pronounDao: PronounDao,
+    private val verbsDao: VerbDao,
+    private val numeralDao: NumeralDao,
+    private val otherDao: OtherDao
+) {
 
     sealed class Result {
         object Success: Result()
         class Failure(val message: String?) : Result()
     }
 
-    @Deprecated("Use insertWordPlus(Word) instead; will be deleted when migration complete")
     suspend fun insertWord(word: Word): Result = withContext(Dispatchers.IO) {
-        try {
-            wordDao.insert(word)
-            Result.Success
-        } catch (e: Exception) {
-            Result.Failure(e.message)
-        }
-    }
-    @Deprecated("Use insertWordPlus(List<Word>) instead; will be deleted when migration complete")
-    suspend fun insertWords(words: List<Word>): Result = withContext(Dispatchers.IO) {
-        try {
-            wordDao.insert(words)
-            Result.Success
-        } catch (e: Exception) {
-            Result.Failure(e.message)
-        }
-    }
-
-    suspend fun insertWordPlus(word: WordWrapper): Result = withContext(Dispatchers.IO) {
         try {
             word.selectActionByType({
                 substantiveDao.insert(it)
@@ -56,21 +35,13 @@ class WordsInsertUseCase(private val wordDao: WordDao, // todo remove
                 otherDao.insert(it)
             })
 
-            // todo remove after the migration is complete
-            wordDao.insert(Word(word = word.wordSa, wordIAST = word.wordIAST, meaningEn = word.meaningEn, meaningRo = word.meaningRo,
-                gType = word.gType,
-                paradigm = word.paradigm,
-                verbClass = word.verbClass,
-                gender = word.gender
-            ))
-
             Result.Success
         } catch (e: Exception) {
             Result.Failure(e.message)
         }
     }
 
-    suspend fun insertWordsPlus(words: List<WordWrapper>): Result  = withContext(Dispatchers.IO) {
+    suspend fun insertWords(words: List<Word>): Result  = withContext(Dispatchers.IO) {
         val wordsByType = words.groupBy { it.gType }
         val verbs = (wordsByType[GrammaticalType.VERB]?: listOf()).map { it.toVerb() }
         val pronouns = (wordsByType[GrammaticalType.PRONOUN]?: listOf()).map { it.toPronoun() }

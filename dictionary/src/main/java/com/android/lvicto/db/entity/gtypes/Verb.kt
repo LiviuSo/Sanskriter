@@ -7,10 +7,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.common.Constants.TABLE_WORDS_VERBS
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Word
 
 
 @Entity(tableName = TABLE_WORDS_VERBS)
@@ -61,7 +60,7 @@ data class Verb(
         it.append("class: $verbClass \n")
     }.toString()
 
-    fun wrap() = WordWrapper(id = id,
+    fun wrap() = Word(id = id,
         gType = gType,
         wordSa = word,
         wordIAST = wordIAST,

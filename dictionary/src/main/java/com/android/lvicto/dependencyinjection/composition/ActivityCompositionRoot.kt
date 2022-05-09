@@ -13,7 +13,6 @@ import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.dao.DeclensionDao
-import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.common.factory.ControllerMvcFactory
 import com.android.lvicto.db.dao.gtypes.*
@@ -25,7 +24,6 @@ class ActivityCompositionRoot(
     private val appComponent: AppCompositionRoot
 ) {
 
-    private val wordDao: WordDao get() = appComponent.wordDao
     private val numeralDao: NumeralDao get() = appComponent.numeralDao
     private val otherDao: OtherDao get() = appComponent.otherDao
     private val pronounDao: PronounDao get() = appComponent.pronounDao
@@ -52,13 +50,13 @@ class ActivityCompositionRoot(
     val conjugationFetchUseCase: ConjugationFetchUseCase get() = ConjugationFetchUseCase(conjugationDao)
     val conjugationImportExportUseCase: ConjugationImportExportUseCase get() = ConjugationImportExportUseCase(activity)
 
-    val wordsFetchUseCase: WordsFetchUseCase get() = WordsFetchUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
-    val wordsDeleteUseCase: WordsDeleteUseCase get() = WordsDeleteUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
-    val wordsWordsInsertUseCase: WordsInsertUseCase get() = WordsInsertUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
-    val wordsWordsUpdateUseCase: WordsUpdateUseCase get() = WordsUpdateUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
+    val wordsFetchUseCase: WordsFetchUseCase get() = WordsFetchUseCase(substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
+    val wordsDeleteUseCase: WordsDeleteUseCase get() = WordsDeleteUseCase(substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
+    val wordsWordsInsertUseCase: WordsInsertUseCase get() = WordsInsertUseCase(substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
+    val wordsWordsUpdateUseCase: WordsUpdateUseCase get() = WordsUpdateUseCase(substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
     val wordsReadFromFileUseCase: WordsReadFromFileUseCase get() = WordsReadFromFileUseCase(activity)
     val wordsWriteToFileUseCase: WordsWriteToFileUseCase get() = WordsWriteToFileUseCase(activity, gson)
-    val wordsFilterUseCase: WordsFilterUseCase get() = WordsFilterUseCase(wordDao, substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
+    val wordsFilterUseCase: WordsFilterUseCase get() = WordsFilterUseCase(substantiveDao, pronounDao, verbDao, numeralDao, otherDao)
 
     val declensionDeleteUseCase: DeclensionDeleteUseCase get() = DeclensionDeleteUseCase(declensionDao = declensionDao)
     val declensionFetchUseCase: DeclensionFetchUseCase get() = DeclensionFetchUseCase(declensionDao)

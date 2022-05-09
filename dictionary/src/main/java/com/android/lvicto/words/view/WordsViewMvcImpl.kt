@@ -23,7 +23,7 @@ import com.android.lvicto.common.Constants.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.Constants.CODE_REQUEST_EDIT_WORD
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
@@ -84,7 +84,7 @@ class WordsViewMvcImpl(
         }
     }
 
-    override fun setWords(words: List<WordWrapper>?) {
+    override fun setWords(words: List<Word>?) {
         mWordsAdapter.words = words
     }
 
@@ -121,7 +121,7 @@ class WordsViewMvcImpl(
 
     private fun initFab() {
         mFabDictionary.setOnClickListener {
-            val word = WordWrapper(
+            val word = Word(
                 gType = GrammaticalType.OTHER,
                 wordSa = "",
                 wordIAST = getSearchIASTString(),
@@ -149,7 +149,7 @@ class WordsViewMvcImpl(
     private fun initRecView() {
         val itemEditClickListener = View.OnClickListener {
             val bundle = Bundle().apply {
-                this.putParcelable(EXTRA_WORD, it.tag as WordWrapper)
+                this.putParcelable(EXTRA_WORD, it.tag as Word)
                 this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
             }
             it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
