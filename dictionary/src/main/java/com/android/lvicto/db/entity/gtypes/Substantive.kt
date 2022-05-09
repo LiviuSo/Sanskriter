@@ -7,10 +7,9 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.android.lvicto.common.Constants.TABLE_WORDS_SUBSTANTIVES
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Word
 
 
 @Entity(tableName = TABLE_WORDS_SUBSTANTIVES)
@@ -66,7 +65,7 @@ data class Substantive(
         }
     }.toString()
 
-    fun wrap() = WordWrapper(id = id,
+    fun wrap() = Word(id = id,
         gType = gType,
         wordSa = word,
         wordIAST = wordIAST,

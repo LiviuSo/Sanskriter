@@ -7,18 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.android.lvicto.R
 import com.android.lvicto.common.*
-import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants.BASE_LOG
-import com.android.lvicto.common.eventbus.ResultEventBus
-import com.android.lvicto.common.eventbus.event.ErrorEvent
+import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.common.dialog.DialogManager
-import com.android.lvicto.common.resultlauncher.ResultLauncherManager
+import com.android.lvicto.common.eventbus.ResultEventBus
+import com.android.lvicto.common.eventbus.event.ErrorEvent
 import com.android.lvicto.common.factory.ViewMvcFactory
+import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.Declensions
 import com.android.lvicto.db.entity.Declension
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.declension.event.ImportDeclensionsIntentEvent
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.declension.view.DeclensionsViewMvcImpl
@@ -189,8 +188,8 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
                             LOG_TAG,
                             "filterWordsUseCase.filter($root, ${declension.paradigm}, true"
                         )
-                        val result = wordsFilterUseCase.filterPlus(root, declension.paradigm, true)
-                        if (result is WordsFilterUseCase.Result.SuccessPlus) {
+                        val result = wordsFilterUseCase.filter(root, declension.paradigm, true)
+                        if (result is WordsFilterUseCase.Result.Success) {
                             onDeclensionDetected(declension, result.words)
                             Log.d(LOG_TAG, "got words ${result.words}")
                         } else if (result is WordsFilterUseCase.Result.Failure) {
@@ -204,7 +203,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
         }
     }
 
-    private fun onDeclensionDetected(declension: Declension, dicRes: List<WordWrapper>) {
+    private fun onDeclensionDetected(declension: Declension, dicRes: List<Word>) {
         if (dicRes.isNotEmpty()) {
             tvResults.text = StringBuffer().let { sb ->
                 dicRes.map {

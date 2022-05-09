@@ -8,7 +8,6 @@ import com.android.lvicto.db.GrammarDatabase
 import com.android.lvicto.db.WordsDatabase
 import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.dao.DeclensionDao
-import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.dao.gtypes.*
 import com.google.gson.Gson
 
@@ -25,10 +24,6 @@ class AppCompositionRoot(val application: Application) {
 
     val declensionDao: DeclensionDao by lazy {
         grammarDB.declensionDao()
-    }
-
-    val wordDao: WordDao by lazy {
-        wordsDatabase.wordDao()
     }
 
     val numeralDao: NumeralDao by lazy {

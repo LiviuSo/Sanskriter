@@ -4,10 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Word
 import com.android.lvicto.db.entity.gtypes.*
 
-data class WordWrapper(
+data class Word(
     var id: Long = 0,
     var gType: GrammaticalType,
     val wordSa: String,
@@ -52,12 +51,12 @@ data class WordWrapper(
         dest.writeInt(converters.fromVerbClass(verbClass))
     }
 
-    companion object CREATOR : Parcelable.Creator<WordWrapper> {
+    companion object CREATOR : Parcelable.Creator<Word> {
         val converters = Converters()
 
-        override fun createFromParcel(parcel: Parcel): WordWrapper = WordWrapper(parcel)
+        override fun createFromParcel(parcel: Parcel): Word = Word(parcel)
 
-        override fun newArray(size: Int): Array<WordWrapper?> = arrayOfNulls(size)
+        override fun newArray(size: Int): Array<Word?> = arrayOfNulls(size)
     }
 
     fun toNumeral(): Numeral = Numeral(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, gender = gender, gCase = grammaticalCase)
@@ -69,8 +68,6 @@ data class WordWrapper(
     fun toSubstantive() = Substantive(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, gender = gender)
 
     fun toOther() = Other(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo)
-
-    fun toWord() = Word(id = id, gType = gType, word = wordSa, wordIAST = wordIAST, meaningEn = meaningEn, meaningRo = meaningRo, paradigm = paradigm, verbClass = verbClass, gender = gender)
 
     fun selectActionByType(substantiveAction: (Substantive) -> Unit,
                            pronounAction: (Pronoun) -> Unit,

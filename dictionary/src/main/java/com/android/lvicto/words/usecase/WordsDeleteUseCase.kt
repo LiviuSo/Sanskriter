@@ -1,22 +1,20 @@
 package com.android.lvicto.words.usecase
 
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.common.concatenate
-import com.android.lvicto.db.dao.WordDao
 import com.android.lvicto.db.dao.gtypes.*
 import com.android.lvicto.db.data.GrammaticalType
-import com.android.lvicto.db.entity.Word
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
-class WordsDeleteUseCase(val wordDao: WordDao, // todo remove
-                         private val substantiveDao: SubstantiveDao,
-                         private val pronounDao: PronounDao,
-                         private val verbsDao: VerbDao,
-                         private val numeralDao: NumeralDao,
-                         private val otherDao: OtherDao) {
+class WordsDeleteUseCase(
+    private val substantiveDao: SubstantiveDao, // todo remove
+    private val pronounDao: PronounDao,
+    private val verbsDao: VerbDao,
+    private val numeralDao: NumeralDao,
+    private val otherDao: OtherDao
+) {
 
     sealed class Result {
         object Success : Result()
@@ -24,15 +22,6 @@ class WordsDeleteUseCase(val wordDao: WordDao, // todo remove
     }
 
     suspend fun deleteWords(words: List<Word>): Result = withContext(Dispatchers.IO) {
-        try {
-            wordDao.deleteWords(words)
-            Result.Success
-        } catch (e: Exception) {
-            Result.Failure(e.message)
-        }
-    }
-
-    suspend fun deleteWordsPlus(words: List<WordWrapper>): Result = withContext(Dispatchers.IO) {
         val wordsByType = words.groupBy { it.gType }
         val verbs = (wordsByType[GrammaticalType.VERB]?: listOf()).map { it.toVerb() }
         val pronouns = (wordsByType[GrammaticalType.PRONOUN]?: listOf()).map { it.toPronoun() }

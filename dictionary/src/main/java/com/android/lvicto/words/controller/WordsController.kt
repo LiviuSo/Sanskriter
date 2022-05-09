@@ -89,21 +89,21 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 //                    getResult = { wordsFilterUseCase.filter(searchIAST, true) },
                 getResult = {
                     if (searchIAST != null && searchEn != null) {
-                        wordsFilterUseCase.filterPlus(searchIAST, searchEn)
+                        wordsFilterUseCase.filter(searchIAST, searchEn)
                     } else if (searchIAST != null) {
-                        wordsFilterUseCase.filterPlus(searchIAST, true)
+                        wordsFilterUseCase.filter(searchIAST, true)
                     } else if (searchEn != null) {
-                        wordsFilterUseCase.filterPlus("", searchEn)
+                        wordsFilterUseCase.filter("", searchEn)
                     } else {
-                        wordsFilterUseCase.filterPlus("", "")
+                        wordsFilterUseCase.filter("", "")
                     }
                             },
 //                    isSuccess = { it is WordsFilterUseCase.Result.Success },
-                isSuccess = { it is WordsFilterUseCase.Result.SuccessPlus },
+                isSuccess = { it is WordsFilterUseCase.Result.Success },
                 isFailure = { it is WordsFilterUseCase.Result.Failure },
                 onSuccess = {
                     Log.d("liviu", "filtering done!")
-                    mViewMvc.setWords((it as WordsFilterUseCase.Result.SuccessPlus).words)
+                    mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words)
                             },
                 onFailure = {
                     mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
@@ -124,20 +124,20 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             handleResult(
                 getResult = {
 //                    wordsFetchUseCase.fetchWords()
-                    wordsFetchUseCase.fetchWordsPlus()
+                    wordsFetchUseCase.fetchWords()
                             },
                 isSuccess = {
 //                    it is WordsFetchUseCase.Result.Success
-                    it is WordsFetchUseCase.Result.SuccessPlus
+                    it is WordsFetchUseCase.Result.Success
                             },
                 isFailure = { it is WordsFetchUseCase.Result.Failure },
                 onSuccess = {
 //                    (it as WordsFetchUseCase.Result.Success).words.apply {
-                    (it as WordsFetchUseCase.Result.SuccessPlus).words.apply {
+                    (it as WordsFetchUseCase.Result.Success).words.apply {
                         if (isNotEmpty()) {
                             val filename = Constants.FILENAME_WORDS_PLUS // todo add date in the filename
 //                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result -> // todo remove when migration completed
-                            wordsWriteToFileUseCase.writeWordsToFilePlus(this, filename).let { result ->
+                            wordsWriteToFileUseCase.writeWordsToFile(this, filename).let { result ->
                                 if (result is WordsWriteToFileUseCase.Result.Success) {
                                     mActivity.export(result.path)
                                 } else if (result is WordsWriteToFileUseCase.Result.Failure) {
@@ -163,22 +163,20 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 handleResult(
                     getResult = {
 //                        wordsReadFromFileUseCase.readWords(uri)
-                        wordsReadFromFileUseCase.readWordsPlus(uri)
+                        wordsReadFromFileUseCase.readWords(uri)
                                 },
                     isSuccess = {
-                        it is WordsReadFromFileUseCase.Result.SuccessPlus
+                        it is WordsReadFromFileUseCase.Result.Success
                                 },
                     isFailure = {
                         it is WordsReadFromFileUseCase.Result.Failure
                                 },
                     onSuccess = {
-                        (it as WordsReadFromFileUseCase.Result.SuccessPlus).words.apply {
+                        (it as WordsReadFromFileUseCase.Result.Success).words.apply {
                             if (isEmpty()) {
                                 // todo show zero state screen
                             } else {
-                                wordsInsertUseCase.insertWords(this.map { wordWrapper -> wordWrapper.toWord() }) // todo remove when migration completed
-
-                                wordsInsertUseCase.insertWordsPlus(this)
+                                wordsInsertUseCase.insertWords(this)
 
                                 mViewMvc.setWords(this)
                             }
@@ -199,12 +197,12 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         }
     }
 
-    override fun onDeleteWords(wordsToRemove: List<WordWrapper>) {
+    override fun onDeleteWords(wordsToRemove: List<Word>) {
         coroutineScope.launch {
             handleResult(
                 getResult = {
 //                    wordsDeleteUseCase.deleteWords(wordsToRemove) // todo remove when migration completed
-                    wordsDeleteUseCase.deleteWordsPlus(wordsToRemove)
+                    wordsDeleteUseCase.deleteWords(wordsToRemove)
                             },
                 isSuccess = { it is WordsDeleteUseCase.Result.Success },
                 isFailure = { it is WordsDeleteUseCase.Result.Failure },
@@ -244,10 +242,10 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 
     private suspend fun filterByBoth(filterIAST: String, filterEn: String) {
         handleResult(
-            getResult = { wordsFilterUseCase.filterPlus(filterIAST, filterEn) },
-            isSuccess = { it is WordsFilterUseCase.Result.SuccessPlus },
+            getResult = { wordsFilterUseCase.filter(filterIAST, filterEn) },
+            isSuccess = { it is WordsFilterUseCase.Result.Success },
             isFailure = { it is WordsFilterUseCase.Result.Failure },
-            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.SuccessPlus).words) },
+            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words) },
             onFailure = {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                 Log.d(WordsFragment.LOG_TAG, "unable to filter: ${(it as WordsFilterUseCase.Result.Failure).message}")
@@ -257,17 +255,17 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     private suspend fun initWords() {
         handleResult(getResult = {
 //            wordsFetchUseCase.fetchWords()
-            wordsFetchUseCase.fetchWordsPlus()
+            wordsFetchUseCase.fetchWords()
                                  },
             isSuccess = {
 //                it is WordsFetchUseCase.Result.Success
-                it is WordsFetchUseCase.Result.SuccessPlus
+                it is WordsFetchUseCase.Result.Success
                         },
             isFailure = { it is WordsFetchUseCase.Result.Failure },
             onSuccess = {
                 Log.d("liviu", "fetching words done!")
 //                (it as WordsFetchUseCase.Result.Success).apply {
-                (it as WordsFetchUseCase.Result.SuccessPlus).apply {
+                (it as WordsFetchUseCase.Result.Success).apply {
                     if (words.isNullOrEmpty()) {
                         // todo show empty screen
                     } else { // total success

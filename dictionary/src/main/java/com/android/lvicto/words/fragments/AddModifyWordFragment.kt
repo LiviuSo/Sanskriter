@@ -12,7 +12,7 @@ import com.android.lvicto.R
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
-import com.android.lvicto.common.WordWrapper
+import com.android.lvicto.common.Word
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.navigateBack
 import com.android.lvicto.common.base.BaseFragment
@@ -27,8 +27,8 @@ import kotlinx.coroutines.*
 
 class AddModifyWordFragment : BaseFragment() {
 
-    private var word: WordWrapper? = null // todo make it a MediatorLiveData
-    private var oldWord: WordWrapper? = null // todo make it a MediatorLiveData
+    private var word: Word? = null // todo make it a MediatorLiveData
+    private var oldWord: Word? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
     private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -66,7 +66,7 @@ class AddModifyWordFragment : BaseFragment() {
 
         requestCode = arguments?.getInt(EXTRA_REQUEST_CODE) ?: -1
         word = arguments?.getParcelable(EXTRA_WORD)
-        oldWord = WordWrapper(id = word?.id ?: -1,
+        oldWord = Word(id = word?.id ?: -1,
             gType = word?.gType ?: GrammaticalType.OTHER,
             wordSa = word?.wordSa ?: "",
             wordIAST = word?.wordIAST ?: "",
@@ -182,7 +182,7 @@ class AddModifyWordFragment : BaseFragment() {
         coroutineScope.coroutineContext.cancelChildren()
     }
 
-    private fun showHideField(root: View, word: WordWrapper?) {
+    private fun showHideField(root: View, word: Word?) {
         when (word?.gType) {
             GrammaticalType.PROPER_NOUN -> {
                 root.editParadigm.visibility = View.VISIBLE
@@ -219,7 +219,7 @@ class AddModifyWordFragment : BaseFragment() {
         val verbClass = VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString())
         val gender = converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString())
 
-        val newWord = WordWrapper(
+        val newWord = Word(
             gType = gType,
             wordSa = wordSa,
             wordIAST = wordIAST,
@@ -252,12 +252,12 @@ class AddModifyWordFragment : BaseFragment() {
 
     private suspend fun modifyWord(
         view: View,
-        oldWord: WordWrapper,
-        newWord: WordWrapper,
+        oldWord: Word,
+        newWord: Word,
         activity: FragmentActivity
     ) {
 //        val result = wordsUpdateUseCase.updateWord(word) // todo remove when migration completed
-        val result = wordsUpdateUseCase.updateWordPlus(oldWord, newWord)
+        val result = wordsUpdateUseCase.updateWord(oldWord, newWord)
         if (result is WordsUpdateUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_words_updated) {
                 it.dismiss()
@@ -275,10 +275,10 @@ class AddModifyWordFragment : BaseFragment() {
 
     private suspend fun addWord(
         view: View,
-        word: WordWrapper,
+        word: Word,
         activity: FragmentActivity
     ) {
-        val resultPlus = wordsInsertWordsUseCase.insertWordPlus(WordWrapper(
+        val result = wordsInsertWordsUseCase.insertWord(Word(
             gType = word.gType,
             wordSa = word.wordSa,
             wordIAST = word.wordIAST,
@@ -291,7 +291,6 @@ class AddModifyWordFragment : BaseFragment() {
             grammaticalCase = GrammaticalCase.NONE,
             verbClass = word.verbClass))
 
-        val result = wordsInsertWordsUseCase.insertWord(word.toWord()) // todo remove when migration complete
         if (result is WordsInsertUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_word_added) {
                 it.dismiss()
