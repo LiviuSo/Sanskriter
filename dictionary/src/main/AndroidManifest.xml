@@ -3,11 +3,14 @@
     package="com.android.lvicto">
 
     <application>
-        <activity android:name=".words.activities.WordsActivity" />
+        <activity android:name=".words.activities.WordsActivity"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".start.DictionaryTestActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.DictionaryTheme" />
+
         <activity
             android:name=".words.activities.AddModifyWordActivity"
             android:screenOrientation="portrait"
@@ -22,6 +25,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
     </application>
 
 </manifest>
