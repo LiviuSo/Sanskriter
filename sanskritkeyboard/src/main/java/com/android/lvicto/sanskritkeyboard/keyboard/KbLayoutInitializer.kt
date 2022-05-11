@@ -479,7 +479,7 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
 
         fun isSpaceAfterStopExclamationQuestion(): Boolean {
-            val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
+            val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0) ?: ""
             val len = textBefore.length
             return len >= 2
                     && textBefore[len - 1] == ' '
@@ -487,13 +487,13 @@ abstract class KbLayoutInitializer(val context: Context) {
         }
 
         fun isStopExclamationQuestion(): Boolean {
-            val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0)
+            val textBefore = ic.getTextBeforeCursor(MAX_INPUT_LEN, 0) ?: ""
             val len = textBefore.length
             return len >= 2
                     && (textBefore[len - 2] == '?' || textBefore[len - 2] == '!' || textBefore[len - 2] == '.')
         }
 
-        protected fun resetLongPressedKeys() {
+        private fun resetLongPressedKeys() {
             if (longPressedKeysViews.isNotEmpty()) {
                 longPressedKeysViews[0].background = ContextCompat.getDrawable(context, R.drawable.key_normal)
                 longPressedKeysViews.clear()
