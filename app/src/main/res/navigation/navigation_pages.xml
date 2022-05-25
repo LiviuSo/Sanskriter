@@ -22,8 +22,7 @@
         android:label="ZoomPageFragment" >
 
         <action
-            android:id="@+id/action_fromZoomPage_toWordsActivity"
-            app:destination="@id/navigationWords" />
+            android:id="@+id/action_fromZoomPage_toWordsActivity" />
     </fragment>
 
 

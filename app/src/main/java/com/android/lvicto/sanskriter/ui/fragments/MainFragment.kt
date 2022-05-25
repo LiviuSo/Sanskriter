@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import com.android.lvicto.sanskriter.R
 import com.android.lvicto.sanskriter.ui.activities.SandhiActivity
 import com.android.lvicto.sanskriter.ui.activities.TestKeyboardActivity
-import com.android.lvicto.start.DictionaryTestActivity
 import kotlinx.android.synthetic.main.fragment_main.view.*
 
 class MainFragment : Fragment() {
@@ -22,7 +21,6 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main, container, false).apply {
             this.btnTestDic.setOnClickListener {
-                startActivity(Intent(requireContext(), DictionaryTestActivity::class.java))
             }
 
             this.btnTestKeyboard.setOnClickListener {

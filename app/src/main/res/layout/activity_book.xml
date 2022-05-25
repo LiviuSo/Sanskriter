@@ -14,10 +14,6 @@
 
         <include layout="@layout/toolbar_book" />
 
-        <include
-            layout="@layout/view_search_bar"
-            android:visibility="gone" />
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentHolder"
             android:name="androidx.navigation.fragment.NavHostFragment"
