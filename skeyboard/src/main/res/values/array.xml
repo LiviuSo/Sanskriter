@@ -99,7 +99,7 @@
     </string-array>
 
     <string-array name="sym_candidates_sans_short_diphtongs">
-        <item>@string/key_ttnya</item>
+        <item>@string/key_label_sa_om</item>
         <item>@string/key_label_sa_extra_i_short</item>
         <item>@string/key_label_sa_extra_u_short</item>
         <item>@string/key_label_sa_extra_ri</item>

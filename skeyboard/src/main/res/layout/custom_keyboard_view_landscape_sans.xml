@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/keyboard_landscape_bkgrd"
+    android:background="@color/keyboard_portrait_bkgrd"
     android:id="@+id/customKeyboardViewSans">
 
     <androidx.constraintlayout.widget.Guideline
@@ -66,101 +66,17 @@
         app:layout_constraintGuide_begin="@dimen/height_guideline_extras" />
 
     <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyKSans"
+        android:id="@+id/keyVisargaSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ka"
+        android:text="@string/key_label_sa_extra_visarga"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ka"
+        app:label="@string/key_label_sa_extra_visarga"
         app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/keyGSans"
+        app:layout_constraintEnd_toStartOf="@+id/keyD2Sans"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
-
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyGSans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ga"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ga"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyN1Sans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyKSans"
-        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
-
-    <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyN1Sans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_na1"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_na1"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyCSans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyGSans"
-        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
-
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyCSans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ca"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ca"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/keyJSans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyN1Sans"
-        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
-
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyJSans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ja"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ja"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyN2Sans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyCSans"
-        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
-
-    <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyN2Sans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_na2"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_na2"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyT2Sans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyJSans"
-        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
-
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyT2Sans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ta2"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ta2"
-        app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyD2Sans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyN2Sans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
     <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
@@ -172,9 +88,93 @@
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
         app:label="@string/key_label_sa_letter_da2"
         app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyAnushvaraSans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyVisargaSans"
+        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
+
+    <com.lvicto.skeyboard.view.key.TypableKeyView
+        android:id="@+id/keyAnushvaraSans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_extra_anushvara"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_extra_anushvara"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyRSans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyD2Sans"
+        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
+
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+        android:id="@+id/keyRSans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_ra"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_ra"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@+id/keyTSans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyAnushvaraSans"
+        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
+
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+        android:id="@+id/keyTSans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_ta"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_ta"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyYSans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyRSans"
+        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
+
+    <com.lvicto.skeyboard.view.key.TypableKeyView
+        android:id="@+id/keyYSans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_ya"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_ya"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyN1Sans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyTSans"
+        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
+
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+        android:id="@+id/keyN1Sans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_na1"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_na1"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintEnd_toStartOf="@id/keyN2Sans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyYSans"
+        app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
+
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+        android:id="@+id/keyN2Sans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_na2"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_na2"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
         app:layout_constraintEnd_toStartOf="@id/keyN3Sans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyT2Sans"
+        app:layout_constraintStart_toEndOf="@id/keyN1Sans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
@@ -186,19 +186,19 @@
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
         app:label="@string/key_label_sa_letter_na3"
         app:layout_constraintBottom_toTopOf="@id/guideline1"
-        app:layout_constraintEnd_toStartOf="@id/keyAnushvaraSans"
+        app:layout_constraintEnd_toStartOf="@id/keyPSans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyD2Sans"
+        app:layout_constraintStart_toEndOf="@id/keyN2Sans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyAnushvaraSans"
+        android:id="@+id/keyPSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_extra_anushvara"
+        android:text="@string/key_label_sa_letter_pa"
         app:candidates="@array/sym_candidates_sans_short_vowels"
-        app:label="@string/key_label_sa_extra_anushvara"
+        app:label="@string/key_label_sa_letter_pa"
         app:layout_constraintBottom_toTopOf="@id/guideline1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
@@ -217,26 +217,40 @@
         android:layout_width="0dp"
         android:layout_height="1dp"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyTSans"
+        app:layout_constraintEnd_toStartOf="@id/keyReductionSans"
         app:layout_constraintHorizontal_weight=".5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyTSans"
+        android:id="@+id/keyReductionSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ta"
+        android:text="@string/key_label_sa_red"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ta"
+        app:label="@string/key_label_sa_red"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyDSans"
+        app:layout_constraintEnd_toStartOf="@id/keySSans"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/start1"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+        android:id="@+id/keySSans"
+        style="@style/KeyStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/key_label_sa_letter_sa3"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_sa3"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toStartOf="@id/keyDSans"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/keyReductionSans"
+        app:layout_constraintTop_toBottomOf="@id/guideline1" />
+
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyDSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -245,37 +259,37 @@
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
         app:label="@string/key_label_sa_letter_da"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyNSans"
+        app:layout_constraintEnd_toStartOf="@id/keyT2Sans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyTSans"
+        app:layout_constraintStart_toEndOf="@id/keySSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyNSans"
+        android:id="@+id/keyT2Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_na4"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_na4"
+        android:text="@string/key_label_sa_letter_ta2"
+        app:candidates="@array/sym_candidates_sans_short_vowels"
+        app:label="@string/key_label_sa_letter_ta2"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyReductionSans"
+        app:layout_constraintEnd_toStartOf="@id/keyGSans"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/keyDSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyReductionSans"
+        android:id="@+id/keyGSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_red"
-        app:candidates="@array/sym_candidates_sans_short_vowels"
-        app:label="@string/key_label_sa_red"
+        android:text="@string/key_label_sa_letter_ga"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_ga"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toStartOf="@id/keyHSans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyNSans"
+        app:layout_constraintStart_toEndOf="@id/keyT2Sans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
@@ -284,68 +298,54 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/key_label_sa_letter_h"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:candidates="@array/sym_candidates_sans_short_vowels"
         app:label="@string/key_label_sa_letter_h"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyVisargaSans"
+        app:layout_constraintEnd_toStartOf="@id/keyJSans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyReductionSans"
+        app:layout_constraintStart_toEndOf="@id/keyGSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyVisargaSans"
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+        android:id="@+id/keyJSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_extra_visarga"
-        app:candidates="@array/sym_candidates_sans_short_vowels"
-        app:label="@string/key_label_sa_extra_visarga"
+        android:text="@string/key_label_sa_letter_ja"
+        app:candidates="@array/sym_candidates_sans_short_diphtongs"
+        app:label="@string/key_label_sa_letter_ja"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyPSans"
+        app:layout_constraintEnd_toStartOf="@id/keyKSans"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/keyHSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyPSans"
+        android:id="@+id/keyKSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_pa"
+        android:text="@string/key_label_sa_letter_ka"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_pa"
+        app:label="@string/key_label_sa_letter_ka"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyBSans"
+        app:layout_constraintEnd_toStartOf="@id/keyLSans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyVisargaSans"
-        app:layout_constraintTop_toBottomOf="@id/guideline1" />
-
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
-        android:id="@+id/keyBSans"
-        style="@style/KeyStyle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ba"
-        app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ba"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintEnd_toStartOf="@id/keyMSans"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyPSans"
+        app:layout_constraintStart_toEndOf="@id/keyJSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyMSans"
+        android:id="@+id/keyLSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ma"
+        android:text="@string/key_label_sa_letter_la"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ma"
+        app:label="@string/key_label_sa_letter_la"
         app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toStartOf="@id/end1"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyBSans"
+        app:layout_constraintStart_toEndOf="@id/keyKSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <View
@@ -355,7 +355,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight=".5"
-        app:layout_constraintStart_toEndOf="@id/keyMSans"
+        app:layout_constraintStart_toEndOf="@id/keyLSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -375,50 +375,50 @@
         app:code="@integer/key_code_toggle_h"
         app:candidates="@array/sym_candidates_iast"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyYSans"
+        app:layout_constraintEnd_toStartOf="@id/keySa1Sans"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyYSans"
+        android:id="@+id/keySa1Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ya"
+        android:text="@string/key_label_sa_letter_sa1"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ya"
+        app:label="@string/key_label_sa_letter_sa1"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyRSans"
+        app:layout_constraintEnd_toStartOf="@id/keySa2Sans"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/keyShift"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyRSans"
+        android:id="@+id/keySa2Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_ra"
+        android:text="@string/key_label_sa_letter_sa2"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_ra"
+        app:label="@string/key_label_sa_letter_sa2"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keyLSans"
+        app:layout_constraintEnd_toStartOf="@id/keyCSans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyYSans"
+        app:layout_constraintStart_toEndOf="@id/keySa1Sans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keyLSans"
+        android:id="@+id/keyCSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_la"
+        android:text="@string/key_label_sa_letter_ca"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_la"
+        app:label="@string/key_label_sa_letter_ca"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintEnd_toStartOf="@id/keyVSans"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyRSans"
+        app:layout_constraintStart_toEndOf="@id/keySa2Sans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
@@ -430,51 +430,51 @@
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
         app:label="@string/key_label_sa_letter_va"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keySa1Sans"
+        app:layout_constraintEnd_toStartOf="@id/keySa1SansOld"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keyLSans"
+        app:layout_constraintStart_toEndOf="@id/keyCSans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keySa1Sans"
+        android:id="@+id/keySa1SansOld"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         app:layout_constraintHorizontal_weight="1"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_sa1"
-        app:label="@string/key_label_sa_letter_sa1"
+        android:text="@string/key_label_sa_letter_ba"
+        app:label="@string/key_label_sa_letter_ba"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keySa2Sans"
+        app:layout_constraintEnd_toStartOf="@id/keyNSans"
         app:layout_constraintStart_toEndOf="@+id/keyVSans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keySa2Sans"
+        android:id="@+id/keyNSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         app:layout_constraintHorizontal_weight="1"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_sa2"
-        app:label="@string/key_label_sa_letter_sa2"
+        android:text="@string/key_label_sa_letter_na4"
+        app:label="@string/key_label_sa_letter_na4"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
-        app:layout_constraintEnd_toStartOf="@id/keySSans"
-        app:layout_constraintStart_toEndOf="@id/keySa1Sans"
+        app:layout_constraintEnd_toStartOf="@id/keyMSans"
+        app:layout_constraintStart_toEndOf="@id/keySa1SansOld"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
-        android:id="@+id/keySSans"
+        android:id="@+id/keyMSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/key_label_sa_letter_sa3"
+        android:text="@string/key_label_sa_letter_ma"
         app:candidates="@array/sym_candidates_sans_short_diphtongs"
-        app:label="@string/key_label_sa_letter_sa3"
+        app:label="@string/key_label_sa_letter_ma"
         app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintEnd_toStartOf="@id/keyBks"
         app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@id/keySa2Sans"
+        app:layout_constraintStart_toEndOf="@id/keyNSans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <com.lvicto.skeyboard.view.key.BaseKeyView
@@ -487,7 +487,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1.75"
-        app:layout_constraintStart_toEndOf="@id/keySSans"
+        app:layout_constraintStart_toEndOf="@id/keyMSans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
     <androidx.constraintlayout.widget.Guideline
