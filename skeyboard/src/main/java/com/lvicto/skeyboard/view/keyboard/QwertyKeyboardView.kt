@@ -26,6 +26,13 @@ class QwertyKeyboardView(context: Context, attributeSet: AttributeSet)
                         }
                         this.setOnTouchListener(KeyListeners.getKeyTypableTouchListener())
                         return true
+                    } else {
+                        if (this is ShiftKey) { // is extra, but also shiftable
+                            addShiftableKetView(this)
+                            addExtraKeyView(this)
+                            this.setOnTouchListener(KeyListeners.getKeyExtraTouchListener())
+                            return true
+                        }
                     }
                 }
                 is ToggleKeyView -> {

@@ -321,7 +321,7 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
             candidatesViews[it].apply {
                 this.setText(candidatesLabels[it])
                 if (this is ExtraIastShiftKeyView && this.isUpperCase) {
-                    this.setText(candidatesLabels[it].toUpperCase(Locale.getDefault()))
+                    this.setText(candidatesLabels[it].uppercase(Locale.getDefault()))
                 } else {
                     this.setText(candidatesLabels[it])
                 }

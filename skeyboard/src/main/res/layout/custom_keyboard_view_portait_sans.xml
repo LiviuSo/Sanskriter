@@ -65,7 +65,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="@dimen/height_guideline_extras" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyVisargaSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyD2Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -107,7 +107,7 @@
         app:layout_constraintStart_toEndOf="@id/keyD2Sans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyRSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -149,7 +149,7 @@
         app:layout_constraintStart_toEndOf="@id/keyTSans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyN1Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -163,7 +163,7 @@
         app:layout_constraintStart_toEndOf="@id/keyYSans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyN2Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -191,7 +191,7 @@
         app:layout_constraintStart_toEndOf="@id/keyN2Sans"
         app:layout_constraintTop_toBottomOf="@id/guidelineExtras" />
 
-    <com.lvicto.skeyboard.view.key.TypableKeyView
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
         android:id="@+id/keyPSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -222,7 +222,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keyReductionSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -236,7 +236,7 @@
         app:layout_constraintStart_toEndOf="@id/start1"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
+    <com.lvicto.skeyboard.view.key.TypableKeyView
         android:id="@+id/keySSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -250,7 +250,7 @@
         app:layout_constraintStart_toEndOf="@id/keyReductionSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.TypableKeyView
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
         android:id="@+id/keyDSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -264,7 +264,7 @@
         app:layout_constraintStart_toEndOf="@id/keySSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.TypableKeyView
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
         android:id="@+id/keyT2Sans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -278,7 +278,7 @@
         app:layout_constraintStart_toEndOf="@id/keyDSans"
         app:layout_constraintTop_toBottomOf="@id/guideline1" />
 
-    <com.lvicto.skeyboard.view.key.TypableKeyView
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
         android:id="@+id/keyGSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -407,7 +407,7 @@
         app:layout_constraintStart_toEndOf="@id/keySa1Sans"
         app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
-    <com.lvicto.skeyboard.view.key.TypableKeyView
+    <com.lvicto.skeyboard.view.key.SanskritShiftKeyView
         android:id="@+id/keyCSans"
         style="@style/KeyStyle"
         android:layout_width="0dp"
