@@ -51,7 +51,7 @@
         android:text="@string/key_label_digit_5"
         app:label="@string/key_label_digit_5" />
 
-    <com.lvicto.skeyboard.view.key.ExtraKeyView
+    <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key6"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -60,7 +60,7 @@
         android:text="@string/key_label_digit_6"
         app:label="@string/key_label_digit_6" />
 
-    <com.lvicto.skeyboard.view.key.ExtraKeyView
+    <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key7"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -69,7 +69,7 @@
         android:text="@string/key_label_digit_7"
         app:label="@string/key_label_digit_7" />
 
-    <com.lvicto.skeyboard.view.key.ExtraKeyView
+    <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key8"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -78,7 +78,7 @@
         android:text="@string/key_label_digit_8"
         app:label="@string/key_label_digit_8" />
 
-    <com.lvicto.skeyboard.view.key.ExtraKeyView
+    <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key9"
         style="@style/KeyStyle"
         android:layout_width="0dp"
@@ -87,7 +87,7 @@
         android:text="@string/key_label_digit_9"
         app:label="@string/key_label_digit_9" />
 
-    <com.lvicto.skeyboard.view.key.ExtraKeyView
+    <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key0"
         style="@style/KeyStyle"
         android:layout_width="0dp"

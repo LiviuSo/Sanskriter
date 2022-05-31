@@ -68,7 +68,8 @@
         <item>@string/key_label_plus</item>
         <item>@string/key_label_sep</item>
         <item>@string/key_label_sa_extra_accent1</item>
-        <item>@string/key_label_sa_extra_accent2</item>
+<!--        <item>@string/key_label_sa_extra_accent2</item>-->
+        <item>@string/key_label_hyphen</item>
     </string-array>
 
     <!-- sanskrit -->

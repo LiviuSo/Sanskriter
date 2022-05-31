@@ -15,9 +15,9 @@ class ExtraIastShiftKeyView(context: Context, attr: AttributeSet) : ExtraKeyView
             val key = it as TextView
             it.post {
                 key.text = if(shifted) {
-                    key.text.toString().toUpperCase(Locale.getDefault())
+                    key.text.toString().uppercase(Locale.getDefault())
                 } else {
-                    key.text.toString().toLowerCase(Locale.getDefault())
+                    key.text.toString().lowercase(Locale.getDefault())
                 }
             }
         }
