@@ -69,7 +69,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         // load initial data
         if (!isDataLoaded) {
             coroutineScope.launch {
-//                onInitWords()
                 mViewMvc.setupSearchFromOutside(wordIAST, wordEn)
             }
         }
@@ -86,7 +85,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     override fun onFilterIASTEn(searchIAST: String?, searchEn: String?) {
         coroutineScope.launch {
             handleResult(
-//                    getResult = { wordsFilterUseCase.filter(searchIAST, true) },
                 getResult = {
                     if (searchIAST != null && searchEn != null) {
                         wordsFilterUseCase.filter(searchIAST, searchEn)
@@ -98,13 +96,9 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                         wordsFilterUseCase.filter("", "")
                     }
                             },
-//                    isSuccess = { it is WordsFilterUseCase.Result.Success },
                 isSuccess = { it is WordsFilterUseCase.Result.Success },
                 isFailure = { it is WordsFilterUseCase.Result.Failure },
-                onSuccess = {
-                    Log.d("liviu", "filtering done!")
-                    mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words)
-                            },
+                onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words) },
                 onFailure = {
                     mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                     Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${(it as WordsFetchUseCase.Result.Failure).message}")
@@ -122,21 +116,13 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     override fun onExport() {
         coroutineScope.launch {
             handleResult(
-                getResult = {
-//                    wordsFetchUseCase.fetchWords()
-                    wordsFetchUseCase.fetchWords()
-                            },
-                isSuccess = {
-//                    it is WordsFetchUseCase.Result.Success
-                    it is WordsFetchUseCase.Result.Success
-                            },
+                getResult = { wordsFetchUseCase.fetchWords() },
+                isSuccess = { it is WordsFetchUseCase.Result.Success },
                 isFailure = { it is WordsFetchUseCase.Result.Failure },
                 onSuccess = {
-//                    (it as WordsFetchUseCase.Result.Success).words.apply {
                     (it as WordsFetchUseCase.Result.Success).words.apply {
                         if (isNotEmpty()) {
                             val filename = Constants.FILENAME_WORDS_PLUS // todo add date in the filename
-//                            wordsWriteToFileUseCase.writeWordsToFile(Words(this), filename).let { result -> // todo remove when migration completed
                             wordsWriteToFileUseCase.writeWordsToFile(this, filename).let { result ->
                                 if (result is WordsWriteToFileUseCase.Result.Success) {
                                     mActivity.export(result.path)
@@ -151,7 +137,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 },
                 onFailure = {
                     mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
-                    Log.d(WordsFragment.LOG_TAG, "Unable to fetch words ${(it as WordsFetchUseCase.Result.Failure).message}")
+                    Log.e(WordsFragment.LOG_TAG, "Unable to fetch words ${(it as WordsFetchUseCase.Result.Failure).message}")
                 }
             )
         }
@@ -161,16 +147,9 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         if (uri != null) {
             coroutineScope.launch {
                 handleResult(
-                    getResult = {
-//                        wordsReadFromFileUseCase.readWords(uri)
-                        wordsReadFromFileUseCase.readWords(uri)
-                                },
-                    isSuccess = {
-                        it is WordsReadFromFileUseCase.Result.Success
-                                },
-                    isFailure = {
-                        it is WordsReadFromFileUseCase.Result.Failure
-                                },
+                    getResult = { wordsReadFromFileUseCase.readWords(uri) },
+                    isSuccess = { it is WordsReadFromFileUseCase.Result.Success },
+                    isFailure = { it is WordsReadFromFileUseCase.Result.Failure },
                     onSuccess = {
                         (it as WordsReadFromFileUseCase.Result.Success).words.apply {
                             if (isEmpty()) {
@@ -200,10 +179,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     override fun onDeleteWords(wordsToRemove: List<Word>) {
         coroutineScope.launch {
             handleResult(
-                getResult = {
-//                    wordsDeleteUseCase.deleteWords(wordsToRemove) // todo remove when migration completed
-                    wordsDeleteUseCase.deleteWords(wordsToRemove)
-                            },
+                getResult = { wordsDeleteUseCase.deleteWords(wordsToRemove) },
                 isSuccess = { it is WordsDeleteUseCase.Result.Success },
                 isFailure = { it is WordsDeleteUseCase.Result.Failure },
                 onSuccess = {
@@ -253,23 +229,15 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     }
 
     private suspend fun initWords() {
-        handleResult(getResult = {
-//            wordsFetchUseCase.fetchWords()
-            wordsFetchUseCase.fetchWords()
-                                 },
-            isSuccess = {
-//                it is WordsFetchUseCase.Result.Success
-                it is WordsFetchUseCase.Result.Success
-                        },
+        handleResult(getResult = { wordsFetchUseCase.fetchWords() },
+            isSuccess = { it is WordsFetchUseCase.Result.Success },
             isFailure = { it is WordsFetchUseCase.Result.Failure },
             onSuccess = {
                 Log.d("liviu", "fetching words done!")
-//                (it as WordsFetchUseCase.Result.Success).apply {
                 (it as WordsFetchUseCase.Result.Success).apply {
                     if (words.isNullOrEmpty()) {
                         // todo show empty screen
                     } else { // total success
-//                        mViewMvc.setWords(words)
                         mViewMvc.setWords(words)
                         isDataLoaded = true
                     }

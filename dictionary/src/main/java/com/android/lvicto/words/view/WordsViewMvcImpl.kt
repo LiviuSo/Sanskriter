@@ -59,6 +59,25 @@ class WordsViewMvcImpl(
     private lateinit var mWordsAdapter: WordsAdapter
     private var mClRootWords: CoordinatorLayout
 
+    private val qwertyTextWatcher = object : BaseTextWatcher() {
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            val filterEn = s.toString()
+            val filterIAST = getSearchIASTString()
+            for (listener in listeners) {
+                listener.onFilterEnIAST(filterEn, filterIAST)
+            }
+        }
+    }
+    private val iastTextWatcher = object : BaseTextWatcher() {
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            val filterEn = getSearchEnString()
+            val filterIast = s.toString()
+            for (listener in listeners) {
+                listener.onFilterEnIAST(filterEn, filterIast)
+            }
+        }
+    }
+
     init {
         setRootView(inflater.inflate(R.layout.fragment_words, container, false))
 
@@ -182,55 +201,44 @@ class WordsViewMvcImpl(
     }
 
     private fun initSearchBar() {
-        mEditSearch.addTextChangedListener(object : BaseTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val filterEn = s.toString()
-                val filterIAST = getSearchIASTString()
-                for (listener in listeners) {
-                    listener.onFilterEnIAST(filterEn, filterIAST)
-                }
-            }
-        })
 
-        mEditSearch.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                val filterEn = (v as EditText).text.toString()
-                val filterIAST = getSearchIASTString()
-                for (listener in listeners) {
-                    listener.onFilterEnIAST(filterEn, filterIAST)
-                }
-            }
-        }
-
-        mEditSearchIAST.addTextChangedListener(object : BaseTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val filterEn = getSearchEnString()
-                val filterIast = s.toString()
-                for (listener in listeners) {
-                    listener.onFilterEnIAST(filterEn, filterIast)
-                }
-            }
-        })
-
-        mEditSearchIAST.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                val filterEn = getSearchEnString()
-                val filterIast = (v as EditText).text.toString()
-                for (listener in listeners) {
-                    listener.onFilterEnIAST(filterEn, filterIast)
-                }
-            }
-        }
+       setEditsListeners()
 
         mBtnCloseSearchBar.setOnClickListener {
             hideSearch()
-            // close the keyboard
-            requireActivity().hideSoftKeyboard()
         }
 
         getRootView().ibSearchForm.setOnClickListener {
             val form = getRootView().edForm.text.toString()
             Toast.makeText(requireActivity(), "Search form $form", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setEditsListeners() {
+        mEditSearch.apply {
+            addTextChangedListener(qwertyTextWatcher)
+            setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    val filterEn = (v as EditText).text.toString()
+                    val filterIAST = getSearchIASTString()
+                    for (listener in listeners) {
+                        listener.onFilterEnIAST(filterEn, filterIAST)
+                    }
+                }
+            }
+        }
+
+        mEditSearchIAST.apply {
+            addTextChangedListener(iastTextWatcher)
+            setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    val filterEn = getSearchEnString()
+                    val filterIast = (v as EditText).text.toString()
+                    for (listener in listeners) {
+                        listener.onFilterEnIAST(filterEn, filterIast)
+                    }
+                }
+            }
         }
     }
 
@@ -240,7 +248,6 @@ class WordsViewMvcImpl(
             if (!isSearchVisible()) {
                 // show edit with close button
                 showSearchBar()
-                clearSearch()
                 // pop-up IAST keyboard for now
                 // as typing, filter
             }
@@ -297,6 +304,7 @@ class WordsViewMvcImpl(
         transition.duration = 250L
         TransitionManager.beginDelayedTransition(mClRootWords, transition)
         mLlSearchBar.visibility = View.VISIBLE
+        setEditsListeners()
     }
 
     private fun requireActivity(): BaseActivity {
@@ -310,6 +318,16 @@ class WordsViewMvcImpl(
     }
 
     private fun hideSearch() {
+        // close the keyboard
+        requireActivity().hideSoftKeyboard()
+        mEditSearch.apply {
+            removeTextChangedListener(qwertyTextWatcher)
+            onFocusChangeListener = null
+        }
+        mEditSearchIAST.apply {
+            removeTextChangedListener(iastTextWatcher)
+            onFocusChangeListener = null
+        }
         clearSearch()
         mLlSearchBar.visibility = View.GONE
     }
