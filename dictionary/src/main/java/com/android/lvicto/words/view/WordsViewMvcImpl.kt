@@ -61,20 +61,12 @@ class WordsViewMvcImpl(
 
     private val qwertyTextWatcher = object : BaseTextWatcher() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val filterEn = s.toString()
-            val filterIAST = getSearchIASTString()
-            for (listener in listeners) {
-                listener.onFilterEnIAST(filterEn, filterIAST)
-            }
+            triggerFiltering(s.toString(), getSearchIASTString())
         }
     }
     private val iastTextWatcher = object : BaseTextWatcher() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val filterEn = getSearchEnString()
-            val filterIast = s.toString()
-            for (listener in listeners) {
-                listener.onFilterEnIAST(filterEn, filterIast)
-            }
+            triggerFiltering(getSearchEnString(), s.toString())
         }
     }
 
@@ -124,17 +116,16 @@ class WordsViewMvcImpl(
 
     override fun setupSearchFromOutside(searchIast: String?, searchEn: String?) {
         if ((!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) && !isSearchVisible()) {
-                // show edit with close button
-                showSearchBar()
-            }
             if (!searchIast.isNullOrEmpty()) {
                 mEditSearchIAST.setText(searchIast)
             }
             if (!searchEn.isNullOrEmpty()) {
                 mEditSearch.setText(searchEn)
             }
-        for (listener in listeners) {
-            listener.onFilterIASTEn(searchIast, searchEn)
+            // show edit with close button
+            showSearchBar()
+        } else {
+            triggerFiltering("", "")
         }
     }
 
@@ -210,35 +201,16 @@ class WordsViewMvcImpl(
 
         getRootView().ibSearchForm.setOnClickListener {
             val form = getRootView().edForm.text.toString()
-            Toast.makeText(requireActivity(), "Search form $form", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "Search form $form", Toast.LENGTH_SHORT).show() // todo complete
         }
     }
 
     private fun setEditsListeners() {
         mEditSearch.apply {
             addTextChangedListener(qwertyTextWatcher)
-            setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus) {
-                    val filterEn = (v as EditText).text.toString()
-                    val filterIAST = getSearchIASTString()
-                    for (listener in listeners) {
-                        listener.onFilterEnIAST(filterEn, filterIAST)
-                    }
-                }
-            }
         }
-
         mEditSearchIAST.apply {
             addTextChangedListener(iastTextWatcher)
-            setOnFocusChangeListener { v, hasFocus ->
-                if (hasFocus) {
-                    val filterEn = getSearchEnString()
-                    val filterIast = (v as EditText).text.toString()
-                    for (listener in listeners) {
-                        listener.onFilterEnIAST(filterEn, filterIast)
-                    }
-                }
-            }
         }
     }
 
@@ -305,12 +277,20 @@ class WordsViewMvcImpl(
         TransitionManager.beginDelayedTransition(mClRootWords, transition)
         mLlSearchBar.visibility = View.VISIBLE
         setEditsListeners()
+        triggerFiltering(getSearchEnString(), getSearchIASTString())
+    }
+
+    private fun triggerFiltering(filterEn: String, filterIAST: String) {
+        for (listener in listeners) {
+            listener.onFilterEnIAST(filterEn, filterIAST)
+        }
     }
 
     private fun requireActivity(): BaseActivity {
         return mActivity
     }
 
+    @SuppressLint("NotifyDataSetChanged") // todo investigate
     private fun updateRevViewItems(type: Int) {
         val adapter: WordsAdapter = mRvWords.adapter as WordsAdapter
         adapter.type = type
@@ -320,16 +300,16 @@ class WordsViewMvcImpl(
     private fun hideSearch() {
         // close the keyboard
         requireActivity().hideSoftKeyboard()
+        showProgress()
+        clearSearch()
         mEditSearch.apply {
             removeTextChangedListener(qwertyTextWatcher)
-            onFocusChangeListener = null
         }
         mEditSearchIAST.apply {
             removeTextChangedListener(iastTextWatcher)
-            onFocusChangeListener = null
         }
-        clearSearch()
         mLlSearchBar.visibility = View.GONE
+        hideProgress()
     }
 
     private fun clearSearch() {

@@ -9,7 +9,6 @@ import com.android.lvicto.common.view.viewinterface.ObservableMvc
 
 interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
     interface WordsViewListener {
-        fun onFilterIASTEn(searchIAST: String?, searchEn: String?)
         fun onFilterEnIAST(filterEn: String, filterIast: String)
         fun onInitWords()
         fun onDeleteWords(wordsToRemove: List<Word>)

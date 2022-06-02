@@ -82,31 +82,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     }
 
     // region listener
-    override fun onFilterIASTEn(searchIAST: String?, searchEn: String?) {
-        coroutineScope.launch {
-            handleResult(
-                getResult = {
-                    if (searchIAST != null && searchEn != null) {
-                        wordsFilterUseCase.filter(searchIAST, searchEn)
-                    } else if (searchIAST != null) {
-                        wordsFilterUseCase.filter(searchIAST, true)
-                    } else if (searchEn != null) {
-                        wordsFilterUseCase.filter("", searchEn)
-                    } else {
-                        wordsFilterUseCase.filter("", "")
-                    }
-                            },
-                isSuccess = { it is WordsFilterUseCase.Result.Success },
-                isFailure = { it is WordsFilterUseCase.Result.Failure },
-                onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words) },
-                onFailure = {
-                    mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
-                    Log.e(WordsFragment.LOG_TAG, "unable to filter by $searchIAST : ${(it as WordsFetchUseCase.Result.Failure).message}")
-                }
-            )
-        }
-    }
-
     override fun onFilterEnIAST(filterEn: String, filterIast: String) {
         coroutineScope.launch {
             filterByBoth(filterIast, filterEn)
