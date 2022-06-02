@@ -256,7 +256,6 @@ class AddModifyWordFragment : BaseFragment() {
         newWord: Word,
         activity: FragmentActivity
     ) {
-//        val result = wordsUpdateUseCase.updateWord(word) // todo remove when migration completed
         val result = wordsUpdateUseCase.updateWord(oldWord, newWord)
         if (result is WordsUpdateUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_words_updated) {

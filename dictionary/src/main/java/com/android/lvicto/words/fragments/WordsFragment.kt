@@ -14,9 +14,8 @@ import com.android.lvicto.common.factory.ControllerMvcFactory
 import com.android.lvicto.words.controller.WordsController
 import com.android.lvicto.words.view.WordsViewMvc
 
-/*
-bug: if an item is selected then unselected and then scrolled - the item is auto-selected
- */
+// todo fix bug: if an item is selected then unselected and then scrolled - the item is auto-selected
+
 class WordsFragment : BaseFragment() {
 
     private lateinit var mViewMvc: WordsViewMvc
