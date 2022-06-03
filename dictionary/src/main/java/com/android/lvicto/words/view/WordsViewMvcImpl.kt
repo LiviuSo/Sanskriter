@@ -115,17 +115,16 @@ class WordsViewMvcImpl(
     }
 
     override fun setupSearchFromOutside(searchIast: String?, searchEn: String?) {
-        if ((!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty()) && !isSearchVisible()) {
-            if (!searchIast.isNullOrEmpty()) {
-                mEditSearchIAST.setText(searchIast)
-            }
-            if (!searchEn.isNullOrEmpty()) {
-                mEditSearch.setText(searchEn)
-            }
-            // show edit with close button
+        if (!searchIast.isNullOrEmpty()) {
+            mEditSearchIAST.setText(searchIast)
+        }
+        if (!searchEn.isNullOrEmpty()) {
+            mEditSearch.setText(searchEn)
+        }
+        if (!isSearchVisible() && (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty())) {
             showSearchBar()
         } else {
-            triggerFiltering("", "")
+            triggerFiltering(mEditSearch.text.toString(), mEditSearchIAST.text.toString())
         }
     }
 
