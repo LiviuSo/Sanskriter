@@ -41,9 +41,7 @@ open class TypableKeyView(context: Context, attr: AttributeSet ) : CandidatesKey
         popup.dismiss() // might not work
     }
 
-    fun getKeyLabel(): String {
-        return label as String
-    }
+    fun getKeyLabel(): String = text as String
 
     fun resetText() {
         post {

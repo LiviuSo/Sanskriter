@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_1"
-        app:label="@string/key_label_digit_1" />
+        app:label="@string/key_label_digit_1"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraKeyView
         android:id="@+id/key2"
@@ -22,7 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_2"
-        app:label="@string/key_label_digit_2" />
+        app:label="@string/key_label_digit_2"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraKeyView
         android:id="@+id/key3"
@@ -31,7 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_3"
-        app:label="@string/key_label_digit_3" />
+        app:label="@string/key_label_digit_3"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraKeyView
         android:id="@+id/key4"
@@ -40,7 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_4"
-        app:label="@string/key_label_digit_4" />
+        app:label="@string/key_label_digit_4"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraKeyView
         android:id="@+id/key5"
@@ -49,7 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_5"
-        app:label="@string/key_label_digit_5" />
+        app:label="@string/key_label_digit_5"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key6"
@@ -58,7 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_6"
-        app:label="@string/key_label_digit_6" />
+        app:label="@string/key_label_digit_6"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key7"
@@ -67,7 +79,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_7"
-        app:label="@string/key_label_digit_7" />
+        app:label="@string/key_label_digit_7"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key8"
@@ -76,7 +90,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_8"
-        app:label="@string/key_label_digit_8" />
+        app:label="@string/key_label_digit_8"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key9"
@@ -85,7 +101,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_9"
-        app:label="@string/key_label_digit_9" />
+        app:label="@string/key_label_digit_9"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
     <com.lvicto.skeyboard.view.key.ExtraIastShiftKeyView
         android:id="@+id/key0"
@@ -94,6 +112,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/key_label_digit_0"
-        app:label="@string/key_label_digit_0" />
+        app:label="@string/key_label_digit_0"
+        app:backgroundNormal="@drawable/key_normal"
+        app:backgroundPressed="@drawable/key_pressed" />
 
 </LinearLayout>

@@ -13,6 +13,8 @@
         android:id="@+id/backSys"
         android:text="bk"
         app:code="@integer/key_code_toggle_sys"
+        app:backgroundNormal="@drawable/key_settings"
+        app:backgroundPressed="@drawable/key_settings"
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
