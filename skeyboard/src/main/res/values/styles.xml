@@ -9,20 +9,19 @@
     </style>
 
     <style name="KeyStyle">
-        <item name="android:layout_marginStart">3dp</item>
-        <item name="android:layout_marginLeft">3dp</item>
-        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginTop">4dp</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">4dp</item>
-        <item name="android:textSize">19sp</item>
-        <item name="android:textColor">#DFE7DF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:background">#171917</item>
     </style>
 
     <style name="KeyStyleRight" parent="KeyStyle">
-        <item name="android:layout_marginEnd">2dp</item>
-        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
     </style>
 
     <style name="KeyStyleBottom" parent="KeyStyle">
@@ -30,8 +29,9 @@
     </style>
 
     <style name="KeyStyleRightBottom" parent="KeyStyle">
-        <item name="android:layout_marginEnd">2dp</item>
-        <item name="android:layout_marginRight">2dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
     </style>
+
 </resources>

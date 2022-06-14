@@ -1,5 +1,6 @@
 package com.lvicto.skeyboard
 
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.lvicto.skeyboard.KeyboardApplication.Companion.keyboardApplication
@@ -64,6 +65,10 @@ object KeyListeners {
             ims.performAction()
             // set first letter caps if qwerty and (todo) setting is on
             ims.setAutoCap()
+        }
+
+        override fun doOnLongTap() {
+            keyView.setPressedUI(false)
         }
     }
 
@@ -178,6 +183,8 @@ object KeyListeners {
             ims = Injector.getInstance(keyboardApplication).ims
             // vibrate short
             ims.vibrate()
+            // show preview
+            (keyView as TypableKeyView).showPreview()
             // type char
             val text = keyView.text.toString()
             ims.commitText(text)
@@ -186,6 +193,13 @@ object KeyListeners {
             ims.updateSuggestions()
             // reset symbols key
 //            ims.resetSymbolToggle() // todo make an option (1)
+        }
+
+        override fun doOnActionUp() {
+            super.doOnActionUp()
+
+            // hide preview
+            (keyView as TypableKeyView).hidePreview()
         }
     }
 
@@ -201,27 +215,29 @@ object KeyListeners {
             // show preview
             (keyView as TypableKeyView).showPreview()
             // show extras
+            showExtras()
+        }
+
+        private fun showExtras() { // todo make it an option
+        /*
             ims.updateCandidates(keyView as CandidatesKeyView) // todo make an option (2)
             // show digits and reset any toggle
             val defaultSymbolKey = ims.keyboardView.getSymbolToggleByCandidates((keyView as TypableKeyView).candidatesResId)
             ims.keyboardView.setSymbolTogglePressed(true, defaultSymbolKey)
+        */
         }
 
         override fun doOnActionUp() {
             super.doOnActionUp()
 
-            // hide preview
-            (keyView as TypableKeyView).hidePreview()
-        }
-
-        override fun doOnNormalTapOnly() {
             // type the char
             ims.commitText(keyView.text.toString())
-
             // if caps is on but not toggled, set caps off
             ims.setCapsOffIfNotToggled()
             // update suggestions
             ims.updateSuggestions()
+            // hide preview
+            (keyView as TypableKeyView).hidePreview()
         }
     }
 
@@ -331,6 +347,7 @@ object KeyListeners {
 
         @Override
         protected open fun doOnActionUp() {
+            Log.d("liviu", "doOnActionUp")
             keyView.setPressedUI(false)
         }
 

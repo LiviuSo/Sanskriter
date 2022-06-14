@@ -343,7 +343,7 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
     // region settings
     fun goToSettings() {
         val context = keyboardApplication
-        context.startActivity(SettingsActivity.intent(context))
+        context.startActivity(SettingsActivity.intent(context)) // todo animation (slide in from the bottom)
     }
     // endregion
 

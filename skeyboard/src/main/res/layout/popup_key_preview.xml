@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="@dimen/key_preview_text_size"
+        android:textColor="@color/textColor"
         android:gravity="center"
         android:text=""/>
 

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="keyboard_portrait_bkgrd">#0C1508</color>
-    <color name="keyboard_landscape_bkgrd">#ADB3AA</color>
-    <color name="lightRed">#CA7F7F</color>
+
+    <color name="keyboard_bkgrd">#171917</color>
+    <color name="keyboard_toggle_pressed_bkgrd">#C75E19</color>
 
     <color name="key_stroke">#678906</color>
-    <color name="key_background_pressed">#08926A</color>
-    <color name="key_stroke_pressed">#911234</color>
+    <color name="key_stroke_pressed">#D30A40</color>
+
+    <color name="textColor">#E2E7E2</color>
 
 </resources>

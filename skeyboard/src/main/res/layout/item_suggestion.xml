@@ -3,7 +3,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginRight="@dimen/suggestion_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginEnd="@dimen/suggestion_margin">
 
     <com.lvicto.skeyboard.view.key.TypableKeyView
@@ -12,5 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textStyle="bold"/>
+        android:textColor="@color/key_stroke"
+        app:backgroundNormal="@drawable/key_suggestion"
+        app:backgroundPressed="@drawable/key_suggestion" />
 </FrameLayout>
