@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="preview_width">45dp</dimen>
-    <dimen name="preview_height">43dp</dimen>
-    <dimen name="keyboard_width">150dp</dimen>
     <dimen name="suggestion_margin">2dp</dimen>
-    <dimen name="suggestion_padding">10dp</dimen>
 
     <dimen name="height_guideline_system">0dp</dimen>
     <dimen name="height_guideline_suggestions">43dp</dimen>

@@ -161,9 +161,6 @@
     <string name="key_label_sa_letter_va">\u0935</string>
 
     <!--  ् ऀ ँ ं ः ा ि ी ु ू -->
-    <string name="key_label_sa_extra_red">\u094D</string>
-    <string name="key_label_sa_extra_omkara1">\u0900</string>
-    <string name="key_label_sa_extra_omkara2">\u0901</string>
     <string name="key_label_sa_extra_anushvara">\u0902</string>
     <string name="key_label_sa_extra_visarga">\u0903</string>
     <string name="key_label_sa_extra_a_long">\u093E</string>
@@ -220,11 +217,6 @@
     <string name="key_label_underscore">_</string>
 
     <!-- other -->
-    <string name="key_label_pound">..</string>
-    <string name="key_label_cent">..</string>
-    <string name="key_label_euro">..</string>
-    <string name="key_label_spanish_exclamation">..</string>
-    <string name="key_label_spanish_interrogation">..</string>
 
     <!-- ă  -->
     <string name="key_label_romania_a1">\u0103</string>
