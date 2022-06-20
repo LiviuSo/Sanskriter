@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="dim_fab_end">10dp</dimen>
+    <dimen name="chapter_padding_start_end">5dp</dimen>
+    <dimen name="section_title_padding_left_right">25dp</dimen>
+
 </resources>

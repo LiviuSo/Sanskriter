@@ -12,4 +12,7 @@
     <color name="colorSandhiSuggestion">#FFEB3B</color>
     <color name="colorSandhiOption">#8BC34A</color>
     <color name="colorSandhiSuggestionToRemove">#E10719</color>
+
+    <color name="colorPrimaryDarkBook">#9e0315</color>
+
 </resources>
