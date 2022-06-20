@@ -5,7 +5,6 @@ import android.app.Application
 import android.os.Bundle
 import com.android.lvicto.start.DictionaryTestActivity
 import com.android.lvicto.dependencyinjection.composition.AppCompositionRoot
-import com.android.lvicto.words.activities.AddModifyWordActivity
 import com.android.lvicto.words.activities.WordsActivity
 
 class MyApplication : Application() {
@@ -29,9 +28,6 @@ class MyApplication : Application() {
             when (activity) {
                 is DictionaryTestActivity -> {
                     activity.setComposition(_conjugationAppCompositionRoot) // inject
-                }
-                is AddModifyWordActivity -> {
-                    activity.setComposition(_conjugationAppCompositionRoot)
                 }
                 is WordsActivity -> {
                     activity.setComposition(_conjugationAppCompositionRoot)

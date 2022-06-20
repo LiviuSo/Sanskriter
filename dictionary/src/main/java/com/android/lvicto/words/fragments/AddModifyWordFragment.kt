@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.fragment.app.FragmentActivity
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
@@ -19,7 +18,6 @@ import com.android.lvicto.common.base.BaseFragment
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
 import com.android.lvicto.dependencyinjection.Service
-import com.android.lvicto.words.activities.AddModifyWordActivity
 import com.android.lvicto.words.usecase.WordsInsertUseCase
 import com.android.lvicto.words.usecase.WordsUpdateUseCase
 import kotlinx.android.synthetic.main.fragment_add_word.view.*
@@ -52,14 +50,9 @@ class AddModifyWordFragment : BaseFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val activity = requireActivity()
-
         val root = inflater.inflate(R.layout.fragment_add_word, container, false)
 
         converters = Converters() // todo inject
@@ -208,7 +201,6 @@ class AddModifyWordFragment : BaseFragment() {
     }
 
     private fun onClickAdd(v: View) {
-        val activity = requireActivity()
         val root = v.rootView
         val wordSa = root.editSa.text.toString()
         val wordIAST = root.editIAST.text.toString()
@@ -232,14 +224,14 @@ class AddModifyWordFragment : BaseFragment() {
         when (requestCode) {
             Constants.CODE_REQUEST_ADD_WORD -> {
                 coroutineScope.launch {
-                    addWord(v, newWord, activity)
+                    addWord(v, newWord)
                 }
             }
             Constants.CODE_REQUEST_EDIT_WORD -> {
                 coroutineScope.launch {
                     oldWord?.let {
                         newWord.id = it.id // if null no modification will happen
-                        modifyWord(v, it, newWord, activity)
+                        modifyWord(v, it, newWord)
                     }
                 }
             }
@@ -250,21 +242,12 @@ class AddModifyWordFragment : BaseFragment() {
         }
     }
 
-    private suspend fun modifyWord(
-        view: View,
-        oldWord: Word,
-        newWord: Word,
-        activity: FragmentActivity
-    ) {
+    private suspend fun modifyWord(view: View, oldWord: Word, newWord: Word) {
         val result = wordsUpdateUseCase.updateWord(oldWord, newWord)
         if (result is WordsUpdateUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_words_updated) {
                 it.dismiss()
-                if (activity is AddModifyWordActivity) {
-                    activity.finish()
-                } else {
-                    view.navigateBack()
-                }
+                view.navigateBack()
             }
         } else if (result is WordsUpdateUseCase.Result.Failure) {
             Log.e(LOG_ADD_MODIFY, "Unable to update word: ${result.message}")
@@ -272,11 +255,7 @@ class AddModifyWordFragment : BaseFragment() {
         }
     }
 
-    private suspend fun addWord(
-        view: View,
-        word: Word,
-        activity: FragmentActivity
-    ) {
+    private suspend fun addWord(view: View, word: Word) {
         val result = wordsInsertWordsUseCase.insertWord(Word(
             gType = word.gType,
             wordSa = word.wordSa,
@@ -293,11 +272,7 @@ class AddModifyWordFragment : BaseFragment() {
         if (result is WordsInsertUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_word_added) {
                 it.dismiss()
-                if (activity is AddModifyWordActivity) {
-                    activity.finish()
-                } else {
-                    view.navigateBack()
-                }
+                view.navigateBack()
             }
         } else if (result is WordsInsertUseCase.Result.Failure) {
             result.message?.let {
@@ -308,7 +283,7 @@ class AddModifyWordFragment : BaseFragment() {
     }
 
     companion object {
-        val LOG_ADD_MODIFY = AddModifyWordActivity::class.simpleName
+        const val LOG_ADD_MODIFY = "add_modify_word"
     }
 
 }
