@@ -1,2 +1,2 @@
 include ':skeyboard'
-include ':app', ':sanskritkeyboard', ':commons', ':dictionary'
+include ':app', ':commons', ':dictionary'
