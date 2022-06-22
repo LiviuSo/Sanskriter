@@ -123,8 +123,10 @@ class WordsViewMvcImpl(
         }
         if (!isSearchVisible() && (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty())) {
             showSearchBar()
-        } else {
+        } else if(isSearchVisible()) {
             triggerFiltering(mEditSearch.text.toString(), mEditSearchIAST.text.toString())
+        } else {
+            triggerFiltering("", "")
         }
     }
 
@@ -297,8 +299,7 @@ class WordsViewMvcImpl(
     }
 
     private fun hideSearch() {
-        // close the keyboard
-        requireActivity().hideSoftKeyboard()
+        requireActivity().hideSoftKeyboard() // close the keyboard
         showProgress()
         clearSearch()
         mEditSearch.apply {

@@ -210,7 +210,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             onSuccess = {
                 Log.d("liviu", "fetching words done!")
                 (it as WordsFetchUseCase.Result.Success).apply {
-                    if (words.isNullOrEmpty()) {
+                    if (words.isEmpty()) {
                         // todo show empty screen
                     } else { // total success
                         mViewMvc.setWords(words)
