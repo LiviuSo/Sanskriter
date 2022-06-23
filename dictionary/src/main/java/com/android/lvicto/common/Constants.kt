@@ -8,12 +8,17 @@ object Constants {
     const val EXTRA_WORD_RO = "word_ro"
     const val EXTRA_WORD_ID = "word_id"
     const val EXTRA_WORD = "extra_word"
+    const val EXTRA_MODE_CODE = "extra_mode_code"
     const val EXTRA_REQUEST_CODE = "extra_request_code"
     const val EXTRA_WORD_RESULT = "EXTRA_WORD_RESULT"
 
     // add word
     const val CODE_REQUEST_ADD_WORD = 111
     const val CODE_REQUEST_EDIT_WORD = 112
+
+    const val MODE_EDIT_WORD = 10000
+    const val MODE_VIEW_WORD = 10001
+
 
     // share
     const val FILENAME_WORDS = "words.json"

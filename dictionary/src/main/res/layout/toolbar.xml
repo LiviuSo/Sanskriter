@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/navigationUp"
-            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:src="@drawable/ic_arrow_back_24"
             android:visibility="gone"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/toolbarSearch"
-            android:src="@drawable/ic_search_24dp"
+            android:src="@drawable/ic_search_24"
             app:layout_constraintEnd_toStartOf="@id/toolbarMenu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -63,7 +63,7 @@
             android:layout_marginLeft="13dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:src="@drawable/ic_baseline_more_vert_24"
+            android:src="@drawable/ic_more_vert_24"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

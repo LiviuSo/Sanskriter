@@ -20,7 +20,7 @@
         android:layout_gravity="end"
         android:layout_marginBottom="5dp"
         android:contentDescription="@string/close_search_bar_descr"
-        android:src="@drawable/ic_close_24dp" />
+        android:src="@drawable/ic_close_24" />
 
     <EditText
         android:id="@+id/editSearch"
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/ic_baseline_zoom_in_24" />
+            android:src="@drawable/ic_zoom_in_24" />
     </LinearLayout>
 
 </LinearLayout>

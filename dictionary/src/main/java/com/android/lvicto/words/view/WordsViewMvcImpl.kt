@@ -3,7 +3,6 @@ package com.android.lvicto.words.view
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
-import android.os.Bundle
 import android.transition.Fade
 import android.transition.Transition
 import android.transition.TransitionManager
@@ -18,19 +17,20 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
-import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.Constants.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.Constants.CODE_REQUEST_EDIT_WORD
-import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
-import com.android.lvicto.common.Constants.EXTRA_WORD
+import com.android.lvicto.common.Constants.MODE_EDIT_WORD
+import com.android.lvicto.common.Constants.MODE_VIEW_WORD
 import com.android.lvicto.common.Word
+import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.base.BaseObservableMvc
+import com.android.lvicto.common.base.BaseTextWatcher
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
-import com.android.lvicto.common.base.BaseTextWatcher
-import com.android.lvicto.common.base.BaseObservableMvc
 import com.android.lvicto.db.data.GrammaticalType
 import com.android.lvicto.words.adapter.WordsAdapter
+import com.android.lvicto.words.fragments.AddModifyWordFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_words.view.*
 import kotlinx.android.synthetic.main.layout_all_words.view.*
@@ -139,12 +139,8 @@ class WordsViewMvcImpl(
                 meaningEn = getSearchEnString(),
                 meaningRo = ""
             )
-            val bundle = Bundle().apply {
-                this.putParcelable(EXTRA_WORD, word)
-                this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_ADD_WORD)
-            }
             it.findNavController()
-                .navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
+                .navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, AddModifyWordFragment.createBundle(word, CODE_REQUEST_ADD_WORD, MODE_EDIT_WORD))
         }
     }
 
@@ -159,11 +155,7 @@ class WordsViewMvcImpl(
 
     private fun initRecView() {
         val itemEditClickListener = View.OnClickListener {
-            val bundle = Bundle().apply {
-                this.putParcelable(EXTRA_WORD, it.tag as Word)
-                this.putInt(EXTRA_REQUEST_CODE, CODE_REQUEST_EDIT_WORD)
-            }
-            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, bundle)
+            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, AddModifyWordFragment.createBundle(it.tag as Word, CODE_REQUEST_EDIT_WORD, MODE_VIEW_WORD))
         }
 
         @SuppressLint("RestrictedApi")
