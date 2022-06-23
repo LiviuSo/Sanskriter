@@ -29,7 +29,7 @@
         android:id="@+id/btnSearch"
         android:layout_gravity="center_vertical"
         android:textStyle="bold"
-        android:background="@drawable/ic_search_24dp"
+        android:background="@drawable/ic_search_24"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
         android:visibility="gone"/>

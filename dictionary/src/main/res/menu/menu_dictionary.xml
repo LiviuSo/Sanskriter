@@ -5,14 +5,14 @@
     <item
         android:id="@+id/menuItemExport"
         android:title="@string/string_export"
-        android:icon="@drawable/ic_export_24dp" />
+        android:icon="@drawable/ic_export_24" />
     <item
         android:id="@+id/menuItemImport"
         android:title="@string/string_menu"
-        android:icon="@drawable/ic_import_24dp"/>
+        android:icon="@drawable/ic_import_24"/>
     <item
         android:id="@+id/menuItemFind"
         android:title="@string/string_find"
         app:showAsAction="always"
-        android:icon="@drawable/ic_search_24dp"/>
+        android:icon="@drawable/ic_search_24"/>
 </menu>

@@ -1,77 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen16">
+
+            <ImageButton
+                android:id="@+id/ibEditLock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/ic_edit_24"
+                android:layout_marginBottom="@dimen/dimen10"
+                android:contentDescription="@string/string_edit_or_view_mode"/>
+
+            <EditText
+                android:id="@+id/editSa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/kbHintSanskrit"
+                android:imeActionLabel="@string/kbImeActionSanskrit"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ibEditLock" />
+
+            <EditText
+                android:id="@+id/editIAST"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/kbHintIAST"
+                android:imeActionLabel="@string/kbImeActionIAST"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editSa" />
+
+            <EditText
+                android:id="@+id/editEn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/kbHintEnglish"
+                android:imeActionLabel="@string/kbImeActionEnglish"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editIAST" />
+
+            <EditText
+                android:id="@+id/editRo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/kbHintRomanian"
+                android:imeActionLabel="@string/kbImeActionRomanian"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editEn" />
+
+            <EditText
+                android:id="@+id/editParadigm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="paradigm"
+                android:imeActionLabel="@string/kbImeActionIAST"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editRo" />
+
+            <Spinner
+                android:id="@+id/spinnerType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editParadigm" />
+
+            <Spinner
+                android:id="@+id/spinnerVerbCase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinnerType" />
+
+            <Spinner
+                android:id="@+id/spinnerWordGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinnerVerbCase" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/editSa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/kbHintSanskrit"
-            android:imeActionLabel="@string/kbImeActionSanskrit" />
-
-        <EditText
-            android:id="@+id/editIAST"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/kbHintIAST"
-            android:imeActionLabel="@string/kbImeActionIAST" />
-
-        <EditText
-            android:id="@+id/editEn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/kbHintEnglish"
-            android:imeActionLabel="@string/kbImeActionEnglish" />
-
-        <EditText
-            android:id="@+id/editRo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/kbHintRomanian"
-            android:imeActionLabel="@string/kbImeActionRomanian" />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinnerType"
-            android:layout_marginTop="10dp"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/spinnerVerbCase"
-            android:layout_marginTop="10dp"/>
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/spinnerWordGender"
-            android:layout_marginTop="10dp"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:id="@+id/editParadigm"
-            android:hint="paradigm"
-            android:layout_marginTop="10dp"
-            android:imeActionLabel="@string/kbImeActionIAST" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/colorLightGray">
 
         <Button
             android:id="@+id/btnSaveWord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:text="@string/saveWord" />
-    </LinearLayout>
+            android:text="@string/saveWord"
+            android:layout_margin="@dimen/dimen16"
+            android:textSize="@dimen/dimen18sp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorPrimaryDictionary"/>
 
-</ScrollView>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

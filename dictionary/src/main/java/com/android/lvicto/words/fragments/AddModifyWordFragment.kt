@@ -7,10 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isGone
 import com.android.lvicto.R
-import com.android.lvicto.common.Constants
+import com.android.lvicto.common.Constants.CODE_REQUEST_ADD_WORD
+import com.android.lvicto.common.Constants.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.common.Constants.EXTRA_MODE_CODE
 import com.android.lvicto.common.Constants.EXTRA_REQUEST_CODE
 import com.android.lvicto.common.Constants.EXTRA_WORD
+import com.android.lvicto.common.Constants.MODE_EDIT_WORD
+import com.android.lvicto.common.Constants.MODE_VIEW_WORD
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.navigateBack
@@ -25,6 +30,7 @@ import kotlinx.coroutines.*
 
 class AddModifyWordFragment : BaseFragment() {
 
+    private var mode: Int? = null
     private var word: Word? = null // todo make it a MediatorLiveData
     private var oldWord: Word? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
@@ -57,117 +63,177 @@ class AddModifyWordFragment : BaseFragment() {
 
         converters = Converters() // todo inject
 
-        requestCode = arguments?.getInt(EXTRA_REQUEST_CODE) ?: -1
-        word = arguments?.getParcelable(EXTRA_WORD)
-        oldWord = Word(id = word?.id ?: -1,
-            gType = word?.gType ?: GrammaticalType.OTHER,
-            wordSa = word?.wordSa ?: "",
-            wordIAST = word?.wordIAST ?: "",
-            meaningEn = word?.meaningEn ?: "",
-            meaningRo = word?.meaningRo ?: "",
-            paradigm = word?.paradigm ?: "",
-            gender = word?.gender ?: GrammaticalGender.NONE,
-            number = word?.number ?: GrammaticalNumber.NONE,
-            person = word?.person ?: GrammaticalPerson.NONE,
-            grammaticalCase = word?.grammaticalCase ?: GrammaticalCase.NONE,
-            verbClass = word?.verbClass ?: VerbClass.NONE
-        )
+        arguments?.apply {
+            mode = getInt(EXTRA_MODE_CODE)
+            requestCode = getInt(EXTRA_REQUEST_CODE)
+            word = getParcelable(EXTRA_WORD)
+            oldWord = Word(id = word?.id ?: -1,
+                gType = word?.gType ?: GrammaticalType.OTHER,
+                wordSa = word?.wordSa ?: "",
+                wordIAST = word?.wordIAST ?: "",
+                meaningEn = word?.meaningEn ?: "",
+                meaningRo = word?.meaningRo ?: "",
+                paradigm = word?.paradigm ?: "",
+                gender = word?.gender ?: GrammaticalGender.NONE,
+                number = word?.number ?: GrammaticalNumber.NONE,
+                person = word?.person ?: GrammaticalPerson.NONE,
+                grammaticalCase = word?.grammaticalCase ?: GrammaticalCase.NONE,
+                verbClass = word?.verbClass ?: VerbClass.NONE
+            )
+        }
 
         // todo move to viewMvc
-        root.editSa.setText(word?.wordSa)
-        root.editIAST.setText(word?.wordIAST)
-        root.editRo.setText(word?.meaningRo)
-        root.editEn.setText(word?.meaningEn)
-        root.editParadigm.setText(word?.paradigm)
+        return root.apply {
+            showModeIcon(this)
 
-        root.spinnerType.apply {
-            adapter = ArrayAdapter.createFromResource(
-                activity,
-                R.array.grammatical_types,
-                android.R.layout.simple_spinner_item
-            ).also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            ibEditLock.setOnClickListener {
+                mode = if(mode == MODE_EDIT_WORD)
+                    MODE_VIEW_WORD
+                else
+                    MODE_EDIT_WORD
+
+                showModeIcon(this)
+
+                enableOrDisableByMode(editSa)
+                enableOrDisableByMode(editIAST)
+                enableOrDisableByMode(editRo)
+                enableOrDisableByMode(editEn)
+                enableOrDisableByMode(editParadigm)
+                enableOrDisableByMode(spinnerType)
+                enableOrDisableByMode(spinnerWordGender)
+                enableOrDisableByMode(spinnerVerbCase)
+                showOrHideByMode(btnSaveWord)
             }
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    word?.apply {
-                        gType = converters.toGrammaticalType(
+
+            editSa?.apply {
+                setText(word?.wordSa)
+                enableOrDisableByMode(this)
+            }
+            editIAST?.apply {
+                setText(word?.wordIAST)
+                enableOrDisableByMode(this)
+            }
+            editRo?.apply {
+                setText(word?.meaningRo)
+                enableOrDisableByMode(this)
+            }
+            editEn?.apply {
+                setText(word?.meaningEn)
+                enableOrDisableByMode(this)
+            }
+            editParadigm?.apply {
+                setText(word?.paradigm)
+                enableOrDisableByMode(this)
+            }
+
+            spinnerType.apply {
+                adapter = ArrayAdapter.createFromResource(
+                    activity,
+                    R.array.grammatical_types,
+                    android.R.layout.simple_spinner_item
+                ).also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        word?.apply {
+                            gType = converters.toGrammaticalType(
+                                parent?.getItemAtPosition(position).toString()
+                            )
+                            showHideField(root, this)
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        word?.apply {
+                            gType = GrammaticalType.OTHER
+                            showHideField(root, this)
+                        }
+                    }
+                }
+                setSelection(GrammaticalType.getPosition(word?.gType))
+                enableOrDisableByMode(this)
+            }
+
+            spinnerWordGender.apply {
+                adapter = ArrayAdapter.createFromResource(
+                    activity,
+                    R.array.filter_sanskrit_gender_array,
+                    android.R.layout.simple_spinner_item
+                )
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        word?.gender = converters.toGrammaticalGender(
                             parent?.getItemAtPosition(position).toString()
                         )
-                        showHideField(root, this)
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        word?.gender = GrammaticalGender.NONE
                     }
                 }
+                setSelection(GrammaticalGender.getPosition(word?.gender))
+                enableOrDisableByMode(this)
+            }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    word?.apply {
-                        gType = GrammaticalType.OTHER
-                        showHideField(root, this)
+            spinnerVerbCase.apply {
+                adapter = ArrayAdapter.createFromResource(
+                    context,
+                    R.array.verb_class,
+                    android.R.layout.simple_spinner_item
+                )
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        word?.verbClass = VerbClass.toVerbClassFromName(
+                            parent?.getItemAtPosition(position).toString()
+                        )
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        word?.verbClass = VerbClass.NONE
                     }
                 }
+                setSelection(VerbClass.getPosition(word?.verbClass))
+                enableOrDisableByMode(this)
+            }
+
+            showHideField(root, word)
+
+            btnSaveWord?.apply {
+                setOnClickListener(this@AddModifyWordFragment::onClickAdd)
+                showOrHideByMode(this)
             }
         }
-        root.spinnerType.setSelection(GrammaticalType.getPosition(word?.gType))
+    }
 
-        root.spinnerWordGender.apply {
-            adapter = ArrayAdapter.createFromResource(
-                activity,
-                R.array.filter_sanskrit_gender_array,
-                android.R.layout.simple_spinner_item
-            )
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    word?.gender = converters.toGrammaticalGender(
-                        parent?.getItemAtPosition(position).toString()
-                    )
-                }
+    private fun enableOrDisableByMode(view: View) {
+        view.isEnabled = mode == MODE_EDIT_WORD
+    }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    word?.gender = GrammaticalGender.NONE
-                }
-            }
-        }
-        root.spinnerWordGender.setSelection(GrammaticalGender.getPosition(word?.gender))
+    private fun showOrHideByMode(view: View) {
+        view.isGone = mode == MODE_VIEW_WORD
+    }
 
-        root.spinnerVerbCase.apply {
-            adapter = ArrayAdapter.createFromResource(
-                context,
-                R.array.verb_class,
-                android.R.layout.simple_spinner_item
-            )
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    word?.verbClass = VerbClass.toVerbClassFromName(
-                        parent?.getItemAtPosition(position).toString()
-                    )
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    word?.verbClass = VerbClass.NONE
-                }
-            }
-        }
-        root.spinnerVerbCase.setSelection(VerbClass.getPosition(word?.verbClass))
-
-        showHideField(root, word)
-
-        root.btnSaveWord.setOnClickListener(this::onClickAdd)
-
-        return root
+    private fun showModeIcon(root: View) {
+        root.ibEditLock.background = if(mode == MODE_EDIT_WORD)
+            resources.getDrawable(R.drawable.ic_edit_24, null)
+        else
+            resources.getDrawable(R.drawable.ic_lock_24, null)
     }
 
     override fun onStop() {
@@ -176,26 +242,28 @@ class AddModifyWordFragment : BaseFragment() {
     }
 
     private fun showHideField(root: View, word: Word?) {
-        when (word?.gType) {
-            GrammaticalType.PROPER_NOUN -> {
-                root.editParadigm.visibility = View.VISIBLE
-                root.spinnerWordGender.visibility = View.GONE
-                root.spinnerVerbCase.visibility = View.GONE
-            }
-            GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> {
-                root.editParadigm.visibility = View.VISIBLE
-                root.spinnerWordGender.visibility = View.VISIBLE
-                root.spinnerVerbCase.visibility = View.GONE
-            }
-            GrammaticalType.VERB -> {
-                root.editParadigm.visibility = View.GONE
-                root.spinnerWordGender.visibility = View.GONE
-                root.spinnerVerbCase.visibility = View.VISIBLE
-            }
-            else -> {
-                root.editParadigm.visibility = View.GONE
-                root.spinnerWordGender.visibility = View.GONE
-                root.spinnerVerbCase.visibility = View.GONE
+        with(root) {
+            when (word?.gType) {
+                GrammaticalType.PROPER_NOUN -> {
+                    editParadigm.visibility = View.VISIBLE
+                    spinnerWordGender.visibility = View.GONE
+                    spinnerVerbCase.visibility = View.GONE
+                }
+                GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> {
+                    editParadigm.visibility = View.VISIBLE
+                    spinnerWordGender.visibility = View.VISIBLE
+                    spinnerVerbCase.visibility = View.GONE
+                }
+                GrammaticalType.VERB -> {
+                    editParadigm.visibility = View.GONE
+                    spinnerWordGender.visibility = View.GONE
+                    spinnerVerbCase.visibility = View.VISIBLE
+                }
+                else -> {
+                    editParadigm.visibility = View.GONE
+                    spinnerWordGender.visibility = View.GONE
+                    spinnerVerbCase.visibility = View.GONE
+                }
             }
         }
     }
@@ -222,12 +290,12 @@ class AddModifyWordFragment : BaseFragment() {
             verbClass = verbClass
         )
         when (requestCode) {
-            Constants.CODE_REQUEST_ADD_WORD -> {
+            CODE_REQUEST_ADD_WORD -> {
                 coroutineScope.launch {
                     addWord(v, newWord)
                 }
             }
-            Constants.CODE_REQUEST_EDIT_WORD -> {
+            CODE_REQUEST_EDIT_WORD -> {
                 coroutineScope.launch {
                     oldWord?.let {
                         newWord.id = it.id // if null no modification will happen
@@ -284,6 +352,13 @@ class AddModifyWordFragment : BaseFragment() {
 
     companion object {
         const val LOG_ADD_MODIFY = "add_modify_word"
+
+        @JvmStatic
+        fun createBundle(word: Word, codeRequest: Int, mode: Int) = Bundle().apply {
+            putParcelable(EXTRA_WORD, word)
+            putInt(EXTRA_REQUEST_CODE, codeRequest)
+            putInt(EXTRA_MODE_CODE, mode)
+        }
     }
 
 }
