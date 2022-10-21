@@ -34,7 +34,10 @@ interface SubstantiveDao {
     fun update(
         id: Long,
         gType: String,
-        word: String, wordIAST: String, meaningEn: String, meaningRo: String,
+        word: String,
+        wordIAST: String,
+        meaningEn: String,
+        meaningRo: String,
         paradigm: String,
         gender: String
     )

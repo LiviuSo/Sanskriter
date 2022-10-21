@@ -42,6 +42,9 @@ interface DeclensionDao {
     @Query("SELECT * from declension_table WHERE (suffix LIKE :suffix) ORDER BY paradigm ASC")
     fun getDeclension(suffix: String): List<Declension>
 
+    @Query("SELECT * from declension_table WHERE (gGender LIKE :gender) ORDER BY paradigm ASC")
+    fun getDeclensionByGender(gender: String): List<Declension>
+
     @Query("SELECT suffix from declension_table WHERE suffix LIKE :part")
     fun getSuffixes(part:String): List<String>
 

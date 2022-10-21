@@ -25,7 +25,7 @@
                 android:layout_marginBottom="@dimen/dimen10"
                 android:contentDescription="@string/string_edit_or_view_mode"/>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editSa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ibEditLock" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editIAST"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editSa" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editEn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editIAST" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editRo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,11 +69,12 @@
                 android:imeActionLabel="@string/kbImeActionRomanian"
                 android:importantForAutofill="no"
                 android:inputType="text"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editEn" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editParadigm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,6 +116,38 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spinnerVerbCase" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/guideline_detect_declension"
+                app:layout_constraintGuide_percent=".52"
+                android:orientation="horizontal"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDetectDeclensionWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint="Enter ending to detect declension"
+                android:imeActionLabel="@string/kbImeActionIAST"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guideline_detect_declension" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewDeclensions"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginRight="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextDetectDeclensionWord"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

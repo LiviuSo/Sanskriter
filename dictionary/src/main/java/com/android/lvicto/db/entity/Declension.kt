@@ -24,15 +24,15 @@ data class Declension(
     @field:ColumnInfo(name = "paradigmDeclension") var paradigmDeclension: String   // eg, kantasya
 ) : Parcelable {
 
-    override fun toString(): String {
-        return StringBuffer()
-            .append(this.gCase.abbr[0]).append(this.gCase.abbr.substring(1).toLowerCase(Locale.ROOT)).append(", ")
-            .append(this.gNumber.abbr.toLowerCase(Locale.ROOT)).append(", ")
-            .append(this.gGender.abbr.toUpperCase(Locale.ROOT)).append(", ")
-            .append(this.paradigm).append(" (-").append(this.paradigmEnding).append("), ")
-            .append(this.paradigmDeclension)
-            .toString()
-    }
+    override fun toString(): String = StringBuffer()
+        .append(this.gCase.abbr[0]).append(this.gCase.abbr.substring(1).lowercase(Locale.ROOT))
+        .append(", ")
+        .append(this.gNumber.abbr.lowercase(Locale.ROOT)).append(", ")
+        .append(this.gGender.abbr.uppercase(Locale.ROOT)).append(", ")
+        .append(this.paradigm).append(" (-").append(this.paradigmEnding).append("), ")
+        .append("${this.suffix}, ")
+        .append(this.paradigmDeclension)
+        .toString()
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -42,7 +42,8 @@ data class Declension(
         parcel.readString().toString(),
         parcel.readString().toString(),
         parcel.readString().toString(),
-        parcel.readString().toString())
+        parcel.readString().toString()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
@@ -55,8 +56,20 @@ data class Declension(
         parcel.writeString(paradigmDeclension)
     }
 
-
     override fun describeContents(): Int = 0
+
+    fun toString(wordDeclensionRoot: String): String = StringBuffer()
+        .append(this.gCase.abbr[0]).append(this.gCase.abbr.substring(1).lowercase(Locale.ROOT))
+        .append(", ")
+        .append(this.gNumber.abbr.lowercase(Locale.ROOT)).append(", ")
+        .append(this.gGender.abbr.uppercase(Locale.ROOT)).append(", ")
+        .append(
+            createDeclension(
+                wordDeclensionRoot = wordDeclensionRoot,
+                declensionSuffix = suffix
+            )
+        )
+        .toString()
 
     companion object CREATOR : Parcelable.Creator<Declension> {
         @Ignore
@@ -64,19 +77,10 @@ data class Declension(
 
         override fun createFromParcel(parcel: Parcel): Declension = Declension(parcel)
 
-        override fun newArray(size: Int): Array<Declension?> {
-            return arrayOfNulls(size)
-        }
+        override fun newArray(size: Int): Array<Declension?> = arrayOfNulls(size)
 
-        fun createDeclension(paradigm: String, paradigmEnding: String, declensionSuffix: String): String {
-            // generate the paradigm declension
-            return if(paradigm.length > paradigmEnding.length && paradigm.contains(paradigmEnding)) {
-                val paradigmRoot = paradigm.dropLast(paradigmEnding.length)
-                "$paradigmRoot$declensionSuffix"
-            } else {
-                ""
-            }
-        }
+        fun createDeclension(wordDeclensionRoot: String, declensionSuffix: String): String =
+            "$wordDeclensionRoot$declensionSuffix"
     }
 
 }
