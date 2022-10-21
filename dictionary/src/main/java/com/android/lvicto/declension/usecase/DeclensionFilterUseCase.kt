@@ -60,4 +60,14 @@ class DeclensionFilterUseCase(private val declensionDao: DeclensionDao) {
         }
     }
 
+    suspend fun filterByGender(gender: String) = withContext(Dispatchers.IO) {
+        try {
+            val declensions = declensionDao.getDeclensionByGender(gender)
+            Result.Success(declensions)
+        } catch (e: Exception) {
+            Result.Failure("Fail to filter by gender = $gender")
+
+        }
+    }
+
 }

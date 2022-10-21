@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextParadigm"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextParadigmEnding"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             app:layout_constraintStart_toEndOf="@+id/editTextParadigm"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextSuffix"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintStart_toEndOf="@+id/editTextParadigmEnding"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextParadigmDeclension"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline13"
             tools:layout_editor_absoluteX="1dp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextFilterParadigm"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dividerSave" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextFilterEnding"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
             app:layout_constraintStart_toEndOf="@id/editTextFilterParadigm"
             app:layout_constraintTop_toBottomOf="@+id/dividerSave" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextFilterSuffix"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/guideline16"
                 tools:layout_editor_absoluteX="1dp" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextDetectDeclension"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

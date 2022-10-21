@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_conjugation.view.*
 
 class ConjugationViewMvcImpl(
     val activity: AppCompatActivity,
-    layouInflater: LayoutInflater,
+    layoutInflater: LayoutInflater,
     parent: ViewGroup?
 ) : BaseObservableMvc<ConjugationViewMvc.Listener>(), ConjugationViewMvc {
 
@@ -36,7 +36,7 @@ class ConjugationViewMvcImpl(
     }
 
     init {
-        setRootView(layouInflater.inflate(R.layout.fragment_conjugation, parent, false))
+        setRootView(layoutInflater.inflate(R.layout.fragment_conjugation, parent, false))
         init()
     }
 
@@ -68,8 +68,8 @@ class ConjugationViewMvcImpl(
 
         // region conjugation fields zone
         getRootView().edParadigmRoot?.addTextChangedListener(object : BaseTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                s.toString().let {
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                p0.toString().let {
                     val paradigmRoot = if (it.isEmpty()) {
                         NONE
                     } else {
@@ -83,12 +83,10 @@ class ConjugationViewMvcImpl(
             }
         })
         getRootView().edEnding?.addTextChangedListener(object : BaseTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                s.toString().let {
-                    val ending = if (it.isEmpty()) {
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                p0.toString().let {
+                    val ending = it.ifEmpty {
                         NONE
-                    } else {
-                        it
                     }
                     conjugation.ending = ending
                     if (isFiltering) {
@@ -227,10 +225,10 @@ class ConjugationViewMvcImpl(
 
         // region detect
         getRootView().edFormToDecompose?.addTextChangedListener(object : BaseTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 //                formLiveDate.value = s.toString()
                 for (listener in listeners) {
-                    listener.onConjugationDetectAction(s.toString())
+                    listener.onConjugationDetectAction(p0.toString())
                 }
             }
         })

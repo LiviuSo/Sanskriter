@@ -23,7 +23,7 @@ class WordsUpdateUseCase(
         try {
             if(oldWord.gType == word.gType) {
                 word.selectActionByType({
-                    substantiveDao.update(it)
+                    substantiveDao.update(it.id, it.gType.denom, it.word, it.wordIAST, it.meaningEn, it.meaningRo, it.paradigm, it.gender.abbr)
                 }, {
                     pronounDao.update(it)
                 }, {

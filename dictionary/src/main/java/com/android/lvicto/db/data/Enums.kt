@@ -109,22 +109,20 @@ enum class GrammaticalType(val denom: String) {
     OTHER("other");
 
     companion object {
-        fun getValueFromDenom(denomination: String): GrammaticalType {
-            return when (denomination) {
-                NOUN.denom -> NOUN
-                PROPER_NOUN.denom -> PROPER_NOUN
-                ADJECTIVE.denom -> ADJECTIVE
-                ADVERB.denom -> ADVERB
-                PRONOUN.denom -> PRONOUN
-                VERB.denom -> VERB
-                INTERJECTION.denom -> INTERJECTION
-                PREPOSITION.denom -> PREPOSITION
-                SUFFIX.denom -> SUFFIX
-                PREFIX.denom -> PREFIX
-                NUMERAL_CARDINAL.denom -> NUMERAL_CARDINAL
-                NUMERAL_ORDINAL.denom -> NUMERAL_ORDINAL
-                else -> OTHER
-            }
+        fun getValueFromDenom(denomination: String): GrammaticalType = when (denomination) {
+            NOUN.denom -> NOUN
+            PROPER_NOUN.denom -> PROPER_NOUN
+            ADJECTIVE.denom -> ADJECTIVE
+            ADVERB.denom -> ADVERB
+            PRONOUN.denom -> PRONOUN
+            VERB.denom -> VERB
+            INTERJECTION.denom -> INTERJECTION
+            PREPOSITION.denom -> PREPOSITION
+            SUFFIX.denom -> SUFFIX
+            PREFIX.denom -> PREFIX
+            NUMERAL_CARDINAL.denom -> NUMERAL_CARDINAL
+            NUMERAL_ORDINAL.denom -> NUMERAL_ORDINAL
+            else -> OTHER
         }
 
         fun getPosition(type: GrammaticalType?): Int {

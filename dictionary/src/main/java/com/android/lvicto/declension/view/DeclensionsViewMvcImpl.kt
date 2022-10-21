@@ -1,7 +1,6 @@
 package com.android.lvicto.declension.view
 
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.base.BaseTextWatcher
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
@@ -20,9 +20,8 @@ import com.android.lvicto.declension.view.interf.DeclensionsViewMvc
 import kotlinx.android.synthetic.main.fragment_declension.view.*
 import com.android.lvicto.common.base.BaseObservableMvc as BaseObservableMvc1
 
-class DeclensionsViewMvcImpl(
-    private val mActivity: BaseActivity,
-) : BaseObservableMvc1<DeclensionsViewMvc.Listener>(), DeclensionsViewMvc {
+class DeclensionsViewMvcImpl(private val mActivity: BaseActivity, )
+    : BaseObservableMvc1<DeclensionsViewMvc.Listener>(), DeclensionsViewMvc {
 
     private var mCase: String = "n/a"
     private var mGender: String = "n/a"
@@ -52,55 +51,57 @@ class DeclensionsViewMvcImpl(
         // region livedata
         requireActivity().let { activity ->
             mCaseFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(activity) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
-                })
+                }
             }
             mNumberFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(activity) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
-                })
+                }
             }
             mGenderFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(
+                    activity,
+                ) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
-                })
+                }
             }
             mParadigmFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(activity) {
 
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
-                })
+                }
             }
             mEndingFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(activity) {
 
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
-                })
+                }
             }
             mSuffixFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(activity) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
-                })
+                }
             }
             mDeclensionFilter = MutableLiveData<String>().apply {
-                observe(activity, {
+                observe(activity) {
                     listeners.forEach { listener ->
                         listener.onDetectDeclension(it)
                     }
-                })
+                }
             }
         }
         // endregion
@@ -138,8 +139,7 @@ class DeclensionsViewMvcImpl(
                     requireActivity(),
                     R.array.filter_sanskrit_numbers_array,
                     android.R.layout.simple_spinner_item
-                )
-                .also { adapter ->
+                ).also { adapter ->
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
             this@apply.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -199,94 +199,36 @@ class DeclensionsViewMvcImpl(
         // endregion
 
         // region edit text
-        root.editTextSuffix.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-                // nothing
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // nothing
-            }
-
+        root.editTextSuffix.addTextChangedListener( object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 root.editTextParadigmDeclension.setText(
                     Declension.createDeclension(
                         root.editTextParadigm.text.toString(),
-                        root.editTextParadigmEnding.text.toString(),
                         root.editTextSuffix.text.toString()
                     )
                 )
             }
         })
 
-        root.editTextFilterParadigm.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+        root.editTextFilterParadigm.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 mParadigmFilter.value = s.toString()
             }
         })
 
-        root.editTextFilterEnding.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+        root.editTextFilterEnding.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 mEndingFilter.value = s.toString()
             }
         })
 
-        root.editTextFilterSuffix.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+        root.editTextFilterSuffix.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 mSuffixFilter.value = s.toString()
             }
         })
 
-        root.editTextDetectDeclension.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(
-                s: CharSequence?,
-                start: Int,
-                count: Int,
-                after: Int
-            ) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+        root.editTextDetectDeclension.addTextChangedListener(object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
                 mDeclensionFilter.value = s.toString()
             }

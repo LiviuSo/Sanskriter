@@ -208,7 +208,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             isSuccess = { it is WordsFetchUseCase.Result.Success },
             isFailure = { it is WordsFetchUseCase.Result.Failure },
             onSuccess = {
-                Log.d("liviu", "fetching words done!")
                 (it as WordsFetchUseCase.Result.Success).apply {
                     if (words.isEmpty()) {
                         // todo show empty screen
