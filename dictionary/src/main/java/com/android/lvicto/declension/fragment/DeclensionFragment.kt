@@ -84,7 +84,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
             val filename = Constants.FILENAME_DECLENSION // todo make a constant for now
             val result = declensionWriteToFileUseCase.writeDataToFile(Declensions(declensions), filename)
             if (result is DeclensionWriteToFileUseCase.Result.Success) {
-                requireActivity().export(filePath = filename)
+                requireActivity().export(filePath = requireActivity().getFilePath(filename))
                 // todo show dialog when done
             } else if (result is DeclensionWriteToFileUseCase.Result.Failure) {
                 result.message.let { dialogManager.showErrorDialogWithRetry(it) }

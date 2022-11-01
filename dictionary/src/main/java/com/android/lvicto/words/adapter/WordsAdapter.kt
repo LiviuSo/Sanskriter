@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.Word
@@ -17,6 +18,8 @@ class WordsAdapter(private val context: Context,
                    private val clickListenerDefinition: View.OnClickListener,
                    private val longClickListener: View.OnLongClickListener,
                    private val checkItemCallback: (Boolean) -> Unit) : RecyclerView.Adapter<WordsAdapter.WordViewHolder>() {
+
+    val isRomanianHidden = true // todo make a flag
 
     var type: Int = TYPE_NON_REMOVABLE
     var words: List<Word>? = null
@@ -65,14 +68,18 @@ class WordsAdapter(private val context: Context,
                                private val hideCtaOnNoSelection: (Boolean) -> Unit) : RecyclerView.ViewHolder(view) {
 
         fun bindData(word: Word, type: Int, position: Int) { // todo complete
-            view.findViewById<TextView>(R.id.tvItemWordType).text = when(word.gType) {
-                GrammaticalType.NOUN, GrammaticalType.ADJECTIVE -> "${word.gType.denom}, ${word.gender.abbr}, ${word.paradigm.ifEmpty { "n/a" }}"
-                GrammaticalType.PROPER_NOUN -> "${word.gType.denom}, ${word.paradigm.ifEmpty { "n/a" }}"
-                GrammaticalType.VERB -> "${word.gType.denom}, ${word.verbClass}"
-                else -> word.gType.denom
+            view.apply {
+                findViewById<TextView>(R.id.tvItemWordType).text = when(word.gType) {
+                    GrammaticalType.ADJECTIVE -> "${word.gType.denom}, ${word.paradigm.ifEmpty { "n/a" }}"
+                    GrammaticalType.NOUN, GrammaticalType.PROPER_NOUN -> "${word.gType.denom}, ${word.gender.abbr}, ${word.paradigm.ifEmpty { "n/a" }}"
+                    GrammaticalType.VERB -> "${word.gType.denom}, ${word.verbClass}"
+                    else -> word.gType.denom
+                }
+                findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
+                findViewById<TextView>(R.id.tvItemWordSa).text = word.wordSa
+                findViewById<TextView>(R.id.tvItemDefRo).isGone = isRomanianHidden
             }
-            view.findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
-            view.findViewById<TextView>(R.id.tvItemWordSa).text = word.wordSa
+
             when (type) {
                 TYPE_NON_REMOVABLE -> {
                     view.findViewById<TextView>(R.id.tvItemDefEn).text = word.meaningEn

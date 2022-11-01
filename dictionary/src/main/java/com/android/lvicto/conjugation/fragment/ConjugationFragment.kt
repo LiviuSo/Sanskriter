@@ -8,16 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.R
-import com.android.lvicto.common.ImportPickerCode
+import com.android.lvicto.common.*
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.common.base.BaseFragment
-import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Constants.RESULT_CODE_PICKFILE_CONJUGATIONS
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
-import com.android.lvicto.common.export
-import com.android.lvicto.common.openFilePicker
 import com.android.lvicto.common.resultlauncher.ResultLauncherManager
 import com.android.lvicto.common.factory.ViewMvcFactory
 import com.android.lvicto.conjugation.event.ImportConjugationsEvent
@@ -215,8 +212,8 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                         Constants.FILENAME_CONJUGATION
                     )
                     if (res is ConjugationImportExportUseCase.Result.SuccessWrite) {
-                        activity?.export(
-                            Constants.FILENAME_CONJUGATION,
+                        requireActivity().export(
+                            requireActivity().getFilePath(Constants.FILENAME_CONJUGATION),
                             "Dictionary: exporting conjugations"
                         )
                     } else {
