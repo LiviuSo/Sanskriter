@@ -132,23 +132,15 @@ enum class GrammaticalType(val denom: String) {
                     NOUN -> 0
                     PROPER_NOUN -> 1
                     ADJECTIVE -> 2
-
-                    // pronoun group
-                    PRONOUN -> 3
-
-                    // verb group
-                    VERB -> 4
-
-                    // numeral group
-                    NUMERAL_CARDINAL -> 5
-                    NUMERAL_ORDINAL -> 6
-
-                    // other group
-                    ADVERB -> 7
-                    INTERJECTION -> 8
-                    PREPOSITION -> 9
-                    SUFFIX -> 10
-                    PREFIX -> 11
+                    ADVERB -> 3
+                    PRONOUN -> 4
+                    VERB -> 5
+                    INTERJECTION -> 6
+                    PREPOSITION -> 7
+                    SUFFIX -> 8
+                    PREFIX -> 9
+                    NUMERAL_CARDINAL -> 10
+                    NUMERAL_ORDINAL -> 11
                     else -> 12
                 }
             } ?: 12
@@ -216,6 +208,4 @@ enum class VerbClass(val clas: Int) {
             else -> NONE
         }
     }
-
-
 }

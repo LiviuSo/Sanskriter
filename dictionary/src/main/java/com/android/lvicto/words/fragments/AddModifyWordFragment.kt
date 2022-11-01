@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants.CODE_REQUEST_ADD_WORD
@@ -112,7 +113,6 @@ class AddModifyWordFragment : BaseFragment() {
         val activity = requireActivity()
         root.apply {
             showModeIcon(this)
-
             ibEditLock.setOnClickListener {
                 toggleMode(this)
             }
@@ -171,7 +171,6 @@ class AddModifyWordFragment : BaseFragment() {
                 setSelection(GrammaticalType.getPosition(oldWord?.gType))
                 enableOrDisableByMode(this, mode == MODE_EDIT_WORD)
             }
-
             spinnerWordGender.apply {
                 adapter = ArrayAdapter.createFromResource(
                     activity,
@@ -197,7 +196,6 @@ class AddModifyWordFragment : BaseFragment() {
                 setSelection(GrammaticalGender.getPosition(oldWord?.gender))
                 enableOrDisableByMode(this, mode == MODE_EDIT_WORD)
             }
-
             spinnerVerbCase.apply {
                 adapter = ArrayAdapter.createFromResource(
                     context,
@@ -232,10 +230,6 @@ class AddModifyWordFragment : BaseFragment() {
             }
 
             setUpDeclensionFiltering(root)
-
-            mViewMvcImpl =
-                AddModifyWordViewMvcImpl(declensionAdapter) // todo remove adapter as a param when refactoring to arch complete
-
         }
     }
 
@@ -256,12 +250,23 @@ class AddModifyWordFragment : BaseFragment() {
         enableOrDisableByMode(root.spinnerWordGender, mode == MODE_EDIT_WORD)
         enableOrDisableByMode(root.spinnerVerbCase, mode == MODE_EDIT_WORD)
         showOrHideByMode(root.btnSaveWord, mode == MODE_VIEW_WORD)
-        showOrHideByMode(root.recyclerViewDeclensions, mode == MODE_EDIT_WORD)
-        showOrHideByMode(root.editTextDetectDeclensionWord, mode == MODE_EDIT_WORD)
+        showOrHideByMode(root.recyclerViewDeclensions, !shouldShowDeclension(oldWord))
+        root.editTextDetectDeclensionWord.apply {
+            showOrHideByMode(this, !shouldShowDeclension(oldWord))
+            if(this.isVisible) {
+                this.requestFocus()
+            }
+        }
     }
 
+    private fun isSubstantive(oldWord: Word?): Boolean =
+        oldWord?.gType in arrayListOf(GrammaticalType.NOUN, GrammaticalType.ADJECTIVE, GrammaticalType.PROPER_NOUN)
+
+    private fun shouldShowDeclension(word: Word?): Boolean =
+        isSubstantive(word) && isParadigmImplemented(word) && mode == MODE_VIEW_WORD
+
     private fun setUpDeclensionFiltering(root: View) {
-        if(oldWord?.gType in arrayListOf(GrammaticalType.NOUN, GrammaticalType.PROPER_NOUN, GrammaticalType.ADJECTIVE) && mode == MODE_VIEW_WORD) {
+//        if(shouldShowDeclension(oldWord)) {
             root.recyclerViewDeclensions.apply {
                 layoutManager = LinearLayoutManager(requireActivity())
                 declensionAdapter = DeclensionAdapter(requireActivity(), word).apply {
@@ -270,7 +275,9 @@ class AddModifyWordFragment : BaseFragment() {
                     }
                 }
                 adapter = declensionAdapter
-                visibility = View.VISIBLE
+                mViewMvcImpl =
+                    AddModifyWordViewMvcImpl(declensionAdapter) // todo remove adapter as a param when refactoring to arch complete
+                isGone = !shouldShowDeclension(oldWord)
             }
             root.editTextDetectDeclensionWord.apply {
                 addTextChangedListener(object : BaseTextWatcher() {
@@ -283,27 +290,30 @@ class AddModifyWordFragment : BaseFragment() {
                         onDetectDeclension(text.toString())
                     }
                 }
-                visibility = View.VISIBLE
+                isGone = !shouldShowDeclension(oldWord)
+                requestFocus()
             }
-        } else {
-            root.recyclerViewDeclensions.visibility = View.GONE
-            root.editTextDetectDeclensionWord.visibility = View.GONE
-
-        }
+//        } else {
+//            root.recyclerViewDeclensions.visibility = View.GONE
+//            root.editTextDetectDeclensionWord.visibility = View.GONE
+//        }
     }
 
     private fun onDetectDeclension(key: String) {
         coroutineScope.launch {
-            mViewMvcImpl.setDeclensions(detectDeclension(key, oldWord))
+            oldWord?.let {
+                mViewMvcImpl.setDeclensions(detectDeclension(key, it))
+            }
         }
     }
 
-    private suspend fun detectDeclension(key: String, word: Word?): List<Declension> {
+    private suspend fun detectDeclension(key: String, word: Word): List<Declension> {
         val declensions = arrayListOf<Declension>()
-        if(word?.paradigm != DeclensionEngine.PARADIGM_KANTA) {
+        if(!isParadigmImplemented(word)) {
             Toast.makeText(requireContext(), "Not implemented yet for paradigms other than KANTA.", Toast.LENGTH_SHORT).show()
         } else if (key.isEmpty()) { // if empty return all declensions
-            val result = if(word.gender.abbr.isEmpty() || word.gender.abbr == GrammaticalGender.NONE.abbr) declensionFetchUseCase.getAll()
+            val result = if(word.gender.abbr.isEmpty() || word.gender.abbr == GrammaticalGender.NONE.abbr)
+                declensionFetchUseCase.getAll()
             else declensionFilterUseCase.filterByGender(word.gender.abbr)
 
             when (result) {
@@ -332,6 +342,9 @@ class AddModifyWordFragment : BaseFragment() {
         }
         return declensions
     }
+
+    private fun isParadigmImplemented(word: Word?): Boolean =
+        word?.paradigm == DeclensionEngine.PARADIGM_KANTA
 
     private fun enableOrDisableByMode(view: View, isEnabled: Boolean) {
         view.isEnabled = isEnabled
@@ -411,7 +424,7 @@ class AddModifyWordFragment : BaseFragment() {
                 coroutineScope.launch {
                     oldWord?.let {
                         newWord.id = it.id // if null no modification will happen
-                        modifyWord(v, it, newWord) {
+                        modifyWord(it, newWord) {
                             oldWord = newWord
                             refreshUI()
                             toggleMode(root)
@@ -426,7 +439,7 @@ class AddModifyWordFragment : BaseFragment() {
         }
     }
 
-    private suspend fun modifyWord(view: View, oldWord: Word, newWord: Word, onSuccess: () -> Unit) {
+    private suspend fun modifyWord(oldWord: Word, newWord: Word, onSuccess: () -> Unit) {
         val result = wordsUpdateUseCase.updateWord(oldWord, newWord)
         if (result is WordsUpdateUseCase.Result.Success) {
             dialogManager.showInfoDialog(R.string.dialog_info_message_words_updated) {
