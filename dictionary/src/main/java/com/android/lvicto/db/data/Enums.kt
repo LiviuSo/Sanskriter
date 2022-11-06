@@ -209,3 +209,56 @@ enum class VerbClass(val clas: Int) {
         }
     }
 }
+
+enum class Paradigm(val description: String, val paradigm: String) {
+    KANTA("stem in a/ā: kānta", "kānta"),
+    NADI("stem in ī: nadī", "nadī"),
+    STRI("stem in ī: strī (irregular)", "strī"),
+    DHI("stem in ī: dhī", "dhī"),
+    VADHU("stem in ū: vadhū", "vadhū"),
+    BHU("stem in ū: bhū", "bhū"),
+    SUCI("stem in i: śuci", "śuci"),
+    MRDU("stem in u: mṛdu", "mṛdu"),
+    KARTR("stem in ṛ: kartṛ", "kartṛ"),
+    PITR("stem in ṛ: pitṛ", "pitṛ"),
+    SVASR("stem in ṛ: svasṛ", "svasṛ"),
+    MATR("stem in ṛ: mātṛ", "mātṛ"),
+    PARADIGM("paradigm", "paradigm");
+    // todo complete
+
+    companion object {
+        fun fromDescription(descr: String): String = when(descr) {
+            KANTA.description -> KANTA
+            NADI.description -> NADI
+            STRI.description -> STRI
+            DHI.description -> DHI
+            VADHU.description -> VADHU
+            BHU.description -> BHU
+            SUCI.description -> SUCI
+            MRDU.description -> MRDU
+            KARTR.description -> KARTR
+            PITR.description -> PITR
+            SVASR.description -> SVASR
+            MATR.description -> MATR
+            else -> PARADIGM
+        }.paradigm
+
+        fun getPosition(paradigm: String): Int {
+            return when(paradigm) {
+                KANTA.paradigm -> 0
+                NADI.paradigm -> 1
+                STRI.paradigm -> 2
+                DHI.paradigm -> 3
+                VADHU.paradigm -> 4
+                BHU.paradigm -> 5
+                SUCI.paradigm -> 6
+                MRDU.paradigm -> 7
+                KARTR.paradigm -> 8
+                PITR.paradigm -> 9
+                SVASR.paradigm -> 10
+                MATR.paradigm -> 11
+                else -> 12
+            }
+        }
+    }
+}

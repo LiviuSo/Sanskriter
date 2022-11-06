@@ -24,17 +24,6 @@ class ConjugationViewMvcImpl(
     parent: ViewGroup?
 ) : BaseObservableMvc<ConjugationViewMvc.Listener>(), ConjugationViewMvc {
 
-    private val filterObserver: Observer<in Conjugation> = Observer { conjugation ->
-        if (isFiltering) {
-            Log.d(DEBUG_TAG, "filtering by $conjugation")
-            listeners.forEach { listener ->
-                listener.onConjugationFilterAction(conjugation)
-            }
-        } else {
-            Log.d(DEBUG_TAG, "no filtering")
-        }
-    }
-
     init {
         setRootView(layoutInflater.inflate(R.layout.fragment_conjugation, parent, false))
         init()

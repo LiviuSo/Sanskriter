@@ -131,8 +131,6 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                                 // todo show zero state screen
                             } else {
                                 wordsInsertUseCase.insertWords(this)
-
-                                mViewMvc.setWords(this)
                             }
                             mViewMvc.setWords(this)
                         }

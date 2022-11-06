@@ -1,4 +1,4 @@
-package com.android.lvicto.declension.view.interf
+package com.android.lvicto.declension.view
 
 import android.view.LayoutInflater
 import android.view.View
