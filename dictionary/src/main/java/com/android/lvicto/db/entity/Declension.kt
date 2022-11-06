@@ -25,13 +25,21 @@ data class Declension(
 ) : Parcelable {
 
     override fun toString(): String = StringBuffer()
-        .append(this.gCase.abbr[0]).append(this.gCase.abbr.substring(1).lowercase(Locale.ROOT))
-        .append(", ")
+        .append(paradigm)
+        .append(" (").append(paradigmEnding).append("), ")
+        .append(gNumber.abbr.lowercase(Locale.ROOT)).append(", ")
+        .append(gGender.abbr.uppercase(Locale.ROOT)).append(", ")
+        .append(gCase.abbr[0]).append(gCase.abbr.substring(1).lowercase(Locale.ROOT)).append(", ")
+        .append(if(suffix.isEmpty()) "-" else "-$suffix").append(", ")
+        .append(paradigmDeclension)
+        .toString()
+
+    fun toString(wordDeclensionRoot: String): String = StringBuffer()
         .append(this.gNumber.abbr.lowercase(Locale.ROOT)).append(", ")
         .append(this.gGender.abbr.uppercase(Locale.ROOT)).append(", ")
-        .append(this.paradigm).append(" (-").append(this.paradigmEnding).append("), ")
-        .append("${this.suffix}, ")
-        .append(this.paradigmDeclension)
+        .append(this.gCase.abbr[0]).append(this.gCase.abbr.substring(1).lowercase(Locale.ROOT))
+        .append(", ")
+        .append(createDeclension(wordDeclensionRoot = wordDeclensionRoot, declensionSuffix = suffix))
         .toString()
 
     constructor(parcel: Parcel) : this(
@@ -57,19 +65,6 @@ data class Declension(
     }
 
     override fun describeContents(): Int = 0
-
-    fun toString(wordDeclensionRoot: String): String = StringBuffer()
-        .append(this.gCase.abbr[0]).append(this.gCase.abbr.substring(1).lowercase(Locale.ROOT))
-        .append(", ")
-        .append(this.gNumber.abbr.lowercase(Locale.ROOT)).append(", ")
-        .append(this.gGender.abbr.uppercase(Locale.ROOT)).append(", ")
-        .append(
-            createDeclension(
-                wordDeclensionRoot = wordDeclensionRoot,
-                declensionSuffix = suffix
-            )
-        )
-        .toString()
 
     companion object CREATOR : Parcelable.Creator<Declension> {
         @Ignore
