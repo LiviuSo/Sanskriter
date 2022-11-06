@@ -21,7 +21,7 @@ import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.event.ImportDeclensionsIntentEvent
 import com.android.lvicto.declension.usecase.*
 import com.android.lvicto.declension.view.DeclensionsViewMvcImpl
-import com.android.lvicto.declension.view.interf.DeclensionsViewMvc
+import com.android.lvicto.declension.view.DeclensionsViewMvc
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.usecase.WordsFilterUseCase
 import kotlinx.android.synthetic.main.fragment_declension.*

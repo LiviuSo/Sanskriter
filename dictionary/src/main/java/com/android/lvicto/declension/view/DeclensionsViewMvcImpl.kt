@@ -16,7 +16,6 @@ import com.android.lvicto.common.base.BaseTextWatcher
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
-import com.android.lvicto.declension.view.interf.DeclensionsViewMvc
 import kotlinx.android.synthetic.main.fragment_declension.view.*
 import com.android.lvicto.common.base.BaseObservableMvc as BaseObservableMvc1
 

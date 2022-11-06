@@ -101,4 +101,20 @@
         <item>perfect thematic</item>
         <item>aorist thematic</item>
     </string-array>
+
+    <string-array name="paradigms">
+        <item>stem in a/ā: kānta</item>
+        <item>stem in ī: nadī</item>
+        <item>stem in ī: strī (irregular)</item>
+        <item>stem in ī: dhī</item>
+        <item>stem in ū: vadhū</item>
+        <item>stem in ū: bhū</item>
+        <item>stem in i: śuci</item>
+        <item>stem in u: mṛdu</item>
+        <item>stem in ṛ: kartṛ</item>
+        <item>stem in ṛ: pitṛ</item>
+        <item>stem in ṛ: svasṛ</item>
+        <item>stem in ṛ: mātṛ</item>
+        <item>paradigm</item>
+    </string-array>
 </resources>

@@ -53,7 +53,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private lateinit var importPickerCode: ImportPickerCode
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private lateinit var mViewViewMvcImpl: ConjugationViewMvcImpl
+    private lateinit var mViewMvcImpl: ConjugationViewMvcImpl
 
 
     override fun onCreateView(
@@ -62,15 +62,15 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
         savedInstanceState: Bundle?
     ): View {
         injector.inject(this)
-        mViewViewMvcImpl = viewMvcFactory.getConjugationViewMvc(requireActivity() as AppCompatActivity, container) // todo fix conversion
-        return mViewViewMvcImpl.getRootView()
+        mViewMvcImpl = viewMvcFactory.getConjugationViewMvc(requireActivity() as AppCompatActivity, container) // todo fix conversion
+        return mViewMvcImpl.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-        mViewViewMvcImpl.registerListener(this)
+        mViewMvcImpl.registerListener(this)
         resultEventBus.registerListener(this)
-        if (!mViewViewMvcImpl.isFiltering) {
+        if (!mViewMvcImpl.isFiltering) {
             filter(null)
         } // to init the RecView
     }
@@ -79,7 +79,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
         resultEventBus.unregisterListener(this)
-        mViewViewMvcImpl.unregisterListener(this)
+        mViewMvcImpl.unregisterListener(this)
     }
 
     // region Listener
@@ -112,13 +112,13 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private fun add(conjugation: Conjugation?) {
         coroutineScope.launch {
             if (conjugation != null) {
-                mViewViewMvcImpl.showProgress()
+                mViewMvcImpl.showProgress()
                 try {
                     val resAdd = mConjugationAddUseCase.addConjugation(conjugation)
                     if (resAdd is ConjugationAddUseCase.Result.Success) {
                         val resFetch = mConjugationFetchUseCase.filter()
                         if (resFetch is ConjugationFetchUseCase.Result.Success) {
-                            mViewViewMvcImpl.setConjugations(resFetch.conjugations)
+                            mViewMvcImpl.setConjugations(resFetch.conjugations)
                         } else {
                             dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                                 // onRetry() empty for now
@@ -135,7 +135,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                         // onRetry() empty for now
                     }
                 } finally {
-                    mViewViewMvcImpl.hideProgress()
+                    mViewMvcImpl.hideProgress()
                 }
             }
         }
@@ -143,11 +143,11 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
 
     private fun filter(conjugation: Conjugation?) {
         coroutineScope.launch {
-            mViewViewMvcImpl.showProgress()
+            mViewMvcImpl.showProgress()
             try {
                 val res = mConjugationFetchUseCase.filter(conjugation)
                 if (res is ConjugationFetchUseCase.Result.Success) {
-                    mViewViewMvcImpl.setConjugations(res.conjugations)
+                    mViewMvcImpl.setConjugations(res.conjugations)
                 } else {
                     dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                         // onRetry() empty for now
@@ -159,7 +159,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     // onRetry() empty for now
                 }
             } finally {
-                mViewViewMvcImpl.hideProgress()
+                mViewMvcImpl.hideProgress()
             }
         }
     }
@@ -172,18 +172,18 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
 
     private fun deleteDialogAction(conjugation: Conjugation) {
         coroutineScope.launch {
-            mViewViewMvcImpl.showProgress()
+            mViewMvcImpl.showProgress()
             try {
                 val resAdd = mConjugationAddUseCase.delete(listOf(conjugation))
                 if (resAdd is ConjugationAddUseCase.Result.Success) {
-                    val filterBy = if (mViewViewMvcImpl.isFiltering) {
-                        mViewViewMvcImpl.conjugation
+                    val filterBy = if (mViewMvcImpl.isFiltering) {
+                        mViewMvcImpl.conjugation
                     } else {
                         null
                     }
                     val resFetch = mConjugationFetchUseCase.filter(filterBy)
                     if (resFetch is ConjugationFetchUseCase.Result.Success) {
-                        mViewViewMvcImpl.setConjugations(resFetch.conjugations)
+                        mViewMvcImpl.setConjugations(resFetch.conjugations)
                     } else {
                         dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_filter) {
                             // onRetry() empty for now
@@ -196,7 +196,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     // onRetry() empty for now
                 }
             } finally {
-                mViewViewMvcImpl.hideProgress()
+                mViewMvcImpl.hideProgress()
             }
         }
     }
@@ -204,7 +204,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private fun export() {
         coroutineScope.launch {
             try {
-                mViewViewMvcImpl.showProgress()
+                mViewMvcImpl.showProgress()
                 val conjugations = mConjugationFetchUseCase.filter()
                 if (conjugations is ConjugationFetchUseCase.Result.Success) {
                     val res = mConjugationImportExportUseCase.exportConjugations(
@@ -232,7 +232,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     // onRetry() empty for now
                 }
             } finally {
-                mViewViewMvcImpl.hideProgress()
+                mViewMvcImpl.hideProgress()
             }
         }
     }
@@ -244,12 +244,12 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private fun loadImports(uri: Uri) {
         coroutineScope.launch {
             try {
-                mViewViewMvcImpl.showProgress()
+                mViewMvcImpl.showProgress()
                 val res = mConjugationImportExportUseCase.importConjugations(uri)
                 if (res is ConjugationImportExportUseCase.Result.SuccessRead) {
                     if (res.conjugations != null) {
                         mConjugationAddUseCase.addConjugations(res.conjugations)
-                        mViewViewMvcImpl.setConjugations(res.conjugations)
+                        mViewMvcImpl.setConjugations(res.conjugations)
                     } else {
                         dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_fail_to_add_conjugation) {
                             // onRetry() empty for now
@@ -266,7 +266,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     // onRetry() empty for now
                 }
             } finally {
-                mViewViewMvcImpl.hideProgress()
+                mViewMvcImpl.hideProgress()
             }
         }
     }
@@ -274,7 +274,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private fun detect(form: String) {
         coroutineScope.launch {
             try {
-                mViewViewMvcImpl.showProgress()
+                mViewMvcImpl.showProgress()
                 if (form.isNotEmpty()) { // try to detect
                     var conjugations: List<Conjugation> = arrayListOf()
                     val len = form.length
@@ -309,17 +309,17 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
                     } // end scan from the end loop
 
                     if (isDetected) {
-                        mViewViewMvcImpl.setConjugations(conjugations)
+                        mViewMvcImpl.setConjugations(conjugations)
                         val root = form.substring(0, index + 1)
-                        mViewViewMvcImpl.setFormRoot(root)
+                        mViewMvcImpl.setFormRoot(root)
                     } else {
-                        mViewViewMvcImpl.setConjugations(arrayListOf())
-                        mViewViewMvcImpl.setFormRoot("") // reset result
+                        mViewMvcImpl.setConjugations(arrayListOf())
+                        mViewMvcImpl.setFormRoot("") // reset result
                     }
                 } else { // reset
                     val res = mConjugationFetchUseCase.filter()
                     if (res is ConjugationFetchUseCase.Result.Success) {
-                        mViewViewMvcImpl.setConjugations(res.conjugations)
+                        mViewMvcImpl.setConjugations(res.conjugations)
                     } else {
                         dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown)
                     }
@@ -327,7 +327,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
             } catch (e: Exception) {
                 dialogManager.showErrorDialogWithRetry(R.string.dialog_error_message_unknown)
             } finally {
-                mViewViewMvcImpl.hideProgress()
+                mViewMvcImpl.hideProgress()
             }
         }
     }

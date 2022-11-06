@@ -133,11 +133,34 @@ class AddModifyWordFragment : BaseFragment() {
                 setText(oldWord?.meaningEn)
                 enableOrDisableByMode(this, mode == MODE_EDIT_WORD)
             }
-            editParadigm?.apply {
-                setText(oldWord?.paradigm)
+
+            spinnerParadigm.apply {
+                adapter = ArrayAdapter.createFromResource(activity, R.array.paradigms, android.R.layout.simple_spinner_item).also { adapter ->
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                }
+                onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        word?.apply {
+                            paradigm = Paradigm.fromDescription(parent?.getItemAtPosition(position).toString())
+                            showHideField(root, this)
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        word?.apply {
+                            paradigm = Paradigm.PARADIGM.paradigm
+                            showHideField(root, this)
+                        }
+                    }
+                }
+                setSelection(Paradigm.getPosition(oldWord?.paradigm ?: Paradigm.PARADIGM.paradigm))
                 enableOrDisableByMode(this, mode == MODE_EDIT_WORD)
             }
-
             spinnerType.apply {
                 adapter = ArrayAdapter.createFromResource(
                     activity,
@@ -245,7 +268,7 @@ class AddModifyWordFragment : BaseFragment() {
         enableOrDisableByMode(root.editIAST, mode == MODE_EDIT_WORD)
         enableOrDisableByMode(root.editRo, mode == MODE_EDIT_WORD)
         enableOrDisableByMode(root.editEn, mode == MODE_EDIT_WORD)
-        enableOrDisableByMode(root.editParadigm, mode == MODE_EDIT_WORD)
+        enableOrDisableByMode(root.spinnerParadigm, mode == MODE_EDIT_WORD)
         enableOrDisableByMode(root.spinnerType, mode == MODE_EDIT_WORD)
         enableOrDisableByMode(root.spinnerWordGender, mode == MODE_EDIT_WORD)
         enableOrDisableByMode(root.spinnerVerbCase, mode == MODE_EDIT_WORD)
@@ -266,37 +289,32 @@ class AddModifyWordFragment : BaseFragment() {
         isSubstantive(word) && isParadigmImplemented(word) && mode == MODE_VIEW_WORD
 
     private fun setUpDeclensionFiltering(root: View) {
-//        if(shouldShowDeclension(oldWord)) {
-            root.recyclerViewDeclensions.apply {
-                layoutManager = LinearLayoutManager(requireActivity())
-                declensionAdapter = DeclensionAdapter(requireActivity(), word).apply {
-                    onDeleteClick = {
-                        // nothing
-                    }
+        root.recyclerViewDeclensions.apply {
+            layoutManager = LinearLayoutManager(requireActivity())
+            declensionAdapter = DeclensionAdapter(requireActivity(), word).apply {
+                onDeleteClick = {
+                    // nothing
                 }
-                adapter = declensionAdapter
-                mViewMvcImpl =
-                    AddModifyWordViewMvcImpl(declensionAdapter) // todo remove adapter as a param when refactoring to arch complete
-                isGone = !shouldShowDeclension(oldWord)
             }
-            root.editTextDetectDeclensionWord.apply {
-                addTextChangedListener(object : BaseTextWatcher() {
-                    override fun afterTextChanged(s: Editable?) {
-                        onDetectDeclension(s.toString())
-                    }
-                })
-                setOnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
-                        onDetectDeclension(text.toString())
-                    }
+            adapter = declensionAdapter
+            mViewMvcImpl =
+                AddModifyWordViewMvcImpl(declensionAdapter) // todo remove adapter as a param when refactoring to arch complete
+            isGone = !shouldShowDeclension(oldWord)
+        }
+        root.editTextDetectDeclensionWord.apply {
+            addTextChangedListener(object : BaseTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    onDetectDeclension(s.toString())
                 }
-                isGone = !shouldShowDeclension(oldWord)
-                requestFocus()
+            })
+            setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    onDetectDeclension(text.toString())
+                }
             }
-//        } else {
-//            root.recyclerViewDeclensions.visibility = View.GONE
-//            root.editTextDetectDeclensionWord.visibility = View.GONE
-//        }
+            isGone = !shouldShowDeclension(oldWord)
+            requestFocus()
+        }
     }
 
     private fun onDetectDeclension(key: String) {
@@ -314,7 +332,8 @@ class AddModifyWordFragment : BaseFragment() {
         } else if (key.isEmpty()) { // if empty return all declensions
             val result = if(word.gender.abbr.isEmpty() || word.gender.abbr == GrammaticalGender.NONE.abbr)
                 declensionFetchUseCase.getAll()
-            else declensionFilterUseCase.filterByGender(word.gender.abbr)
+            else
+                declensionFilterUseCase.filterByGender(word.gender.abbr)
 
             when (result) {
                 is DeclensionFetchUseCase.Result.Success -> declensions.addAll(result.declensions)
@@ -370,22 +389,22 @@ class AddModifyWordFragment : BaseFragment() {
         with(root) {
             when (word?.gType) {
                 GrammaticalType.ADJECTIVE -> {
-                    editParadigm.visibility = View.VISIBLE
+                    spinnerParadigm.visibility = View.VISIBLE
                     spinnerWordGender.visibility = View.GONE
                     spinnerVerbCase.visibility = View.GONE
                 }
                 GrammaticalType.NOUN, GrammaticalType.PROPER_NOUN -> {
-                    editParadigm.visibility = View.VISIBLE
+                    spinnerParadigm.visibility = View.VISIBLE
                     spinnerWordGender.visibility = View.VISIBLE
                     spinnerVerbCase.visibility = View.GONE
                 }
                 GrammaticalType.VERB -> {
-                    editParadigm.visibility = View.GONE
+                    spinnerParadigm.visibility = View.VISIBLE
                     spinnerWordGender.visibility = View.GONE
                     spinnerVerbCase.visibility = View.VISIBLE
                 }
                 else -> {
-                    editParadigm.visibility = View.GONE
+                    spinnerParadigm.visibility = View.VISIBLE
                     spinnerWordGender.visibility = View.GONE
                     spinnerVerbCase.visibility = View.GONE
                 }
@@ -400,7 +419,7 @@ class AddModifyWordFragment : BaseFragment() {
         val wordEn = root.editEn.text.toString()
         val wordRo = root.editRo.text.toString()
         val gType = converters.toGrammaticalType(root.spinnerType.selectedItem.toString())
-        val paradigm = root.editParadigm.text.toString()
+        val paradigm = Paradigm.fromDescription(root.spinnerParadigm.selectedItem.toString())
         val verbClass = VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString())
         val gender = converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString())
 

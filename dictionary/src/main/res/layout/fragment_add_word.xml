@@ -74,20 +74,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editEn" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editParadigm"
+            <Spinner
+                android:id="@+id/spinnerParadigm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="paradigm"
-                android:imeActionLabel="@string/kbImeActionIAST"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                android:visibility="gone"
-                android:text="kānta"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editRo" />
+                app:layout_constraintTop_toBottomOf="@id/editRo"
+                android:visibility="gone" />
 
             <Spinner
                 android:id="@+id/spinnerType"
@@ -96,7 +91,7 @@
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editParadigm" />
+                app:layout_constraintTop_toBottomOf="@id/spinnerParadigm" />
 
             <Spinner
                 android:id="@+id/spinnerVerbCase"
