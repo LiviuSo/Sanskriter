@@ -316,23 +316,17 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
             // insert into the DB
             declensionInsertUseCase.insert(declension).let { resultInsert ->
                 if (resultInsert is DeclensionInsertUseCase.Result.Success) {
-                    declensionFilterUseCase.filter(collectData()).let { resultFetch ->
-                        if (resultFetch is DeclensionFilterUseCase.Result.Success) {
-                            mViewMvcImpl.setDeclensions(resultFetch.declensions)
-                        } else if (resultFetch is DeclensionFilterUseCase.Result.Failure) {
+                    declensionFilterUseCase.filter(collectData()).let { resultFilter ->
+                        if (resultFilter is DeclensionFilterUseCase.Result.Success) {
+                            mViewMvcImpl.setDeclensions(resultFilter.declensions)
+                        } else if (resultFilter is DeclensionFilterUseCase.Result.Failure) {
                             dialogManager.showErrorDialogWithRetry("Error fetching declensions")
-                            Log.d(
-                                LOG_TAG,
-                                "Error filtering declensions ${resultFetch.message}"
-                            )
+                            Log.e(LOG_TAG, "Error filtering declensions ${resultFilter.message}")
                         }
                     }
                 } else if (resultInsert is DeclensionInsertUseCase.Result.Failure) {
                     dialogManager.showErrorDialogWithRetry("Error fetching declensions")
-                    Log.d(
-                        LOG_TAG,
-                        "Error fetching declensions ${resultInsert.message}"
-                    )
+                    Log.e(LOG_TAG, "Error fetching declensions ${resultInsert.message}")
                 }
             }
         }

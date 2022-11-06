@@ -200,12 +200,9 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity, )
         // region edit text
         root.editTextSuffix.addTextChangedListener( object : BaseTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                root.editTextParadigmDeclension.setText(
-                    Declension.createDeclension(
-                        root.editTextParadigm.text.toString(),
-                        root.editTextSuffix.text.toString()
-                    )
-                )
+                val endingLength = root.editTextParadigmEnding.text.toString().length
+                val paradigmRoot = root.editTextParadigm.text.toString().dropLast(endingLength)
+                root.editTextParadigmDeclension.setText(Declension.createDeclension(paradigmRoot, root.editTextSuffix.text.toString()))
             }
         })
 
@@ -238,6 +235,10 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity, )
         // region buttons
         root.buttonSave.setOnClickListener {
             listeners.forEach { listener ->
+                val endingLength = root.editTextParadigmEnding.text.toString().length
+                val paradigmRoot = root.editTextParadigm.text.toString().dropLast(endingLength)
+                root.editTextParadigmDeclension.setText(Declension.createDeclension(paradigmRoot, root.editTextSuffix.text.toString()))
+
                 listener.onSaveDeclensions(
                     Declension(
                         0,
