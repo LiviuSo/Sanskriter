@@ -212,7 +212,7 @@ enum class VerbClass(val clas: Int) {
 
 enum class Paradigm(val description: String, val paradigm: String) {
     KANTA("stem in a/ā: kānta", "kānta"),
-    NADI("stem in ī: nadī", "nadī"),
+    NADI("stem in ī: nādī", "nādī"),
     STRI("stem in ī: strī (irregular)", "strī"),
     DHI("stem in ī: dhī", "dhī"),
     VADHU("stem in ū: vadhū", "vadhū"),

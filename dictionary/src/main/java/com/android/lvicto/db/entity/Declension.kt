@@ -15,13 +15,13 @@ import java.util.*
 @Entity(tableName = "declension_table")
 data class Declension(
     @field:PrimaryKey(autoGenerate = true) @field:ColumnInfo(name = "id") var id: Long = 0,
-    @field:ColumnInfo(name = "gCase") val gCase: GrammaticalCase,
-    @field:ColumnInfo(name = "gNumber") val gNumber: GrammaticalNumber,
-    @field:ColumnInfo(name = "gGender") val gGender: GrammaticalGender,
-    @field:ColumnInfo(name = "paradigm") val paradigm: String,                      // eg, kanta
-    @field:ColumnInfo(name = "paradigmEnding") val paradigmEnding: String,          // eg, -a
-    @field:ColumnInfo(name = "suffix") val suffix: String,                          // eg, -asya
-    @field:ColumnInfo(name = "paradigmDeclension") var paradigmDeclension: String   // eg, kantasya
+    @field:ColumnInfo(name = "gCase") val gCase: GrammaticalCase = GrammaticalCase.NONE,
+    @field:ColumnInfo(name = "gNumber") val gNumber: GrammaticalNumber = GrammaticalNumber.NONE,
+    @field:ColumnInfo(name = "gGender") var gGender: GrammaticalGender = GrammaticalGender.NONE,
+    @field:ColumnInfo(name = "paradigm") var paradigm: String = "",                      // eg, kanta
+    @field:ColumnInfo(name = "paradigmEnding") val paradigmEnding: String = "",          // eg, -a
+    @field:ColumnInfo(name = "suffix") var suffix: String = "",                          // eg, -asya
+    @field:ColumnInfo(name = "paradigmDeclension") var paradigmDeclension: String = ""   // eg, kantasya
 ) : Parcelable {
 
     override fun toString(): String = StringBuffer()
