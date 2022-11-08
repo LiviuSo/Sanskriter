@@ -325,45 +325,56 @@ class AddModifyWordFragment : BaseFragment() {
         }
     }
 
-    private suspend fun detectDeclension(key: String, word: Word): List<Declension> {
+    private suspend fun detectDeclension(keySuffix: String, word: Word): List<Declension> {
         val declensions = arrayListOf<Declension>()
+        val filterKeyDeclension = Declension().apply {
+            paradigm = word.paradigm
+        }
         if(!isParadigmImplemented(word)) {
-            Toast.makeText(requireContext(), "Not implemented yet for paradigms other than KANTA.", Toast.LENGTH_SHORT).show()
-        } else if (key.isEmpty()) { // if empty return all declensions
-            val result = if(word.gender.abbr.isEmpty() || word.gender.abbr == GrammaticalGender.NONE.abbr)
-                declensionFetchUseCase.getAll()
-            else
-                declensionFilterUseCase.filterByGender(word.gender.abbr)
-
-            when (result) {
-                is DeclensionFetchUseCase.Result.Success -> declensions.addAll(result.declensions)
-                is DeclensionFilterUseCase.Result.Success -> declensions.addAll(result.declensions)
-                is DeclensionFetchUseCase.Result.Failure -> Log.d(DeclensionFragment.LOG_TAG, "Error fetching declensions")
-                is DeclensionFilterUseCase.Result.Failure -> Log.d(DeclensionFragment.LOG_TAG, "Error filtering declensions")
-            }
+            Toast.makeText(requireContext(), "Paradigm not implemented yet.", Toast.LENGTH_SHORT).show()
         } else {
-            var index = key.length - 1
-            val suffixes = hashSetOf<String>()
-            while (index >= 0) {
-                val result = declensionFetchUseCase.getSuffixes(key.substring(index, key.length))
-                if (result is DeclensionFetchUseCase.Result.SuccessSuffixes)
-                    suffixes.addAll(result.declensions.distinct())
-                index--
-            }
-            if (suffixes.isNotEmpty()) {
-                when (val suffixesResult =
-                    suffixes.minByOrNull { it.length }?.let { declensionFilterUseCase.filterByFullSuffix(it) }) {
-                    is DeclensionFilterUseCase.Result.Success -> declensions.addAll(suffixesResult.declensions)
-                    is DeclensionFilterUseCase.Result.Failure -> Log.d(DeclensionFragment.LOG_TAG, "Error fetching suffixes")
-                    else -> { /* nothing */ }
+            if (keySuffix.isEmpty()) { // if empty return all declensions
+                if (word.gender.abbr.isNotEmpty() && word.gender.abbr != GrammaticalGender.NONE.abbr) {
+                    filterKeyDeclension.gGender = word.gender
                 }
+            } else {
+                val longestSuffix = getLongestSuffix(keySuffix)
+                if (longestSuffix.isNotEmpty()) {
+                    filterKeyDeclension.apply {
+                        if (word.gender.abbr.isNotEmpty() && word.gender.abbr != GrammaticalGender.NONE.abbr) {
+                            gGender = word.gender
+                        }
+                        suffix = longestSuffix
+                    }
+                }
+            }
+
+            when (val result = declensionFilterUseCase.filter(filterKeyDeclension)) {
+                is DeclensionFilterUseCase.Result.Success -> declensions.addAll(result.declensions)
+                is DeclensionFilterUseCase.Result.Failure -> Log.d(DeclensionFragment.LOG_TAG, "Error filtering declensions")
+                else -> { /* nothing */ }
             }
         }
         return declensions
     }
 
+    private suspend fun getLongestSuffix(keySuffix: String): String {
+        var index = keySuffix.length - 1
+        val suffixes = hashSetOf<String>()
+        while (index >= 0) {
+            val result = declensionFetchUseCase.getSuffixes(keySuffix.substring(index, keySuffix.length))
+            if (result is DeclensionFetchUseCase.Result.SuccessSuffixes)
+                suffixes.addAll(result.declensions.distinct())
+            index--
+        }
+        return if (suffixes.isEmpty()) {
+            ""
+        } else {
+            suffixes.minByOrNull { it.length } ?: "" }
+    }
+
     private fun isParadigmImplemented(word: Word?): Boolean =
-        word?.paradigm == DeclensionEngine.PARADIGM_KANTA
+        word?.paradigm in arrayListOf(DeclensionEngine.PARADIGM_KANTA, DeclensionEngine.PARADIGM_NADI)
 
     private fun enableOrDisableByMode(view: View, isEnabled: Boolean) {
         view.isEnabled = isEnabled
@@ -399,12 +410,12 @@ class AddModifyWordFragment : BaseFragment() {
                     spinnerVerbCase.visibility = View.GONE
                 }
                 GrammaticalType.VERB -> {
-                    spinnerParadigm.visibility = View.VISIBLE
+                    spinnerParadigm.visibility = View.GONE
                     spinnerWordGender.visibility = View.GONE
                     spinnerVerbCase.visibility = View.VISIBLE
                 }
                 else -> {
-                    spinnerParadigm.visibility = View.VISIBLE
+                    spinnerParadigm.visibility = View.GONE
                     spinnerWordGender.visibility = View.GONE
                     spinnerVerbCase.visibility = View.GONE
                 }
@@ -419,9 +430,9 @@ class AddModifyWordFragment : BaseFragment() {
         val wordEn = root.editEn.text.toString()
         val wordRo = root.editRo.text.toString()
         val gType = converters.toGrammaticalType(root.spinnerType.selectedItem.toString())
-        val paradigm = Paradigm.fromDescription(root.spinnerParadigm.selectedItem.toString())
-        val verbClass = VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString())
-        val gender = converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString())
+        val paradigm = if(root.spinnerParadigm.isVisible) Paradigm.fromDescription(root.spinnerParadigm.selectedItem.toString()) else ""
+        val verbClass = if(root.spinnerVerbCase.isVisible) VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString()) else VerbClass.NONE
+        val gender = if(root.spinnerWordGender.isVisible) converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString()) else GrammaticalGender.NONE
 
         val newWord = Word(
             gType = gType,
