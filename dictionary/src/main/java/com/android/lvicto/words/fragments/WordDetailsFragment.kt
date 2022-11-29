@@ -36,19 +36,19 @@ import com.android.lvicto.declension.usecase.DeclensionFilterUseCase
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.usecase.WordsInsertUseCase
 import com.android.lvicto.words.usecase.WordsUpdateUseCase
-import com.android.lvicto.words.view.AddModifyWordViewMvc
-import com.android.lvicto.words.view.AddModifyWordViewMvcImpl
+import com.android.lvicto.words.view.WordDetailsView
+import com.android.lvicto.words.view.WordDetailsViewImpl
 import kotlinx.android.synthetic.main.fragment_add_word.view.*
 import kotlinx.coroutines.*
 
-class AddModifyWordFragment : BaseFragment() {
+class WordDetailsFragment : BaseFragment() {
 
     private var mode: Int? = null
     private var word: Word? = null // todo make it a MediatorLiveData
     private var oldWord: Word? = null // todo make it a MediatorLiveData
     private var requestCode: Int = -1
     private val coroutineScope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private lateinit var mViewMvcImpl: AddModifyWordViewMvc
+    private lateinit var view: WordDetailsView
     private lateinit var root: View
 
     @field:Service
@@ -247,7 +247,7 @@ class AddModifyWordFragment : BaseFragment() {
             showHideField(root, oldWord)
 
             btnSaveWord?.apply {
-                setOnClickListener(this@AddModifyWordFragment::onClickAdd)
+                setOnClickListener(this@WordDetailsFragment::onClickAdd)
                 toggleVisibilityByMode(this, mode == MODE_VIEW_WORD)
             }
 
@@ -287,7 +287,7 @@ class AddModifyWordFragment : BaseFragment() {
     private fun onDetectDeclension(key: String) {
         coroutineScope.launch {
             oldWord?.let {
-                mViewMvcImpl.setDeclensions(detectDeclension(key, it))
+                view.setDeclensions(detectDeclension(key, it))
             }
         }
     }
@@ -477,7 +477,7 @@ class AddModifyWordFragment : BaseFragment() {
                 onDeleteClick = {
                     // nothing
                 }
-                mViewMvcImpl = AddModifyWordViewMvcImpl(adapter = this) // todo remove adapter as a param when refactoring to arch complete
+                view = WordDetailsViewImpl(adapter = this) // todo remove adapter as a param when refactoring to arch complete
             }
             isGone = !shouldShowDeclension(oldWord)
         }

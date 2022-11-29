@@ -20,8 +20,8 @@ import com.android.lvicto.db.data.Declensions
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.event.ImportDeclensionsIntentEvent
 import com.android.lvicto.declension.usecase.*
-import com.android.lvicto.declension.view.DeclensionsViewMvcImpl
-import com.android.lvicto.declension.view.DeclensionsViewMvc
+import com.android.lvicto.declension.view.DeclensionsViewImpl
+import com.android.lvicto.declension.view.DeclensionsView
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.usecase.WordsFilterUseCase
 import kotlinx.android.synthetic.main.fragment_declension.*
@@ -35,7 +35,7 @@ todos:
 - detection
  */
 
-class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsViewMvc.Listener {
+class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsView.Listener {
 
     @field:Service
     private lateinit var wordsFilterUseCase: WordsFilterUseCase
@@ -73,7 +73,7 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
     @field:Service
     private lateinit var mViewFactory: ViewMvcFactory
 
-    private lateinit var mViewMvcImpl: DeclensionsViewMvcImpl
+    private lateinit var mViewMvcImpl: DeclensionsViewImpl
 
 
     private val coroutineScope: CoroutineScope =

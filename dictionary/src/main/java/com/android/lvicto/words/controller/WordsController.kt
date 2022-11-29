@@ -13,12 +13,13 @@ import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.words.event.ImportWordsIntentEvent
 import com.android.lvicto.words.fragments.WordsFragment
 import com.android.lvicto.words.usecase.*
-import com.android.lvicto.words.view.WordsViewMvc
+import com.android.lvicto.words.view.WordsView
 import kotlinx.coroutines.*
 
-class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsViewListener, ResultEventBus.Listener {
+class WordsController(private val mActivity: BaseActivity) : WordsView.WordsViewListener, ResultEventBus.Listener {
 
-    private lateinit var mViewMvc: WordsViewMvc
+    private lateinit var view: WordsView
+
     private val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -54,8 +55,8 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
 
     private var isDataLoaded = false
 
-    fun bindView(viewMvc: WordsViewMvc) {
-        mViewMvc = viewMvc
+    fun bindView(viewMvc: WordsView) {
+        view = viewMvc
     }
 
     fun onStart(wordIAST: String?, wordEn: String?) {
@@ -63,20 +64,20 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
         mActivity.injector.inject(this)
 
         // register
-        mViewMvc.registerListener(this)
+        view.registerListener(this)
         eventBus.registerListener(this)
 
         // load initial data
         if (!isDataLoaded) {
             coroutineScope.launch {
-                mViewMvc.setupSearchFromOutside(wordIAST, wordEn)
+                view.setupSearchFromOutside(wordIAST, wordEn)
             }
         }
     }
 
     fun onStop() {
         // unregister
-        mViewMvc.unregisterListener(this)
+        view.unregisterListener(this)
         eventBus.unregisterListener(this)
         coroutineScope.coroutineContext.cancelChildren()
     }
@@ -132,7 +133,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                             } else {
                                 wordsInsertUseCase.insertWords(this)
                             }
-                            mViewMvc.setWords(this)
+                            view.setWords(this)
                         }
                     },
                     onFailure = { mDialogManager.showErrorDialog(R.string.dialog_error_message_read_file) }
@@ -156,11 +157,11 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                 isSuccess = { it is WordsDeleteUseCase.Result.Success },
                 isFailure = { it is WordsDeleteUseCase.Result.Failure },
                 onSuccess = {
-                    mViewMvc.unselectSelectedToRemove()
-                    if (!mViewMvc.isSearchVisible()) {
+                    view.unselectSelectedToRemove()
+                    if (!view.isSearchVisible()) {
                         initWords()
                     } else {
-                        mViewMvc.apply {
+                        view.apply {
                             filterByBoth(getSearchIASTString(), getSearchEnString())
                         }
                     }
@@ -177,7 +178,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     override fun onEventReceived(event: Any) {
         when (event) {
             is ImportWordsIntentEvent -> {
-                mViewMvc.onFilePicked(event.intent)
+                view.onFilePicked(event.intent)
             }
             is ErrorEvent -> {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_import)
@@ -194,7 +195,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
             getResult = { wordsFilterUseCase.filter(filterIAST, filterEn) },
             isSuccess = { it is WordsFilterUseCase.Result.Success },
             isFailure = { it is WordsFilterUseCase.Result.Failure },
-            onSuccess = { mViewMvc.setWords((it as WordsFilterUseCase.Result.Success).words) },
+            onSuccess = { view.setWords((it as WordsFilterUseCase.Result.Success).words) },
             onFailure = {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                 Log.d(WordsFragment.LOG_TAG, "unable to filter: ${(it as WordsFilterUseCase.Result.Failure).message}")
@@ -210,7 +211,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
                     if (words.isEmpty()) {
                         // todo show empty screen
                     } else { // total success
-                        mViewMvc.setWords(words)
+                        view.setWords(words)
                         isDataLoaded = true
                     }
                 }
@@ -225,12 +226,12 @@ class WordsController(private val mActivity: BaseActivity) : WordsViewMvc.WordsV
     private suspend fun handleResult(getResult: suspend () -> Any,
                                      isSuccess: suspend (Any) -> Boolean, isFailure: suspend (Any) -> Boolean,
                                      onSuccess: suspend (Any) -> Unit, onFailure: suspend (Any) -> Unit) {
-        mViewMvc.showProgress()
+        view.showProgress()
         getResult().apply {
             if (isSuccess(this)) { onSuccess(this) }
             else if(isFailure(this)) { onFailure(this) }
         }
-        mViewMvc.hideProgress()
+        view.hideProgress()
     }
 
 }

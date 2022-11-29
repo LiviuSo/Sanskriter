@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.db.entity.Declension
 
-interface DeclensionsViewMvc {
+interface DeclensionsView {
     interface Listener {
         fun onDeleteDeclension(declension: Declension)
         fun onFetchAll()

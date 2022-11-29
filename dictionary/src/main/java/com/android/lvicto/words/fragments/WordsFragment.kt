@@ -12,29 +12,29 @@ import com.android.lvicto.common.factory.ViewMvcFactory
 import com.android.lvicto.dependencyinjection.Service
 import com.android.lvicto.common.factory.ControllerMvcFactory
 import com.android.lvicto.words.controller.WordsController
-import com.android.lvicto.words.view.WordsViewMvc
+import com.android.lvicto.words.view.WordsView
 
 // todo fix bug: if an item is selected then unselected and then scrolled - the item is auto-selected
 
 class WordsFragment : BaseFragment() {
 
-    private lateinit var mViewMvc: WordsViewMvc
-    private lateinit var mControllerMvc: WordsController
+    private lateinit var view: WordsView
+    private lateinit var controller: WordsController
 
     @field:Service
-    private lateinit var mViewMvcFactory: ViewMvcFactory
+    private lateinit var viewFactory: ViewMvcFactory
 
     @field:Service
-    private lateinit var mControllerMvcFactory: ControllerMvcFactory
+    private lateinit var controllerFactory: ControllerMvcFactory
 
-    private var mWordIAST: String? = null
-    private var mWordEn: String? = null
+    private var wordIAST: String? = null
+    private var wordEn: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requireActivity().intent.apply {
-            mWordIAST = getStringExtra(EXTRA_WORD_IAST) ?: ""
-            mWordEn = getStringExtra(EXTRA_WORD_EN) ?: ""
+            wordIAST = getStringExtra(EXTRA_WORD_IAST) ?: ""
+            wordEn = getStringExtra(EXTRA_WORD_EN) ?: ""
         }
     }
 
@@ -42,20 +42,20 @@ class WordsFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         injector.inject(this)
 
-        mViewMvc = mViewMvcFactory.getWordsViewMvc(requireActivity() as BaseActivity, container)
-        mControllerMvc = mControllerMvcFactory.getWordsControllerMvc()
-        mControllerMvc.bindView(mViewMvc)
-        return mViewMvc.getRootView()
+        view = viewFactory.getWordsViewMvc(requireActivity() as BaseActivity, container)
+        controller = controllerFactory.getWordsControllerMvc()
+        controller.bindView(view)
+        return view.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-        mControllerMvc.onStart(mWordIAST, mWordEn)
+        controller.onStart(wordIAST, wordEn)
     }
 
     override fun onStop() {
         super.onStop()
-        mControllerMvc.onStop()
+        controller.onStop()
     }
     // endregion
 

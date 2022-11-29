@@ -19,21 +19,21 @@ import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
 import kotlinx.android.synthetic.main.fragment_declension.view.*
 
-class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
-    : ObservableMvcImpl<DeclensionsViewMvc.Listener>(), DeclensionsViewMvc {
+class DeclensionsViewImpl(private val mActivity: BaseActivity)
+    : ObservableMvcImpl<DeclensionsView.Listener>(), DeclensionsView {
 
-    private var mCase: String = "n/a"
-    private var mGender: String = "n/a"
-    private var mNumber: String = "n/a"
+    private var case: String = "n/a"
+    private var gender: String = "n/a"
+    private var number: String = "n/a"
 
-    private lateinit var mCaseFilter: MutableLiveData<String>
-    private lateinit var mNumberFilter: MutableLiveData<String>
-    private lateinit var mGenderFilter: MutableLiveData<String>
-    private lateinit var mSuffixFilter: MutableLiveData<String>
-    private lateinit var mEndingFilter: MutableLiveData<String>
-    private lateinit var mParadigmFilter: MutableLiveData<String>
+    private lateinit var caseFilter: MutableLiveData<String>
+    private lateinit var numberFilter: MutableLiveData<String>
+    private lateinit var genderFilter: MutableLiveData<String>
+    private lateinit var suffixFilter: MutableLiveData<String>
+    private lateinit var endingFilter: MutableLiveData<String>
+    private lateinit var paradigmFilter: MutableLiveData<String>
 
-    private lateinit var mDeclensionFilter: MutableLiveData<String>
+    private lateinit var declensionFilter: MutableLiveData<String>
 
     private val converters = Converters()
 
@@ -49,21 +49,21 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
 
         // region livedata
         requireActivity().let { activity ->
-            mCaseFilter = MutableLiveData<String>().apply {
+            caseFilter = MutableLiveData<String>().apply {
                 observe(activity) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
                 }
             }
-            mNumberFilter = MutableLiveData<String>().apply {
+            numberFilter = MutableLiveData<String>().apply {
                 observe(activity) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
                 }
             }
-            mGenderFilter = MutableLiveData<String>().apply {
+            genderFilter = MutableLiveData<String>().apply {
                 observe(
                     activity,
                 ) {
@@ -72,7 +72,7 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     }
                 }
             }
-            mParadigmFilter = MutableLiveData<String>().apply {
+            paradigmFilter = MutableLiveData<String>().apply {
                 observe(activity) {
 
                     listeners.forEach { listener ->
@@ -80,7 +80,7 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     }
                 }
             }
-            mEndingFilter = MutableLiveData<String>().apply {
+            endingFilter = MutableLiveData<String>().apply {
                 observe(activity) {
 
                     listeners.forEach { listener ->
@@ -88,14 +88,14 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     }
                 }
             }
-            mSuffixFilter = MutableLiveData<String>().apply {
+            suffixFilter = MutableLiveData<String>().apply {
                 observe(activity) {
                     listeners.forEach { listener ->
                         listener.onFilter()
                     }
                 }
             }
-            mDeclensionFilter = MutableLiveData<String>().apply {
+            declensionFilter = MutableLiveData<String>().apply {
                 observe(activity) {
                     listeners.forEach { listener ->
                         listener.onDetectDeclension(it)
@@ -123,11 +123,11 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     position: Int,
                     id: Long
                 ) {
-                    mCase = parent?.getItemAtPosition(position).toString()
+                    case = parent?.getItemAtPosition(position).toString()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    mCase = "n/a"
+                    case = "n/a"
                 }
             }
         }
@@ -148,11 +148,11 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     position: Int,
                     id: Long
                 ) {
-                    mNumber = parent?.getItemAtPosition(position).toString()
+                    number = parent?.getItemAtPosition(position).toString()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    mNumber = "n/a"
+                    number = "n/a"
                 }
             }
         }
@@ -174,11 +174,11 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     position: Int,
                     id: Long
                 ) {
-                    mGender = parent?.getItemAtPosition(position).toString()
+                    gender = parent?.getItemAtPosition(position).toString()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    mGender = "n/a"
+                    gender = "n/a"
                 }
 
             }
@@ -189,7 +189,7 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
         root.recyclerViewDeclensions.layoutManager = LinearLayoutManager(requireActivity())
         adapter = DeclensionAdapter(requireActivity()).apply {
             this@apply.onDeleteClick = { declension ->
-                (this@DeclensionsViewMvcImpl).listeners.forEach {
+                (this@DeclensionsViewImpl).listeners.forEach {
                     it.onDeleteDeclension(declension)
                 }
             }
@@ -208,25 +208,25 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
 
         root.editTextFilterParadigm.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
-                mParadigmFilter.value = s.toString()
+                paradigmFilter.value = s.toString()
             }
         })
 
         root.editTextFilterEnding.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
-                mEndingFilter.value = s.toString()
+                endingFilter.value = s.toString()
             }
         })
 
         root.editTextFilterSuffix.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
-                mSuffixFilter.value = s.toString()
+                suffixFilter.value = s.toString()
             }
         })
 
         root.editTextDetectDeclension.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
-                mDeclensionFilter.value = s.toString()
+                declensionFilter.value = s.toString()
             }
         })
 
@@ -242,9 +242,9 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                 listener.onSaveDeclensions(
                     Declension(
                         0,
-                        converters.toGrammaticalCase(mCase),
-                        converters.toGrammaticalNumber(mNumber),
-                        converters.toGrammaticalGender(mGender),
+                        converters.toGrammaticalCase(case),
+                        converters.toGrammaticalNumber(number),
+                        converters.toGrammaticalGender(gender),
                         root.editTextParadigm.text.toString(),
                         root.editTextParadigmEnding.text.toString(),
                         root.editTextSuffix.text.toString(),
@@ -286,11 +286,11 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     position: Int,
                     id: Long
                 ) {
-                    mCaseFilter.postValue(parent?.getItemAtPosition(position).toString())
+                    caseFilter.postValue(parent?.getItemAtPosition(position).toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    mCaseFilter.postValue("n/a")
+                    caseFilter.postValue("n/a")
                 }
             }
         }
@@ -312,11 +312,11 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     position: Int,
                     id: Long
                 ) {
-                    mNumberFilter.postValue(parent?.getItemAtPosition(position).toString())
+                    numberFilter.postValue(parent?.getItemAtPosition(position).toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    mNumberFilter.postValue("n/a")
+                    numberFilter.postValue("n/a")
                 }
             }
         }
@@ -338,11 +338,11 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
                     position: Int,
                     id: Long
                 ) {
-                    mGenderFilter.postValue(parent?.getItemAtPosition(position).toString())
+                    genderFilter.postValue(parent?.getItemAtPosition(position).toString())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    mGenderFilter.postValue("n/a")
+                    genderFilter.postValue("n/a")
                 }
             }
         }

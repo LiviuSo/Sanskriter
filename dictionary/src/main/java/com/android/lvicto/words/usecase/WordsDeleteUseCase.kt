@@ -9,7 +9,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class WordsDeleteUseCase(
-    private val substantiveDao: SubstantiveDao, // todo remove
+    private val substantiveDao: SubstantiveDao,
     private val pronounDao: PronounDao,
     private val verbsDao: VerbDao,
     private val numeralDao: NumeralDao,
