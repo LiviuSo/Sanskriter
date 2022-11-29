@@ -7,13 +7,12 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants.NONE
 import com.android.lvicto.common.initSpinner
-import com.android.lvicto.common.base.BaseTextWatcher
-import com.android.lvicto.common.base.BaseObservableMvc
+import com.android.lvicto.common.base.TextWatcherImpl
+import com.android.lvicto.common.base.ObservableMvcImpl
 import com.android.lvicto.conjugation.adapter.ConjugationAdapter
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.android.synthetic.main.fragment_conjugation.view.*
@@ -22,7 +21,7 @@ class ConjugationViewMvcImpl(
     val activity: AppCompatActivity,
     layoutInflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableMvc<ConjugationViewMvc.Listener>(), ConjugationViewMvc {
+) : ObservableMvcImpl<ConjugationViewMvc.Listener>(), ConjugationViewMvc {
 
     init {
         setRootView(layoutInflater.inflate(R.layout.fragment_conjugation, parent, false))
@@ -56,7 +55,7 @@ class ConjugationViewMvcImpl(
     private fun init() {
 
         // region conjugation fields zone
-        getRootView().edParadigmRoot?.addTextChangedListener(object : BaseTextWatcher() {
+        getRootView().edParadigmRoot?.addTextChangedListener(object : TextWatcherImpl() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 p0.toString().let {
                     val paradigmRoot = if (it.isEmpty()) {
@@ -71,7 +70,7 @@ class ConjugationViewMvcImpl(
                 }
             }
         })
-        getRootView().edEnding?.addTextChangedListener(object : BaseTextWatcher() {
+        getRootView().edEnding?.addTextChangedListener(object : TextWatcherImpl() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 p0.toString().let {
                     val ending = it.ifEmpty {
@@ -213,7 +212,7 @@ class ConjugationViewMvcImpl(
         //  endregion
 
         // region detect
-        getRootView().edFormToDecompose?.addTextChangedListener(object : BaseTextWatcher() {
+        getRootView().edFormToDecompose?.addTextChangedListener(object : TextWatcherImpl() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 //                formLiveDate.value = s.toString()
                 for (listener in listeners) {

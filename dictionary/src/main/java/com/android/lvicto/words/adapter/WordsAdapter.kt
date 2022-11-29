@@ -77,13 +77,13 @@ class WordsAdapter(private val context: Context,
                 }
                 findViewById<TextView>(R.id.tvItemWordIAST).text = word.wordIAST
                 findViewById<TextView>(R.id.tvItemWordSa).text = word.wordSa
-                findViewById<TextView>(R.id.tvItemDefRo).isGone = isRomanianHidden
+                findViewById<TextView>(R.id.tvItemDefRo)?.isGone = isRomanianHidden
             }
 
             when (type) {
                 TYPE_NON_REMOVABLE -> {
                     view.findViewById<TextView>(R.id.tvItemDefEn).text = word.meaningEn
-                    view.findViewById<TextView>(R.id.tvItemDefRo).text = word.meaningRo
+                    view.findViewById<TextView>(R.id.tvItemDefRo)?.text = word.meaningRo
                     view.apply {
                         tag = word
                         setOnClickListener(clickListenerDefinition)

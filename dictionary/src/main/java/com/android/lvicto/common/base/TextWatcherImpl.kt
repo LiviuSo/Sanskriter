@@ -4,7 +4,7 @@ import android.text.Editable
 import android.text.TextWatcher
 
 
-open class BaseTextWatcher : TextWatcher {
+open class TextWatcherImpl : TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         // nothing
     }

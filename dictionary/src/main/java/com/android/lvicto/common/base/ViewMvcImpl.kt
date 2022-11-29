@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import com.android.lvicto.common.view.viewinterface.ViewMvc
 
-open class BaseViewMvc : ViewMvc {
+open class ViewMvcImpl : ViewMvc {
 
     private lateinit var mRootView: View
 

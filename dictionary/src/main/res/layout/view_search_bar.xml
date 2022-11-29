@@ -29,7 +29,9 @@
         android:layout_marginEnd="@dimen/item_margin_left_right"
         android:layout_weight="1"
         android:hint="@string/dic_en_search_hint"
-        android:imeActionLabel="@string/kbImeActionEnglish" />
+        android:imeActionLabel="@string/kbImeActionEnglish"
+        android:importantForAutofill="no"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editSearchIast"
@@ -38,31 +40,8 @@
         android:layout_marginEnd="@dimen/item_margin_left_right"
         android:layout_weight="1"
         android:hint="@string/dic_iast_search_hint"
-        android:imeActionLabel="@string/kbImeActionIAST" />
-
-    <LinearLayout
-        android:id="@+id/llContainerSpecialSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edForm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="form (IAST)"
-            android:inputType="text"
-            android:imeActionLabel="@string/kbImeActionIAST"
-            android:layout_marginEnd="5dp"
-            android:autofillHints="off" />
-
-        <ImageButton
-            android:id="@+id/ibSearchForm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_zoom_in_24" />
-    </LinearLayout>
+        android:imeActionLabel="@string/kbImeActionIAST"
+        android:importantForAutofill="no"
+        android:inputType="text" />
 
 </LinearLayout>

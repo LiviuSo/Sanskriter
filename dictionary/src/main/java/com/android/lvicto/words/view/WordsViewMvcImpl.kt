@@ -23,8 +23,8 @@ import com.android.lvicto.common.Constants.MODE_EDIT_WORD
 import com.android.lvicto.common.Constants.MODE_VIEW_WORD
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.base.BaseActivity
-import com.android.lvicto.common.base.BaseObservableMvc
-import com.android.lvicto.common.base.BaseTextWatcher
+import com.android.lvicto.common.base.ObservableMvcImpl
+import com.android.lvicto.common.base.TextWatcherImpl
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
@@ -42,7 +42,7 @@ class WordsViewMvcImpl(
     inflater: LayoutInflater,
     container: ViewGroup?,
     dlgManager: DialogManager
-) : BaseObservableMvc<WordsViewMvc.WordsViewListener>(), WordsViewMvc {
+) : ObservableMvcImpl<WordsViewMvc.WordsViewListener>(), WordsViewMvc {
 
     private var mBtnCloseSearchBar: ImageButton
     private var mLlRemoveCancel: LinearLayout
@@ -59,12 +59,12 @@ class WordsViewMvcImpl(
     private lateinit var mWordsAdapter: WordsAdapter
     private var mClRootWords: CoordinatorLayout
 
-    private val qwertyTextWatcher = object : BaseTextWatcher() {
+    private val qwertyTextWatcher = object : TextWatcherImpl() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             triggerFiltering(s.toString(), getSearchIASTString())
         }
     }
-    private val iastTextWatcher = object : BaseTextWatcher() {
+    private val iastTextWatcher = object : TextWatcherImpl() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             triggerFiltering(getSearchEnString(), s.toString())
         }
@@ -185,16 +185,9 @@ class WordsViewMvcImpl(
     }
 
     private fun initSearchBar() {
-
-       setEditsListeners()
-
+        setEditsListeners()
         mBtnCloseSearchBar.setOnClickListener {
             hideSearch()
-        }
-
-        getRootView().ibSearchForm.setOnClickListener {
-            val form = getRootView().edForm.text.toString()
-            Toast.makeText(requireActivity(), "Search form $form", Toast.LENGTH_SHORT).show() // todo complete
         }
     }
 
