@@ -12,15 +12,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.base.BaseActivity
-import com.android.lvicto.common.base.BaseTextWatcher
+import com.android.lvicto.common.base.TextWatcherImpl
+import com.android.lvicto.common.base.ObservableMvcImpl
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
 import kotlinx.android.synthetic.main.fragment_declension.view.*
-import com.android.lvicto.common.base.BaseObservableMvc as BaseObservableMvc1
 
-class DeclensionsViewMvcImpl(private val mActivity: BaseActivity, )
-    : BaseObservableMvc1<DeclensionsViewMvc.Listener>(), DeclensionsViewMvc {
+class DeclensionsViewMvcImpl(private val mActivity: BaseActivity)
+    : ObservableMvcImpl<DeclensionsViewMvc.Listener>(), DeclensionsViewMvc {
 
     private var mCase: String = "n/a"
     private var mGender: String = "n/a"
@@ -198,7 +198,7 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity, )
         // endregion
 
         // region edit text
-        root.editTextSuffix.addTextChangedListener( object : BaseTextWatcher() {
+        root.editTextSuffix.addTextChangedListener( object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
                 val endingLength = root.editTextParadigmEnding.text.toString().length
                 val paradigmRoot = root.editTextParadigm.text.toString().dropLast(endingLength)
@@ -206,25 +206,25 @@ class DeclensionsViewMvcImpl(private val mActivity: BaseActivity, )
             }
         })
 
-        root.editTextFilterParadigm.addTextChangedListener(object : BaseTextWatcher() {
+        root.editTextFilterParadigm.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
                 mParadigmFilter.value = s.toString()
             }
         })
 
-        root.editTextFilterEnding.addTextChangedListener(object : BaseTextWatcher() {
+        root.editTextFilterEnding.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
                 mEndingFilter.value = s.toString()
             }
         })
 
-        root.editTextFilterSuffix.addTextChangedListener(object : BaseTextWatcher() {
+        root.editTextFilterSuffix.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
                 mSuffixFilter.value = s.toString()
             }
         })
 
-        root.editTextDetectDeclension.addTextChangedListener(object : BaseTextWatcher() {
+        root.editTextDetectDeclension.addTextChangedListener(object : TextWatcherImpl() {
             override fun afterTextChanged(s: Editable?) {
                 mDeclensionFilter.value = s.toString()
             }

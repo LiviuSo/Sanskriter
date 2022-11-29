@@ -2,7 +2,8 @@ package com.android.lvicto.common.base
 
 import com.android.lvicto.common.view.viewinterface.ObservableMvc
 
-open class BaseObservableMvc<LISTENER_TYPE> : BaseViewMvc(), ObservableMvc<LISTENER_TYPE> {
+open class ObservableMvcImpl<LISTENER_TYPE> : ViewMvcImpl(),
+    ObservableMvc<LISTENER_TYPE> {
 
     protected val listeners: HashSet<LISTENER_TYPE> = hashSetOf()
 

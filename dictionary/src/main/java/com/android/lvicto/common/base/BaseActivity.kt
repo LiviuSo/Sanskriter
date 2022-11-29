@@ -1,6 +1,5 @@
 package com.android.lvicto.common.base
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.android.lvicto.dependencyinjection.composition.ActivityCompositionRoot
 import com.android.lvicto.dependencyinjection.composition.AppCompositionRoot
@@ -23,7 +22,6 @@ open class BaseActivity : AppCompatActivity() {
         activityCompositionRoot = ActivityCompositionRoot(this, appCompositionRoot)
         controllerCompositionRoot = ControllerCompositionRoot(activityCompositionRoot)
         injector = Injector(controllerCompositionRoot)
-        Log.d("debconj", "injector initialized")
     }
 
 }
