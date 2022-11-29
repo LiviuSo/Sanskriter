@@ -22,7 +22,7 @@ import com.android.lvicto.conjugation.usecase.ConjugationAddUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
 import com.android.lvicto.conjugation.view.ConjugationViewMvc
-import com.android.lvicto.conjugation.view.ConjugationViewMvcImpl
+import com.android.lvicto.conjugation.view.ConjugationViewImpl
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.coroutines.*
 
@@ -53,7 +53,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private lateinit var importPickerCode: ImportPickerCode
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private lateinit var mViewMvcImpl: ConjugationViewMvcImpl
+    private lateinit var mViewMvcImpl: ConjugationViewImpl
 
 
     override fun onCreateView(

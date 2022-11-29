@@ -7,7 +7,7 @@ import androidx.activity.result.ActivityResultLauncher
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.view.viewinterface.ObservableMvc
 
-interface WordsViewMvc : ObservableMvc<WordsViewMvc.WordsViewListener> {
+interface WordsView : ObservableMvc<WordsView.WordsViewListener> {
     interface WordsViewListener {
         fun onFilterEnIAST(filterEn: String, filterIast: String)
         fun onInitWords()

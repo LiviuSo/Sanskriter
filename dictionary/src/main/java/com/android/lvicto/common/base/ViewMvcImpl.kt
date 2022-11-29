@@ -6,12 +6,12 @@ import com.android.lvicto.common.view.viewinterface.ViewMvc
 
 open class ViewMvcImpl : ViewMvc {
 
-    private lateinit var mRootView: View
+    private lateinit var rootView: View
 
-    override fun getRootView(): View = mRootView
+    override fun getRootView(): View = rootView
 
     protected fun setRootView(rootView: View) {
-        mRootView = rootView
+        this.rootView = rootView
     }
 
     protected fun getContext(): Context = getRootView().context

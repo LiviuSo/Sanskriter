@@ -57,7 +57,7 @@
 
     <fragment
         android:id="@+id/destinationAddModifyWord"
-        android:name="com.android.lvicto.words.fragments.AddModifyWordFragment"
+        android:name="com.android.lvicto.words.fragments.WordDetailsFragment"
         android:label="AddModifyWord"
         tools:layout="@layout/fragment_add_word">
         <action

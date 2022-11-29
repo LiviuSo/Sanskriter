@@ -17,7 +17,7 @@ import com.android.lvicto.conjugation.adapter.ConjugationAdapter
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.android.synthetic.main.fragment_conjugation.view.*
 
-class ConjugationViewMvcImpl(
+class ConjugationViewImpl(
     val activity: AppCompatActivity,
     layoutInflater: LayoutInflater,
     parent: ViewGroup?

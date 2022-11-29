@@ -30,60 +30,61 @@ import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
 import com.android.lvicto.db.data.GrammaticalType
 import com.android.lvicto.words.adapter.WordsAdapter
-import com.android.lvicto.words.fragments.AddModifyWordFragment
+import com.android.lvicto.words.fragments.WordDetailsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_words.view.*
 import kotlinx.android.synthetic.main.layout_all_words.view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import kotlinx.android.synthetic.main.view_search_bar.view.*
 
-class WordsViewMvcImpl(
-    private val mActivity: BaseActivity,
+class WordsViewImpl(
+    private val activity: BaseActivity,
     inflater: LayoutInflater,
     container: ViewGroup?,
     dlgManager: DialogManager
-) : ObservableMvcImpl<WordsViewMvc.WordsViewListener>(), WordsViewMvc {
+) : ObservableMvcImpl<WordsView.WordsViewListener>(), WordsView {
 
-    private var mBtnCloseSearchBar: ImageButton
-    private var mLlRemoveCancel: LinearLayout
-    private var mFabDictionary: FloatingActionButton
-    private var mRvWords: RecyclerView
-    private var mToolbar: Toolbar
-    private var mEditSearchIAST: EditText
-    private var mEditSearch: EditText
-    private var mLlSearchBar: LinearLayout
-    private var mDialogManager: DialogManager
-    private var mProgress: ProgressBar
-    private lateinit var mResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var mResources: Resources
-    private lateinit var mWordsAdapter: WordsAdapter
-    private var mClRootWords: CoordinatorLayout
+    private var btnCloseSearchBar: ImageButton
+    private var llRemoveCancel: LinearLayout
+    private var fabDictionary: FloatingActionButton
+    private var rvWords: RecyclerView
+    private var toolbar: Toolbar
+    private var editSearchIAST: EditText
+    private var editSearch: EditText
+    private var llSearchBar: LinearLayout
+    private var dialogManager: DialogManager
+    private var progress: ProgressBar
+    private var clRootWords: CoordinatorLayout
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var resources: Resources
+    private lateinit var wordsAdapter: WordsAdapter
 
     private val qwertyTextWatcher = object : TextWatcherImpl() {
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            triggerFiltering(s.toString(), getSearchIASTString())
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            triggerFiltering(p0.toString(), getSearchIASTString())
         }
     }
+
     private val iastTextWatcher = object : TextWatcherImpl() {
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            triggerFiltering(getSearchEnString(), s.toString())
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            triggerFiltering(getSearchEnString(), p0.toString())
         }
     }
 
     init {
         setRootView(inflater.inflate(R.layout.fragment_words, container, false))
 
-        mLlSearchBar = getRootView().llSearchBar
-        mEditSearch = getRootView().editSearch
-        mEditSearchIAST = getRootView().editSearchIast
-        mToolbar = getRootView().toolbar
-        mRvWords = getRootView().rv_words
-        mFabDictionary = getRootView().fabDictionary
-        mLlRemoveCancel = getRootView().llRemoveCancel
-        mBtnCloseSearchBar = getRootView().btnCloseSearchBar
-        mDialogManager = dlgManager
-        mClRootWords = getRootView().clRootWords
-        mProgress = getRootView().progress
+        llSearchBar = getRootView().llSearchBar
+        editSearch = getRootView().editSearch
+        editSearchIAST = getRootView().editSearchIast
+        toolbar = getRootView().toolbar
+        rvWords = getRootView().rv_words
+        fabDictionary = getRootView().fabDictionary
+        llRemoveCancel = getRootView().llRemoveCancel
+        btnCloseSearchBar = getRootView().btnCloseSearchBar
+        dialogManager = dlgManager
+        clRootWords = getRootView().clRootWords
+        progress = getRootView().progress
 
         init()
     }
@@ -96,17 +97,17 @@ class WordsViewMvcImpl(
     }
 
     override fun setWords(words: List<Word>?) {
-        mWordsAdapter.words = words
+        wordsAdapter.words = words
     }
 
-    override fun isSearchVisible(): Boolean = mLlSearchBar.visibility == View.VISIBLE
+    override fun isSearchVisible(): Boolean = llSearchBar.visibility == View.VISIBLE
 
-    override fun getSearchEnString(): String = mEditSearch.text.toString()
+    override fun getSearchEnString(): String = editSearch.text.toString()
 
-    override fun getSearchIASTString(): String = mEditSearchIAST.text.toString()
+    override fun getSearchIASTString(): String = editSearchIAST.text.toString()
 
     private fun init() {
-        mResources = requireActivity().resources
+        resources = requireActivity().resources
         initToolbar()
         initSearchBar() // todo separate view
         initRecView()
@@ -116,22 +117,22 @@ class WordsViewMvcImpl(
 
     override fun setupSearchFromOutside(searchIast: String?, searchEn: String?) {
         if (!searchIast.isNullOrEmpty()) {
-            mEditSearchIAST.setText(searchIast)
+            editSearchIAST.setText(searchIast)
         }
         if (!searchEn.isNullOrEmpty()) {
-            mEditSearch.setText(searchEn)
+            editSearch.setText(searchEn)
         }
         if (!isSearchVisible() && (!searchIast.isNullOrEmpty() || !searchEn.isNullOrEmpty())) {
             showSearchBar()
         } else if(isSearchVisible()) {
-            triggerFiltering(mEditSearch.text.toString(), mEditSearchIAST.text.toString())
+            triggerFiltering(editSearch.text.toString(), editSearchIAST.text.toString())
         } else {
             triggerFiltering("", "")
         }
     }
 
     private fun initFab() {
-        mFabDictionary.setOnClickListener {
+        fabDictionary.setOnClickListener {
             val word = Word(
                 gType = GrammaticalType.OTHER,
                 wordSa = "",
@@ -140,7 +141,7 @@ class WordsViewMvcImpl(
                 meaningRo = ""
             )
             it.findNavController()
-                .navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, AddModifyWordFragment.createBundle(word, CODE_REQUEST_ADD_WORD, MODE_EDIT_WORD))
+                .navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, WordDetailsFragment.createBundle(word, CODE_REQUEST_ADD_WORD, MODE_EDIT_WORD))
         }
     }
 
@@ -155,30 +156,30 @@ class WordsViewMvcImpl(
 
     private fun initRecView() {
         val itemEditClickListener = View.OnClickListener {
-            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, AddModifyWordFragment.createBundle(it.tag as Word, CODE_REQUEST_EDIT_WORD, MODE_VIEW_WORD))
+            it.navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, WordDetailsFragment.createBundle(it.tag as Word, CODE_REQUEST_EDIT_WORD, MODE_VIEW_WORD))
         }
 
         @SuppressLint("RestrictedApi")
         val longClickListener: View.OnLongClickListener = View.OnLongClickListener {
             updateRevViewItems(WordsAdapter.TYPE_REMOVABLE)
-            mToolbar.navigationUp.visibility = View.VISIBLE
-            mFabDictionary.visibility = View.GONE
+            toolbar.navigationUp.visibility = View.VISIBLE
+            fabDictionary.visibility = View.GONE
             true
         }
 
-        mWordsAdapter = WordsAdapter(
+        wordsAdapter = WordsAdapter(
             requireActivity(),
             itemEditClickListener,
             longClickListener
         ) {
-            mLlRemoveCancel.visibility = if (it) {
+            llRemoveCancel.visibility = if (it) {
                 View.GONE
             } else {
                 View.VISIBLE
             }
         }
-        mRvWords.layoutManager = LinearLayoutManager(requireActivity())
-        mRvWords.adapter = mWordsAdapter
+        rvWords.layoutManager = LinearLayoutManager(requireActivity())
+        rvWords.adapter = wordsAdapter
         for (listener in listeners) {
             listener.onInitWords()
         }
@@ -186,23 +187,23 @@ class WordsViewMvcImpl(
 
     private fun initSearchBar() {
         setEditsListeners()
-        mBtnCloseSearchBar.setOnClickListener {
+        btnCloseSearchBar.setOnClickListener {
             hideSearch()
         }
     }
 
     private fun setEditsListeners() {
-        mEditSearch.apply {
+        editSearch.apply {
             addTextChangedListener(qwertyTextWatcher)
         }
-        mEditSearchIAST.apply {
+        editSearchIAST.apply {
             addTextChangedListener(iastTextWatcher)
         }
     }
 
     private fun initToolbar() {
-        mToolbar.title = mResources.getString(R.string.dictionary)
-        mToolbar.toolbarSearch.setOnClickListener {
+        toolbar.title = resources.getString(R.string.dictionary)
+        toolbar.toolbarSearch.setOnClickListener {
             if (!isSearchVisible()) {
                 // show edit with close button
                 showSearchBar()
@@ -210,8 +211,8 @@ class WordsViewMvcImpl(
                 // as typing, filter
             }
         }
-        mToolbar.navigationUp.setOnClickListener {
-            if (mWordsAdapter.type != WordsAdapter.TYPE_NON_REMOVABLE) {
+        toolbar.navigationUp.setOnClickListener {
+            if (wordsAdapter.type != WordsAdapter.TYPE_NON_REMOVABLE) {
                 cancelRemoveSelected()
                 it.visibility = View.GONE
             } else {
@@ -219,8 +220,8 @@ class WordsViewMvcImpl(
             }
         }
 
-        mToolbar.toolbarTitle.text = mResources.getString(R.string.dictionary)
-        val overflowMenuImageView: ImageView = mToolbar.toolbarMenu
+        toolbar.toolbarTitle.text = resources.getString(R.string.dictionary)
+        val overflowMenuImageView: ImageView = toolbar.toolbarMenu
         overflowMenuImageView.setOnClickListener { view ->
             val popupMenu = PopupMenu(requireActivity(), view)
             popupMenu.setOnMenuItemClickListener { item ->
@@ -260,8 +261,8 @@ class WordsViewMvcImpl(
     private fun showSearchBar() {
         val transition: Transition = Fade()
         transition.duration = 250L
-        TransitionManager.beginDelayedTransition(mClRootWords, transition)
-        mLlSearchBar.visibility = View.VISIBLE
+        TransitionManager.beginDelayedTransition(clRootWords, transition)
+        llSearchBar.visibility = View.VISIBLE
         setEditsListeners()
         triggerFiltering(getSearchEnString(), getSearchIASTString())
     }
@@ -272,13 +273,11 @@ class WordsViewMvcImpl(
         }
     }
 
-    private fun requireActivity(): BaseActivity {
-        return mActivity
-    }
+    private fun requireActivity(): BaseActivity = activity
 
     @SuppressLint("NotifyDataSetChanged") // todo investigate
     private fun updateRevViewItems(type: Int) {
-        val adapter: WordsAdapter = mRvWords.adapter as WordsAdapter
+        val adapter: WordsAdapter = rvWords.adapter as WordsAdapter
         adapter.type = type
         adapter.notifyDataSetChanged()
     }
@@ -287,29 +286,29 @@ class WordsViewMvcImpl(
         requireActivity().hideSoftKeyboard() // close the keyboard
         showProgress()
         clearSearch()
-        mEditSearch.apply {
+        editSearch.apply {
             removeTextChangedListener(qwertyTextWatcher)
         }
-        mEditSearchIAST.apply {
+        editSearchIAST.apply {
             removeTextChangedListener(iastTextWatcher)
         }
-        mLlSearchBar.visibility = View.GONE
+        llSearchBar.visibility = View.GONE
         hideProgress()
     }
 
     private fun clearSearch() {
-        mEditSearch.text.clear()
-        mEditSearchIAST.text.clear()
+        editSearch.text.clear()
+        editSearchIAST.text.clear()
     }
 
     private fun unselectAll(v: View) {
-        (mRvWords.adapter as WordsAdapter).unselectSelectedToRemove()  // todo fix
+        (rvWords.adapter as WordsAdapter).unselectSelectedToRemove()  // todo fix
         hideRemoveCancel()
     }
 
     @SuppressLint("CheckResult", "RestrictedApi")
     private fun removeSelected(v: View) {
-        val adapter = mRvWords.adapter as WordsAdapter
+        val adapter = rvWords.adapter as WordsAdapter
         val wordsToRemove = adapter.getWordsToRemove()
         for (listener in listeners) {
             listener.onDeleteWords(wordsToRemove)
@@ -320,26 +319,26 @@ class WordsViewMvcImpl(
     private fun cancelRemoveSelected() {
         updateRevViewItems(WordsAdapter.TYPE_NON_REMOVABLE)
         hideRemoveCancel()
-        mFabDictionary.visibility = View.VISIBLE
+        fabDictionary.visibility = View.VISIBLE
     }
 
     private fun hideRemoveCancel() {
-        mLlRemoveCancel.visibility = View.GONE
+        llRemoveCancel.visibility = View.GONE
     }
 
     override fun setResultLauncher(resultLauncher: ActivityResultLauncher<Intent>) {
-        mResultLauncher = resultLauncher
+        this.resultLauncher = resultLauncher
     }
 
     override fun unselectSelectedToRemove() {
-        mWordsAdapter.unselectSelectedToRemove()
+        wordsAdapter.unselectSelectedToRemove()
     }
 
     override fun showProgress() {
-        mProgress.visibility = View.VISIBLE
+        progress.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        mProgress.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 }
