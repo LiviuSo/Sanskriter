@@ -14,7 +14,7 @@ import com.android.lvicto.db.Converters
 import com.android.lvicto.db.dao.ConjugationDao
 import com.android.lvicto.db.dao.DeclensionDao
 import com.android.lvicto.declension.usecase.*
-import com.android.lvicto.common.factory.ControllerMvcFactory
+import com.android.lvicto.common.factory.ControllerFactory
 import com.android.lvicto.db.dao.gtypes.*
 import com.android.lvicto.words.usecase.*
 import com.google.gson.Gson
@@ -38,7 +38,7 @@ class ActivityCompositionRoot(
 
     val converters: Converters get() = appComponent.converters
 
-    val controllerMvcFactory: ControllerMvcFactory get() = ControllerMvcFactory(activity)
+    val controllerFactory: ControllerFactory get() = ControllerFactory(activity)
 
     val dialogManager: DialogManager get() = DialogManager(activity, activity.supportFragmentManager)
 

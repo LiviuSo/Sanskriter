@@ -1,6 +1,6 @@
 package com.android.lvicto.common.eventbus
 
-import com.android.lvicto.common.view.viewinterface.ObservableMvc
+import com.android.lvicto.common.base.ObservableMvc
 
 class ResultEventBus : ObservableMvc<ResultEventBus.Listener> {
     interface Listener {
