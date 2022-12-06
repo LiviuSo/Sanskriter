@@ -5,6 +5,7 @@ import android.util.Log
 import com.android.lvicto.R
 import com.android.lvicto.common.*
 import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.base.ControllerMvcImpl
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.eventbus.ResultEventBus
 import com.android.lvicto.common.eventbus.event.ErrorEvent
@@ -14,11 +15,10 @@ import com.android.lvicto.words.event.ImportWordsIntentEvent
 import com.android.lvicto.words.fragments.WordsFragment
 import com.android.lvicto.words.usecase.*
 import com.android.lvicto.words.view.WordsView
+import com.android.lvicto.words.view.WordsViewImpl
 import kotlinx.coroutines.*
 
-class WordsController(private val mActivity: BaseActivity) : WordsView.WordsViewListener, ResultEventBus.Listener {
-
-    private lateinit var view: WordsView
+class WordsController(private val activity: BaseActivity) : ControllerMvcImpl<WordsView>(), WordsView.Listener, ResultEventBus.Listener {
 
     private val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -55,34 +55,34 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
 
     private var isDataLoaded = false
 
-    fun bindView(viewMvc: WordsView) {
-        view = viewMvc
-    }
+    var wordIAST: String? = null
+    var wordEn: String? = null
 
-    fun onStart(wordIAST: String?, wordEn: String?) {
+
+    override fun onStart() {
         // inject
-        mActivity.injector.inject(this)
+        activity.injector.inject(this)
 
         // register
-        view.registerListener(this)
+        view?.registerListener(this)
         eventBus.registerListener(this)
 
         // load initial data
         if (!isDataLoaded) {
             coroutineScope.launch {
-                view.setupSearchFromOutside(wordIAST, wordEn)
+                view?.setupSearchFromOutside(wordIAST, wordEn)
             }
         }
     }
 
-    fun onStop() {
+    override fun onStop() {
         // unregister
-        view.unregisterListener(this)
+        view?.unregisterListener(this)
         eventBus.unregisterListener(this)
         coroutineScope.coroutineContext.cancelChildren()
     }
 
-    // region listener
+    // region listener view
     override fun onFilterEnIAST(filterEn: String, filterIast: String) {
         coroutineScope.launch {
             filterByBoth(filterIast, filterEn)
@@ -101,7 +101,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
                             val filename = Constants.FILENAME_WORDS_PLUS // todo add date in the filename
                             wordsWriteToFileUseCase.writeWordsToFile(this, filename).let { result ->
                                 if (result is WordsWriteToFileUseCase.Result.Success) {
-                                    mActivity.export(result.path)
+                                    activity.export(result.path)
                                 } else if (result is WordsWriteToFileUseCase.Result.Failure) {
                                     mDialogManager.showErrorDialog(R.string.dialog_error_message_fetch_words_export)
                                 }
@@ -133,7 +133,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
                             } else {
                                 wordsInsertUseCase.insertWords(this)
                             }
-                            view.setWords(this)
+                            view?.setWords(this)
                         }
                     },
                     onFailure = { mDialogManager.showErrorDialog(R.string.dialog_error_message_read_file) }
@@ -157,11 +157,11 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
                 isSuccess = { it is WordsDeleteUseCase.Result.Success },
                 isFailure = { it is WordsDeleteUseCase.Result.Failure },
                 onSuccess = {
-                    view.unselectSelectedToRemove()
-                    if (!view.isSearchVisible()) {
+                    view?.unselectSelectedToRemove()
+                    if (view?.isSearchVisible() == false) {
                         initWords()
                     } else {
-                        view.apply {
+                        view?.apply {
                             filterByBoth(getSearchIASTString(), getSearchEnString())
                         }
                     }
@@ -172,13 +172,15 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
     }
 
     override fun onImport() {
-        resultLauncherManager.getLauncher(mActivity::class.java)?.openFilePicker(importPickerCode, Constants.RESULT_CODE_PICKFILE_WORDS)
+        resultLauncherManager.getLauncher(activity::class.java)?.openFilePicker(importPickerCode, Constants.RESULT_CODE_PICKFILE_WORDS)
     }
+    // endregion
 
+    // region event bus
     override fun onEventReceived(event: Any) {
         when (event) {
             is ImportWordsIntentEvent -> {
-                view.onFilePicked(event.intent)
+                view?.onFilePicked(event.intent)
             }
             is ErrorEvent -> {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_import)
@@ -195,7 +197,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
             getResult = { wordsFilterUseCase.filter(filterIAST, filterEn) },
             isSuccess = { it is WordsFilterUseCase.Result.Success },
             isFailure = { it is WordsFilterUseCase.Result.Failure },
-            onSuccess = { view.setWords((it as WordsFilterUseCase.Result.Success).words) },
+            onSuccess = { view?.setWords((it as WordsFilterUseCase.Result.Success).words) },
             onFailure = {
                 mDialogManager.showErrorDialog(R.string.dialog_error_message_words_filter)
                 Log.d(WordsFragment.LOG_TAG, "unable to filter: ${(it as WordsFilterUseCase.Result.Failure).message}")
@@ -211,7 +213,7 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
                     if (words.isEmpty()) {
                         // todo show empty screen
                     } else { // total success
-                        view.setWords(words)
+                        view?.setWords(words)
                         isDataLoaded = true
                     }
                 }
@@ -226,12 +228,12 @@ class WordsController(private val mActivity: BaseActivity) : WordsView.WordsView
     private suspend fun handleResult(getResult: suspend () -> Any,
                                      isSuccess: suspend (Any) -> Boolean, isFailure: suspend (Any) -> Boolean,
                                      onSuccess: suspend (Any) -> Unit, onFailure: suspend (Any) -> Unit) {
-        view.showProgress()
+        view?.showProgress()
         getResult().apply {
             if (isSuccess(this)) { onSuccess(this) }
             else if(isFailure(this)) { onFailure(this) }
         }
-        view.hideProgress()
+        view?.hideProgress()
     }
 
 }

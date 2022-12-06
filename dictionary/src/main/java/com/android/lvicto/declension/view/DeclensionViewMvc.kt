@@ -5,9 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import com.android.lvicto.common.base.BaseActivity
+import com.android.lvicto.common.base.ObservableMvc
 import com.android.lvicto.db.entity.Declension
 
-interface DeclensionsView {
+interface DeclensionsView : ObservableMvc<DeclensionsView.Listener> {
     interface Listener {
         fun onDeleteDeclension(declension: Declension)
         fun onFetchAll()

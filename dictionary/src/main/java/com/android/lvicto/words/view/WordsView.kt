@@ -2,13 +2,12 @@ package com.android.lvicto.words.view
 
 import android.content.Intent
 import android.net.Uri
-import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import com.android.lvicto.common.Word
-import com.android.lvicto.common.view.viewinterface.ObservableMvc
+import com.android.lvicto.common.base.ObservableMvc
 
-interface WordsView : ObservableMvc<WordsView.WordsViewListener> {
-    interface WordsViewListener {
+interface WordsView : ObservableMvc<WordsView.Listener> {
+    interface Listener {
         fun onFilterEnIAST(filterEn: String, filterIast: String)
         fun onInitWords()
         fun onDeleteWords(wordsToRemove: List<Word>)
@@ -27,5 +26,4 @@ interface WordsView : ObservableMvc<WordsView.WordsViewListener> {
     fun showProgress()
     fun hideProgress()
     fun setupSearchFromOutside(searchIast: String?, searchEn: String?)
-    fun getRootView(): View
 }

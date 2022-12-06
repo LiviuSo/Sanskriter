@@ -23,8 +23,8 @@ import com.android.lvicto.common.Constants.MODE_EDIT_WORD
 import com.android.lvicto.common.Constants.MODE_VIEW_WORD
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.base.BaseActivity
-import com.android.lvicto.common.base.ObservableMvcImpl
 import com.android.lvicto.common.base.TextWatcherImpl
+import com.android.lvicto.common.base.ViewMvcImpl
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.common.hideSoftKeyboard
 import com.android.lvicto.common.navigate
@@ -42,7 +42,7 @@ class WordsViewImpl(
     inflater: LayoutInflater,
     container: ViewGroup?,
     dlgManager: DialogManager
-) : ObservableMvcImpl<WordsView.WordsViewListener>(), WordsView {
+) : ViewMvcImpl<WordsView.Listener>(), WordsView {
 
     private var btnCloseSearchBar: ImageButton
     private var llRemoveCancel: LinearLayout
@@ -340,5 +340,13 @@ class WordsViewImpl(
 
     override fun hideProgress() {
         progress.visibility = View.GONE
+    }
+
+    override fun registerListener(listener: WordsView.Listener) {
+        listeners.add(listener)
+    }
+
+    override fun unregisterListener(listener: WordsView.Listener) {
+        listeners.remove(listener)
     }
 }

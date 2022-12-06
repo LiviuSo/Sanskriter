@@ -2,9 +2,10 @@ package com.android.lvicto.common.base
 
 import android.content.Context
 import android.view.View
-import com.android.lvicto.common.view.viewinterface.ViewMvc
 
-open class ViewMvcImpl : ViewMvc {
+open class ViewMvcImpl<LISTENER_TYPE> : ViewMvc {
+
+    protected var listeners: HashSet<LISTENER_TYPE> = hashSetOf()
 
     private lateinit var rootView: View
 

@@ -12,7 +12,7 @@ import com.android.lvicto.R
 import com.android.lvicto.common.Constants.NONE
 import com.android.lvicto.common.initSpinner
 import com.android.lvicto.common.base.TextWatcherImpl
-import com.android.lvicto.common.base.ObservableMvcImpl
+import com.android.lvicto.common.base.ViewMvcImpl
 import com.android.lvicto.conjugation.adapter.ConjugationAdapter
 import com.android.lvicto.db.entity.Conjugation
 import kotlinx.android.synthetic.main.fragment_conjugation.view.*
@@ -21,7 +21,7 @@ class ConjugationViewImpl(
     val activity: AppCompatActivity,
     layoutInflater: LayoutInflater,
     parent: ViewGroup?
-) : ObservableMvcImpl<ConjugationViewMvc.Listener>(), ConjugationViewMvc {
+) : ViewMvcImpl<ConjugationViewMvc.Listener>(), ConjugationViewMvc {
 
     init {
         setRootView(layoutInflater.inflate(R.layout.fragment_conjugation, parent, false))
@@ -263,6 +263,14 @@ class ConjugationViewImpl(
 
     override fun setFormRoot(formRoot: String) {
         getRootView().tvRootDetected.text = formRoot
+    }
+
+    override fun registerListener(listener: ConjugationViewMvc.Listener) {
+        listeners.add(listener)
+    }
+
+    override fun unregisterListener(listener: ConjugationViewMvc.Listener) {
+        listeners.remove(listener)
     }
 
     companion object {

@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.base.TextWatcherImpl
-import com.android.lvicto.common.base.ObservableMvcImpl
+import com.android.lvicto.common.base.ViewMvcImpl
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.entity.Declension
 import com.android.lvicto.declension.adapter.DeclensionAdapter
 import kotlinx.android.synthetic.main.fragment_declension.view.*
 
-class DeclensionsViewImpl(private val mActivity: BaseActivity)
-    : ObservableMvcImpl<DeclensionsView.Listener>(), DeclensionsView {
+class DeclensionsViewImpl(private val mActivity: BaseActivity) : ViewMvcImpl<DeclensionsView.Listener>(), DeclensionsView {
 
     private var case: String = "n/a"
     private var gender: String = "n/a"
@@ -34,11 +33,9 @@ class DeclensionsViewImpl(private val mActivity: BaseActivity)
     private lateinit var paradigmFilter: MutableLiveData<String>
 
     private lateinit var declensionFilter: MutableLiveData<String>
-
-    private val converters = Converters()
-
     private lateinit var adapter: DeclensionAdapter
 
+    private val converters = Converters()
 
     override fun setUpUI(
         layoutInflater: LayoutInflater,
@@ -357,6 +354,14 @@ class DeclensionsViewImpl(private val mActivity: BaseActivity)
 
     // region private
     override fun requireActivity(): BaseActivity = mActivity
+
+    override fun registerListener(listener: DeclensionsView.Listener) {
+        listeners.add(listener)
+    }
+
+    override fun unregisterListener(listener: DeclensionsView.Listener) {
+        listeners.remove(listener)
+    }
 
     // endregion
 }

@@ -55,6 +55,8 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private lateinit var mViewMvcImpl: ConjugationViewImpl
 
+    // todo add controller and move to a different library
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,7 +64,7 @@ class ConjugationFragment : BaseFragment(), ConjugationViewMvc.Listener, ResultE
         savedInstanceState: Bundle?
     ): View {
         injector.inject(this)
-        mViewMvcImpl = viewMvcFactory.getConjugationViewMvc(requireActivity() as AppCompatActivity, container) // todo fix conversion
+        mViewMvcImpl = viewMvcFactory.getConjugationView(requireActivity() as AppCompatActivity, container) // todo fix conversion
         return mViewMvcImpl.getRootView()
     }
 

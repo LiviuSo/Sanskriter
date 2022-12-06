@@ -75,6 +75,8 @@ class DeclensionFragment : BaseFragment(), ResultEventBus.Listener, DeclensionsV
 
     private lateinit var mViewMvcImpl: DeclensionsViewImpl
 
+    // todo add controller and move to a different library
+
 
     private val coroutineScope: CoroutineScope =
         CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)

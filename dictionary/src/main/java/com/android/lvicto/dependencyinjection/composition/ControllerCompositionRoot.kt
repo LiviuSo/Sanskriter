@@ -11,7 +11,7 @@ import com.android.lvicto.conjugation.usecase.ConjugationFetchUseCase
 import com.android.lvicto.conjugation.usecase.ConjugationImportExportUseCase
 import com.android.lvicto.db.Converters
 import com.android.lvicto.declension.usecase.*
-import com.android.lvicto.common.factory.ControllerMvcFactory
+import com.android.lvicto.common.factory.ControllerFactory
 import com.android.lvicto.words.usecase.*
 
 class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCompositionRoot) {
@@ -47,7 +47,7 @@ class ControllerCompositionRoot(private val activityCompositionRoot: ActivityCom
 
     val dialogManager: DialogManager = activityCompositionRoot.dialogManager
 
-    val controllerMvcFactory: ControllerMvcFactory = activityCompositionRoot.controllerMvcFactory
+    val controllerFactory: ControllerFactory = activityCompositionRoot.controllerFactory
 
     val converters: Converters = activityCompositionRoot.converters
 }
