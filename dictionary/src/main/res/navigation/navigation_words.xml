@@ -19,7 +19,7 @@
         android:id="@+id/destinationAddModifyWordFragment"
         android:name="com.android.lvicto.words.fragments.WordDetailsFragment"
         android:label="AddModifyWord"
-        tools:layout="@layout/fragment_add_word" />
+        tools:layout="@layout/fragment_word_add" />
 
     <activity
         android:id="@+id/destinationWordsActivity"

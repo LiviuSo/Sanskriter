@@ -1,6 +1,5 @@
 package com.android.lvicto.words.view
 
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,20 +7,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.base.BaseActivity
-import com.android.lvicto.common.base.TextWatcherImpl
 import com.android.lvicto.common.base.ViewMvcImpl
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.*
-import com.android.lvicto.db.entity.Declension
-import com.android.lvicto.declension.adapter.DeclensionAdapter
-import com.android.lvicto.declension.adapter.DeclensionEngine
 import com.android.lvicto.dependencyinjection.Service
-import kotlinx.android.synthetic.main.fragment_add_word.view.*
+import kotlinx.android.synthetic.main.fragment_word_add.view.*
 
 class WordDetailsViewImpl(val activity: BaseActivity,
                           val word: Word?,
@@ -35,12 +29,6 @@ class WordDetailsViewImpl(val activity: BaseActivity,
 
     @field:Service
     private lateinit var converters: Converters
-
-    private var declensionAdapter: DeclensionAdapter? = null
-
-    override fun setDeclensions(declensions: List<Declension>) {
-        declensionAdapter?.refresh(declensions) // todo remove when second recView in place
-    }
 
     init {
         activity.injector.inject(this)
@@ -59,32 +47,31 @@ class WordDetailsViewImpl(val activity: BaseActivity,
             verbClass = word?.verbClass ?: VerbClass.NONE
         )
 
-        setRootView(inflater.inflate(R.layout.fragment_add_word, containerView, false))
-
-        refreshUI(getRootView())
+        setRootView(inflater.inflate(R.layout.fragment_word_add, containerView, false))
     }
 
-    private fun refreshUI(root: View) {
-        getRootView().apply {
+    override fun buildUI() {
+        val root = getRootView()
+        root.apply {
             showModeIcon(this)
             ibEditLock.setOnClickListener {
                 toggleMode(this)
             }
 
             editSa?.apply {
-                setText(oldWord?.wordSa)
+                setText(oldWord.wordSa)
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
             editIAST?.apply {
-                setText(oldWord?.wordIAST)
+                setText(oldWord.wordIAST)
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
             editRo?.apply {
-                setText(oldWord?.meaningRo)
+                setText(oldWord.meaningRo)
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
             editEn?.apply {
-                setText(oldWord?.meaningEn)
+                setText(oldWord.meaningEn)
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
 
@@ -93,12 +80,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
                         word?.apply {
                             paradigm = Paradigm.fromDescription(parent?.getItemAtPosition(position).toString())
                             showHideField(root, this)
@@ -112,7 +94,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                         }
                     }
                 }
-                setSelection(Paradigm.getPosition(oldWord?.paradigm ?: Paradigm.PARADIGM.paradigm))
+                setSelection(Paradigm.getPosition(oldWord.paradigm))
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
             spinnerType.apply {
@@ -124,12 +106,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 }
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         word?.apply {
                             gType = converters.toGrammaticalType(
                                 parent?.getItemAtPosition(position).toString()
@@ -145,7 +122,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                         }
                     }
                 }
-                setSelection(GrammaticalType.getPosition(oldWord?.gType))
+                setSelection(GrammaticalType.getPosition(oldWord.gType))
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
             spinnerWordGender.apply {
@@ -155,12 +132,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                     android.R.layout.simple_spinner_item
                 )
                 onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                         word?.gender = converters.toGrammaticalGender(
                             parent?.getItemAtPosition(position).toString()
                         )
@@ -170,8 +142,8 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                         word?.gender = GrammaticalGender.NONE
                     }
                 }
-                setSelection(GrammaticalGender.getPosition(oldWord?.gender))
-                enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
+                setSelection(GrammaticalGender.getPosition(oldWord.gender))
+                enableOrDisableByMode(root, mode == Constants.MODE_EDIT_WORD)
             }
             spinnerVerbCase.apply {
                 adapter = ArrayAdapter.createFromResource(
@@ -195,7 +167,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                         word?.verbClass = VerbClass.NONE
                     }
                 }
-                setSelection(VerbClass.getPosition(oldWord?.verbClass))
+                setSelection(VerbClass.getPosition(oldWord.verbClass))
                 enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
 
@@ -205,9 +177,23 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                 setOnClickListener(this@WordDetailsViewImpl::onClickAdd)
                 toggleVisibilityByMode(this, mode == Constants.MODE_VIEW_WORD)
             }
-
-            setUpDeclensionFiltering(root)
         }
+    }
+
+    override fun modifyWord(newWord: Word) {
+        oldWord = newWord
+        with(getRootView()) {
+            buildUI()
+            toggleMode(this)
+        }
+    }
+
+    override fun registerListener(listener: WordDetailsView.Listener) {
+        listeners.add(listener)
+    }
+
+    override fun unregisterListener(listener: WordDetailsView.Listener) {
+        listeners.remove(listener)
     }
 
     private fun showModeIcon(root: View) {
@@ -235,9 +221,6 @@ class WordDetailsViewImpl(val activity: BaseActivity,
         enableOrDisableByMode(root.spinnerVerbCase, mode == Constants.MODE_EDIT_WORD)
 
         toggleVisibilityByMode(root.btnSaveWord, mode == Constants.MODE_VIEW_WORD)
-
-        toggleDeclensionVisibility(root, oldWord)
-        toggleConjugationVisibility(root, oldWord)
     }
 
     private fun enableOrDisableByMode(view: View, isEnabled: Boolean) {
@@ -246,62 +229,14 @@ class WordDetailsViewImpl(val activity: BaseActivity,
 
     private fun toggleVisibilityByMode(view: View, isGone: Boolean) {
         view.isGone = isGone
-    }
 
-    private fun toggleDeclensionVisibility(root: View, word: Word?) {
-        toggleVisibilityByMode(root.recyclerViewDeclensions, !shouldShowDeclension(word))
-        root.editTextDetectDeclensionWord.apply {
-            toggleVisibilityByMode(this, !shouldShowDeclension(word))
-            if(this.isVisible) {
-                this.requestFocus()
+        // toggle grammar container visibility
+        if(mode == Constants.MODE_VIEW_WORD) { word } else { null }.also {
+            for (l in listeners) {
+                l.onShowWordGrammar(it)
             }
         }
     }
-
-    private fun toggleConjugationVisibility(root: View, word: Word?) {
-        // todo
-    }
-
-    private fun shouldShowDeclension(word: Word?): Boolean =
-        isSubstantive(word) && isParadigmImplemented(word) && mode == Constants.MODE_VIEW_WORD
-
-    private fun setUpDeclensionFiltering(root: View) {
-        root.recyclerViewDeclensions.apply {
-            layoutManager = LinearLayoutManager(activity)
-            declensionAdapter = DeclensionAdapter(activity, word).apply {
-                onDeleteClick = {
-                    // nothing
-                }
-            }
-            adapter = declensionAdapter
-            isGone = !shouldShowDeclension(oldWord)
-        }
-        root.editTextDetectDeclensionWord.apply {
-            addTextChangedListener(object : TextWatcherImpl() {
-                override fun afterTextChanged(s: Editable?) {
-                    for(l in listeners) {
-                        l.onDetectDeclension(s.toString())
-                    }
-                }
-            })
-            setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    for(l in listeners) {
-                        l.onDetectDeclension(text.toString())
-                    }
-                }
-            }
-            isGone = !shouldShowDeclension(oldWord)
-            requestFocus()
-
-            for(l in listeners) {
-                l.onDetectDeclension(root.editTextDetectDeclensionWord.text.toString())
-            }
-        }
-    }
-
-    private fun isSubstantive(oldWord: Word?): Boolean =
-        oldWord?.gType in arrayListOf(GrammaticalType.NOUN, GrammaticalType.ADJECTIVE, GrammaticalType.PROPER_NOUN)
 
     private fun showHideField(root: View, word: Word?) {
         with(root) {
@@ -368,27 +303,6 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                 }
             }
         }
-    }
-
-    override fun isParadigmImplemented(word: Word?): Boolean =
-        word?.paradigm in arrayListOf(DeclensionEngine.PARADIGM_KANTA, DeclensionEngine.PARADIGM_NADI)
-
-    override fun modifyWord(newWord: Word) {
-        oldWord = newWord
-        with(getRootView()) {
-            refreshUI(this)
-            toggleMode(this)
-        }
-    }
-
-    override fun getOldWord(): Word = oldWord
-
-    override fun registerListener(listener: WordDetailsView.Listener) {
-        listeners.add(listener)
-    }
-
-    override fun unregisterListener(listener: WordDetailsView.Listener) {
-        listeners.remove(listener)
     }
 
 }

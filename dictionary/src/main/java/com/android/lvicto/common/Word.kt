@@ -20,6 +20,8 @@ data class Word(
     var grammaticalCase: GrammaticalCase = GrammaticalCase.NONE,
     var verbClass: VerbClass = VerbClass.NONE) : Parcelable {
 
+    constructor() : this(0, GrammaticalType.OTHER, "", "", "", "", "")
+
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         converters.toGrammaticalType(parcel.readString()!!),

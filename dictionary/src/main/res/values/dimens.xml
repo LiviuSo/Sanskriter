@@ -30,5 +30,8 @@
     <dimen name="dimen250">250dp</dimen>
     <dimen name="dimen280">280dp</dimen>
     <dimen name="dimen18sp">18sp</dimen>
+    <dimen name="dimen_250dp">250dp</dimen>
+    <dimen name="dimen_3dp">3dp</dimen>
+    <dimen name="dimen_10dp">10dp</dimen>
 
 </resources>

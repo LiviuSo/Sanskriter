@@ -19,8 +19,8 @@ import com.android.lvicto.words.view.WordDetailsViewImpl
 
 class WordDetailsFragment : BaseFragment() {
 
-    private lateinit var wordDetailsController: WordDetailsController
     private lateinit var wordDetailsView: WordDetailsView
+    private lateinit var wordDetailsController: WordDetailsController // todo use interface
 
     @field:Service
     private lateinit var controllerFactory: ControllerFactory
@@ -49,7 +49,6 @@ class WordDetailsFragment : BaseFragment() {
             word = getParcelable(EXTRA_WORD)
         }
         wordDetailsView = viewFactory.getWordDetailsView(requireActivity() as BaseActivity, container, mode, requestCode, word)
-
         return (wordDetailsView as WordDetailsViewImpl).getRootView()
     }
 
@@ -72,5 +71,4 @@ class WordDetailsFragment : BaseFragment() {
             putInt(EXTRA_MODE_CODE, mode)
         }
     }
-
 }

@@ -2,6 +2,7 @@ package com.android.lvicto.common.factory
 
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.words.controller.WordDetailsController
+import com.android.lvicto.words.controller.WordGrammarController
 import com.android.lvicto.words.controller.WordsController
 
 class ControllerFactory(val activity: BaseActivity) {
@@ -10,4 +11,5 @@ class ControllerFactory(val activity: BaseActivity) {
 
     fun getWordDetailsController(): WordDetailsController = WordDetailsController(activity)
 
+    fun getWordGrammarController(): WordGrammarController = WordGrammarController(activity)
 }

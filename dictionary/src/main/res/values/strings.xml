@@ -40,5 +40,6 @@
     <string name="dialog_error_message_unable_to_detect_form">Unable to detect form</string>
     <string name="dialog_error_message_unable_to_import_conjugation">Unable to import conjugation</string>
     <string name="string_edit_or_view_mode">Toggle edit or view mode button</string>
+    <string name="hint_declension_ending">Enter ending to detect declension</string>
 
 </resources>

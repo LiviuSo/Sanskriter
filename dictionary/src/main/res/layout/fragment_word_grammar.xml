@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextDetectDeclensionWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:hint="@string/hint_declension_ending"
+        android:imeActionLabel="@string/kbImeActionIAST"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDeclensions"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_250dp"
+        android:layout_marginHorizontal="@dimen/dimen_3dp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDetectDeclensionWord"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

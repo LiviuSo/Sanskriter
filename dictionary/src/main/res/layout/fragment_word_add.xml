@@ -120,31 +120,6 @@
                 app:layout_constraintGuide_percent=".52"
                 android:orientation="horizontal"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextDetectDeclensionWord"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="Enter ending to detect declension"
-                android:imeActionLabel="@string/kbImeActionIAST"
-                android:importantForAutofill="no"
-                android:inputType="text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/guideline_detect_declension" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewDeclensions"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_marginRight="3dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextDetectDeclensionWord"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

@@ -15,7 +15,6 @@ import com.android.lvicto.words.event.ImportWordsIntentEvent
 import com.android.lvicto.words.fragments.WordsFragment
 import com.android.lvicto.words.usecase.*
 import com.android.lvicto.words.view.WordsView
-import com.android.lvicto.words.view.WordsViewImpl
 import kotlinx.coroutines.*
 
 class WordsController(private val activity: BaseActivity) : ControllerMvcImpl<WordsView>(), WordsView.Listener, ResultEventBus.Listener {

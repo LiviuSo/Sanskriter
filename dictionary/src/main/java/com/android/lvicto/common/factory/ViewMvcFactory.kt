@@ -8,6 +8,7 @@ import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.dialog.DialogManager
 import com.android.lvicto.conjugation.view.ConjugationViewImpl
 import com.android.lvicto.declension.view.DeclensionsViewImpl
+import com.android.lvicto.words.view.WordGrammarViewImpl
 import com.android.lvicto.words.view.WordDetailsViewImpl
 import com.android.lvicto.words.view.WordsViewImpl
 
@@ -33,4 +34,5 @@ class ViewMvcFactory(val layoutInflater: LayoutInflater, private val dialogManag
         word: Word?
     ) = WordDetailsViewImpl(activity, word, mode, requestCode, container, layoutInflater)
 
+    fun getWordGrammarView(activity: BaseActivity, container: ViewGroup?, word: Word) = WordGrammarViewImpl(activity, word, container, layoutInflater)
 }

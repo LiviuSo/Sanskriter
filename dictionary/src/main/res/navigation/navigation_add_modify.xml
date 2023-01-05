@@ -9,5 +9,5 @@
         android:id="@+id/addModifyWordFragment"
         android:name="com.android.lvicto.words.fragments.WordDetailsFragment"
         android:label="AddModifyWordFragment"
-        tools:layout="@layout/fragment_add_word"/>
+        tools:layout="@layout/fragment_word_add"/>
 </navigation>
