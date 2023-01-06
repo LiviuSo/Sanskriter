@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.android.lvicto.common.Constants.EMPTY_STRING
 import com.android.lvicto.db.Converters
 import com.android.lvicto.db.data.GrammaticalCase
 import com.android.lvicto.db.data.GrammaticalGender
@@ -18,10 +19,10 @@ data class Declension(
     @field:ColumnInfo(name = "gCase") val gCase: GrammaticalCase = GrammaticalCase.NONE,
     @field:ColumnInfo(name = "gNumber") val gNumber: GrammaticalNumber = GrammaticalNumber.NONE,
     @field:ColumnInfo(name = "gGender") var gGender: GrammaticalGender = GrammaticalGender.NONE,
-    @field:ColumnInfo(name = "paradigm") var paradigm: String = "",                      // eg, kanta
-    @field:ColumnInfo(name = "paradigmEnding") val paradigmEnding: String = "",          // eg, -a
-    @field:ColumnInfo(name = "suffix") var suffix: String = "",                          // eg, -asya
-    @field:ColumnInfo(name = "paradigmDeclension") var paradigmDeclension: String = ""   // eg, kantasya
+    @field:ColumnInfo(name = "paradigm") var paradigm: String = EMPTY_STRING,                      // eg, kanta
+    @field:ColumnInfo(name = "paradigmEnding") val paradigmEnding: String = EMPTY_STRING,          // eg, -a
+    @field:ColumnInfo(name = "suffix") var suffix: String = EMPTY_STRING,                          // eg, -asya
+    @field:ColumnInfo(name = "paradigmDeclension") var paradigmDeclension: String = EMPTY_STRING   // eg, kantasya
 ) : Parcelable {
 
     override fun toString(): String = StringBuffer()

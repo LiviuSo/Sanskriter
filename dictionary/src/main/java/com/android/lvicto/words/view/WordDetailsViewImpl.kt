@@ -9,6 +9,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants
+import com.android.lvicto.common.Constants.EMPTY_STRING
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.base.ViewMvcImpl
@@ -35,11 +36,11 @@ class WordDetailsViewImpl(val activity: BaseActivity,
         oldWord = Word(
             id = word?.id ?: -1,
             gType = word?.gType ?: GrammaticalType.OTHER,
-            wordSa = word?.wordSa ?: "",
-            wordIAST = word?.wordIAST ?: "",
-            meaningEn = word?.meaningEn ?: "",
-            meaningRo = word?.meaningRo ?: "",
-            paradigm = word?.paradigm ?: "",
+            wordSa = word?.wordSa ?: EMPTY_STRING,
+            wordIAST = word?.wordIAST ?: EMPTY_STRING,
+            meaningEn = word?.meaningEn ?: EMPTY_STRING,
+            meaningRo = word?.meaningRo ?: EMPTY_STRING,
+            paradigm = word?.paradigm ?: EMPTY_STRING,
             gender = word?.gender ?: GrammaticalGender.NONE,
             number = word?.number ?: GrammaticalNumber.NONE,
             person = word?.person ?: GrammaticalPerson.NONE,
@@ -143,7 +144,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
                     }
                 }
                 setSelection(GrammaticalGender.getPosition(oldWord.gender))
-                enableOrDisableByMode(root, mode == Constants.MODE_EDIT_WORD)
+                enableOrDisableByMode(this, mode == Constants.MODE_EDIT_WORD)
             }
             spinnerVerbCase.apply {
                 adapter = ArrayAdapter.createFromResource(
@@ -272,7 +273,7 @@ class WordDetailsViewImpl(val activity: BaseActivity,
         val wordEn = root.editEn.text.toString()
         val wordRo = root.editRo.text.toString()
         val gType = converters.toGrammaticalType(root.spinnerType.selectedItem.toString())
-        val paradigm = if(root.spinnerParadigm.isVisible) Paradigm.fromDescription(root.spinnerParadigm.selectedItem.toString()) else ""
+        val paradigm = if(root.spinnerParadigm.isVisible) Paradigm.fromDescription(root.spinnerParadigm.selectedItem.toString()) else EMPTY_STRING
         val verbClass = if(root.spinnerVerbCase.isVisible) VerbClass.toVerbClassFromName(root.spinnerVerbCase.selectedItem.toString()) else VerbClass.NONE
         val gender = if(root.spinnerWordGender.isVisible) converters.toGrammaticalGender(root.spinnerWordGender.selectedItem.toString()) else GrammaticalGender.NONE
 

@@ -7,6 +7,7 @@
 
     <color name="colorWordRemovable">#eaa2ac</color>
     <color name="colorWord">#c4efda</color>
+    <color name="colorWordLighter">#E6EFEA</color>
     <color name="colorShowDefinition">#1baf2f</color>
     <color name="colorSearchWord">#deeae9</color>
     <color name="colorLightGray">#F4F4F4</color>

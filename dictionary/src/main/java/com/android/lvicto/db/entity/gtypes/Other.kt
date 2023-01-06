@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.android.lvicto.common.Constants.EMPTY_STRING
 import com.android.lvicto.common.Constants.TABLE_WORDS_OTHER
 import com.android.lvicto.common.Word
 import com.android.lvicto.db.Converters
@@ -18,8 +19,8 @@ data class Other(
     @field:ColumnInfo(name = "gType") var gType: GrammaticalType = GrammaticalType.OTHER,
     @field:ColumnInfo(name = "word") var word: String,
     @field:ColumnInfo(name = "wordIAST") var wordIAST: String,
-    @field:ColumnInfo(name = "meaningEn") var meaningEn: String = "",
-    @field:ColumnInfo(name = "meaningRo") var meaningRo: String = "",
+    @field:ColumnInfo(name = "meaningEn") var meaningEn: String = EMPTY_STRING,
+    @field:ColumnInfo(name = "meaningRo") var meaningRo: String = EMPTY_STRING,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -58,7 +59,7 @@ data class Other(
         wordIAST = wordIAST,
         meaningEn = meaningEn,
         meaningRo = meaningRo,
-        paradigm = "",
+        paradigm = EMPTY_STRING,
         gender = GrammaticalGender.NONE,
         number = GrammaticalNumber.NONE,
         person = GrammaticalPerson.NONE,

@@ -41,5 +41,8 @@
     <string name="dialog_error_message_unable_to_import_conjugation">Unable to import conjugation</string>
     <string name="string_edit_or_view_mode">Toggle edit or view mode button</string>
     <string name="hint_declension_ending">Enter ending to detect declension</string>
+    <string name="content_descr_fab_dictionary">Add word to dictionary button</string>
+    <string name="label_remove_selected">Remove selected</string>
+    <string name="label_clear_selection">Clear Selection</string>
 
 </resources>

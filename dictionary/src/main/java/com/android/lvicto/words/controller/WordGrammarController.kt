@@ -1,6 +1,7 @@
 package com.android.lvicto.words.controller
 
 import android.util.Log
+import com.android.lvicto.common.Constants.EMPTY_STRING
 import com.android.lvicto.common.Word
 import com.android.lvicto.common.base.BaseActivity
 import com.android.lvicto.common.base.ControllerMvcImpl
@@ -74,8 +75,8 @@ class WordGrammarController(val activity: BaseActivity)
             index--
         }
         return if (suffixes.isEmpty()) {
-            ""
+            EMPTY_STRING
         } else {
-            suffixes.minByOrNull { it.length } ?: "" }
+            suffixes.filter { it.length >= keySuffix.length }.maxByOrNull { it.length } ?: EMPTY_STRING }
     }
 }

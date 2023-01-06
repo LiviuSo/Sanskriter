@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.lvicto.R
 import com.android.lvicto.common.Constants.CODE_REQUEST_ADD_WORD
 import com.android.lvicto.common.Constants.CODE_REQUEST_EDIT_WORD
+import com.android.lvicto.common.Constants.EMPTY_STRING
 import com.android.lvicto.common.Constants.MODE_EDIT_WORD
 import com.android.lvicto.common.Constants.MODE_VIEW_WORD
 import com.android.lvicto.common.Word
@@ -127,7 +128,7 @@ class WordsViewImpl(
         } else if(isSearchVisible()) {
             triggerFiltering(editSearch.text.toString(), editSearchIAST.text.toString())
         } else {
-            triggerFiltering("", "")
+            triggerFiltering(EMPTY_STRING, EMPTY_STRING)
         }
     }
 
@@ -135,10 +136,10 @@ class WordsViewImpl(
         fabDictionary.setOnClickListener {
             val word = Word(
                 gType = GrammaticalType.OTHER,
-                wordSa = "",
+                wordSa = EMPTY_STRING,
                 wordIAST = getSearchIASTString(),
                 meaningEn = getSearchEnString(),
-                meaningRo = ""
+                meaningRo = EMPTY_STRING
             )
             it.findNavController()
                 .navigate(R.id.action_dictionaryWordsFragment_to_addModifyFragment, WordDetailsFragment.createBundle(word, CODE_REQUEST_ADD_WORD, MODE_EDIT_WORD))
@@ -335,10 +336,12 @@ class WordsViewImpl(
     }
 
     override fun showProgress() {
+        fabDictionary.visibility = View.GONE
         progress.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
+        fabDictionary.visibility = View.VISIBLE
         progress.visibility = View.GONE
     }
 
