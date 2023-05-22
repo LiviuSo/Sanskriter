@@ -7,7 +7,6 @@ import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -210,11 +209,12 @@ class SanskritKeyboardIms : InputMethodService(), LifecycleOwner {
         inputConnectionWrapper?.ic = currentInputConnection
         inputConnectionWrapper?.ei = attribute
 
+        val context = keyboardApplication
         injector.ims = this
         keyboardType = when (inputConnectionWrapper?.imeActionLabel) {
-            "iast" -> KeyboardType.IAST
-            "sanskrit" -> KeyboardType.SA
-            else -> KeyboardType.QWERTY
+            context.getString(R.string.label_type_english) -> KeyboardType.QWERTY
+            context.getString(R.string.label_type_sanskrit) -> KeyboardType.SA
+            else -> KeyboardType.IAST
         }
     }
 

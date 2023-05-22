@@ -12,7 +12,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:imeActionLabel="english"
+        android:imeActionLabel="@string/label_type_english"
         android:imeOptions="actionDone" />
 
     <EditText
@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextQwerty"
-        android:imeActionLabel="iast"
+        android:imeActionLabel="@string/label_type_iast"
         android:imeOptions="actionGo" />
 
     <EditText
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextIast"
-        android:imeActionLabel="sanskrit"
+        android:imeActionLabel="@string/label_type_sanskrit"
         android:imeOptions="actionNext" />
 
     <EditText
@@ -45,7 +45,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextSanskrit"
-        android:imeActionLabel="english"
+        android:imeActionLabel="@string/label_type_english"
         android:imeOptions="actionPrevious" />
 
     <EditText
@@ -56,7 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextQwerty2"
-        android:imeActionLabel="iast"
+        android:imeActionLabel="@string/label_type_iast"
         android:imeOptions="actionSearch" />
 
     <EditText
@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextIast2"
-        android:imeActionLabel="sanskrit"
+        android:imeActionLabel="@string/label_type_sanskrit"
         android:imeOptions="actionSend" />
 
     <EditText
@@ -78,7 +78,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextSanskrit2"
-        android:imeActionLabel="iast"
+        android:imeActionLabel="@string/label_type_sanskrit"
         android:imeOptions="actionNone"
         android:inputType="textImeMultiLine|textMultiLine"/>
 

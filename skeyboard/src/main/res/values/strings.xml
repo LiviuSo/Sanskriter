@@ -226,5 +226,8 @@
     <string name="key_label_romania_s">\u0219</string>
 
     <string name="key_ttnya">&#2340;&#2381;&#2340;&#2381;&#2351;</string>
+    <string name="label_type_english">english</string>
+    <string name="label_type_sanskrit">sanskrit</string>
+    <string name="label_type_iast">iast</string>
 
 </resources>
